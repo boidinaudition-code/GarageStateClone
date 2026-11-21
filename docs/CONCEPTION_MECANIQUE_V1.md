@@ -8,7 +8,7 @@ Référence visuelle **exacte** : le garage miniature noir et blanc avec un fin 
 
 - Garage bas, rectangulaire, sobre et discret, comme un objet de décoration.
 - Murs **blancs**, toit plat **noir**, porte **noire** à rainures horizontales, **liseré bleu très fin** au-dessus de la porte.
-- Pas de façade chargée ni de décoration rouge.
+- Une **minuscule LED orange en haut à droite de la façade**, légèrement encastrée et presque invisible éteinte. Pas d'autre décoration voyante.
 - Toit noir **amovible** pour accéder aux composants.
 - Fabrication Bambu Lab **P1S + AMS** ; filaments disponibles : blanc, noir, bleu, rouge. Privilégier des pièces imprimées séparément par couleur.
 - Les dimensions indicatives du rendu (~115 × 75 × 45 mm) représentent l'intention visuelle, **pas des cotes mécaniques confirmées**. Conserver les proportions mais dimensionner la coque après mesure de la carte radio, du servo et de la porte.
@@ -63,38 +63,54 @@ Les valeurs actuelles du firmware (**15° fermé, 55° intermédiaire, 95° ouve
 | **Sous le toit vers l'arrière sur longueur H** | **Volume balayé : laisser intégralement libre** |
 | **Zone arrière / compartiment technique** | XIAO nRF52840 + Wio-SX1262, connecteurs, résistances et câbles ; vérifier que cette zone n'empiète pas dans le balayage |
 | **Dessous du toit à l'arrière** | Une LED blanche chaude de faible courant, tournée vers le plancher, **hors du balayage** |
+| **Façade haute droite** | Une LED orange 3 mm, discrètement encastrée, avec une résistance dédiée, câbles longeant la paroi latérale hors débattement |
 | **Face arrière** | Passage discret des alimentations USB / des fils et accès de maintenance |
 
 Placer l'antenne 868 MHz sans contact avec des pièces métalliques et, si possible, loin du servo et des fils 5 V. Tester la liaison dans la coque fermée.
 
 **Alimentation :** le servo reçoit une alimentation **5 V régulée**, source capable de supporter ses appels de courant (alimentation USB 5 V/2 A envisagée). **Ne jamais alimenter le servo depuis 3V3 du XIAO ni un GPIO.** Relier les GND. Condensateur **470 µF / 16 V** sur le 5 V/GND près du servo, en respectant la polarité.
 
-## Éclairage V1 : une seule LED
+## Éclairage et signalisation — deux LED, sans ruban
 
-**Décision : pas de ruban LED.** Installer **une LED blanche chaude à haut rendement**, de préférence diffusante, dans un support discret sous le plafond **près du fond du garage**, à distance de la zone où passe la porte.
+**Choix V1 :**
+1. **LED blanche chaude** à haut rendement et faible courant, dissimulée **sous le toit vers l'arrière**, tournée vers l'intérieur. Ne jamais l'installer dans le volume balayé par la porte. Elle est allumée uniquement après confirmation de l'état **OUVERT** et fin du déplacement du servo miniature.
+2. **LED orange en façade haute droite**, diamètre cible 3 mm, encastrée derrière un minuscule diffuseur, quasiment invisible lorsqu'elle est éteinte. Elle reproduit le clignotement de signalisation d'une porte en mouvement et sert aussi d'alerte.
 
-### Branchement prévu sur le XIAO récepteur
+### Affectation du XIAO côté miniature
 
-~~~text
-D6 --------------------------- fil signal du servo DMS-MG90
-D7 --- résistance 330 ohms --- anode (+) de la LED blanche
-GND -------------------------- cathode (-) de la LED
-5 V externe ------------------ alimentation (+) du servo
-GND commun ------------------- alimentation (-) servo et GND XIAO
-~~~
-
-La LED est commandée directement par la **sortie 3,3 V D7**, **à faible courant**, avec la résistance en série : **aucune tension 5 V sur D7**. Avec une LED blanche, la chute de tension peut être proche de 3,3 V : acheter une LED efficace à faible courant et vérifier la luminosité avant de figer le support.
-
-### Règles fonctionnelles souhaitées
-
-| État radio valide / porte réelle | Porte miniature | LED d'ambiance |
+| Broche | Fonction | Branchement |
 |---|---|---|
-| FERMÉE | Fermée | Éteinte |
-| INTERMÉDIAIRE | Mi-course | Éteinte |
-| OUVERTE | Ouverte | **Allumée fixe** |
-| Perte de liaison / défaut capteurs | Dernière position connue, non garantie | **Éteinte** |
+| **D6** | Signal servo DMS-MG90 | Fil de commande uniquement ; servo alimenté séparément en 5 V |
+| **D7** | **LED blanche chaude intérieure** | D7 → **330 Ω** → anode LED ; cathode → GND |
+| **D0** | **LED orange de façade** | **3V3 → 680 Ω → anode LED orange ; cathode → D0** |
+| **GND** | Masse | Masse commune avec alimentation servo |
+| **5 V régulé** | Puissance servo | 470 µF / 16 V entre +5 V et GND au plus près du servo |
 
-**Important : mise à jour logicielle non effectuée.** Le firmware actuel utilise **D7 comme LED d'état** et la fait **clignoter** en cas d'anomalie. Avant utilisation comme éclairage intérieur, il faut modifier la fonction de mise à jour de cette sortie pour qu'elle ne s'allume que lorsque **OUVERTE** est confirmé et que la liaison est récente. Les défauts seront alors gérés par les journaux série ou un indicateur distinct.
+**Pourquoi 680 Ω pour l'orange ?** Ce choix est volontairement plus conservateur que les 470 Ω envisagés initialement : une LED orange à faible courant sera normalement visible avec environ 1–2 mA (selon sa tension directe), ce qui ménage le GPIO. Vérifier la luminosité réelle avant de finaliser la façade.
+
+**Prudence sur D0 :** c'est un GPIO disponible dans la configuration LoRa du **kit XIAO nRF52840 + Wio-SX1262 à deux rangées de 7 broches** étudié ici. Il faut cependant vérifier la variante physique de carte et la connexion du bouton utilisateur au multimètre avant câblage définitif. Les schémas Seeed de variantes différentes ne sont pas interchangeables. Le firmware commande cette LED **en absorbant le courant** : GPIO mis en **sortie LOW pour allumer**, en **entrée haute impédance pour éteindre**, jamais en sortie HIGH afin d'éviter un court-circuit éventuel en cas de bouton à la masse. **Ne jamais alimenter une LED ou un ruban depuis la broche 5 V via un GPIO.**
+
+### Comportements logiciels V1
+
+| État détecté | LED blanche intérieure | LED orange de façade |
+|---|---|---|
+| **Fermée** et servo à l'arrêt | Éteinte | Éteinte |
+| **Servo miniature en déplacement** | Éteinte | **Clignote 2 Hz** |
+| **Intermédiaire**, moins de 40 secondes depuis le changement d'état | Éteinte | **Clignote 1 Hz** (mouvement *supposé*) |
+| **Intermédiaire prolongé** au-delà de 40 secondes | Éteinte | **Fixe** |
+| **Ouverte** et servo arrivé à sa position | **Allumée fixe** | **Fixe** |
+| **Défaut de capteurs** | Éteinte | **Clignote rapidement, 5 Hz** |
+| **Liaison perdue**, plus de 150 secondes sans trame valide | Éteinte | **Double flash toutes les 2 secondes** |
+
+Le délai de 40 secondes **ne prouve pas que la vraie porte bouge** : les deux capteurs SAS301 sont des fins de course, pas des capteurs de vitesse. Une porte volontairement arrêtée à mi-course provoquera le même clignotement temporaire. Un heartbeat radio de 60 secondes ne doit pas relancer le minuteur.
+
+**Implémentation :** le firmware de la branche de cette évolution affecte D7 à la lumière blanche et D0 au témoin orange ; les différents clignotements sont non bloquants, basés sur `millis()`. **À valider sur table** avec le bouton utilisateur, la puissance LED, l'assemblage complet et la liaison LoRa. La compilation PlatformIO sur matériel réel reste nécessaire.
+
+### Visuels du projet
+
+- [État des deux LED et implantation en façade — schéma SVG](../assets/visuels/leds-garage-v1.svg).
+- **Référence esthétique conservée :** petit garage blanc et noir au filet bleu sur l'étagère.
+- Le **rendu actualisé** réalisé dans la conversation illustre l'éclairage intérieur et le point orange en façade. Sa porte visible en train de basculer est **un visuel d'ambiance, pas un dessin technique** : dans la V1 mécanique réelle, la porte doit pivoter **vers l'intérieur** et se ranger sous le toit.
 
 ## Matériel prévu et références
 
@@ -102,7 +118,7 @@ La LED est commandée directement par la **sortie 3,3 V D7**, **à faible couran
 - **2 × SAS301**, Gotronic réf. 26444 : [contact magnétique](https://www.gotronic.fr/art-contact-magnetique-1t-sas301-12746.htm) ; un en fin de course fermée, un en fin de course ouverte.
 - **1 × DMS-MG90**, Gotronic réf. 36923 : [servomoteur](https://www.gotronic.fr/art-servomoteur-dms-mg90-32266.htm).
 - **1 × 470 µF / 16 V**, Gotronic réf. 04947 : [condensateur](https://www.gotronic.fr/art-condensateur-radial-470uf-16v-3386.htm).
-- **1 × LED blanche chaude faible courant**, **1 × résistance 330 Ω**, fil et petit bornier, vis, palonnier, alimentation USB 5 V/2 A et câbles.
+- **1 × LED blanche chaude faible courant** + **330 Ω**, **1 × LED orange 3 mm faible courant** + **680 Ω** ; fil, petit bornier, vis, palonnier, alimentation USB 5 V/2 A et câbles.
 
 À vérifier au multimètre : comportement des contacts SAS301 (la fiche mentionne « NF », mais décrit une fermeture quand l'aimant est présent). Ne relier **aucun GPIO** au 230 V ou aux bornes du moteur du vrai garage ; conserver toutes les sécurités de la porte.
 
@@ -112,5 +128,5 @@ La LED est commandée directement par la **sortie 3,3 V D7**, **à faible couran
 2. Modéliser et imprimer en priorité **support servo, axe, palier gauche et porte d'essai**.
 3. Tester le balayage complet et régler les angles du servo sans point dur.
 4. Modéliser la coque finale avec toit amovible, électronique en compartiment arrière et passage de câble.
-5. Tester la LED seule, puis **adapter le firmware D7** ; compiler et valider sur le matériel.
+5. Tester les **deux LED** (blanche sur D7, orange sur D0) avec la résistance correspondante ; compiler et valider le nouveau firmware sur les cartes.
 6. Poser les capteurs réels, tester la communication LoRa et les cas de panne.

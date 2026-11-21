@@ -231,8 +231,10 @@ void loop() {
 #else  // ROLE_RECEPTEUR
 
 static constexpr uint8_t PIN_SERVO = D6;
-static constexpr uint8_t PIN_LED = D7;
+static constexpr uint8_t PIN_INTERIOR_LED = D7; // blanche chaude, active HIGH
+static constexpr uint8_t PIN_AMBER_LED = D0;    // orange facade, active LOW (absorption)
 static constexpr uint32_t LINK_TIMEOUT_MS = 150000;
+static constexpr uint32_t MIDDLE_MOTION_HINT_MS = 40000; // pas de capteur de mouvement
 static constexpr uint8_t ANGLE_CLOSED = 15; // ajuster selon la mecanique
 static constexpr uint8_t ANGLE_MIDDLE = 55;
 static constexpr uint8_t ANGLE_OPEN = 95;
@@ -245,8 +247,11 @@ bool haveStatus = false;
 uint8_t receivedDoorState = STATE_MIDDLE;
 uint32_t lastValidFrameMs = 0;
 uint32_t lastServoStepMs = 0;
+uint32_t stateSinceMs = 0;
 
 void setTarget(uint8_t state) {
+  // Le heartbeat LoRa ne reinitialise pas la duree de l'etat intermediaire.
+  if (!haveStatus || state != receivedDoorState) stateSinceMs = millis();
   receivedDoorState = state;
   switch (state) {
     case STATE_CLOSED: targetAngle = ANGLE_CLOSED; break;
@@ -270,19 +275,44 @@ void animateServo(uint32_t now) {
   doorServo.write(currentAngle);
 }
 
-void updateLed(uint32_t now) {
-  const bool stale = !haveStatus || (now - lastValidFrameMs > LINK_TIMEOUT_MS);
-  bool on = false;
-  if (stale) {
-    on = (now % 500) < 250;  // liaison perdue = clignotement 2 Hz
-  } else if (receivedDoorState == STATE_SENSOR_FAULT) {
-    on = (now % 200) < 100;  // capteurs incoherents = 5 Hz
-  } else if (receivedDoorState == STATE_MIDDLE) {
-    on = (now % 1000) < 500; // intermediaire = 1 Hz
+// Orange en absorption de courant : 3V3 -> 680 ohms -> anode LED -> cathode D0.
+// Sortie LOW = allumee ; entree haute impedance = eteinte.
+// Jamais OUTPUT HIGH, au cas ou D0 serait partage avec un bouton a la masse.
+void setAmberLed(bool on) {
+  if (on) {
+    digitalWrite(PIN_AMBER_LED, LOW);
+    pinMode(PIN_AMBER_LED, OUTPUT);
   } else {
-    on = (receivedDoorState == STATE_OPEN); // ouvert = fixe, ferme = eteint
+    pinMode(PIN_AMBER_LED, INPUT);
   }
-  digitalWrite(PIN_LED, on ? HIGH : LOW);
+}
+
+void updateLeds(uint32_t now) {
+  const bool stale = !haveStatus || (now - lastValidFrameMs > LINK_TIMEOUT_MS);
+  const bool servoMoving = servoStarted && currentAngle != targetAngle;
+  const bool fullyOpen = !stale && receivedDoorState == STATE_OPEN && !servoMoving;
+
+  // Eclairage blanc d'ambiance, jamais allume pendant le mouvement ou une panne.
+  digitalWrite(PIN_INTERIOR_LED, fullyOpen ? HIGH : LOW);
+
+  bool amberOn = false;
+  if (stale) {
+    // Liaison perdue : 2 flashes rapproches toutes les 2 secondes.
+    const uint32_t phase = now % 2000;
+    amberOn = phase < 150 || (phase >= 300 && phase < 450);
+  } else if (receivedDoorState == STATE_SENSOR_FAULT) {
+    amberOn = (now % 200) < 100; // capteurs incoherents : 5 Hz
+  } else if (servoMoving) {
+    amberOn = (now % 500) < 250; // servo miniature en mouvement : 2 Hz
+  } else if (receivedDoorState == STATE_MIDDLE) {
+    // L'absence des 2 fins de course n'indique PAS avec certitude un mouvement.
+    // Au-dela du delai, une position intermediaire prolongee reste orange fixe.
+    amberOn = (now - stateSinceMs < MIDDLE_MOTION_HINT_MS)
+       ? ((now % 1000) < 500) : true;
+  } else {
+    amberOn = receivedDoorState == STATE_OPEN; // ouverte fixe, fermee eteinte
+  }
+  setAmberLed(amberOn);
 }
 
 void processRadio() {
@@ -294,8 +324,10 @@ void processRadio() {
 
   if (rc == RADIOLIB_ERR_NONE && validFrame(frame, KIND_STATUS) &&
       frame.value <= STATE_SENSOR_FAULT) {
+    const bool firstStatus = !haveStatus;
     haveStatus = true;
     lastValidFrameMs = millis();
+    if (firstStatus) stateSinceMs = lastValidFrameMs;
     setTarget(frame.value);
 
     Serial.print("Etat = "); Serial.print(frame.value);
@@ -320,8 +352,9 @@ void setup() {
   Serial.begin(115200);
   delay(350);
   Serial.println("GARAGE MINIATURE : RECEPTEUR");
-  pinMode(PIN_LED, OUTPUT);
-  digitalWrite(PIN_LED, LOW);
+  pinMode(PIN_INTERIOR_LED, OUTPUT);
+  digitalWrite(PIN_INTERIOR_LED, LOW);
+  pinMode(PIN_AMBER_LED, INPUT); // orange eteinte / haute impedance
   initRadio();
   const int16_t rx = radio.startReceive();
   if (rx != RADIOLIB_ERR_NONE) fatalRadio("startReceive", rx);
@@ -331,7 +364,7 @@ void loop() {
   if (consumeRadioIRQ()) processRadio();
   const uint32_t now = millis();
   animateServo(now);
-  updateLed(now);
+  updateLeds(now);
   delay(2);
 }
 
