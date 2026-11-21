@@ -1,0 +1,248 @@
+{
+  "schema_version": 1,
+  "updated_on": "2026-11-21",
+  "units": "mm",
+  "dimension_status": {
+    "published": "manufacturer_or_identified_vendor_value",
+    "family": "variant_specific_reference_not_guaranteed_for_purchased_item",
+    "design": "designer_proposal_not_a_measured_component",
+    "unknown": "requires_purchase_or_physical_measurement"
+  },
+  "components": [
+    {
+      "id": "S1",
+      "name": "SAS308",
+      "qty": 1,
+      "manufacturer_ref": "Gotronic 26449",
+      "size_mm": {
+        "length": 24,
+        "width": 15,
+        "height": 6
+      },
+      "cable_length_mm": 250,
+      "max_magnet_gap_mm": 15,
+      "magnet_size_mm": null,
+      "mounting_holes_mm": null,
+      "status": "published",
+      "url": "https://www.gotronic.fr/art-contact-magnetique-miniature-sas308-12751.htm"
+    },
+    {
+      "id": "M1",
+      "name": "DFRobot DMS-MG90 SER0039",
+      "qty": 1,
+      "manufacturer_ref": "Gotronic 36923",
+      "body_mm": {
+        "length": 22.3,
+        "width": 11.8,
+        "height": 26.3
+      },
+      "cable_length_mm": 180,
+      "mounting_lug_dims_mm": null,
+      "shaft_offset_mm": null,
+      "horn_dims_mm": null,
+      "status": "published",
+      "url": "https://www.gotronic.fr/art-servomoteur-dms-mg90-32266.htm"
+    },
+    {
+      "id": "C1",
+      "name": "470uF 16V radial",
+      "qty": 1,
+      "manufacturer_ref": "Gotronic 04947",
+      "body_mm": {
+        "diameter": 10,
+        "height": 13
+      },
+      "lead_pitch_mm": 5,
+      "actual_lot_variation": true,
+      "status": "published",
+      "url": "https://www.gotronic.fr/art-condensateur-radial-470uf-16v-3386.htm"
+    },
+    {
+      "id": "Q1",
+      "name": "BC547B TO-92",
+      "qty": 1,
+      "manufacturer_ref": "Gotronic 02173",
+      "reference_package_max_xyz_mm": [
+        5.2,
+        5.33,
+        4.19
+      ],
+      "reference_manufacturer": "onsemi",
+      "actual_package_vendor_unknown": true,
+      "status": "family",
+      "url": "https://www.onsemi.com/pub/Collateral/BC546-D.PDF"
+    },
+    {
+      "id": "R1",
+      "value_ohms": 330,
+      "qty": 1,
+      "manufacturer_ref": "Gotronic 04130",
+      "body_mm": {
+        "length": 6.5,
+        "diameter": 2.5
+      },
+      "status": "published"
+    },
+    {
+      "id": "R2",
+      "value_ohms": 4700,
+      "qty": 1,
+      "manufacturer_ref": "Gotronic 04144",
+      "body_mm": {
+        "length": 6.5,
+        "diameter": 2.5
+      },
+      "status": "published"
+    },
+    {
+      "id": "R3",
+      "value_ohms": 100000,
+      "qty": 1,
+      "manufacturer_ref": "Gotronic 04160",
+      "body_mm": {
+        "length": 6.5,
+        "diameter": 2.5
+      },
+      "status": "published"
+    },
+    {
+      "id": "R4",
+      "value_ohms": 680,
+      "qty": 1,
+      "manufacturer_ref": "Gotronic 04134",
+      "body_mm": {
+        "length": 6.5,
+        "diameter": 2.5
+      },
+      "status": "published"
+    },
+    {
+      "id": "LED1",
+      "name": "Warm white Luckylight 304WC2J-W6-3PD",
+      "qty": 1,
+      "body_mm": {
+        "diameter": 3,
+        "length": 5.1
+      },
+      "lead_pitch_mm": 2.54,
+      "status": "published",
+      "url": "https://www.kondik.cz/user/related_files/ll-304wc2j-w6-3pd.pdf"
+    },
+    {
+      "id": "LED2",
+      "name": "Amber LED3OLN",
+      "qty": 1,
+      "body_mm": {
+        "diameter": 3,
+        "length": null
+      },
+      "lead_pitch_mm": null,
+      "status": "published",
+      "url": "https://www.lextronic.fr/led-standard-orange-led3oln-8422.html"
+    },
+    {
+      "id": "MCU",
+      "name": "XIAO nRF52840 PCB",
+      "qty": 2,
+      "pcb_mm": {
+        "length": 21,
+        "width": 17.8,
+        "thickness": null
+      },
+      "status": "published",
+      "url": "https://wiki.seeedstudio.com/XIAO_BLE/"
+    },
+    {
+      "id": "RF_STACK",
+      "name": "XIAO nRF52840 + Wio-SX1262 assembled kit",
+      "qty": 2,
+      "marketing_envelope_mm": [
+        23,
+        22,
+        8
+      ],
+      "measured_stack_mm": null,
+      "status": "published",
+      "url": "https://wiki.seeedstudio.com/xiao_nrf52840%26_wio_SX1262_kit_for_meshtastic/"
+    },
+    {
+      "id": "ANT",
+      "name": "868MHz antenna",
+      "qty": 2,
+      "dimensions_mm": null,
+      "status": "unknown"
+    },
+    {
+      "id": "POWER",
+      "name": "USB 5V power supply/USB-C cords/splitter",
+      "qty": "TBD",
+      "dimensions_mm": null,
+      "status": "unknown"
+    },
+    {
+      "id": "GENERIC",
+      "name": "perfboard, terminals, wire, fasteners, hinge coupling",
+      "qty": "TBD",
+      "dimensions_mm": null,
+      "status": "unknown"
+    }
+  ],
+  "cad": {
+    "shell_width_mm": 168,
+    "shell_depth_mm": 100,
+    "front_height_mm": 62,
+    "back_height_mm": 65,
+    "wall_mm": 2.4,
+    "roof_thickness_mm": 3,
+    "base_thickness_mm": 3,
+    "fit_per_face_mm": 0.3,
+    "door_opening_mm": [
+      104,
+      42
+    ],
+    "door_panel_mm": [
+      103.4,
+      41.4,
+      2.4
+    ],
+    "hinge_pin_diameter_mm": 3.2,
+    "hinge_bore_diameter_mm": 3.8,
+    "servo_body_from_manufacturer_mm": [
+      22.3,
+      11.8,
+      26.3
+    ],
+    "board_service_clearance_envelope_mm": [
+      52,
+      23,
+      12
+    ],
+    "service_tray_mm": [
+      60,
+      31
+    ],
+    "orange_led_bore_mm": 3.6,
+    "white_led_nominal_mm": [
+      3,
+      5.1
+    ],
+    "capacitor_nominal_mm": [
+      10,
+      13
+    ],
+    "roof_rise_over_depth_mm": [
+      3,
+      100
+    ],
+    "servo_mounting": "provisional",
+    "volumes_measured_on_hardware": false
+  },
+  "system_state": {
+    "sensor_count": 1,
+    "sensor_detects": "closed_when_magnet_present",
+    "open_state": "estimated_after_absence_timeout_not_confirmed",
+    "estimate_ms": 40000,
+    "transmitter_pin": "D6",
+    "unconnected_pin": "D7"
+  }
+}
