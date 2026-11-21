@@ -8,7 +8,7 @@
 - Le servo, le Wio/XIAO et le BC547B sont des **références non imprimables** ; seuls les STL du dossier `stl/` sont destinés à l'impression.
 - Le modèle 3D du servo **MG90-A** fourni n'est pas une attestation de conformité dimensionnelle avec le produit **DMS-MG90** acheté. Vérifier physiquement avant de percer ou visser.
 - La **liaison palonnier/axe de porte**, les **trous de vis servo**, la fixation exacte des cartes par connecteurs et l'antenne demandent encore une prise de cotes sur le matériel réel.
-- Onshape : importer l'**assemblage STEP** pour inspecter les références ; `generate_cad.py` reste la source paramétrique des pièces imprimées (pas de FeatureScript natif).
+- Onshape : depuis l'erreur **« contains faults » sur le XIAO détaillé**, utiliser la nouvelle **référence XIAO simplifiée à un seul solide**. Elle conserve l'enveloppe totale sans les petits composants et **ne permet pas de concevoir des trous de fixation précis**. Voir [procédure d'import](../docs/ONSHAPE_IMPORT_XIAO.md). Le modèle BREP d'origine reste complet. `generate_cad.py` reste le source paramétrique des pièces imprimées (pas de FeatureScript natif).
 
 ## Changements par rapport à V1
 
@@ -72,5 +72,14 @@ Le merge précédent avait supprimé les définitions de certaines constantes LE
 - Cotes réconciliées : coque **184 × 100**, baie **110 × 42**, toit en pente et **0,30 mm de jeu par face**.
 - La **LED orange 5 mm** est reculée derrière une ouverture optique Ø2 mm. Son **logement est déplacé en haut à droite de l'ouverture (X = 142 mm, Z = 53,3 mm)**, pour ne pas traverser le servo, et son diamètre externe **10,8 mm** offre une paroi radiale de **2,1 mm** autour de la poche Ø6,6 mm. Ce sont des **cotes de conception, pas des mesures de collerette**.
 - **[Test d'intégrité des exports](test_step_exports.py)** : compare la somme SHA256 des quatre BREP à [leur manifeste](vendor_models/manifest.json), réimporte les neuf STEP individuels et teste les collisions de la porte à 0–90°.
-- Les **10 STEP et 9 STL générés** sont **exclus des commits** pour éviter les conflits de fusion ; [GitHub Actions](../.github/workflows/cad-validation.yml) les distribue en **artefact téléchargeable** après chaque validation.
+- Les **12 STEP et 9 STL générés** sont **exclus des commits** pour éviter les conflits de fusion ; [GitHub Actions](../.github/workflows/cad-validation.yml) les distribue en **artefact téléchargeable** après chaque validation.
 - Pour générer : `python cad/generate_cad.py` depuis la racine du dépôt, puis `python cad/verify_gotronic.py` et `python cad/test_step_exports.py`. La CAO reste une **V2 d'étude**, sans validation de fixation réelle du servo.
+
+
+### Export Onshape simplifié (XIAO)
+
+Le BREP source du XIAO contient **77 solides** et peut produire un *contains faults* sous le moteur de traduction d'Onshape. Le générateur reconstruit une **enveloppe analytique d'un seul solide**, basée sur les boîtes englobantes de la carte et du connecteur USB, en gardant les six limites exactes du STEP source et la position du module dans le garage. Cette référence simplifiée n'est **PAS** adaptée aux dimensions des trous, des connecteurs 2,54 mm, des soudures ni à la conception finale du support PCB.
+
+Deux fichiers supplémentaires sont désormais générés : `step/REF_XIAO_NRF52840_SIMPLIFIE_POUR_ONSHAPE.step` et `step/GarageStateClone_V2_STRUCTURE_SANS_REFERENCES_ONSHAPE.step`. L'assemblage habituel `GarageStateClone_V2_assemblage_STEP_references.step` utilise lui aussi l'enveloppe simplifiée, alors que **la géométrie 77-solides originale est toujours conservée** dans `refs/xiao.brep.z.b64`.
+
+Voir [méthode de réimport Onshape](../docs/ONSHAPE_IMPORT_XIAO.md). Les STEP sont vérifiés par réimportation sous CadQuery/OpenCascade ; **seul un essai dans Onshape permet de confirmer l'absence de tout défaut d'import**.
