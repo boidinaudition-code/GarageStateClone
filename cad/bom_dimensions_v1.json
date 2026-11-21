@@ -194,7 +194,7 @@
     }
   ],
   "cad": {
-    "shell_width_mm": 184,
+    "shell_width_mm": 190,
     "shell_depth_mm": 100,
     "front_height_mm": 62,
     "back_height_mm": 65,
@@ -254,7 +254,12 @@
     "orange_led_center_z_mm": 53.3,
     "orange_holder_outer_diameter_mm": 10.8,
     "orange_holder_min_radial_wall_mm": 2.1,
-    "dimensions_note": "CAO V2 : le servo et l'axe réels imposent 184 mm de largeur; les LED 5 mm ont seulement Ø nominal documenté, cavités provisoires."
+    "dimensions_note": "V3: coque 190x100mm, baie 110x42, deux retours de mur 2.4mm d'épaisseur, avancés de 10mm vers l'intérieur; bandeau bleu supprimé. Accouplement servo toujours provisoire.",
+    "front_jamb_return_depth_mm": 10,
+    "front_jamb_return_thickness_mm": 2.4,
+    "left_pivot_jamb_bore_mm": 3.8,
+    "servo_coupling_gap_mm": 3,
+    "blue_accent_removed": true
   },
   "system_state": {
     "sensor_count": 1,

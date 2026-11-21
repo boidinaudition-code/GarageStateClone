@@ -4,10 +4,10 @@
 
 ## Design extérieur retenu
 
-Référence visuelle **exacte** : le garage miniature noir et blanc avec un fin liseré bleu, posé sur une étagère en bois dans l'image explicitement sélectionnée par l'utilisateur.
+Référence visuelle **exacte** : le garage miniature noir et blanc initialement avec un fin liseré bleu (désormais supprimé), posé sur une étagère en bois dans l'image explicitement sélectionnée par l'utilisateur.
 
 - Garage bas, rectangulaire, sobre et discret, comme un objet de décoration.
-- Murs **blancs**, toit plat **noir**, porte **noire** à rainures horizontales, **liseré bleu très fin** au-dessus de la porte.
+- Murs **blancs**, toit mono-pente **noir**, porte **noire** à rainures horizontales, **aucun bandeau bleu** ; retours de mur intérieurs dans les montants de l'ouverture.
 - Un **minuscule point orange en haut à droite de la façade**, LED **L7113NC 5 mm cachée en retrait** derrière une petite ouverture optique ; pas besoin de montrer tout le diamètre. Pas d'autre décoration voyante.
 - Toit noir **amovible** pour accéder aux composants.
 - Fabrication Bambu Lab **P1S + AMS** ; filaments disponibles : blanc, noir, bleu, rouge. Privilégier des pièces imprimées séparément par couleur.
@@ -114,7 +114,7 @@ Le délai de 40 secondes **ne prouve pas que la vraie porte bouge** : le SAS308 
 ### Visuels du projet
 
 - [État des deux LED et implantation en façade — schéma SVG](../assets/visuels/leds-garage-v1.svg).
-- **Référence esthétique conservée :** petit garage blanc et noir au filet bleu sur l'étagère.
+- **Référence esthétique actualisée :** garage blanc/noir posé sur l'étagère, **sans filet bleu**, encadrement de porte propre grâce aux retours intérieurs.
 - Le **rendu actualisé** réalisé dans la conversation illustre l'éclairage intérieur et le point orange en façade. Sa porte visible en train de basculer est **un visuel d'ambiance, pas un dessin technique** : dans la V1 mécanique réelle, la porte doit pivoter **vers l'intérieur** et se ranger sous le toit.
 
 ## Matériel prévu et références
@@ -139,10 +139,14 @@ Le délai de 40 secondes **ne prouve pas que la vraie porte bouge** : le SAS308 
 ## Précisions dimensionnelles V1 (nouvelle CAO)
 
 - **[Tableau dimensionnel des composants et des réserves](ENCOMBREMENT_BOM_V1.md)** ; [source CAO paramétrique](../cad/generate_cad.py).
-- Gabarit décoratif CAO V2 **184 × 100 mm**, hauteur avant **62 mm** et arrière **65 mm** (pente de toit ≈ **1,72°**), parois structurelles **2,4 mm** et toit/socle **3 mm**.
+- Gabarit décoratif CAO V2 **190 × 100 mm**, hauteur avant **62 mm** et arrière **65 mm** (pente de toit ≈ **1,72°**), parois structurelles **2,4 mm** et toit/socle **3 mm**.
 - Jeu d'assemblage **0,30 mm par face** (soit +0,60 mm au diamètre ou à la largeur du logement).
 - Servo **en haut à droite de la façade** ; son **boîtier** mesure **22,3 × 11,8 × 26,3 mm** selon DFRobot ; pattes, arbre et palonnier à mesurer. Réserve de service électronique arrière **52 × 23 × 12 mm**, qui **n'est pas la dimension physique** du XIAO/Wio.
 - Porte : baie **110 × 42 mm**, vantail **109,4 × 41,4 × 2,4 mm** ; axe **Ø3,2 mm** avec palier **Ø3,8 mm** ; animation vers l'intérieur sous le toit.
 - **Un seul capteur** dans le garage réel confirme l'état fermé. L'ouverture et le voyant intérieur sont estimés après un délai sans aimant : cette estimation n'est pas fiable si la porte reste immobilisée à mi-course.
 
-**Correction d'implantation après contrôle STEP :** la LED orange Ø5 mm demeure en haut à droite du linteau, mais son logement est désormais centré à **X = 142,0 mm, Z = 53,3 mm**. Derrière le trou optique Ø2 mm, poche Ø6,6 mm et bosse Ø10,8 mm (paroi locale min. 2,1 mm). Son ancienne position heurtait le servo STEP. Le trajet réel de la porte a été vérifié sur 0–90° par pas de 5° sur la géométrie CAO seulement.
+**Correction d'implantation après contrôle STEP :** la LED orange Ø5 mm demeure en haut à droite du linteau, mais son logement est désormais centré à **X = 145,0 mm, Z = 53,3 mm**. Derrière le trou optique Ø2 mm, poche Ø6,6 mm et bosse Ø10,8 mm (paroi locale min. 2,1 mm). Son ancienne position heurtait le servo STEP. Le trajet réel de la porte a été vérifié sur 0–90° par pas de 5° sur la géométrie CAO seulement.
+
+## Correction de façade V3
+
+Les deux **joues/retours de tableau** font **2,4 mm d'épaisseur** et se prolongent de **10 mm vers l'intérieur**, à l'extérieur de la baie **110 × 42 mm**. Le **bandeau bleu supérieur est supprimé** des pièces imprimables et de l'assemblage. Le servo reste en haut à droite à l'avant ; l'élargissement de la coque à **190 mm** et la réserve de couplage **3 mm** permettent de dégager sa géométrie STEP du retour droit. Le palier gauche est décalé de **1,6 mm** et la joue gauche possède un passage Ø3,8 mm pour l'axe Ø3,2 mm. **Vérification numérique seulement**, à confirmer avec le vrai DMS-MG90 et le palonnier. Voir [plan de modification](RETOURS_FACADE_V3.md).

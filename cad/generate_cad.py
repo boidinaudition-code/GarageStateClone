@@ -18,7 +18,7 @@ STEP = ROOT / "step"
 for folder in [STL,STEP]: folder.mkdir(parents=True, exist_ok=True)
 
 # ========= PARAMETERS (mm) =========
-W = 184.0                  # external shell width; expanded from concept to fit servo right pier
+W = 190.0                  # external shell width; expanded from concept to fit servo right pier
 D = 100.0                  # external shell depth
 H_FRONT = 62.0             # roof TOP at front
 H_BACK = 65.0              # roof TOP at rear (3 mm mono-pente)
@@ -40,6 +40,8 @@ DOOR_H = OPEN_H - 2*FIT
 HINGE_D = 3.2
 HINGE_SOCKET_D = HINGE_D + 2*FIT
 HINGE_PIN_LEFT = 6.0
+JAMB_RETURN_DEPTH = 10.0  # internal extension beyond front wall
+JAMB_RETURN_THICK = WALL  # 2.4mm, outside door panel width
 LED_ORANGE_D = 3.0
 LED_ORANGE_HOLE_D = LED_ORANGE_D + 2*FIT
 # STEP fourni: servo complet avec pattes et arbre, repere d'origine XYZ.
@@ -95,6 +97,16 @@ inner_cavity=box(WALL,WALL,BASE-0.02,W-2*WALL,D-2*WALL,100)
 shell=shell.cut(inner_cavity)
 front_door_cut=box(OPEN_X,-0.1,BASE-0.03,OPEN_W,WALL+0.2,OPEN_H+0.03)
 shell=shell.cut(front_door_cut)
+# Two 10mm-deep interior returns, outside the door opening in X.
+left_jamb_return=box(OPEN_X-JAMB_RETURN_THICK,WALL-0.05,BASE,
+                     JAMB_RETURN_THICK,JAMB_RETURN_DEPTH+0.05,OPEN_H)
+# Left hinge pin must retain 0.30mm radial clearance through this return.
+left_jamb_return=left_jamb_return.cut(
+  cyl_x(OPEN_X-JAMB_RETURN_THICK-0.1,PIVOT_Y,PIVOT_Z,
+        HINGE_SOCKET_D,JAMB_RETURN_THICK+0.2))
+right_jamb_return=box(OPEN_X+OPEN_W,WALL-0.05,BASE,
+                      JAMB_RETURN_THICK,JAMB_RETURN_DEPTH+0.05,OPEN_H)
+shell=shell.fuse(left_jamb_return).fuse(right_jamb_return).clean()
 # Back power cable exit : a 12 x 8 mm slot, away from printed floor
 shell=shell.cut(box(W/2-6,D-WALL-0.2,6,12,WALL+0.5,8))
 # Recessed 5mm amber LED: provisional rear pocket and small optical aperture.
@@ -145,7 +157,7 @@ pin=cyl_x(door_x0-HINGE_PIN_LEFT,PIVOT_Y,PIVOT_Z,HINGE_D,DOOR_W+HINGE_PIN_LEFT)
 door=door.fuse(pin).clean()
 
 # 5. Bearing block (LEFT) with cylindrical hole 3.8mm for 3.2mm pin
-bearing_x=OPEN_X-7.5
+bearing_x=OPEN_X-9.1
 bearing_width=6.5
 bearing=box(bearing_x,PIVOT_Y-7.8,PIVOT_Z-11,bearing_width,15.6,19.0)
 bearing=bearing.cut(cyl_x(bearing_x-0.1,PIVOT_Y,PIVOT_Z,HINGE_SOCKET_D,bearing_width+0.2))
@@ -156,7 +168,7 @@ bearing=bearing.fuse(flange).clean()
 # 6. Servo MG90 complet, dans le montant AVANT DROIT. Axe de sortie coaxial
 # avec le pivot X de la porte (modele STEP: sortie suivant +Y d'origine).
 # Rotations Z(+90) puis X(-90) : arbre dirigé selon -X du garage.
-SERVO_SHAFT_TIP_X=door_x1+1.5   # accouplement palonnier non defini
+SERVO_SHAFT_TIP_X=door_x1+3.0  # provisional horn gap 3mm, 0.30mm clearance beside return
 SERVO_ORIGIN=(SERVO_SHAFT_TIP_X+32.5,PIVOT_Y-6.1,PIVOT_Z+6.05)
 SERVO_BBOX=(SERVO_SHAFT_TIP_X,SERVO_SHAFT_TIP_X+32.5,
             PIVOT_Y-6.1,PIVOT_Y+6.12,
@@ -186,8 +198,7 @@ tray=tray.fuse(box(tray_x0,tray_y0,tray_z0+2.4,60,2.4,5.0))
 tray=tray.fuse(box(tray_x0,tray_y0+31-2.4,tray_z0+2.4,60,2.4,5.0)).clean()
 # Mounting of real board is not designed until exact stack/antenna measured.
 
-# 8. Decorative blue accent separate part (adhesive above opening)
-trim=box(OPEN_X+FIT,-1.2,BASE+OPEN_H+1.2,OPEN_W-2*FIT,1.2,2.0)
+# 8. Liseré bleu supprimé : façade blanche sans pièce additionnelle.
 
 # 9. Low-profile single-LED holder glued under the sloping roof, outside door sweep
 led_white_x=W/2
@@ -207,7 +218,6 @@ PRINTABLE={
   '05_palier_gauche':bearing,
   '06_support_servo_step_0p3mm_PROTOTYPE':cradle,
   '07_plateau_electronique_60x31':tray,
-  '08_liseret_bleu':trim,
   '09_support_led_blanche':holder,
 }
 
@@ -338,7 +348,6 @@ if __name__=='__main__':
        '05_palier_gauche':cq.Color(0.65,0.68,0.7),
        '06_support_servo_step_0p3mm_PROTOTYPE':cq.Color(0.50,0.55,0.6),
        '07_plateau_electronique_60x31':cq.Color(0.54,0.58,0.62),
-       '08_liseret_bleu':cq.Color(0.07,0.27,0.65),
        '09_support_led_blanche':cq.Color(0.96,0.96,0.95),
     }
     for name,s in PRINTABLE.items():
@@ -347,7 +356,7 @@ if __name__=='__main__':
         assy.add(s,name=name,color=cq.Color(0.7,0.35,0.3,0.55))
     assy.save(str(STEP/'GarageStateClone_V2_assemblage_STEP_references.step'))
     # Fallback if any third-party STEP causes Onshape import issues:
-    # the nine printable parts only, without manufacturer references.
+    # the eight printable parts only, without manufacturer references.
     clean_structure=cq.Assembly(name='GarageStateClone_V2_structure_seule_Onshape')
     for name,solid in PRINTABLE.items():
         clean_structure.add(solid,name=name,color=colors[name])

@@ -46,16 +46,16 @@ ast.parse((ROOT / "cad/generate_cad.py").read_text())
 print(f"Local Markdown link paths: {links} OK; SVG XML and Python AST: OK")
 
 stls = sorted((ROOT / "cad/stl").glob("*.stl"))
-assert len(stls) == len(cad["PRINTABLE"]) == 9
+assert len(stls) == len(cad["PRINTABLE"]) == 8
 for path in stls:
     mesh = trimesh.load_mesh(path)
     assert mesh.is_watertight and mesh.is_volume, path
     solid = cad["PRINTABLE"][path.stem]
     assert solid.isValid() and len(solid.Solids()) == 1, path
 steps = sorted((ROOT / "cad/step").glob("*.step"))
-assert len(steps) == 12
+assert len(steps) == 11
 assert all(path.stat().st_size > 0 for path in steps)
-print("9 STL watertight/positive volumes; 9 valid single solids; 12 STEP files present")
+print("8 STL watertight/positive volumes; 8 valid single solids; 11 STEP files present")
 
 refs = {name: solid for name, solid in cad["REFERENCES"].items() if "LED_" in name}
 assert len(refs) == 2

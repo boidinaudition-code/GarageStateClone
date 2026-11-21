@@ -74,7 +74,7 @@
   ],
   "design": {
     "shell_mm": [
-      184,
+      190,
       100
     ],
     "roof_z_front_back_mm": [
@@ -97,17 +97,23 @@
       142,
       53.3
     ],
-    "led_orange_holder_outer_diameter_mm": 10.8
+    "led_orange_holder_outer_diameter_mm": 10.8,
+    "front_jamb_return_depth_mm": 10,
+    "front_jamb_return_thickness_mm": 2.4,
+    "blue_accent_removed": true,
+    "servo_coupling_gap_mm": 3
   },
   "qa": {
     "checked_with": "CadQuery 2.8.0, OCP 7.9.3.1, trimesh 4.11.1",
-    "printable_stls": 9,
+    "printable_stls": 8,
     "all_stls_watertight": true,
     "servo_vs_shell_roof_support_door_collision_mm3": 0,
     "boards_intersection_mm3": 0.013,
     "stacking_verified_physically": false,
     "servo_mount_accurate": "space/envelope yes, horn bolting no",
     "led_orange_relocated_to_avoid_servo": true,
-    "generated_step_validation": "reimport and compare individual STEP volumes; validate reference checksums and door sweep"
+    "generated_step_validation": "reimport and compare individual STEP volumes; validate reference checksums and door sweep",
+    "servo_jamb_intersection_mm3": 0,
+    "door_jamb_intersection_mm3": 0
   }
 }
