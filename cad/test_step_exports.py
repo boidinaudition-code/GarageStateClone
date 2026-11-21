@@ -22,8 +22,8 @@ ROOT = Path(__file__).resolve().parent
 manifest = json.loads((ROOT / "vendor_models/manifest.json").read_text(encoding="utf-8"))
 bom = json.loads((ROOT / "bom_dimensions_v1.json").read_text(encoding="utf-8"))
 assert bom["system_state"]["sensor_count"] == 1
-assert manifest["design"]["shell_mm"][0] == g.W == bom["cad"]["shell_width_mm"] == 190
-assert manifest["design"]["door_opening_mm"][0] == g.OPEN_W == bom["cad"]["door_opening_mm"][0] == 110
+assert manifest["design"]["shell_mm"][0] == g.W == bom["cad"]["shell_width_mm"] == 150
+assert manifest["design"]["door_opening_mm"][0] == g.OPEN_W == bom["cad"]["door_opening_mm"][0] == 100
 assert g.WALL >= 2 and g.ROOF >= 2 and g.BASE >= 2 and g.FIT == 0.3
 assert g.LED_ENVELOPE == (6.0, 9.0)
 assert len(g.PRINTABLE) == 8
@@ -31,6 +31,13 @@ assert not any("liseret" in k or "bleu" in k for k in g.PRINTABLE)
 assert g.JAMB_RETURN_DEPTH == 10.0
 assert g.JAMB_RETURN_THICK >= 2.0
 assert abs(g.SERVO_SHAFT_TIP_X-g.door_x1-3.0) < 1e-6
+assert g.LEFT_PIER_W == g.OPEN_X == 11.0
+assert g.RIGHT_PIER_W == 39.0
+assert g.door_x1 < g.right_jamb_return.BoundingBox().xmin
+assert g.bearing_width == 5.0
+assert bom["cad"]["left_pier_width_mm"] == 11
+assert bom["cad"]["right_pier_width_mm"] == 39
+assert bom["cad"]["door_offset_from_center_mm"] == -14.0
 
 # Vérifier l'intégrité des fichiers BREP GitHub indépendamment des STEP d'origine.
 for component in manifest["components"]:
@@ -102,9 +109,13 @@ assert g.shell.isValid() and len(g.shell.Solids()) == 1
 assert g.left_jamb_return.Volume() > 500
 assert g.right_jamb_return.Volume() > 500
 assert overlap(g.bearing,g.left_jamb_return) < 1e-5
+assert overlap(g.bearing,g.shell) < 1e-5, "compact bearing / wall"
+assert g.bearing.BoundingBox().xmin >= g.WALL + g.FIT - 1e-6
+assert g.cradle.BoundingBox().xmax <= g.W-g.WALL-g.FIT + 1e-6
 assert overlap(g.cradle,g.right_jamb_return) < 1e-5
 servo = next(s for n, s in g.REFERENCES.items() if "MG90" in n)
 assert overlap(servo,g.right_jamb_return) < 1e-5
+assert overlap(servo,g.shell) < 1e-5
 orange = next(s for n, s in g.REFERENCES.items() if "LED_orange" in n)
 white = next(s for n, s in g.REFERENCES.items() if "LED_blanche" in n)
 for part, shape in {
@@ -138,4 +149,4 @@ for angle in range(0, 91, 5):
         "support LED blanche": g.holder,
     }.items():
         assert overlap(door, shape) < 1e-5, ("collision porte", angle, label)
-print("PASS — BREP intacts, 11 STEP (XIAO simplifie), 8 STL et debattement LED/servo verifies")
+print("PASS — coque compacte 150 mm ; porte décentrée ; BREP, 11 STEP, 8 STL, palier et servo contrôlés")
