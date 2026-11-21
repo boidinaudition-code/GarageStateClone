@@ -51,3 +51,7 @@ Le balayage échantillonné de la porte ne qualifie ni toute la cinématique con
 ## Vérification additionnelle après réparation du merge
 
 Le générateur CAO et le manifeste BREP sont maintenant testés à chaque PR et push `main` via [GitHub Actions](../.github/workflows/cad-validation.yml). En complément des contrôles documentaires ci-dessus, `cad/test_step_exports.py` vérifie les quatre SHA256 BREP, réimporte **9 STEP** pour comparer les volumes CadQuery, teste **9 STL** fermés et contrôle les collisions servo / LED et porte / LED de 0 à 90°. L'assemblage STEP est exporté et contrôlé au niveau structure et présence. Les sorties sont accessibles comme artefact GitHub Actions : **`garage-state-clone-cad-step-stl`**. Les résultats historiques de cette page ne constituent pas une validation physique.
+
+## Dernière validation CAO V3 — retour de mur et retrait du bandeau
+
+Le contrôle historique « 9 STL / 10 STEP » ci-dessus correspond à une version plus ancienne. **La V3 génère maintenant 8 STL et 11 STEP** : 8 pièces, assemblage avec références, structure seule pour Onshape et XIAO simplifié. Les tests CI vérifient les deux retours internes (épaisseur 2,4 mm, profondeur 10 mm), l'absence de liseré bleu, et la trajectoire 0–90° sans collision avec les joues et le servo. [Détails V3](RETOURS_FACADE_V3.md).
