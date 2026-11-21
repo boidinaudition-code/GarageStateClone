@@ -304,3 +304,15 @@ python cad/test_step_exports.py
 ```
 
 Les sorties `cad/step/`, `cad/stl/` et les rapports runtime sont ignorés par Git. Le prototype reste **non validé physiquement** ; les fixations de palonnier et les vis MG90 sont à finaliser.
+
+
+## Import Onshape du XIAO nRF52840
+
+Si Onshape affiche **« REF_XIAO_NRF52840_STEP_NE_PAS_IMPRIMER — contains faults (Preview) »**, il s'agit du modèle **tiers très détaillé** (77 solides) et non d'une des neuf pièces imprimables. **Le BREP original reste conservé sans modification**, mais les exports Onshape utilisent désormais une version **à un seul solide**, limitée au gabarit PCB + USB. Ce gabarit respecte les dimensions hors-tout mais **n'est pas un modèle de fabrication des broches ou des trous de fixation**.
+
+- [**Dépannage détaillé et instructions d'import**](docs/ONSHAPE_IMPORT_XIAO.md).
+- `REF_XIAO_NRF52840_SIMPLIFIE_POUR_ONSHAPE.step` : pour remplacer seulement le composant fautif.
+- `GarageStateClone_V2_assemblage_STEP_references.step` : ensemble régénéré avec XIAO simplifié.
+- `GarageStateClone_V2_STRUCTURE_SANS_REFERENCES_ONSHAPE.step` : neuf pièces du garage, **sans géométries tierces**, si Onshape signale d'autres défauts.
+
+Les **12 STEP** et 9 STL sont générés par le workflow [CAD sur GitHub Actions](.github/workflows/cad-validation.yml), pas fusionnés comme fichiers sources. L'ancien modèle déjà importé dans Onshape **ne sera pas remplacé automatiquement**.
