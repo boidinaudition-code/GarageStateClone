@@ -28,8 +28,8 @@ Ce dépôt contient les **deux firmwares** dans un seul projet PlatformIO.
 
 - Deux kits XIAO nRF52840 + Wio-SX1262 avec leurs **antennes 868 MHz** adaptées.
 - Deux contacts magnétiques NO filaires avec aimants (un seul possible, voir plus bas).
-- Un servomoteur SG90 ou MG90S, une alimentation 5 V/2 A USB pour la miniature.
-- Une LED blanche chaude avec résistance série **330 Ω** ; une LED orange 3 mm avec résistance **680 Ω**.
+- Un servomoteur SG90 ou MG90S, une **alimentation 5 V/2 A** pour la miniature, répartie **avant** le XIAO entre USB-C et servo + LED blanche.
+- Une **LED blanche chaude** avec **Q1 BC547B**, R1 = **330 Ω** sur +5 V, R2 = **4,7 kΩ** sur D7/base et R3 = **100 kΩ** base/GND ; une **LED orange** 3 mm avec R4 = **680 Ω** sur 3V3.
 - Un condensateur électrolytique 470 µF, tension nominale au moins 10 V, près du servo.
 - Câblage, dominos ou bornes, support 3D.
 - Une alimentation USB-C 5 V dans le garage pour le XIAO émetteur.
@@ -43,7 +43,7 @@ Ce dépôt contient les **deux firmwares** dans un seul projet PlatformIO.
 | Emetteur, capteur fermé | D6 vers GND (contact normalement ouvert, fermé avec aimant proche) |
 | Emetteur, capteur ouvert | D7 vers GND (idem) |
 | Récepteur, signal servo | D6 vers fil signal du SG90/MG90S |
-| Récepteur, LED intérieure blanche | D7 → résistance 330 ohms → anode LED ; cathode → GND |
+| Récepteur, LED intérieure blanche | **D7 → 4,7 kΩ → base BC547B** ; **base → 100 kΩ → GND** ; émetteur → GND ; collecteur → cathode LED blanche ; **+5 V externe → 330 Ω → anode LED** |
 | Récepteur, LED orange façade | 3V3 → résistance **680 Ω** → anode LED orange ; cathode → **D0** (allumée par LOW, éteinte en INPUT haute impédance) |
 | Servo, fil rouge | 5 V de l'alimentation servo (PAS au 3V3 du XIAO) |
 | Servo, fil brun/noir | GND de l'alimentation servo ET GND du XIAO |
@@ -77,7 +77,7 @@ Le projet utilise la plateforme PlatformIO personnalisée `maxgerhardt/platform-
 3. Relier momentanément D6 à GND (ou approcher l'aimant) : état fermé (0), servo vers 15°.
 4. Libérer D6 et relier D7 à GND : état ouvert (1), servo vers 95°.
 5. Relier les deux simultanément : état défaut (3), le servo reste en place et la LED clignote vite.
-6. Débrancher l'émetteur : après 150 secondes sans message, la LED doit indiquer « liaison perdue » ; la porte miniature garde sa dernière position mais elle n'est plus considérée fiable.
+6. Débrancher l'émetteur : après 150 secondes sans message, **la LED orange doit faire deux flashs brefs** et la LED blanche s'éteint ; la porte miniature garde sa dernière position mais elle n'est plus considérée fiable.
 7. Réalimenter l'émetteur : il transmet immédiatement, la miniature se resynchronise.
 
 Attendre la LED/les logs pour confirmer la bonne réception ; ne pas confondre « non fermé » avec « entièrement ouvert ».
@@ -97,14 +97,23 @@ N'émettre **jamais** sans antenne adaptée raccordée. Pour 868 MHz, respecter 
 
 ## 7 — Mécanisme de la maquette (v1)
 
-Un garage de 160 x 140 x 120 mm avec porte basculante 95 x 85 mm est la première étape raisonnable, même si la porte réelle est sectionnelle. Créer un support de charnière au-dessus de l'ouverture et un palonnier sur le servo MG90S, avec une bielle courte ; ajouter des butées mécaniques non forcées. Tester tout le débattement sans frottement et choisir les angles avant de fixer la porte. Un modèle à panneaux articulés sur rails pourra remplacer la façade en v2.
+Un garage de 160 x 140 x 120 mm avec porte basculante 95 x 85 mm est la première étape raisonnable, même si la porte réelle est sectionnelle. Le mécanisme retenu place le servo DMS-MG90 **directement et coaxialement** sur l'axe supérieur de la porte, avec un palier imprimé à gauche ; ajouter des butées non forcées. Tester tout le débattement sans frottement et choisir les angles avant de fixer la porte. Un modèle à panneaux articulés sur rails pourra remplacer la façade en v2.
 
 
 ## Conception retenue — porte basculante et éclairage
 
-La V1 conserve le design du **garage noir et blanc au fin liseré bleu posé sur une étagère**. Sa porte monobloc rainurée pivote vers **l'intérieur**, sous le toit, via un **DMS-MG90 monté coaxialement sur la charnière supérieure**, avec un palier côté opposé. Le XIAO + Wio-SX1262 est dissimulé dans une zone arrière hors débattement. Une **seule LED blanche chaude**, positionnée sous le toit à l'arrière, doit s'allumer lorsque l'état **OUVERT** est confirmé.
+La V1 conserve le design du **garage noir et blanc au fin liseré bleu posé sur une étagère**. Sa porte monobloc rainurée pivote vers **l'intérieur**, sous le toit, via un **DMS-MG90 monté coaxialement sur la charnière supérieure**, avec un palier côté opposé. Le XIAO + Wio-SX1262 est dissimulé dans une zone arrière hors débattement. Une **LED blanche chaude** sous le toit à l'arrière éclaire l'intérieur à l'état OUVERT ; une **LED orange** discrète en façade indique mouvement et erreurs.
 
 **Lire la [spécification mécanique et électrique V1](docs/CONCEPTION_MECANIQUE_V1.md)** avant la modélisation 3D. Les anciennes cotes et le montage à bielle évoqués plus bas sont des hypothèses initiales, **supplantées par l'entraînement coaxial**. Le firmware **pilote maintenant deux LED** : D7 pour l'intérieur, D0 pour la façade (commande active à LOW). Voir le [schéma des états lumineux](assets/visuels/leds-garage-v1.svg). **Nouveau câblage et code à valider physiquement**.
+
+## Câblage et références vérifiés — V1
+
+- [**Schéma émetteur** : contacts magnétiques D6/D7 → GND](assets/schemas/cablage-emetteur-v1.svg)
+- [**Schéma récepteur** : servo D6, LED blanche D7 via BC547B, orange D0](assets/schemas/cablage-recepteur-v1.svg)
+- [**Guide technique de câblage** et netlist point à point](docs/CABLAGE_V1_VERIFIE.md)
+- [**Liste d'achats / BOM vérifiée**](docs/BOM_V1_VERIFIEE.md)
+
+**Correction importante :** une LED blanche annoncée Vf = 3,5 V peut ne pas être suffisamment éclairée directement par la sortie D7 du XIAO (3,3 V). La LED blanche est désormais alimentée depuis le **+5 V externe via une résistance 330 Ω et un BC547B**. D7 commande seulement la base via **4,7 kΩ**, avec **100 kΩ** de rappel vers GND. Le code D7 actif à HIGH reste compatible. Vérifier **C/B/E**, polarités, masses communes et alimentations avant mise sous tension.
 
 ## Sources matérielles
 
