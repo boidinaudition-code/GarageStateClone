@@ -10,12 +10,24 @@ Les prix et stocks sont les relevés des fiches directes Gotronic au navigateur 
 
 Interpréteur retrouvé : `/opt/data/profiles/github-manager/cache/scratch/garage-cad-venv/bin/python` (CadQuery et trimesh).
 
-Depuis la racine du dépôt :
+**Sur un clone neuf, les STL, STEP et métriques ne sont pas présents : générer les artefacts avant de les vérifier.** Depuis la racine du dépôt, avec un environnement Python contenant CadQuery et trimesh :
+
+```sh
+PYTHON=/chemin/vers/venv/bin/python
+# Sous Linux, fournir les bibliothèques système requises par CadQuery (dont libGL).
+# Ajouter leur chemin à LD_LIBRARY_PATH seulement si elles sont hors des chemins système.
+timeout 120 "$PYTHON" cad/generate_cad.py
+timeout 120 "$PYTHON" cad/verify_gotronic.py
+git diff --check
+```
+
+Les chemins ci-dessous décrivent uniquement l'environnement du worker utilisé pour les contrôles ; ils ne font pas partie du dépôt et sont à adapter sur une autre machine :
 
 ```sh
 export LD_LIBRARY_PATH=/opt/data/profiles/github-manager/cache/scratch/garage-cad-libs/usr/lib/x86_64-linux-gnu${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
-timeout 120 /opt/data/profiles/github-manager/cache/scratch/garage-cad-venv/bin/python cad/verify_gotronic.py
-git diff --check
+PYTHON=/opt/data/profiles/github-manager/cache/scratch/garage-cad-venv/bin/python
+timeout 120 "$PYTHON" cad/generate_cad.py
+timeout 120 "$PYTHON" cad/verify_gotronic.py
 ```
 
 ## Résultats réellement exécutés
