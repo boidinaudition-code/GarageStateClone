@@ -1,29 +1,29 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 740" width="1200" height="740" role="img" aria-label="Schema electrique emetteur porte reelle avec deux contacts SAS308 sur D6 et D7 vers GND">
-<rect width="1200" height="740" fill="#f5f8fc"/>
-<style>text{font-family:Arial,sans-serif;fill:#20344d}.h{font-size:26px;font-weight:bold}.s{font-size:19px;font-weight:bold}.m{font-size:17px}.n{font-size:15px;fill:#52637a}.wire{fill:none;stroke:#315e96;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}.ground{fill:none;stroke:#26384d;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}</style>
-<rect x="28" y="24" width="1144" height="92" rx="14" fill="#183651"/><text x="56" y="65" class="h" fill="white" style="fill:white">EMETTEUR — PORTE REELLE</text><text x="56" y="95" class="n" style="fill:#dcebf6">XIAO nRF52840 + Wio-SX1262 / schéma de connexions / 5 V USB-C uniquement</text>
-<rect x="42" y="145" width="373" height="480" rx="16" fill="white" stroke="#bdd0df" stroke-width="2"/>
-<rect x="459" y="145" width="706" height="480" rx="16" fill="white" stroke="#bdd0df" stroke-width="2"/>
-<text x="65" y="190" class="s">CARTE XIAO + Wio</text>
-<rect x="91" y="252" width="280" height="297" rx="12" fill="#e7f1f9" stroke="#9bb4ca" stroke-width="2"/>
-<text x="112" y="295" class="s">XIAO / SX1262</text>
-<text x="113" y="346" class="m">D6 (P1.11)</text>
-<text x="113" y="426" class="m">D7 (P1.12)</text>
-<text x="113" y="505" class="m">GND</text>
-<rect x="118" y="215" width="219" height="36" rx="5" fill="#e4f2e5"/><text x="139" y="240" class="m">USB-C : 5 V</text>
-<path d="M371 339 H515" class="wire"/><path d="M371 419 H515" class="wire"/><path d="M371 497 H1086 V485" class="ground"/>
-<text x="486" y="189" class="s">CONTACTS SECS SAS308</text>
-<text x="485" y="225" class="n">SAS308 : 24 x 15 x 6 mm, cable 25 cm, aimant a 15 mm maximum.</text>
-<text x="513" y="295" class="m">S1 — FIN DE COURSE FERMÉE</text>
-<circle cx="550" cy="339" r="5" fill="#315e96"/><circle cx="720" cy="339" r="5" fill="#315e96"/>
-<path d="M515 339 H545 M555 339 L715 306 M725 339 H1086" class="wire"/>
-<text x="512" y="388" class="m">S2 — FIN DE COURSE OUVERTE</text>
-<circle cx="550" cy="419" r="5" fill="#315e96"/><circle cx="720" cy="419" r="5" fill="#315e96"/>
-<path d="M515 419 H545 M555 419 L715 386 M725 419 H1086" class="wire"/>
-<path d="M1086 339 V497 M1086 419 V497" class="ground"/>
-<rect x="933" y="514" width="182" height="40" rx="8" fill="#e4edf5"/><text x="970" y="541" class="m">GND commun</text>
-<text x="488" y="575" class="n">Entrées en INPUT_PULLUP : contact fermé → LOW.</text>
-<rect x="42" y="654" width="1123" height="57" rx="9" fill="#fff0e9" stroke="#e6b5a2"/>
-<text x="66" y="680" class="m">SÉCURITÉ : ne relier ni au 230 V ni aux bornes du moteur ; seulement aux contacts secs isolés.</text>
-<text x="66" y="699" class="n">Antennes LoRa 868 MHz montées avant la mise sous tension. D6/D7 à prendre sur les pastilles du XIAO.</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="650" viewBox="0 0 1200 650" role="img" aria-label="Schéma électrique V1 émetteur un seul capteur SAS308 D6 GND, D7 libre">
+<rect width="1200" height="650" fill="#f7fafc"/>
+<style>text{font-family:Arial,sans-serif;fill:#20344d} .h{font-weight:bold;font-size:26px}.s{font-weight:bold;font-size:20px}.m{font-size:17px}.note{font-size:16px;fill:#607286}</style>
+<rect x="25" y="24" width="1150" height="84" rx="12" fill="#183651"/>
+<text x="50" y="61" class="h" style="fill:white">ÉMETTEUR — 1 SEUL SAS308 (FIN DE COURSE FERMÉE)</text>
+<text x="50" y="89" class="note" style="fill:#ddeaf5">LoRa direct 868 MHz · aucun raccordement au moteur · alimentation USB-C 5 V</text>
+<rect x="40" y="148" width="396" height="399" rx="14" fill="white" stroke="#a9c0d2" stroke-width="2"/>
+<rect x="458" y="148" width="700" height="399" rx="14" fill="white" stroke="#a9c0d2" stroke-width="2"/>
+<text x="68" y="189" class="s">XIAO nRF52840 + Wio SX1262</text>
+<rect x="96" y="220" width="289" height="275" rx="8" fill="#eaf2fa"/>
+<text x="128" y="257" class="m">USB-C 5 V (alimentation)</text>
+<text x="128" y="332" class="s">D6 / P1.11</text>
+<text x="128" y="409" class="s">D7 / P1.12</text>
+<text x="128" y="479" class="s">GND</text>
+<text x="482" y="192" class="s">SAS308 + AIMANT (FERMÉ UNIQUEMENT)</text>
+<text x="482" y="223" class="note">Boîtier 24 × 15 × 6 mm ; 250 mm de câble ; aimant à moins de 15 mm.</text>
+<path d="M385 327 H540" stroke="#2161a1" stroke-width="4" fill="none" stroke-linecap="round"/>
+<circle cx="540" cy="327" r="5" fill="#2161a1"/>
+<path d="M545 327 L714 303" stroke="#2161a1" stroke-width="4" fill="none" stroke-linecap="round"/>
+<circle cx="718" cy="327" r="5" fill="#2161a1"/>
+<path d="M718 327 H1026 V472 H385" stroke="#334155" stroke-width="4" fill="none" stroke-linejoin="round"/>
+<path d="M385 402 H538" stroke="#94a3b8" stroke-width="3" fill="none" stroke-dasharray="8 7"/>
+<text x="553" y="409" class="m">NON RACCORDE V1</text>
+<text x="480" y="505" class="m">Aimant en face → CONTACT FERMÉ → GPIO à LOW</text>
+<text x="480" y="530" class="note">Aimant absent → GPIO à HIGH (pull-up) → ouverture seulement ESTIMÉE après 40 s.</text>
+<rect x="40" y="569" width="1118" height="55" rx="9" fill="#fff2e6" stroke="#e9c79a"/>
+<text x="66" y="593" class="m">ATTENTION : aucune liaison à la tension secteur ou aux sorties de commande du moteur.</text>
+<text x="66" y="615" class="note">Le SAS308 est uniquement un contact sec et ce montage n'assure PAS une confirmation d'ouverture.</text>
 </svg>

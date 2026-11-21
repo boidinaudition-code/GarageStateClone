@@ -105,7 +105,7 @@ Placer l'antenne 868 MHz sans contact avec des pièces métalliques et, si possi
 | **Défaut de capteurs** | Éteinte | **Clignote rapidement, 5 Hz** |
 | **Liaison perdue**, plus de 150 secondes sans trame valide | Éteinte | **Double flash toutes les 2 secondes** |
 
-Le délai de 40 secondes **ne prouve pas que la vraie porte bouge** : les deux capteurs SAS308 sont des fins de course, pas des capteurs de vitesse. Une porte volontairement arrêtée à mi-course provoquera le même clignotement temporaire. Un heartbeat radio de 60 secondes ne doit pas relancer le minuteur.
+Le délai de 40 secondes **ne prouve pas que la vraie porte bouge** : le SAS308 unique confirme la fermeture uniquement, pas des capteurs de vitesse. Une porte volontairement arrêtée à mi-course provoquera le même clignotement temporaire. Un heartbeat radio de 60 secondes ne doit pas relancer le minuteur.
 
 **Implémentation :** le firmware de la branche de cette évolution affecte D7 à la lumière blanche et D0 au témoin orange ; les différents clignotements sont non bloquants, basés sur `millis()`. **À valider sur table** avec le bouton utilisateur, la puissance LED, l'assemblage complet et la liaison LoRa. La compilation PlatformIO sur matériel réel reste nécessaire.
 
@@ -118,7 +118,7 @@ Le délai de 40 secondes **ne prouve pas que la vraie porte bouge** : les deux c
 ## Matériel prévu et références
 
 - Déjà disponible : **2 kits XIAO nRF52840 + Wio-SX1262**, Bambu Lab P1S et AMS, filaments blanc/noir/bleu/rouge ; alimentation secteur disponible dans le vrai garage.
-- **2 × SAS308**, Gotronic réf. 26449 : [contact magnétique miniature](https://www.gotronic.fr/art-contact-magnetique-miniature-sas308-12751.htm), **24 × 15 × 6 mm**, écartement aimant **15 mm max.**, câble moulé **25 cm** à prolonger au besoin ; un en fin de course fermée, un en fin de course ouverte.
+- **1 × SAS308**, Gotronic réf. 26449 : [contact magnétique miniature](https://www.gotronic.fr/art-contact-magnetique-miniature-sas308-12751.htm), **24 × 15 × 6 mm**, écartement aimant **15 mm max.**, câble moulé **25 cm** à prolonger au besoin ; un seul capteur placé pour confirmer la **fermeture** (aimant en face de la porte fermée).
 - **1 × DMS-MG90**, Gotronic réf. 36923 : [servomoteur](https://www.gotronic.fr/art-servomoteur-dms-mg90-32266.htm).
 - **1 × 470 µF / 16 V**, Gotronic réf. 04947 : [condensateur](https://www.gotronic.fr/art-condensateur-radial-470uf-16v-3386.htm).
 - **1 × LED blanche chaude** + **330 Ω / +5 V** + **BC547B NPN** + **4,7 kΩ D7/base** + **100 kΩ base/GND**, **1 × LED orange 3 mm** + **680 Ω / 3V3** ; fil, petit bornier, vis, palonnier, alimentation USB 5 V/2 A et câbles.
@@ -132,4 +132,13 @@ Le délai de 40 secondes **ne prouve pas que la vraie porte bouge** : les deux c
 3. Tester le balayage complet et régler les angles du servo sans point dur.
 4. Modéliser la coque finale avec toit amovible, électronique en compartiment arrière et passage de câble.
 5. Tester les **deux LED** (blanche sur D7 via transistor BC547B alimenté en +5 V, orange sur D0 via 680 Ω) ; compiler et valider le nouveau firmware sur les cartes.
-6. Poser les capteurs réels, tester la communication LoRa et les cas de panne.
+6. Poser le **SAS308 unique** sur le vrai garage, régler la durée d'ouverture estimée (40 s par défaut), puis tester LoRa, les LED et les cas de panne.
+
+## Précisions dimensionnelles V1 (nouvelle CAO)
+
+- **[Tableau dimensionnel des composants et des réserves](ENCOMBREMENT_BOM_V1.md)** ; [source CAO paramétrique](../cad/generate_cad.py).
+- Gabarit décoratif proposé **168 × 100 mm**, hauteur avant **62 mm** et arrière **65 mm** (pente de toit ≈ **1,72°**), parois structurelles **2,4 mm** et toit/socle **3 mm**.
+- Jeu d'assemblage **0,30 mm par face** (soit +0,60 mm au diamètre ou à la largeur du logement).
+- Servo **en haut à droite de la façade** ; son **boîtier** mesure **22,3 × 11,8 × 26,3 mm** selon DFRobot ; pattes, arbre et palonnier à mesurer. Réserve de service électronique arrière **52 × 23 × 12 mm**, qui **n'est pas la dimension physique** du XIAO/Wio.
+- Porte : baie **104 × 42 mm**, vantail **103,4 × 41,4 × 2,4 mm** ; axe **Ø3,2 mm** avec palier **Ø3,8 mm** ; animation vers l'intérieur sous le toit.
+- **Un seul capteur** dans le garage réel confirme l'état fermé. L'ouverture et le voyant intérieur sont estimés après un délai sans aimant : cette estimation n'est pas fiable si la porte reste immobilisée à mi-course.
