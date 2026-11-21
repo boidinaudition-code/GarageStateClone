@@ -84,7 +84,7 @@ La porte est **monobloc et bascule vers l'intérieur** autour de l'axe horizonta
 - Compartiment technique arrière hors débattement ; LED blanche chaude **5 mm** sous le toit vers l'arrière, tournée vers le plancher ; orange L7113NC **5 mm cachée en retrait**, derrière un **petit point lumineux** en haut à droite de façade : le diamètre entier n'a pas à être visible. Poches et enveloppes CAO **provisoires**, à ajuster après mesure ; câbles le long de la paroi.
 - Toit démontable, servo/palonnier démontables, USB-C accessible ; antenne éloignée du métal, du servo et des fils 5 V autant que possible. Tester aussi coque fermée.
 
-**Les cotes de coque sont actuellement des propositions CAO, non validées sur les composants physiques** : 168 × 100 mm, hauteurs avant/arrière 62/65 mm et baie 104 × 42 mm. Mesurer en priorité les pattes, l'arbre et le palonnier du servo, l'assemblage XIAO/Wio, l'antenne et les connecteurs avant d'imprimer les fixations définitives. Les angles logiciels 15°/55°/95° ne sont pas des mesures géométriques validées de la porte.
+**Les cotes de coque sont actuellement des propositions CAO, non validées sur les composants physiques** : **184 × 100 mm**, hauteurs avant/arrière **62/65 mm** et baie **110 × 42 mm**. Mesurer en priorité les pattes, l'arbre et le palonnier du servo, l'assemblage XIAO/Wio, l'antenne et les connecteurs avant d'imprimer les fixations définitives. Les angles logiciels 15°/55°/95° ne sont pas des mesures géométriques validées de la porte.
 
 ## Câblage et schémas
 
@@ -286,3 +286,21 @@ Placer les appareils dans le garage réel et la maison, puis tester les quatre �
 **Gabarit décoratif V2 : 184 × 100 mm ; hauteurs 62/65 mm ; parois 2,4 mm ; jeu 0,30 mm par face.** Le montant avant droit a été élargi pour contenir les **oreilles et l'arbre du servo complet** (enveloppe STEP 33,40 × 32,50 × 12,22 mm dans le repère local), placé coaxialement à la charnière supérieure. Le Wio est placé **sous** le XIAO sur le plateau arrière, selon les STEP fournis.
 
 **Les quatre géométries sont maintenant versionnées dans ce dépôt** sous forme de fichiers `cad/refs/*.brep.z.b64` (**BREP compressées sans perte**, avec géométries solides et topologie). `cad/generate_cad.py` les charge automatiquement et régénère l'assemblage STEP ; les fichiers STEP d'origine avec leurs noms/metadonnées restent disponibles dans l'archive V2 jointe à la conversation. Il est également possible d'utiliser `python cad/import_vendor_archives.py chemin/vers/les-4-zips` pour travailler directement à partir des STEP. Avant toute redistribution de modèles tiers, vérifier les droits/licences des sources. Le dossier `stl/` de l'archive contient uniquement les pièces imprimables.
+
+## Réparation CAO et exports automatiques
+
+Les quatre géométries sources `cad/refs/*.brep.z.b64` sont conservées sans perte : **ne pas modifier manuellement ces fichiers compressés** et ne pas faire de résolution de conflit ligne à ligne dans leur contenu. Les STEP et STL **ne sont pas versionnés** ; ils sont **générés** par [`cad/generate_cad.py`](cad/generate_cad.py) pour éviter les conflits de fusion de fichiers CAO binaires.
+
+Une [action GitHub de validation CAO](.github/workflows/cad-validation.yml) reconstruit **9 STEP de pièces + 1 STEP d'assemblage et 9 STL**, vérifie les empreintes SHA256 des quatre références, **réimporte les STEP**, teste les volumes, le caractère fermé des STL et les collisions avec les LED et le servo. Les exports sont disponibles dans l'artefact **`garage-state-clone-cad-step-stl`** de la page **Actions**.
+
+### Génération locale
+
+```sh
+python -m pip install 'cadquery==2.8.0' 'trimesh==4.11.1'
+python cad/generate_cad.py
+python cad/qa_geometry.py
+python cad/verify_gotronic.py
+python cad/test_step_exports.py
+```
+
+Les sorties `cad/step/`, `cad/stl/` et les rapports runtime sont ignorés par Git. Le prototype reste **non validé physiquement** ; les fixations de palonnier et les vis MG90 sont à finaliser.

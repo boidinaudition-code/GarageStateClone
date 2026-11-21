@@ -139,8 +139,10 @@ Le délai de 40 secondes **ne prouve pas que la vraie porte bouge** : le SAS308 
 ## Précisions dimensionnelles V1 (nouvelle CAO)
 
 - **[Tableau dimensionnel des composants et des réserves](ENCOMBREMENT_BOM_V1.md)** ; [source CAO paramétrique](../cad/generate_cad.py).
-- Gabarit décoratif proposé **168 × 100 mm**, hauteur avant **62 mm** et arrière **65 mm** (pente de toit ≈ **1,72°**), parois structurelles **2,4 mm** et toit/socle **3 mm**.
+- Gabarit décoratif CAO V2 **184 × 100 mm**, hauteur avant **62 mm** et arrière **65 mm** (pente de toit ≈ **1,72°**), parois structurelles **2,4 mm** et toit/socle **3 mm**.
 - Jeu d'assemblage **0,30 mm par face** (soit +0,60 mm au diamètre ou à la largeur du logement).
 - Servo **en haut à droite de la façade** ; son **boîtier** mesure **22,3 × 11,8 × 26,3 mm** selon DFRobot ; pattes, arbre et palonnier à mesurer. Réserve de service électronique arrière **52 × 23 × 12 mm**, qui **n'est pas la dimension physique** du XIAO/Wio.
-- Porte : baie **104 × 42 mm**, vantail **103,4 × 41,4 × 2,4 mm** ; axe **Ø3,2 mm** avec palier **Ø3,8 mm** ; animation vers l'intérieur sous le toit.
+- Porte : baie **110 × 42 mm**, vantail **109,4 × 41,4 × 2,4 mm** ; axe **Ø3,2 mm** avec palier **Ø3,8 mm** ; animation vers l'intérieur sous le toit.
 - **Un seul capteur** dans le garage réel confirme l'état fermé. L'ouverture et le voyant intérieur sont estimés après un délai sans aimant : cette estimation n'est pas fiable si la porte reste immobilisée à mi-course.
+
+**Correction d'implantation après contrôle STEP :** la LED orange Ø5 mm demeure en haut à droite du linteau, mais son logement est désormais centré à **X = 142,0 mm, Z = 53,3 mm**. Derrière le trou optique Ø2 mm, poche Ø6,6 mm et bosse Ø10,8 mm (paroi locale min. 2,1 mm). Son ancienne position heurtait le servo STEP. Le trajet réel de la porte a été vérifié sur 0–90° par pas de 5° sur la géométrie CAO seulement.

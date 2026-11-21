@@ -47,3 +47,7 @@ Les contrôles portent sur les chemins des liens Markdown locaux (pas la disponi
 Les LED sont nominalement de diamètre 5 mm ; longueur, collerette et pattes ne sont pas validées par une cote fabricant. Les enveloppes Ø6 × 9 mm, poches Ø6,6 mm, ouverture optique orange Ø2 mm et retrait 3,4 mm sont des **choix CAO provisoires**, pas des dimensions fabricants. Le support blanc recouvre volontairement le toit pour collage ; maintien et montage restent à définir après mesure.
 
 Le balayage échantillonné de la porte ne qualifie ni toute la cinématique continue ni l'assemblage complet. Aucun essai physique, impression, test radio ou qualification électrique n'est effectué par ce script.
+
+## Vérification additionnelle après réparation du merge
+
+Le générateur CAO et le manifeste BREP sont maintenant testés à chaque PR et push `main` via [GitHub Actions](../.github/workflows/cad-validation.yml). En complément des contrôles documentaires ci-dessus, `cad/test_step_exports.py` vérifie les quatre SHA256 BREP, réimporte **9 STEP** pour comparer les volumes CadQuery, teste **9 STL** fermés et contrôle les collisions servo / LED et porte / LED de 0 à 90°. L'assemblage STEP est exporté et contrôlé au niveau structure et présence. Les sorties sont accessibles comme artefact GitHub Actions : **`garage-state-clone-cad-step-stl`**. Les résultats historiques de cette page ne constituent pas une validation physique.

@@ -26,11 +26,11 @@
 
 | Paramètre CAO | Cote (mm) | Statut |
 |---|---:|---|
-| Coque extérieure W × D | **168 × 100** | **P** |
+| Coque extérieure W × D | **184 × 100** | **P — CAO V2 actuelle**, largeur initiale 168 obsolète |
 | Hauteurs avant/arrière | **62 / 65** | **P** ; mono-pente +3 mm sur 100 mm (≈1,72°) |
 | Parois structurelles | **2,4** | **P**, minimum exigé ≥2 |
 | Toit et socle | **3,0** | **P** |
-| Ouverture porte | **104 × 42** | **P** |
+| Ouverture porte | **110 × 42** | **P — CAO V2 actuelle** |
 | Panneau de porte | **103,4 × 41,4 × 2,4** | **P** |
 | Jeu d'emboîtement | **0,30 par face**, donc +0,60 sur largeur de trou | **P** ; coupon d'essai PLA nécessaire |
 | Axe / palier | **Ø3,2 / Ø3,8** | **P**, jeu radial 0,30 |
@@ -79,3 +79,5 @@ La dimension **22,3 × 11,8 × 26,3 mm** du DMS-MG90 figurant ailleurs correspon
 L'assemblage Wio **sous** XIAO est une proposition de placement avec très faible intersection numérique entre leurs STEP (≈0,013 mm³) : les connexions mécaniques réelles n'ont pas été montées ni éprouvées. Antennes/câbles/vis non fournis dans ces STEP sont hors du contrôle d'encombrement.
 
 [Source paramétrique V2](../cad/generate_cad.py) — [Notice CAO V2](../cad/README.md) — [Manifestes et références](../cad/vendor_models/README.md).
+
+**Contrôle post-fusion :** le générateur et le JSON paramétrique ont été réconciliés sur la largeur **184 mm** et la baie **110 mm**. Les 4 BREP ont des empreintes SHA256 fixées dans le [manifeste](../cad/vendor_models/manifest.json), contrôlées avant export. Voir [rapport de validation automatisée](../cad/test_step_exports.py).
