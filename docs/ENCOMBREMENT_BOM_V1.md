@@ -12,12 +12,15 @@
 | **1** | R2 4,7 kΩ Gotronic 04144 | Corps **6,5 × Ø2,5** | **C**, fils non définis | [Série 1/2 W](https://www.gotronic.fr/cat-resistances-metal-1-2-w-267.htm) |
 | **1** | R3 100 kΩ Gotronic 04160 | Corps **6,5 × Ø2,5** | **C**, fils non définis | [Série 1/2 W](https://www.gotronic.fr/cat-resistances-metal-1-2-w-267.htm) |
 | **1** | R4 680 Ω Gotronic 04134 | Corps **6,5 × Ø2,5** | **C**, fils non définis | [Série 1/2 W](https://www.gotronic.fr/cat-resistances-metal-1-2-w-267.htm) |
-| **1** | LED blanche 304WC2J-W6-3PD | Lentille **Ø3,0 × 5,1**, pas des fils **2,54**, broches Ø0,5–0,6 | **C**, lentille **sans collerette**, les fils se recoupent au montage | [Datasheet Luckylight](https://www.kondik.cz/user/related_files/ll-304wc2j-w6-3pd.pdf) |
-| **1** | LED orange LED3OLN | **Ø3 nominal** | **C** pour diamètre ; hauteur, collerette et pas fils **M** | [Lextronic](https://www.lextronic.fr/led-standard-orange-led3oln-8422.html) |
+| **1 utilisée** | Blanche chaude Whadda WCS101, Gotronic 03989 | **Ø5 nominal**, lot de 130 dont 20 blanches chaudes | **C** uniquement pour diamètre nominal ; longueur, collerette, pas/section pattes **M** ; aucune cote de l'ancienne Luckylight conservée | [Gotronic WCS101](https://www.gotronic.fr/art-assortiment-de-130-leds-wcs101-39775.htm) |
+| **1** | Orange L7113NC, Gotronic 03051 | **Ø5 nominal** | **C** pour diamètre ; hauteur, collerette et pas fils **M** ; PDF lié L7113EC non transposé | [Gotronic L7113NC](https://www.gotronic.fr/art-led-5-mm-l7113nc-2086.htm) |
 | **2 en stock** | XIAO nRF52840 | Carte seule **21 × 17,8** | **C**, hauteur du connecteur USB/soudures non publiée | [Seeed](https://wiki.seeedstudio.com/XIAO_BLE/) |
 | **2 en stock** | XIAO + Wio-SX1262 en pile | Seeed annonce environ **8 × 22 × 23** pour le kit ; **21 × 17,8** pour PCB XIAO seul | **C nominal**, orientation et éléments annexes antenne/USB à **mesurer** | [Seeed kit](https://wiki.seeedstudio.com/xiao_nrf52840%26_wio_SX1262_kit_for_meshtastic/) |
 | **2 en stock, vérifier** | Antennes 868 MHz | **Indéterminé** sans référence exacte | **M**, y compris câble RF et rayon de courbure | Référence réelle à relever |
-| **2+** | Adaptateurs secteur 5 V, câbles USB-C, répartiteur, borniers, perfboard, vis | **Indéterminé** tant que le produit n'est pas choisi | **M** ; ne pas figer un compartiment sur des dimensions inventées | Référence à sélectionner |
+| **2 ou 3** | Alimentation USB-A HNP18-USBV2 14749 | **56 × 27 × 73**, 5 V / 3 A | **C** fiche ; chargeur secteur externe, pas dans la coque | [Gotronic](https://www.gotronic.fr/art-alimentation-hnp18-usbv2-38701.htm) |
+| **1 si variante servo séparée** | Bornier DC PCM10F 48214 + cordon 49101 | **40 × 15 × 11** ; cordon **900** | **C** ; place, sortie fils et polarité **M** | [Gotronic](https://www.gotronic.fr/art-adaptateur-pcm10f-17984.htm) |
+| **1 à découper** | Perfboard BCS050 12470 | **50 × 100 × 1,5**, pas **2,54** | **C** ; découpe/implantation **P/M**, ne rentre pas entière dans le plateau | [Gotronic](https://www.gotronic.fr/art-plaque-d-essais-bcs050-6931.htm) |
+| Selon montage | USB-A/C, fil, gaine, vis et éventuel répartiteur | Longueurs et montage final **à déterminer** | **M**, références et limites dans la BOM ; répartiteur non confirmé | [Fournitures Gotronic](BOM_V1_VERIFIEE.md#fournitures-indispensables-si-absentes) |
 
 ## Jeux et pièces imprimées
 
@@ -35,7 +38,9 @@
 | Plateau électronique | **60 × 31**, compartiment arrière | **P** |
 | Réserve de service pour les cartes et leurs fils | **52 × 23 × 12** | **P** ; ce n'est **pas** la taille de la carte |
 | C1 : logement cylindrique minimal de départ | **Ø10,6** pour Ø10 de corps | **P** ; à ajuster après mesure |
-| LED orange façade : trou | **Ø3,6** pour LED Ø3 | **P** ; adapter si collerette |
+| Orange façade : ouverture optique | **Ø2,0** | **P**, petit point visible, pas un trou de montage Ø5 |
+| Poches des deux LED / enveloppes réservées | **Ø6,6 / Ø6 × 9** | **P**, enveloppes provisoires incluant réserve de collerette, **pas des cotes fabricant** |
+| Orange : début de poche derrière façade | **3,4** depuis face avant | **P**, LED entièrement cachée ; fils au-delà de la réserve, maintien à définir |
 
 ## Implantation mécanique
 

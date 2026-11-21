@@ -3,7 +3,7 @@
 <style>text{font-family:Arial,sans-serif;fill:#20344d}.h{font-size:27px;font-weight:bold}.s{font-size:20px;font-weight:bold}.m{font-size:17px}.n{font-size:15px;fill:#52637a}.v{font-size:15px;font-weight:bold}.w{stroke:#315e96}.r{stroke:#c44848}.g{stroke:#2f465d}.b{fill:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}</style>
 <rect x="25" y="21" width="1330" height="89" rx="15" fill="#183651"/>
 <text x="50" y="63" class="h" fill="white" style="fill:white">RECEPTEUR — MINIATURE / CABLAGE V1</text>
-<text x="50" y="91" class="n" style="fill:#dcebf6">Servo MG90 sur D6 • LED blanche via BC547B sur D7 • LED orange sur D0</text>
+<text x="50" y="91" class="n" style="fill:#dcebf6">D6 : servo • D7 : blanche chaude 5 mm WCS101 (03989) via BC547B • D0 : orange 5 mm L7113NC (03051)</text>
 <rect x="30" y="135" width="635" height="270" rx="15" fill="white" stroke="#bdd0df" stroke-width="2"/>
 <rect x="691" y="135" width="659" height="270" rx="15" fill="white" stroke="#bdd0df" stroke-width="2"/>
 <text x="54" y="174" class="s">A — ALIMENTATION EXTERNE 5 V</text>
@@ -59,6 +59,6 @@
 <text x="59" y="953" class="s">VÉRIFICATIONS AVANT MISE SOUS TENSION</text>
 <text x="59" y="986" class="m">• Antennes 868 MHz installées sur les deux modules • Pas de +5 V sur GPIO ou 3V3.</text>
 <text x="59" y="1017" class="m">• BC547B : identifier C/B/E sur la fiche du composant acheté ; C1 : bande « − » côté GND.</text>
-<text x="59" y="1048" class="m">• Polarité LED : A = anode, K = cathode • GND XIAO et GND servo liés.</text>
-<text x="59" y="1079" class="m">• Servo à tester SANS PORTE • Alimenter le servo depuis une sortie 5 V séparée du XIAO.</text>
+<text x="59" y="1048" class="m">• LED THT faible courant, pas de puissance • Orange cachée : petit point en façade.</text>
+<text x="59" y="1079" class="m">• Servo SANS PORTE • GND liés ; avec deux sources : ne JAMAIS réunir leurs +5 V • A = anode, K = cathode.</text>
 </svg>
