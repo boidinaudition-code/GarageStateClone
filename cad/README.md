@@ -32,7 +32,7 @@ Le XIAO et le Wio sont représentés avec leurs géométries 3D sur le plateau a
 | Centre axe porte (repère CAO) | Y = **9,5 mm**, Z = **45,4 mm** |
 | Servo STEP, gabarit dans l'assemblage | X **148,2–180,7**, Y **3,4–15,62**, Z **23,3–56,7 mm** |
 | Éclairage blanc sous toit, arrière | Y = **69 mm** |
-| LED orange en façade, perçage | **Ø 3,6 mm** |
+| LED orange en façade | **Ouverture optique Ø 2,0 mm**, LED Ø5 mm masquée dans une poche Ø6,6 mm, retrait **3,4 mm** |
 
 ### Modules STEP relevés (avant mise en place, hors antennes/câbles)
 
@@ -43,7 +43,7 @@ Le XIAO et le Wio sont représentés avec leurs géométries 3D sur le plateau a
 | **Wio-SX1262 ... V2.step** | **17,78 × 22,316 × 7,642 mm** | Modules et connecteurs, hors antenne externe |
 | **BC547-B.step** | **4,08 × 3,05 × 12,8 mm** | Pattes incluses dans le modèle |
 
-Consulter `qa_report.json` : les géométries de servo et de supports n'ont **pas d'intersection** dans le modèle, les neuf STL sont des volumes fermés. Le contact numérique XIAO/Wio comporte une très petite intersection d'environ **0,013 mm³**, compatible avec une approximation de placement mais **à valider avec l'empilage physique**.
+Consulter `qa_report_v2.json` (historique) puis `qa_report_runtime.json` généré : les géométries de servo et de supports n'ont **pas d'intersection** dans le modèle, les neuf STL sont des volumes fermés. Le contact numérique XIAO/Wio comporte une très petite intersection d'environ **0,013 mm³**, compatible avec une approximation de placement mais **à valider avec l'empilage physique**.
 
 ## Imprimer et assembler
 
@@ -62,6 +62,15 @@ python generate_cad.py
 python qa_geometry.py
 ```
 
-Les STEP d'origine sont disponibles dans le ZIP complet, sous `refs/`. **Un clone GitHub du dépôt peut générer la même géométrie sans ces STEP**, grâce aux quatre `refs/*.brep.z.b64` versionnés. Les quatre ZIP de téléchargement originaux peuvent aussi être convertis via `import_vendor_archives.py`. Les fichiers sources `generate_cad.py`, `qa_geometry.py`, `import_vendor_archives.py` et `reference_measurements.json` sont conçus pour être versionnés dans GitHub.
+Les STEP d'origine sont disponibles dans le ZIP complet, sous `refs/`. **Un clone GitHub du dépôt peut générer la même géométrie sans ces STEP**, grâce aux quatre `refs/*.brep.z.b64` versionnés. Les quatre ZIP de téléchargement originaux peuvent aussi être convertis via `import_vendor_archives.py`. Les fichiers sources `generate_cad.py`, `qa_geometry.py`, `import_vendor_archives.py` et `vendor_models/manifest.json` sont conçus pour être versionnés dans GitHub.
 
 **Sur le vrai garage :** un **seul SAS308** (non inclus dans la miniature) détecte la **fermeture confirmée**. L'ouverture demeure une **estimation décorative** après 40 secondes sans aimant, selon la configuration actuelle du firmware, et ne doit pas être utilisée pour la sécurité du bâtiment.
+## Depuis la réparation du générateur (2026-11-22)
+
+Le merge précédent avait supprimé les définitions de certaines constantes LED et le registre `PRINTABLE`. Les quatre références BREP sont intactes ; **aucun STEP source utilisateur n'a dû être recréé de façon approximative**.
+
+- Cotes réconciliées : coque **184 × 100**, baie **110 × 42**, toit en pente et **0,30 mm de jeu par face**.
+- La **LED orange 5 mm** est reculée derrière une ouverture optique Ø2 mm. Son **logement est déplacé en haut à droite de l'ouverture (X = 142 mm, Z = 53,3 mm)**, pour ne pas traverser le servo, et son diamètre externe **10,8 mm** offre une paroi radiale de **2,1 mm** autour de la poche Ø6,6 mm. Ce sont des **cotes de conception, pas des mesures de collerette**.
+- **[Test d'intégrité des exports](test_step_exports.py)** : compare la somme SHA256 des quatre BREP à [leur manifeste](vendor_models/manifest.json), réimporte les neuf STEP individuels et teste les collisions de la porte à 0–90°.
+- Les **10 STEP et 9 STL générés** sont **exclus des commits** pour éviter les conflits de fusion ; [GitHub Actions](../.github/workflows/cad-validation.yml) les distribue en **artefact téléchargeable** après chaque validation.
+- Pour générer : `python cad/generate_cad.py` depuis la racine du dépôt, puis `python cad/verify_gotronic.py` et `python cad/test_step_exports.py`. La CAO reste une **V2 d'étude**, sans validation de fixation réelle du servo.
