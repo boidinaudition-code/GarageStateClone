@@ -71,7 +71,7 @@ Prix **historiques indicatifs TTC issus de la nomenclature du 21 novembre 2026**
 
 ## Mécanique retenue
 
-Garage bas et discret : **murs blancs, toit plat noir amovible, porte noire rainurée horizontalement, très fin liseré bleu** au-dessus de la porte. Le visuel de référence est un objet posé sur une étagère ; ce n'est pas un plan coté.
+Garage bas et discret : **murs blancs, toit noir mono-pente amovible (+3 mm sur 100 mm de profondeur), porte noire rainurée horizontalement, très fin liseré bleu** au-dessus de la porte. Le visuel de référence est un objet posé sur une étagère ; ce n'est pas un plan coté.
 
 La porte est **monobloc et bascule vers l'intérieur** autour de l'axe horizontal supérieur de la façade. Fermée, elle est verticale ; ouverte, elle se range sous le toit, vers 90° géométriques. L'aspect sectionnel est purement décoratif : **pas de panneaux articulés, rails courbes, ficelle, poulie, crémaillère ni bielle**.
 
@@ -82,7 +82,7 @@ La porte est **monobloc et bascule vers l'intérieur** autour de l'axe horizonta
 - Compartiment technique arrière hors débattement ; LED blanche sous le toit vers l'arrière, tournée vers le plancher ; LED orange 3 mm discrètement encastrée en haut à droite de façade, câbles le long de la paroi.
 - Toit démontable, servo/palonnier démontables, USB-C accessible ; antenne éloignée du métal, du servo et des fils 5 V autant que possible. Tester aussi coque fermée.
 
-**Aucune cote de coque ou de porte n'est figée.** Mesurer les composants réels avant modélisation : ne pas réutiliser les anciennes dimensions hypothétiques. Les angles logiciels 15°/55°/95° ne sont pas des mesures géométriques validées de la porte.
+**Les cotes de coque sont actuellement des propositions CAO, non validées sur les composants physiques** : 168 × 100 mm, hauteurs avant/arrière 62/65 mm et baie 104 × 42 mm. Mesurer en priorité les pattes, l'arbre et le palonnier du servo, l'assemblage XIAO/Wio, l'antenne et les connecteurs avant d'imprimer les fixations définitives. Les angles logiciels 15°/55°/95° ne sont pas des mesures géométriques validées de la porte.
 
 ## Câblage et schémas
 
@@ -99,7 +99,7 @@ Les SVG sont des **schémas électriques de principe**, pas des plans PCB ni des
 | D4 | P0.04 | LoRa NSS |
 | D5 | P0.05 | Commutateur RF ; HIGH active la commande par DIO2 |
 | D6 | P1.11 | Émetteur : contact fermé ; récepteur : signal servo |
-| D7 | P1.12 | Émetteur : contact ouvert ; récepteur : commande Q1 |
+| D7 | P1.12 | Émetteur : **libre en V1 (un seul SAS308 sur D6)** ; récepteur : commande Q1 |
 | D8 / D9 / D10 | P1.13 / P1.14 / P1.15 | SPI radio SCK / MISO / MOSI |
 
 ### Émetteur — vraie porte
