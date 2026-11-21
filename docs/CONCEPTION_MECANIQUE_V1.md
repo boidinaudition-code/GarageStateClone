@@ -1,6 +1,6 @@
 # GarageStateClone — V1 retenue : mécanique et éclairage
 
-**Décisions du 21/11/2026 — spécification de conception, pas encore STL ni firmware validé.**
+**Décisions du 21/11/2026 — CAO de prototype (STL et STEP générés localement), sans validation par impression ni sur matériel physique.**
 
 ## Design extérieur retenu
 
