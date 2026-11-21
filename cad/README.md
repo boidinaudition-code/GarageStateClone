@@ -12,7 +12,7 @@
 
 ## Changements par rapport à V1
 
-Le servo complet (pattes comprises) montre une enveloppe hors tout de **33,40 × 32,50 × 12,22 mm** dans le repère de son STEP. La coque est élargie à **190 × 100 mm** pour garder le moteur **dans le montant avant droit**, coaxial à la charnière haute de la porte. Le servo est orienté de côté pour réduire l'emprise devant la façade, et le volet continue de **se rabattre à l'intérieur**.
+Le servo complet (pattes comprises) montre une enveloppe hors tout de **33,40 × 32,50 × 12,22 mm** dans le repère de son STEP. La coque actuelle est **150 × 100 mm** avec porte décentrée vers la gauche pour garder le moteur **dans le montant avant droit**, coaxial à la charnière haute de la porte. Le servo est orienté de côté pour réduire l'emprise devant la façade, et le volet continue de **se rabattre à l'intérieur**.
 
 Le XIAO et le Wio sont représentés avec leurs géométries 3D sur le plateau arrière, sans intersection avec coque, toit ou plateau. Leur empilage est **aligné approximativement** selon les trous de fixation des deux STEP et reste à contrôler après montage.
 
@@ -20,17 +20,17 @@ Le XIAO et le Wio sont représentés avec leurs géométries 3D sur le plateau a
 
 | Paramètre | V2 |
 |---|---:|
-| Largeur × profondeur | **190 × 100 mm** |
+| Largeur × profondeur | **150 × 100 mm** |
 | Hauteur avant / arrière | **62 / 65 mm** |
 | Pente de toit | **3 mm** sur 100 mm (1,72°) |
 | Parois principales | **2,4 mm** |
 | Toit / socle | **3 mm** |
-| Largeur baie / hauteur | **110 × 42 mm** |
-| Vantail | **109,4 × 41,4 × 2,4 mm** |
+| Largeur baie / hauteur | **100 × 42 mm** |
+| Vantail | **99,4 × 41,4 × 2,4 mm** |
 | Jeu d'emboîtement | **0,30 mm par face**, donc +0,60 mm sur largeur/diamètre intérieur |
 | Axe porte / alésage palier | **Ø 3,2 / Ø 3,8 mm** |
 | Centre axe porte (repère CAO) | Y = **9,5 mm**, Z = **45,4 mm** |
-| Servo STEP, gabarit dans l'assemblage | X **152,7–185,2**, Y **3,4–15,62**, Z **23,3–56,7 mm** |
+| Servo STEP, gabarit dans l'assemblage | X **113,7–146,2**, Y **3,4–15,62**, Z **23,3–56,7 mm** |
 | Éclairage blanc sous toit, arrière | Y = **69 mm** |
 | LED orange en façade | **Ouverture optique Ø 2,0 mm**, LED Ø5 mm masquée dans une poche Ø6,6 mm, retrait **3,4 mm** |
 
@@ -69,7 +69,7 @@ Les STEP d'origine sont disponibles dans le ZIP complet, sous `refs/`. **Un clon
 
 Le merge précédent avait supprimé les définitions de certaines constantes LED et le registre `PRINTABLE`. Les quatre références BREP sont intactes ; **aucun STEP source utilisateur n'a dû être recréé de façon approximative**.
 
-- Cotes réconciliées : coque **190 × 100**, baie **110 × 42**, toit en pente et **0,30 mm de jeu par face**.
+- Cotes V4 : coque **150 × 100**, baie **100 × 42** décentrée à gauche, toit en pente et **0,30 mm de jeu par face**.
 - La **LED orange 5 mm** est reculée derrière une ouverture optique Ø2 mm. Son **logement est déplacé en haut à droite de l'ouverture (X = 142 mm, Z = 53,3 mm)**, pour ne pas traverser le servo, et son diamètre externe **10,8 mm** offre une paroi radiale de **2,1 mm** autour de la poche Ø6,6 mm. Ce sont des **cotes de conception, pas des mesures de collerette**.
 - **[Test d'intégrité des exports](test_step_exports.py)** : compare la somme SHA256 des quatre BREP à [leur manifeste](vendor_models/manifest.json), réimporte les neuf STEP individuels et teste les collisions de la porte à 0–90°.
 - Les **11 STEP et 8 STL générés** sont **exclus des commits** pour éviter les conflits de fusion ; [GitHub Actions](../.github/workflows/cad-validation.yml) les distribue en **artefact téléchargeable** après chaque validation.
@@ -84,10 +84,18 @@ Deux fichiers supplémentaires sont désormais générés : `step/REF_XIAO_NRF52
 
 Voir [méthode de réimport Onshape](../docs/ONSHAPE_IMPORT_XIAO.md). Les STEP sont vérifiés par réimportation sous CadQuery/OpenCascade ; **seul un essai dans Onshape permet de confirmer l'absence de tout défaut d'import**.
 
-## V3 — habillage intérieur des montants (choix 2026-11-22)
+## Historique V3 — habillage intérieur des montants, remplacé dimensionnellement par V4
 
 Deux **retours de tableau** sont fusionnés à la coque au niveau de l'ouverture avant, sur **10 mm de profondeur intérieure**, **épaisseur 2,4 mm**. Aucun retour ne doit entrer dans le volume du panneau mobile. Un trou Ø3,8 mm dans le retour gauche libère la rotation du tourillon Ø3,2 mm, en conservant **0,30 mm de jeu radial**. Le palier gauche est décalé de **1,6 mm** vers l'extérieur de la baie.
 
 Pour ménager le retour droit face au servo STEP, le servo est déplacé **1,5 mm vers la droite** par rapport à la porte et la coque est élargie de **6 mm**, soit **190 × 100 mm**, baie **110 × 42 mm** inchangée. L'espace de couplage passe à **3 mm**, qui **n'est pas encore un accouplement dimensionné**. La pièce `08_liseret_bleu` est supprimée et ne doit plus figurer dans les nouveaux exports.
 
 La V3 génère **8 STL** et **11 STEP** (8 STEP de pièces, assemblage complet avec XIAO simplifié, structure seule, XIAO simplifié). **La géométrie doit encore être vérifiée après impression** et les vis et le palonnier du servo restent provisoires. [Notes et tests V3](../docs/RETOURS_FACADE_V3.md).
+
+## V4 — coque compacte asymétrique, édition courante
+
+La **coque 150 × 100 mm** conserve le toit mono-pente (62/65 mm), le montant intérieur/retrait de tableau de **10 mm** et la porte rigide noire. **Baie 100 × 42 mm**, centrée à X=61 mm dans une coque centrée à X=75 mm : **décentrage −14 mm**. Montants gauche/droit : **11 / 39 mm**.
+
+Le **servo STEP complet** occupe désormais X ≈ **113,7–146,2 mm**, juste derrière le montant droit. La pièce palier gauche est **réduite à 5,0 mm de largeur** (alésage Ø3,8 mm) et commence à X ≈ **3,2 mm**, hors de la paroi extérieure X=0–2,4 mm ; sa bride compacte de 5 mm conserve un contact mécanique avec le palier et ne coupe pas le mur. Les deux retours intérieurs font encore **2,4 mm × 10 mm**.
+
+L'assemblage se génère toujours en **8 STL et 11 STEP** : pas de bandeau bleu, et références originales BREP conservées. Les fichiers STEP doivent être réimportés dans Onshape. [Détails CAO et limites](../docs/IMPLANTATION_COMPACTE_V4.md).

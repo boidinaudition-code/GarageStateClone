@@ -26,11 +26,11 @@
 
 | Paramètre CAO | Cote (mm) | Statut |
 |---|---:|---|
-| Coque extérieure W × D | **190 × 100** | **P — CAO V3 actuelle**, largeur initiale 168 et ancienne V2 184 obsolètes |
+| Coque extérieure W × D | **150 × 100** | **P — CAO V4 actuelle**, ancienne V3 190 mm |
 | Hauteurs avant/arrière | **62 / 65** | **P** ; mono-pente +3 mm sur 100 mm (≈1,72°) |
 | Parois structurelles | **2,4** | **P**, minimum exigé ≥2 |
 | Toit et socle | **3,0** | **P** |
-| Ouverture porte | **110 × 42** | **P — CAO V2 actuelle** |
+| Ouverture porte | **100 × 42** | **P — CAO V4 actuelle**, position X=11 mm |
 | Panneau de porte | **103,4 × 41,4 × 2,4** | **P** |
 | Jeu d'emboîtement | **0,30 par face**, donc +0,60 sur largeur de trou | **P** ; coupon d'essai PLA nécessaire |
 | Axe / palier | **Ø3,2 / Ø3,8** | **P**, jeu radial 0,30 |
@@ -74,12 +74,16 @@ Ces cotes sont des **boîtes englobantes mesurées dans les STEP de l'utilisateu
 
 La dimension **22,3 × 11,8 × 26,3 mm** du DMS-MG90 figurant ailleurs correspond à une cote de fiche pour le corps et **ne doit plus servir de volume hors tout de montage**. Le STEP utilisateur est nommé **MG90-A** : la correspondance exacte avec le servo DMS-MG90 reçu devra être vérifiée au pied à coulisse.
 
-**Nouvelle coque CAO : 184 × 100 mm, hauteur avant/arrière 62/65 mm**, ouverture **110 × 42 mm**, panneau **109,4 × 41,4 × 2,4 mm**, jeu **0,30 mm de chaque côté**, toit/socle **3 mm** et parois **2,4 mm**. Le support MG90 est une selle imprimable avec garde de 0,30 mm autour de l'enveloppe STEP, **mais il faut encore concevoir les trous de vis et l'accouplement exact**. Pas de collision mesurée entre servo et coque/toit/support/porte ; voir [rapport V2](../cad/qa_report_v2.json).
+**Coque CAO actuelle : 150 × 100 mm, hauteur avant/arrière 62/65 mm**, ouverture **100 × 42 mm**, panneau **99,4 × 41,4 × 2,4 mm**, jeu **0,30 mm de chaque côté**, toit/socle **3 mm** et parois **2,4 mm**. Le support MG90 est une selle imprimable avec garde de 0,30 mm autour de l'enveloppe STEP, **mais il faut encore concevoir les trous de vis et l'accouplement exact**. Pas de collision mesurée entre servo et coque/toit/support/porte ; voir [rapport V2](../cad/qa_report_v2.json).
 
 L'assemblage Wio **sous** XIAO est une proposition de placement avec très faible intersection numérique entre leurs STEP (≈0,013 mm³) : les connexions mécaniques réelles n'ont pas été montées ni éprouvées. Antennes/câbles/vis non fournis dans ces STEP sont hors du contrôle d'encombrement.
 
 [Source paramétrique V2](../cad/generate_cad.py) — [Notice CAO V2](../cad/README.md) — [Manifestes et références](../cad/vendor_models/README.md).
 
-**Contrôle post-fusion :** le générateur et le JSON paramétrique ont été réconciliés sur la largeur **190 mm** et la baie **110 mm**. Les 4 BREP ont des empreintes SHA256 fixées dans le [manifeste](../cad/vendor_models/manifest.json), contrôlées avant export. Voir [rapport de validation automatisée](../cad/test_step_exports.py).
+**Contrôle post-fusion :** le générateur et le JSON paramétrique ont été réconciliés sur la largeur **150 mm** et la baie **100 mm**. Les 4 BREP ont des empreintes SHA256 fixées dans le [manifeste](../cad/vendor_models/manifest.json), contrôlées avant export. Voir [rapport de validation automatisée](../cad/test_step_exports.py).
 
-**Nouvel habillage de baie :** deux retours verticaux à épaisseur **2,4 mm**, profondeur **10 mm**, entièrement à l'extérieur de la baie (0,30 mm de jeu latéral au panneau). Passage Ø3,8 mm pour tourillon Ø3,2 mm à gauche. Coque **190 × 100 mm**, servo décalé de 1,5 mm latéralement, accouplement à concevoir sur un entrefer nominal de **3 mm**. Le bandeau bleu et son STL/STEP ont été retirés. [Notes de validation V3](RETOURS_FACADE_V3.md).
+**Nouvel habillage de baie :** deux retours verticaux à épaisseur **2,4 mm**, profondeur **10 mm**, entièrement à l'extérieur de la baie (0,30 mm de jeu latéral au panneau). Passage Ø3,8 mm pour tourillon Ø3,2 mm à gauche. Coque historique V3 **190 × 100 mm** (remplacée par **150 × 100 mm** en V4), servo historiquement décalé de 1,5 mm latéralement, accouplement à concevoir sur un entrefer nominal de **3 mm**. Le bandeau bleu et son STL/STEP ont été retirés. [Notes de validation V3](RETOURS_FACADE_V3.md).
+
+## CAO compacte V4 (valeurs en vigueur)
+
+**Coque 150 × 100 mm**, hauteur **62/65 mm**, baie **100 × 42 mm** positionnée à **X=11 mm**, porte **99,4 × 41,4 × 2,4 mm**. Montant **gauche 11 mm / droit 39 mm**, axe de la porte au même Y/Z. Palier gauche **5 mm** de largeur, élément initial X=3,2 mm et façade intérieure démarrant à Y=2,7 mm (aucune intersection numérique avec la coque). Enveloppe servo STEP placée vers **X=113,7–146,2 mm** sans intersection mesurée avec la coque ni avec la joue droite. Jeu **0,30 mm par côté** ; murs **2,4 mm** ; toiture et socle **3 mm**. [Plan d'implantation V4](IMPLANTATION_COMPACTE_V4.md).

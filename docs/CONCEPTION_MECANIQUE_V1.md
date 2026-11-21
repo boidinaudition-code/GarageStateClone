@@ -139,14 +139,18 @@ Le délai de 40 secondes **ne prouve pas que la vraie porte bouge** : le SAS308 
 ## Précisions dimensionnelles V1 (nouvelle CAO)
 
 - **[Tableau dimensionnel des composants et des réserves](ENCOMBREMENT_BOM_V1.md)** ; [source CAO paramétrique](../cad/generate_cad.py).
-- Gabarit décoratif CAO V2 **190 × 100 mm**, hauteur avant **62 mm** et arrière **65 mm** (pente de toit ≈ **1,72°**), parois structurelles **2,4 mm** et toit/socle **3 mm**.
+- Gabarit décoratif CAO V4 **150 × 100 mm**, hauteur avant **62 mm** et arrière **65 mm** (pente de toit ≈ **1,72°**), parois structurelles **2,4 mm** et toit/socle **3 mm**.
 - Jeu d'assemblage **0,30 mm par face** (soit +0,60 mm au diamètre ou à la largeur du logement).
 - Servo **en haut à droite de la façade** ; son **boîtier** mesure **22,3 × 11,8 × 26,3 mm** selon DFRobot ; pattes, arbre et palonnier à mesurer. Réserve de service électronique arrière **52 × 23 × 12 mm**, qui **n'est pas la dimension physique** du XIAO/Wio.
-- Porte : baie **110 × 42 mm**, vantail **109,4 × 41,4 × 2,4 mm** ; axe **Ø3,2 mm** avec palier **Ø3,8 mm** ; animation vers l'intérieur sous le toit.
+- Porte : baie **100 × 42 mm**, vantail **99,4 × 41,4 × 2,4 mm** ; axe **Ø3,2 mm** avec palier **Ø3,8 mm** ; animation vers l'intérieur sous le toit.
 - **Un seul capteur** dans le garage réel confirme l'état fermé. L'ouverture et le voyant intérieur sont estimés après un délai sans aimant : cette estimation n'est pas fiable si la porte reste immobilisée à mi-course.
 
-**Correction d'implantation après contrôle STEP :** la LED orange Ø5 mm demeure en haut à droite du linteau, mais son logement est désormais centré à **X = 145,0 mm, Z = 53,3 mm**. Derrière le trou optique Ø2 mm, poche Ø6,6 mm et bosse Ø10,8 mm (paroi locale min. 2,1 mm). Son ancienne position heurtait le servo STEP. Le trajet réel de la porte a été vérifié sur 0–90° par pas de 5° sur la géométrie CAO seulement.
+**Correction d'implantation après contrôle STEP :** la LED orange Ø5 mm demeure en haut à droite du linteau, mais son logement est désormais centré à **X = 106,0 mm, Z = 53,3 mm**. Derrière le trou optique Ø2 mm, poche Ø6,6 mm et bosse Ø10,8 mm (paroi locale min. 2,1 mm). Son ancienne position heurtait le servo STEP. Le trajet réel de la porte a été vérifié sur 0–90° par pas de 5° sur la géométrie CAO seulement.
 
-## Correction de façade V3
+## Historique — correction de façade V3 (coque 190 mm remplacée par V4)
 
 Les deux **joues/retours de tableau** font **2,4 mm d'épaisseur** et se prolongent de **10 mm vers l'intérieur**, à l'extérieur de la baie **110 × 42 mm**. Le **bandeau bleu supérieur est supprimé** des pièces imprimables et de l'assemblage. Le servo reste en haut à droite à l'avant ; l'élargissement de la coque à **190 mm** et la réserve de couplage **3 mm** permettent de dégager sa géométrie STEP du retour droit. Le palier gauche est décalé de **1,6 mm** et la joue gauche possède un passage Ø3,8 mm pour l'axe Ø3,2 mm. **Vérification numérique seulement**, à confirmer avec le vrai DMS-MG90 et le palonnier. Voir [plan de modification](RETOURS_FACADE_V3.md).
+
+## V4 actuelle — réduction de largeur et décentrage
+
+La coque actuelle mesure **150 × 100 mm**, soit **40 mm plus courte** que la V3 ; l'ouverture **100 × 42 mm** est décentrée de **14 mm vers la gauche**. Montant gauche **11 mm**, droit **39 mm**. Porte **99,4 × 41,4 × 2,4 mm**, jeux **0,30 mm par côté**. Le palier est ramené à **5 mm de largeur** et possède une bride de fixation compacte entièrement hors du mur ; le servo et ses pattes restent dans le montant droit. Les joues intérieures **10 mm de profondeur et 2,4 mm d'épaisseur** et le toit en pente sont conservés. Voir [plan V4](IMPLANTATION_COMPACTE_V4.md). Tests numériques de collisions uniquement, pas encore de validation du servo réel et de son palonnier.
