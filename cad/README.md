@@ -19,12 +19,14 @@ L'assemblage comporte notamment la coque blanche, le toit noir mono-pente, le so
 | Toit / socle | **3 / 3** | Structure |
 | Baie / vantail | **104 × 42** / **103,4 × 41,4 × 2,4** | Vantail avec 0,30 mm de jeu de chaque côté |
 | Axe / palier | **Ø3,2 / Ø3,8** | Jeu radial 0,30 mm |
-| Alésage LED orange | **Ø3,6** | Pour boîtier LED Ø3 |
+| Ouverture optique orange | **Ø2,0** | Petit point visible, LED 5 mm cachée en retrait |
+| Poches LED blanche/orange | **Ø6,6**, enveloppe réservée **Ø6 × 9** | **Provisoire**, pas un dimensionnement fabricant ni un ajustement serré garanti ; mesurer collerettes et pattes |
+| Retrait LED orange | **3,4 depuis face avant** | Début de poche derrière façade, maintien à définir |
 | Volume de **corps** du DMS-MG90 | **22,3 × 11,8 × 26,3** | Taille du corps constructeur, **n'inclut pas fixation/arbre/palonnier** |
 | Réserve technique radio | **52 × 23 × 12** | **Réserve de câblage choisie** ; XIAO seul = 21 × 17,8 |
 | Plateau électronique | **60 × 31** | Largeur × profondeur proposées |
 | C1 470 µF | **Ø10 × 13**, pas fils 5 | Référence dimensionnelle représentée en rouge « NE_PAS_IMPRIMER » |
-| LED blanche 304WC2J-W6-3PD | **Ø3 × 5,1** | Valeur constructeur |
+| Blanche chaude WCS101 03989 / orange L7113NC 03051 | **Ø5 nominal** | Seul diamètre nominal confirmé chez Gotronic ; hauteur, collerette, pattes et pas inconnus |
 | Jeu d'emboîtement | **0,30 par face** | 0,60 mm au diamètre/largeur, essai de calibration conseillé |
 
 ## Cinématique et implantation
@@ -48,7 +50,9 @@ python generate_cad.py
 
 Le script crée les sous-dossiers **stl/** et **step/** et les fichiers de contrôle. L'importation de l'assemblage dans Onshape est possible par **Import → STEP** ; les références marquées « NE_PAS_IMPRIMER » ne doivent pas être envoyées à la Bambu P1S.
 
-Les neuf STL ont été régénérés et vérifiés **watertight** dans la session de travail du 21/11/2026. **Ce contrôle géométrique n'est pas un test d'impression, de montage ni de cinématique matérielle.**
+Les résultats de génération et les contrôles de cette révision sont consignés dans [VERIFICATION_GOTRONIC.md](../docs/VERIFICATION_GOTRONIC.md). **Un contrôle géométrique n'est pas un test d'impression, de montage ni de cinématique matérielle.**
+
+Le support blanc est un anneau Ø10 × 10, poche Ø6,6 : réserve pour la collerette inconnue, maintien/collage à définir après mesure. Son sommet recouvre de 0,2 mm le dessous du toit pour le collage. À Y=60, il reste derrière le balayage théorique de la porte ; vérifier aussi fils et pattes. L'orange dispose d'un bossage arrière Ø10 sur la coque, avec poche Ø6,6 et passage optique Ø2 : pas besoin d'exposer tout le diamètre 5 mm. Les références STEP sont des **enveloppes provisoires**, non des modèles exacts. Le JSON distingue dimensions publiées et choix CAO ; ni ancienne longueur 5,1 mm ni ancien pas Luckylight ne s'appliquent.
 
 ## Correspondance avec le BOM et le firmware
 

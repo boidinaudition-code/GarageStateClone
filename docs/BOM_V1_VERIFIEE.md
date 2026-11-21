@@ -1,6 +1,6 @@
 # Nomenclature vérifiée — GarageStateClone V1
 
-Vérification du **21 novembre 2026** : comparaison des références constructeur, du firmware et du nouveau schéma électrique. Les prix sont des **prix produits indicatifs TTC**, hors frais de livraison ; vérifier le panier avant paiement.
+Révision documentaire **100 % Gotronic** du **21 novembre 2026**, sans essai matériel. Prix TTC actuels contrôlés sur les fiches directes Gotronic, y compris C1 et les quatre lots de résistances ; relevés navigateur transmis par le chef de projet. Prix, disponibilité et port à vérifier au panier ; aucun achat effectué.
 
 - [Schéma émetteur](../assets/schemas/cablage-emetteur-v1.svg)
 - [Schéma récepteur](../assets/schemas/cablage-recepteur-v1.svg)
@@ -18,7 +18,7 @@ Vérification du **21 novembre 2026** : comparaison des références constructeu
 
 | Qté à monter | Pièce et référence | Prix produit TTC | Achat / vérification |
 |---:|---|---:|---|
-| **1** | Contact magnétique miniature **SAS308**, réf. Gotronic **26449** | **3,90 €** (1 capteur) (prix fiche article vérifié) | [Gotronic — SAS308](https://www.gotronic.fr/art-contact-magnetique-miniature-sas308-12751.htm) ; **aimants inclus**, vis non fournies ; écart maxi **15 mm**, boîtier **24 × 15 × 6 mm**, **25 cm de câble moulé** par capteur ; contact fermé aimant en face (tester avant pose) |
+| **1** | Contact magnétique miniature **SAS308**, réf. Gotronic **26449** | **5,95 €** | [Gotronic — SAS308](https://www.gotronic.fr/art-contact-magnetique-miniature-sas308-12751.htm) ; **aimant inclus**, vis non fournies ; écart maxi **15 mm**, boîtier **24 × 15 × 6 mm**, **25 cm de câble moulé** ; contact fermé aimant en face (tester avant pose) |
 | **1** | Microservo **DFRobot DMS-MG90**, réf. Gotronic **36923** | **7,90 €** | [Gotronic — servo](https://www.gotronic.fr/art-servomoteur-dms-mg90-32266.htm) ; **4,8–6 V**, course **2 × 90°**, pignons métal, palonnier et visserie inclus |
 | **1** | Condensateur **470 µF / 16 V**, réf. Gotronic **04947** | **0,20 €** | [Gotronic — condensateur](https://www.gotronic.fr/art-condensateur-radial-470uf-16v-3386.htm) ; **polarisé**, +5 V / GND à proximité du servo |
 | **1** | Transistor **BC547B NPN** TO-92, réf. Gotronic **02173** | **0,15 €** | [Gotronic — BC547B](https://www.gotronic.fr/art-transistor-bc547b-1336.htm) ; **ajout important** : LED blanche 5 V pilotée depuis D7 sans la faire passer directement par le GPIO |
@@ -26,12 +26,12 @@ Vérification du **21 novembre 2026** : comparaison des références constructeu
 | **1 utilisée** | **680 Ω** — lot de 5, réf. Gotronic **04134** | **0,30 € le lot** | [Gotronic — résistances 680 Ω](https://www.gotronic.fr/art-5-resistances-1-2w-680-8486-2657.htm) ; série **3V3 → LED orange → D0** |
 | **1 utilisée** | **4,7 kΩ** — lot de 5, réf. Gotronic **04144** | **0,30 € le lot** | [Gotronic — résistances 4,7 kΩ](https://www.gotronic.fr/art-5-resistances-1-2w-4-7-k-8486-2667.htm) ; série **D7 → base BC547B** |
 | **1 utilisée** | **100 kΩ** — lot de 5, réf. Gotronic **04160** | **0,30 € le lot** | [Gotronic — résistances 100 kΩ](https://www.gotronic.fr/art-5-resistances-1-2w-100-k-8486-2681.htm) ; **base BC547B → GND**, évite l'allumage au démarrage |
-| **1** | LED **blanche chaude** THT 3 mm 3000 K, ex. **304WC2J-W6-3PD** | **0,19 € pièce**, vendue par **10 min.**, soit **1,90 €** avant port | [RPtronics — 304WC2J-W6-3PD](https://rptronics.fr/led-blanche-chaude-ronde-3mm-5000-8500mcd-304wc2j-w6-3pd%2C179414.html) ; Vf annoncé **2,6–3,6 V** ; prévue **sur +5 V via BC547B** |
-| **1** | LED orange THT **3 mm non clignotante**, ex. **LED3OLN** | **0,40 €** | [Lextronic — LED orange diffusante 3 mm](https://www.lextronic.fr/leds-18-mm-a-3-mm-10919) ; le clignotement est réalisé par le firmware. Variante plus lumineuse sur la même page : **L-7104SEC-H**, 0,80 € |
+| **1 utilisée** | LED **blanche chaude 5 mm** issue du lot **Whadda WCS101**, Gotronic **03989** | **9,90 € le lot** (relu) | [Gotronic — 130 LED WCS101](https://www.gotronic.fr/art-assortiment-de-130-leds-wcs101-39775.htm) ; contient **20 blanches chaudes**. Une seule montée, non RGB, **+5 V via 330 Ω et BC547B** ; ni puissance ni ruban. Vf, courant admissible, Kelvin, collerette, longueur et pas des pattes à confirmer pour cette LED du lot |
+| **1** | LED orange THT **5 mm L7113NC**, Gotronic **03051** | **0,18 €** (relu) | [Gotronic — L7113NC](https://www.gotronic.fr/art-led-5-mm-l7113nc-2086.htm) ; boîtier clair, **15°**, **80 mcd à 10 mA** annoncés ; 680 Ω conservée, clignotement logiciel. Luminosité réelle à tester. LED cachée en retrait derrière un petit point façade |
 
-**Sous-total des références chiffrées : environ 15,65 € TTC**, comprenant les quatre lots de résistances et le lot minimum de dix LED blanches, **hors livraisons, câbles, alimentation, borniers et fixation**. Ne pas confondre sous-total et budget complet.
+**Sous-total actuel du panier noyau : 25,48 € TTC.** Comprend les quatre lots de résistances à 0,30 € chacun et le lot complet WCS101, pas seulement une LED. C1 est confirmé à 0,20 €, le servo à 7,90 € et le BC547B à 0,15 €.
 
-**Livraison rapide :** Gotronic annonce généralement Colissimo en **24/48 h + préparation** pour la France selon l'article et le transporteur ; les autres marchands facturent chacun leur port. **Deux boutiques supplémentaires ne sont pas indispensables** : si tu as déjà les LED dans ton stock, ne commande pas chez RPtronics et Lextronic. Pour une seule commande, on peut rechercher une LED compatible équivalente chez le vendeur principal, mais **une LED blanche marquée Vf 3,5 V doit être raccordée à +5 V avec le transistor**, pas directement à 3V3.
+Stocks relevés au navigateur par le chef de projet : WCS101 **69**, L7113NC **250+**, SAS308 **23**, C1 **500+** ; disponibilité des quatre lots de résistances confirmée. Ces stocks ne sont pas réservés. Port, fournitures, alimentation et fixation sont exclus. Livraison et stock à contrôler au panier, sans promesse de délai.
 
 ## Fournitures indispensables si absentes
 
@@ -41,6 +41,25 @@ Vérification du **21 novembre 2026** : comparaison des références constructeu
 - **Fils souples**, borniers ou connecteurs, petit morceau de **plaque à souder/perfboard**, gaine thermorétractable et isolants.
 - **Vis de fixation du SAS308** (non fournies), **fil 2 conducteurs et raccordements protégés pour rallonger leurs câbles moulés de 25 cm**, support imprimé pour LED orange en façade et LED blanche sous le toit, axe/palier et support servo imprimés.
 - Multimètre pour tester la polarité, les résistances, le contact magnétique et les masses.
+
+### Sélection Gotronic hors panier noyau
+
+Quantités de départ **si rien n'est en stock**, non cumulables entre variantes d'alimentation. Références trouvées sur les pages Gotronic ; une référence identifiée ne garantit pas la compatibilité finale.
+
+| Fourniture | Qté / référence Gotronic | Choix et réserves |
+|---|---|---|
+| Chargeurs secteur USB-A 5 V, ≥2 A | **2 minimum**, ou **3** pour la variante séparée ; [HNP18-USBV2 14749](https://www.gotronic.fr/art-alimentation-hnp18-usbv2-38701.htm) | **5 V / 3 A**, protection surcharge/court-circuit, 11,70 € relevés dans la recherche ; ne pas ouvrir le boîtier secteur. Vérifier le panier et réutiliser les alims possédées adaptées |
+| Câbles USB-A mâle → USB-C mâle pour XIAO | **2** ; [cordons Type-C Gotronic](https://www.gotronic.fr/cat-cordons-usb-type-c-1829.htm), ex. GB45743 **49311** | Longueur 1 m extensible, 4,90 € repérés ; référence/prix/courant à confirmer sur fiche et au panier ; prévoir données pour flash |
+| Sortie de puissance servo externe, variante à 3 chargeurs | **1** [cordon USB-A → DC 5,5/2,1 49101](https://www.gotronic.fr/art-cordon-usb-alim-5-5-x-2-1-mm-34157.htm) + **1** [PCM10F 48214](https://www.gotronic.fr/art-adaptateur-pcm10f-17984.htm) | Cordon 90 cm, **2 A maxi** ; bornier femelle **4 A maxi**, 40 × 15 × 11 mm. Contrôler +/− au multimètre ; fils vers servo, C1 et R1 ; relier GND au XIAO, **pas les +5 V de ses deux chargeurs** |
+| Répartition avec une seule source côté miniature | À réaliser / **référence de répartiteur non confirmée** | En amont des cartes : source 5 V → deux branches USB-C XIAO et puissance servo. Pas de hub de données, pas de câble Y reliant deux sorties de chargeurs. La variante précédente est l'alternative documentée, pas un répartiteur acheté garanti |
+| Fil souple puissance et prolongation SAS308 | Longueur à mesurer ; [FC50G **08941**](https://www.gotronic.fr/art-fil-de-cablage-fc50g-5200.htm) | **0,50 mm²**, Ø extérieur 1,8 mm, 0,40 €/m relevé ; repérer +/GND aux deux extrémités. Deux conducteurs séparés protégés pour le capteur ; fil fin pour GPIO à sélectionner selon soudure |
+| Perfboard | **1** [BCS050 **12470**](https://www.gotronic.fr/art-plaque-d-essais-bcs050-6931.htm) | 50 × 100 × 1,5 mm, pas 2,54 mm ; **à découper et isoler**, ne rentre pas entière sur le plateau 60 × 31. Implantation finale à mesurer |
+| Gaine thermorétractable | **1 pochette** [FTK01 **08918**](https://www.gotronic.fr/art-pochette-de-gaine-thermo-rouge-et-noire-ftk01-5179.htm) | 20 longueurs de 200 mm, Ø1,6 à 6,4 mm avant rétreint 2:1 ; 5,50 € repérés. La gaine seule ne qualifie pas l'étanchéité des jonctions garage |
+| Visserie de prototype | **1 lot de 10** [M3 × 10 acier **11520**](https://www.gotronic.fr/art-10-vis-acier-m3-10mm-6507.htm) ; [écrous/rondelles et autres tailles](https://www.gotronic.fr/cat-visserie-685.htm) | 0,50 € relevé pour le lot ; **choix conditionnel**, pas une affirmation de compatibilité SAS308/palier. Diamètre des trous, tête, longueur, support et éventuelles chevilles à mesurer ; vis palonnier fournies avec servo |
+
+**Total complet : non déterminé.** Ajouter au noyau révisé les fournitures réellement absentes, les longueurs/quantités finales, fixation/isolants et le port ; ne pas additionner les deux variantes. Les alims déjà possédées sont exclues des achats, pas des besoins. Les outils, consommables de soudure et pièces imprimées restent à inventorier. Toutes les pistes d'achat ci-dessus sont chez Gotronic ; les liens constructeur servent de documentation, non de deuxième boutique.
+
+Les fiches consultées ne donnent pas les cotes détaillées de la blanche chaude du WCS101. La fiche L7113NC renvoie un PDF **L7113EC (autre couleur/référence)** : ne pas lui attribuer ces cotes ou sa Vf sans confirmation. Aucune ancienne cote Luckylight n'est réutilisée.
 
 ## Analyse des risques / corrections
 

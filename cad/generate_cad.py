@@ -40,15 +40,17 @@ DOOR_H = OPEN_H - 2*FIT
 HINGE_D = 3.2
 HINGE_SOCKET_D = HINGE_D + 2*FIT
 HINGE_PIN_LEFT = 6.0
-LED_ORANGE_D = 3.0
-LED_ORANGE_HOLE_D = LED_ORANGE_D + 2*FIT
+LED_ORANGE_APERTURE_D = 2.0 # small visible point, NOT the 5mm LED mounting bore
+LED_POCKET_D = 6.0 + 2*FIT # provisional collar/service envelope; measure both LEDs
+LED_ENVELOPE = (6.0, 9.0) # DESIGN diameter x length, NOT vendor dimensions
+LED_ORANGE_RECESS = WALL + 1.0 # entire LED behind facade, in +Y direction
 SERVO_CASE = (22.3, 11.8, 26.3) # official DFRobot DMS-MG90 BODY only; tabs/shaft/horn not included
 CARD_ENVELOPE = (52.0, 23.0, 12.0) # reserved service envelope, NOT PCB dimensions; include USB/antenna slack
 XIAO_BOARD_NOMINAL = (21.0, 17.8) # Seeed published PCB L x W, height unspecified
 WIO_STACK_NOMINAL = (23.0, 22.0, 8.0) # Seeed marketing assembled approx; must measure physical stack
 CAP_C1_BODY = (10.0, 13.0) # Gotronic 04947: diameter x height; lead pitch 5mm
 RESISTOR_BODY = (6.5, 2.5) # all 0.5W specified Gotronic: axial length x diameter
-WHITE_LED_BODY = (3.0, 5.1) # Luckylight 304WC2J-W6-3PD: diameter x nominal lens length
+LED_NOMINAL_D = 5.0 # Gotronic WCS101 warm white and L7113NC; detailed dimensions unknown
 
 # Helpers
 V = cq.Vector
@@ -85,10 +87,13 @@ front_door_cut=box(OPEN_X,-0.1,BASE-0.03,OPEN_W,WALL+0.2,OPEN_H+0.03)
 shell=shell.cut(front_door_cut)
 # Back power cable exit : a 12 x 8 mm slot, away from printed floor
 shell=shell.cut(box(W/2-6,D-WALL-0.2,6,12,WALL+0.5,8))
-# Amber 3mm LED panel through-hole with 0.3 radial clearance
+# Recessed 5mm amber LED: provisional rear pocket and small optical aperture.
 orange_x=W-14.5
 orange_z=BASE+OPEN_H+6
-shell=shell.cut(cyl_y(orange_x,-0.1,orange_z,LED_ORANGE_HOLE_D,WALL+0.4))
+orange_holder=cyl_y(orange_x,WALL-0.2,orange_z,10.0,10.2)
+shell=shell.fuse(orange_holder)
+shell=shell.cut(cyl_y(orange_x,-0.1,orange_z,LED_ORANGE_APERTURE_D,LED_ORANGE_RECESS+0.2))
+shell=shell.cut(cyl_y(orange_x,LED_ORANGE_RECESS,orange_z,LED_POCKET_D,10.0))
 shell=shell.clean()
 
 # 2. Base: floor 3mm and internal locating L rails with 0.30mm side gap
@@ -168,9 +173,11 @@ trim=box(OPEN_X+FIT,-1.2,BASE+OPEN_H+1.2,OPEN_W-2*FIT,1.2,2.0)
 led_white_x=W/2
 led_white_y=60.0  # ~7 mm behind the end of the door when opened
 roof_under_z=H_FRONT-ROOF+(H_BACK-H_FRONT)*led_white_y/D
-holder_bottom=roof_under_z-4.5
-holder=cq.Solid.makeCylinder(4.0,4.0,V(led_white_x,led_white_y,holder_bottom),V(0,0,1))
-holder=holder.cut(cq.Solid.makeCylinder(1.8,4.2,V(led_white_x,led_white_y,holder_bottom-0.1),V(0,0,1))).clean()
+holder_bottom=roof_under_z-9.8
+# Pocket intentionally accommodates an UNKNOWN collar; no press-fit claim.
+# Top overlaps roof underside by 0.2mm for later bonding, not a validated fixing.
+holder=cq.Solid.makeCylinder(5.0,10.0,V(led_white_x,led_white_y,holder_bottom),V(0,0,1))
+holder=holder.cut(cq.Solid.makeCylinder(LED_POCKET_D/2,10.2,V(led_white_x,led_white_y,holder_bottom-0.1),V(0,0,1))).clean()
 
 # 10. Reference solids (non printable) to inspect reserved volumes in STEP assembly
 servo_reference=box(servo_x,servo_y,servo_z,*SERVO_CASE)
@@ -194,8 +201,8 @@ REFERENCES={
   'REF_servo_a_mesurer_NE_PAS_IMPRIMER':servo_reference,
   'REF_zone_service_XIAO_Wio_NE_PAS_IMPRIMER':board_reference,
   'REF_C1_470uF_16V_NE_PAS_IMPRIMER':cq.Solid.makeCylinder(CAP_C1_BODY[0]/2,CAP_C1_BODY[1],V(W-14,35,BASE+5),V(0,0,1)),
-  'REF_LED_orange_NE_PAS_IMPRIMER':cq.Solid.makeCylinder(1.5,6,V(orange_x,-0.6,orange_z),V(0,1,0)),
-  'REF_LED_blanche_NE_PAS_IMPRIMER':cq.Solid.makeCylinder(1.5,3.5,V(led_white_x,led_white_y,holder_bottom),V(0,0,1)),
+  'REF_LED_orange_ENVELOPPE_PROVISOIRE_NE_PAS_IMPRIMER':cq.Solid.makeCylinder(LED_ENVELOPE[0]/2,LED_ENVELOPE[1],V(orange_x,LED_ORANGE_RECESS,orange_z),V(0,1,0)),
+  'REF_LED_blanche_ENVELOPPE_PROVISOIRE_NE_PAS_IMPRIMER':cq.Solid.makeCylinder(LED_ENVELOPE[0]/2,LED_ENVELOPE[1],V(led_white_x,led_white_y,holder_bottom),V(0,0,1)),
 }
 
 if __name__=='__main__':
@@ -245,6 +252,10 @@ if __name__=='__main__':
         'wio_stack_nominal_xyz_seeed_marketing':list(WIO_STACK_NOMINAL),
         'capacitor_body_diameter_height':list(CAP_C1_BODY),
         'resistor_body_length_diameter':list(RESISTOR_BODY),
-        'warm_white_led_diameter_lens_height':list(WHITE_LED_BODY),
+        'led_nominal_diameter_only':LED_NOMINAL_D,
+        'led_service_envelope_provisional_diameter_length':list(LED_ENVELOPE),
+        'led_pocket_provisional_diameter':LED_POCKET_D,
+        'orange_optical_aperture_diameter':LED_ORANGE_APERTURE_D,
+        'orange_led_recess_from_front':LED_ORANGE_RECESS,
     },'parts':details},ensure_ascii=False,indent=2))
     print('Done:',STEP)
