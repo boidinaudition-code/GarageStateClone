@@ -233,7 +233,7 @@ Ces commandes sont la procédure à exécuter, **pas une attestation de compilat
 ### Calibration et construction
 
 - Dans `src/main.cpp`, ajuster `ANGLE_CLOSED`, `ANGLE_MIDDLE`, `ANGLE_OPEN` (15°/55°/95° provisoires). Tester sans porte, puis avec un panneau d'essai ; éviter blocage, frottement, surchauffe et effort en butée.
-- Mesurer kit, servo, connecteurs et antenne ; modéliser/imprimer d'abord support servo, accouplement, palier gauche et porte d'essai. Vérifier tout le balayage avant la coque finale à toit amovible. **Une première CAO paramétrique existe** dans `cad/generate_cad.py` ; ses STL/STEP sont encore un prototype à valider sur la visserie et le palonnier réels.
+- Mesurer kit, servo, connecteurs et antenne ; modéliser/imprimer d'abord support servo, accouplement, palier gauche et porte d'essai. Vérifier tout le balayage avant la coque finale à toit amovible. **La CAO V2 paramétrique** dans `cad/generate_cad.py` importe les modèles STEP du MG90, XIAO, Wio et BC547B depuis `cad/refs/`. Les 9 STL et l'assemblage STEP ont été générés localement ; **fixation du palonnier et vis encore à valider**.
 - Dans `platformio.ini`, la configuration **V1 à un seul capteur** est maintenant **déjà active** : `OPEN_SENSOR_PRESENT=0`, `SINGLE_SENSOR_OPEN_ESTIMATE_MS=40000UL`. Remplacer la durée par le trajet réel mesuré (en gardant une marge). **L'état 1 est alors une estimation, pas une fin de course ouverte mesurée**.
 - Garder `NETWORK_ID` et paramètres radio identiques sur les deux appareils. Tester SF8 avant d'augmenter `RADIO_SF` sur les deux cartes ; adapter l'implantation des antennes avant la puissance ou le temps d'émission.
 
@@ -273,3 +273,16 @@ Placer les appareils dans le garage réel et la maison, puis tester les quatre �
 - [**CAO CadQuery paramétrique — source reproductible**](cad/generate_cad.py), [notice CAO](cad/README.md).
 - Dimensions de départ de la miniature **168 × 100 mm**, hauteurs avant/arrière **62/65 mm**, toit mono-pente **3 mm / 100 mm**, parois **2,4 mm**, jeu **0,30 mm par face** ; **ne pas confondre** ces choix CAO avec les dimensions fabricant.
 - Le **corps** du DMS-MG90 fait **22,3 × 11,8 × 26,3 mm**, mais palonnier, pattes et axe restent **à mesurer avant fabrication définitive**. Le XIAO seul fait **21 × 17,8 mm** ; l'enveloppe radio dans la CAO est une **réserve de service**, non sa taille réelle.
+
+
+## Dernière révision CAO V2 : géométries STEP réelles fournies
+
+- [**CAO V2 : cotes, implantation et limites de montage**](cad/README.md)
+- [**Fichiers STEP d'origine identifiés (nom et SHA-256) et guide d'import**](cad/vendor_models/README.md)
+- [**Script de génération paramétrique**](cad/generate_cad.py) et [outil d'extraction des 4 archives](cad/import_vendor_archives.py)
+- [**Relevé géométrique et contrôles de collision**](cad/qa_report_v2.json)
+- [**Tableau des dimensions du BOM, y compris nouveaux STEP**](docs/ENCOMBREMENT_BOM_V1.md)
+
+**Gabarit décoratif V2 : 184 × 100 mm ; hauteurs 62/65 mm ; parois 2,4 mm ; jeu 0,30 mm par face.** Le montant avant droit a été élargi pour contenir les **oreilles et l'arbre du servo complet** (enveloppe STEP 33,40 × 32,50 × 12,22 mm dans le repère local), placé coaxialement à la charnière supérieure. Le Wio est placé **sous** le XIAO sur le plateau arrière, selon les STEP fournis.
+
+**Les quatre géométries sont maintenant versionnées dans ce dépôt** sous forme de fichiers `cad/refs/*.brep.z.b64` (**BREP compressées sans perte**, avec géométries solides et topologie). `cad/generate_cad.py` les charge automatiquement et régénère l'assemblage STEP ; les fichiers STEP d'origine avec leurs noms/metadonnées restent disponibles dans l'archive V2 jointe à la conversation. Il est également possible d'utiliser `python cad/import_vendor_archives.py chemin/vers/les-4-zips` pour travailler directement à partir des STEP. Avant toute redistribution de modèles tiers, vérifier les droits/licences des sources. Le dossier `stl/` de l'archive contient uniquement les pièces imprimables.

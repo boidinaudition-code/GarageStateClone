@@ -61,3 +61,21 @@ La simulation décorative peut faire **FERMÉ confirmé → INTERMÉDIAIRE → O
 - [Notice des solides CAO](../cad/README.md)
 - [Nomenclature et liens](BOM_V1_VERIFIEE.md)
 - [Câblage et alimentation](CABLAGE_V1_VERIFIE.md)
+## Mesure directe des 4 fichiers STEP fournis — révision V2
+
+Ces cotes sont des **boîtes englobantes mesurées dans les STEP de l'utilisateur** avec CadQuery/OCP ; elles ne garantissent pas à elles seules les dimensions des composants réels du lot acheté.
+
+| Modèle source | Taille de la boîte englobante mesurée (mm) | Solides | Particularité |
+|---|---:|---:|---|
+| `Mg90.STEP` | **33,400 × 32,500 × 12,221** | 2 | Boîtier **plus pattes de fixation et arbre** ; l'axe de sortie du modèle est // à Y local |
+| `XIAO-nRF52840  v3.step` | **22,482 × 4,460 × 17,780** | 77 | Orientation d'origine dans le plan XZ ; USB et composants inclus |
+| `Wio-SX1262_for_XIAO_3D_file V2.step` | **17,780 × 22,316 × 7,642** | 39 | Carte Wio et connecteurs, **hors antenne** |
+| `BC547-B.step` | **4,080 × 3,050 × 12,800** | 1 | Corps et broches représentés |
+
+La dimension **22,3 × 11,8 × 26,3 mm** du DMS-MG90 figurant ailleurs correspond à une cote de fiche pour le corps et **ne doit plus servir de volume hors tout de montage**. Le STEP utilisateur est nommé **MG90-A** : la correspondance exacte avec le servo DMS-MG90 reçu devra être vérifiée au pied à coulisse.
+
+**Nouvelle coque CAO : 184 × 100 mm, hauteur avant/arrière 62/65 mm**, ouverture **110 × 42 mm**, panneau **109,4 × 41,4 × 2,4 mm**, jeu **0,30 mm de chaque côté**, toit/socle **3 mm** et parois **2,4 mm**. Le support MG90 est une selle imprimable avec garde de 0,30 mm autour de l'enveloppe STEP, **mais il faut encore concevoir les trous de vis et l'accouplement exact**. Pas de collision mesurée entre servo et coque/toit/support/porte ; voir [rapport V2](../cad/qa_report_v2.json).
+
+L'assemblage Wio **sous** XIAO est une proposition de placement avec très faible intersection numérique entre leurs STEP (≈0,013 mm³) : les connexions mécaniques réelles n'ont pas été montées ni éprouvées. Antennes/câbles/vis non fournis dans ces STEP sont hors du contrôle d'encombrement.
+
+[Source paramétrique V2](../cad/generate_cad.py) — [Notice CAO V2](../cad/README.md) — [Manifestes et références](../cad/vendor_models/README.md).
