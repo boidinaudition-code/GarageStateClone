@@ -65,7 +65,23 @@ assy_path = ROOT / "step/GarageStateClone_V2_assemblage_STEP_references.step"
 assert assy_path.stat().st_size > 1000000
 assy_data = assy_path.read_bytes()
 assert assy_data.startswith(b"ISO-10303-21;") and b"END-ISO-10303-21;" in assy_data[-200:]
-assert len(list((ROOT / "step").glob("*.step"))) == 10
+# Onshape-safe XIAO: one shell and one solid, same overall XYZ bounding
+# box as the unmodified 77-solid source model.
+xiao_path = ROOT / "step/REF_XIAO_NRF52840_SIMPLIFIE_POUR_ONSHAPE.step"
+assert xiao_path.is_file()
+xiao = cq.importers.importStep(str(xiao_path)).val()
+assert xiao.isValid() and len(xiao.Solids()) == 1 and len(xiao.Shells()) == 1
+assert len(g.XIAO_DETAILED_REFERENCE.Solids()) == 77
+assert len(g.XIAO_ONSHAPE_PROXY.Solids()) == 1
+source_bbox = g.XIAO_DETAILED_REFERENCE.BoundingBox()
+safe_bbox = xiao.BoundingBox()
+for k in ("xmin","xmax","ymin","ymax","zmin","zmax"):
+    assert abs(getattr(source_bbox,k)-getattr(safe_bbox,k)) < .005, ("XIAO bbox",k)
+structure_path = ROOT / "step/GarageStateClone_V2_STRUCTURE_SANS_REFERENCES_ONSHAPE.step"
+assert structure_path.stat().st_size > 1000
+structure = cq.importers.importStep(str(structure_path)).val()
+assert structure.isValid() and len(structure.Solids()) == 9
+assert len(list((ROOT / "step").glob("*.step"))) == 12
 assert len(list((ROOT / "stl").glob("*.stl"))) == 9
 
 def overlap(a, b):
@@ -108,4 +124,4 @@ for angle in range(0, 91, 5):
         "support LED blanche": g.holder,
     }.items():
         assert overlap(door, shape) < 1e-5, ("collision porte", angle, label)
-print("PASS — BREP intacts, 10 STEP, 9 STL et debattement LED/servo verifies")
+print("PASS — BREP intacts, 12 STEP (XIAO simplifie), 9 STL et debattement LED/servo verifies")

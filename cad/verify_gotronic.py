@@ -53,9 +53,9 @@ for path in stls:
     solid = cad["PRINTABLE"][path.stem]
     assert solid.isValid() and len(solid.Solids()) == 1, path
 steps = sorted((ROOT / "cad/step").glob("*.step"))
-assert len(steps) == 10
+assert len(steps) == 12
 assert all(path.stat().st_size > 0 for path in steps)
-print("9 STL watertight/positive volumes; 9 valid single solids; 10 STEP files present")
+print("9 STL watertight/positive volumes; 9 valid single solids; 12 STEP files present")
 
 refs = {name: solid for name, solid in cad["REFERENCES"].items() if "LED_" in name}
 assert len(refs) == 2
