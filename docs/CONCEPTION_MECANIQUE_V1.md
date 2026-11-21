@@ -8,7 +8,7 @@ Référence visuelle **exacte** : le garage miniature noir et blanc avec un fin 
 
 - Garage bas, rectangulaire, sobre et discret, comme un objet de décoration.
 - Murs **blancs**, toit plat **noir**, porte **noire** à rainures horizontales, **liseré bleu très fin** au-dessus de la porte.
-- Une **minuscule LED orange en haut à droite de la façade**, légèrement encastrée et presque invisible éteinte. Pas d'autre décoration voyante.
+- Un **minuscule point orange en haut à droite de la façade**, LED **L7113NC 5 mm cachée en retrait** derrière une petite ouverture optique ; pas besoin de montrer tout le diamètre. Pas d'autre décoration voyante.
 - Toit noir **amovible** pour accéder aux composants.
 - Fabrication Bambu Lab **P1S + AMS** ; filaments disponibles : blanc, noir, bleu, rouge. Privilégier des pièces imprimées séparément par couleur.
 - Les dimensions indicatives du rendu (~115 × 75 × 45 mm) représentent l'intention visuelle, **pas des cotes mécaniques confirmées**. Conserver les proportions mais dimensionner la coque après mesure de la carte radio, du servo et de la porte.
@@ -63,7 +63,7 @@ Les valeurs actuelles du firmware (**15° fermé, 55° intermédiaire, 95° ouve
 | **Sous le toit vers l'arrière sur longueur H** | **Volume balayé : laisser intégralement libre** |
 | **Zone arrière / compartiment technique** | XIAO nRF52840 + Wio-SX1262, connecteurs, résistances et câbles ; vérifier que cette zone n'empiète pas dans le balayage |
 | **Dessous du toit à l'arrière** | Une LED blanche chaude de faible courant, tournée vers le plancher, **hors du balayage** |
-| **Façade haute droite** | Une LED orange 3 mm, discrètement encastrée, avec une résistance dédiée, câbles longeant la paroi latérale hors débattement |
+| **Façade haute droite** | Une L7113NC 5 mm cachée en retrait derrière un petit point lumineux, résistance dédiée, câbles longeant la paroi latérale hors débattement |
 | **Face arrière** | Passage discret des alimentations USB / des fils et accès de maintenance |
 
 Placer l'antenne 868 MHz sans contact avec des pièces métalliques et, si possible, loin du servo et des fils 5 V. Tester la liaison dans la coque fermée.
@@ -73,8 +73,10 @@ Placer l'antenne 868 MHz sans contact avec des pièces métalliques et, si possi
 ## Éclairage et signalisation — deux LED, sans ruban
 
 **Choix V1 :**
-1. **LED blanche chaude** à haut rendement, dissimulée **sous le toit vers l'arrière**, tournée vers l'intérieur. **Son alimentation passe désormais par +5 V et un transistor BC547B** : le GPIO D7 ne fournit qu'un courant de commande. Ne jamais l'installer dans le volume balayé par la porte. Elle est allumée uniquement après confirmation de l'état **OUVERT** et fin du déplacement du servo miniature.
-2. **LED orange en façade haute droite**, diamètre cible 3 mm, encastrée derrière un minuscule diffuseur, quasiment invisible lorsqu'elle est éteinte. Elle reproduit le clignotement de signalisation d'une porte en mouvement et sert aussi d'alerte.
+1. **LED blanche chaude 5 mm du lot Whadda WCS101**, Gotronic **03989**, dissimulée **sous le toit vers l'arrière**, tournée vers l'intérieur. **+5 V via 330 Ω et BC547B**, jamais une LED de puissance : D7 ne fournit qu'un courant de commande. Ne jamais l'installer dans le volume balayé. Allumée après état **OUVERT estimé** et fin du déplacement logiciel du servo, sans confirmation physique d'ouverture.
+2. **Orange L7113NC 5 mm**, Gotronic **03051**, en façade haute droite mais **cachée derrière un petit point lumineux** (ouverture CAO proposée Ø2 mm). Elle reproduit le clignotement logiciel et sert aussi d'alerte ; luminosité et discrétion à tester.
+
+Les deux poches CAO Ø6,6 et les enveloppes Ø6 × 9 sont **provisoires**, pas des dimensions constructeur. Mesurer longueur, collerette et pattes avant impression définitive ; ne pas reprendre les cotes de l'ancienne LED 3 mm. [Achats et fournitures Gotronic](BOM_V1_VERIFIEE.md).
 
 ### Câblage retenu — voir le schéma à jour
 
@@ -121,7 +123,7 @@ Le délai de 40 secondes **ne prouve pas que la vraie porte bouge** : le SAS308 
 - **1 × SAS308**, Gotronic réf. 26449 : [contact magnétique miniature](https://www.gotronic.fr/art-contact-magnetique-miniature-sas308-12751.htm), **24 × 15 × 6 mm**, écartement aimant **15 mm max.**, câble moulé **25 cm** à prolonger au besoin ; un seul capteur placé pour confirmer la **fermeture** (aimant en face de la porte fermée).
 - **1 × DMS-MG90**, Gotronic réf. 36923 : [servomoteur](https://www.gotronic.fr/art-servomoteur-dms-mg90-32266.htm).
 - **1 × 470 µF / 16 V**, Gotronic réf. 04947 : [condensateur](https://www.gotronic.fr/art-condensateur-radial-470uf-16v-3386.htm).
-- **1 × LED blanche chaude** + **330 Ω / +5 V** + **BC547B NPN** + **4,7 kΩ D7/base** + **100 kΩ base/GND**, **1 × LED orange 3 mm** + **680 Ω / 3V3** ; fil, petit bornier, vis, palonnier, alimentation USB 5 V/2 A et câbles.
+- **1 × blanche chaude WCS101 5 mm** + **330 Ω / +5 V** + **BC547B NPN** + **4,7 kΩ D7/base** + **100 kΩ base/GND**, **1 × orange L7113NC 5 mm** + **680 Ω / 3V3** ; [fournitures Gotronic hors noyau](BOM_V1_VERIFIEE.md#fournitures-indispensables-si-absentes), puissance servo distribuée hors cartes, jamais de +5 V de deux sources réunis.
 
 À vérifier au multimètre : comportement des contacts SAS308 (la fiche mentionne « NF », mais décrit une fermeture quand l'aimant est présent). Ne relier **aucun GPIO** au 230 V ou aux bornes du moteur du vrai garage ; conserver toutes les sécurités de la porte.
 

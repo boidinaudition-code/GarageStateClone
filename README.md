@@ -43,11 +43,11 @@ Reproduire dans une maquette l'état de la vraie porte de garage, sans jamais la
 
 ### Électronique à monter / achats indicatifs
 
-Prix **historiques indicatifs TTC issus de la nomenclature du 21 novembre 2026**, non revérifiés ici. Les liens sont des références d'achat, sans garantie de prix, disponibilité ou délai actuel.
+Achats **100 % Gotronic** (kits déjà possédés exclus). Prix TTC actuels contrôlés sur les fiches directes Gotronic, y compris condensateur et quatre lots de résistances ; relevés navigateur transmis par le chef de projet. Prix et disponibilité restent susceptibles de changer au panier ; aucun délai garanti.
 
-| Quantité montée | Pièce / référence | Prix historique pris en compte | Caractéristiques / usage |
+| Quantité montée | Pièce / référence | Prix actuel TTC | Caractéristiques / usage |
 |---:|---|---:|---|
-| **1** | [SAS308 — Gotronic 26449](https://www.gotronic.fr/art-contact-magnetique-miniature-sas308-12751.htm) | **3,90 €** | 24 × 15 × 6 mm ; écart aimant 15 mm max. ; câble moulé 250 mm ; capteur unique de **fermeture**. Dimensions de l'aimant à mesurer. |
+| **1** | [SAS308 — Gotronic 26449](https://www.gotronic.fr/art-contact-magnetique-miniature-sas308-12751.htm) | **5,95 €** | 24 × 15 × 6 mm ; écart aimant 15 mm max. ; câble moulé 250 mm ; capteur unique de **fermeture**. Dimensions de l'aimant à mesurer. |
 | 1 | [DFRobot DMS-MG90 — Gotronic 36923](https://www.gotronic.fr/art-servomoteur-dms-mg90-32266.htm) | 7,90 € | Positionnel, pignons métal, 4,8–6 V, course annoncée 2 × 90° ; palonnier et visserie inclus |
 | 1 | [470 µF / 16 V — Gotronic 04947](https://www.gotronic.fr/art-condensateur-radial-470uf-16v-3386.htm) | 0,20 € | Condensateur polarisé près du servo |
 | 1 | [BC547B NPN TO-92 — Gotronic 02173](https://www.gotronic.fr/art-transistor-bc547b-1336.htm) | 0,15 € | Q1, commande de la LED blanche depuis D7 ; identifier C/B/E sur la notice du lot |
@@ -55,10 +55,10 @@ Prix **historiques indicatifs TTC issus de la nomenclature du 21 novembre 2026**
 | 1 utilisée | [680 Ω — Gotronic 04134](https://www.gotronic.fr/art-5-resistances-1-2w-680-8486-2657.htm) | 0,30 € le lot de 5 | R4, série LED orange sur 3V3 |
 | 1 utilisée | [4,7 kΩ — Gotronic 04144](https://www.gotronic.fr/art-5-resistances-1-2w-4-7-k-8486-2667.htm) | 0,30 € le lot de 5 | R2, D7 vers base de Q1 |
 | 1 utilisée | [100 kΩ — Gotronic 04160](https://www.gotronic.fr/art-5-resistances-1-2w-100-k-8486-2681.htm) | 0,30 € le lot de 5 | R3, rappel base de Q1 vers GND |
-| 1 | [LED blanche chaude 3 mm 3000 K — 304WC2J-W6-3PD](https://rptronics.fr/led-blanche-chaude-ronde-3mm-5000-8500mcd-304wc2j-w6-3pd%2C179414.html) | 0,19 € pièce, minimum 10, soit 1,90 € | Vf annoncée 2,6–3,6 V ; alimentée en 5 V via R1 et Q1 |
-| 1 | [LED orange 3 mm non clignotante — LED3OLN](https://www.lextronic.fr/leds-18-mm-a-3-mm-10919) | 0,40 € | Clignotement logiciel ; variante L-7104SEC-H à 0,80 € non retenue dans le sous-total |
+| 1 utilisée | [Whadda WCS101 — Gotronic 03989](https://www.gotronic.fr/art-assortiment-de-130-leds-wcs101-39775.htm) | **9,90 € le lot** | 130 LED **5 mm**, dont **20 blanches chaudes** ; en utiliser une seule, non RGB, sur +5 V via R1 et Q1. Vf, température de couleur et dimensions détaillées à confirmer |
+| 1 | [Orange L7113NC 5 mm — Gotronic 03051](https://www.gotronic.fr/art-led-5-mm-l7113nc-2086.htm) | **0,18 €** | Boîtier clair, 15°, 80 mcd à 10 mA annoncés (pas une promesse à notre courant réduit) ; clignotement logiciel |
 
-**Sous-total indicatif historique : 15,65 EUR TTC**, incluant les quatre lots de résistances et le minimum de dix LED blanches, **hors port, consommables, alimentations, câbles, borniers et fixation** ; les kits déjà disponibles ne sont pas comptés. Ce n'est pas le budget complet. Utiliser les LED du stock si compatibles évite des commandes supplémentaires ; les délais de livraison restent à confirmer au panier.
+**Sous-total actuel du panier noyau : 25,48 EUR TTC**, incluant le lot WCS101 entier et les quatre lots de résistances. **Hors port, fournitures et alimentations** : ce n'est pas un total complet ; les achats complémentaires dépendent du stock déjà possédé et du montage retenu. Aucun achat effectué.
 
 ### Fournitures nécessaires si absentes
 
@@ -68,6 +68,8 @@ Prix **historiques indicatifs TTC issus de la nomenclature du 21 novembre 2026**
 - Fils souples, fil deux conducteurs pour prolonger les **25 cm moulés du SAS308**, borniers/connecteurs, petite plaque à souder, gaine thermorétractable et isolants.
 - Vis pour le SAS308, raccordements protégés, supports imprimés du servo et des LED, adaptateur de palonnier, axe/tourillon et palier gauche, coque et toit démontable.
 - Multimètre pour continuité, polarités, résistances, tensions et masses ; outillage de soudure et fixation adapté.
+
+**Références Gotronic et quantités de départ : [tableau des fournitures dans la BOM](docs/BOM_V1_VERIFIEE.md#fournitures-indispensables-si-absentes)** : alimentation HNP18-USBV2 14749 (5 V / 3 A, supérieure au minimum 2 A), câbles USB-A/C, cordon 49101 + bornier PCM10F 48214 pour la puissance servo externe, fil FC50G 08941, perfboard BCS050 12470, gaine FTK01 08918, vis M3 11520 (compatibilité fixation à confirmer). La variante à **trois chargeurs au total** évite un répartiteur non vérifié : deux pour les XIAO, un pour servo/LED ; GND commun côté miniature, **+5 V des deux sources jamais réunis**. Le total complet reste **à chiffrer** selon stock, longueurs, vis et panier final.
 
 ## Mécanique retenue
 
@@ -79,7 +81,7 @@ La porte est **monobloc et bascule vers l'intérieur** autour de l'axe horizonta
 - **Palier imprimé à gauche**, avec portée/tourillon pour limiter l'effort latéral sur le servo.
 - Porte légère et rigide ; une épaisseur de départ d'environ 2 mm reste à ajuster. Prévoir jeux et butées sans jamais maintenir le servo en effort contre une butée.
 - Pour une porte de hauteur H, réserver **au moins H + marge vers l'arrière depuis l'axe** ; vérifier toute la trajectoire, épaisseur et accouplement compris. Aucune voiture décorative, LED, électronique ou fil dans le volume balayé.
-- Compartiment technique arrière hors débattement ; LED blanche sous le toit vers l'arrière, tournée vers le plancher ; LED orange 3 mm discrètement encastrée en haut à droite de façade, câbles le long de la paroi.
+- Compartiment technique arrière hors débattement ; LED blanche chaude **5 mm** sous le toit vers l'arrière, tournée vers le plancher ; orange L7113NC **5 mm cachée en retrait**, derrière un **petit point lumineux** en haut à droite de façade : le diamètre entier n'a pas à être visible. Poches et enveloppes CAO **provisoires**, à ajuster après mesure ; câbles le long de la paroi.
 - Toit démontable, servo/palonnier démontables, USB-C accessible ; antenne éloignée du métal, du servo et des fils 5 V autant que possible. Tester aussi coque fermée.
 
 **Les cotes de coque sont actuellement des propositions CAO, non validées sur les composants physiques** : 168 × 100 mm, hauteurs avant/arrière 62/65 mm et baie 104 × 42 mm. Mesurer en priorité les pattes, l'arbre et le palonnier du servo, l'assemblage XIAO/Wio, l'antenne et les connecteurs avant d'imprimer les fixations définitives. Les angles logiciels 15°/55°/95° ne sont pas des mesures géométriques validées de la porte.
@@ -245,7 +247,7 @@ Placer les appareils dans le garage réel et la maison, puis tester les quatre �
 
 - [Conception mécanique et éclairage V1](docs/CONCEPTION_MECANIQUE_V1.md) : décisions esthétiques, entraînement coaxial, implantation et étapes de modélisation.
 - [Câblage V1 et netlist](docs/CABLAGE_V1_VERIFIE.md) : branchements et précautions électriques.
-- [BOM V1 et références d'achat](docs/BOM_V1_VERIFIEE.md) : nomenclature historique et exclusions du budget.
+- [BOM V1 et références d'achat](docs/BOM_V1_VERIFIEE.md) : panier noyau Gotronic, prix actuels contrôlés et fournitures hors noyau.
 - [Protocole radio](docs/PROTOCOLE.md) : trame et limites du prototype. Les formulations abrégées « ne pas bouger sur défaut » et « reste où elle était » doivent être lues avec la précision ci-dessus : **pas de nouvelle cible, mais fin possible du mouvement engagé**.
 
 ### Inventaire des trois SVG intégrés ci-dessus

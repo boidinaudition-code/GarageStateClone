@@ -50,7 +50,7 @@ XIAO_BOARD_NOMINAL = (21.0, 17.8) # Seeed published PCB L x W, height unspecifie
 WIO_STACK_NOMINAL = (23.0, 22.0, 8.0) # Seeed marketing assembled approx; must measure physical stack
 CAP_C1_BODY = (10.0, 13.0) # Gotronic 04947: diameter x height; lead pitch 5mm
 RESISTOR_BODY = (6.5, 2.5) # all 0.5W specified Gotronic: axial length x diameter
-WHITE_LED_BODY = (3.0, 5.1) # Luckylight 304WC2J-W6-3PD: diameter x nominal lens length
+LED_NOMINAL_D = 5.0 # Gotronic WCS101 warm white and L7113NC; detailed dimensions unknown
 
 # Modeles STEP source fournis par l'utilisateur; emplacement des archives CAD.
 VENDOR_REF_DIR=ROOT/'refs'
@@ -93,10 +93,13 @@ front_door_cut=box(OPEN_X,-0.1,BASE-0.03,OPEN_W,WALL+0.2,OPEN_H+0.03)
 shell=shell.cut(front_door_cut)
 # Back power cable exit : a 12 x 8 mm slot, away from printed floor
 shell=shell.cut(box(W/2-6,D-WALL-0.2,6,12,WALL+0.5,8))
-# Amber 3mm LED panel through-hole with 0.3 radial clearance
+# Recessed 5mm amber LED: provisional rear pocket and small optical aperture.
 orange_x=W-14.5
 orange_z=BASE+OPEN_H+6
-shell=shell.cut(cyl_y(orange_x,-0.1,orange_z,LED_ORANGE_HOLE_D,WALL+0.4))
+orange_holder=cyl_y(orange_x,WALL-0.2,orange_z,10.0,10.2)
+shell=shell.fuse(orange_holder)
+shell=shell.cut(cyl_y(orange_x,-0.1,orange_z,LED_ORANGE_APERTURE_D,LED_ORANGE_RECESS+0.2))
+shell=shell.cut(cyl_y(orange_x,LED_ORANGE_RECESS,orange_z,LED_POCKET_D,10.0))
 shell=shell.clean()
 
 # 2. Base: floor 3mm and internal locating L rails with 0.30mm side gap
@@ -186,9 +189,11 @@ trim=box(OPEN_X+FIT,-1.2,BASE+OPEN_H+1.2,OPEN_W-2*FIT,1.2,2.0)
 led_white_x=W/2
 led_white_y=69.0  # ~7 mm behind the end of the door when opened
 roof_under_z=H_FRONT-ROOF+(H_BACK-H_FRONT)*led_white_y/D
-holder_bottom=roof_under_z-4.5
-holder=cq.Solid.makeCylinder(4.0,4.0,V(led_white_x,led_white_y,holder_bottom),V(0,0,1))
-holder=holder.cut(cq.Solid.makeCylinder(1.8,4.2,V(led_white_x,led_white_y,holder_bottom-0.1),V(0,0,1))).clean()
+holder_bottom=roof_under_z-9.8
+# Pocket intentionally accommodates an UNKNOWN collar; no press-fit claim.
+# Top overlaps roof underside by 0.2mm for later bonding, not a validated fixing.
+holder=cq.Solid.makeCylinder(5.0,10.0,V(led_white_x,led_white_y,holder_bottom),V(0,0,1))
+holder=holder.cut(cq.Solid.makeCylinder(LED_POCKET_D/2,10.2,V(led_white_x,led_white_y,holder_bottom-0.1),V(0,0,1))).clean()
 
 # 10. Import des quatre vrais STEP. Pas de substitution silencieuse.
 def import_ref(key):

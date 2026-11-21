@@ -118,27 +118,33 @@
     },
     {
       "id": "LED1",
-      "name": "Warm white Luckylight 304WC2J-W6-3PD",
+      "name": "Warm white 5mm from Whadda WCS101 (20 warm white in 130 LED set)",
+      "manufacturer_ref": "Gotronic 03989",
       "qty": 1,
       "body_mm": {
-        "diameter": 3,
-        "length": 5.1
+        "diameter": 5,
+        "length": null
       },
-      "lead_pitch_mm": 2.54,
+      "collar_diameter_mm": null,
+      "lead_pitch_mm": null,
       "status": "published",
-      "url": "https://www.kondik.cz/user/related_files/ll-304wc2j-w6-3pd.pdf"
+      "dimension_note": "Only nominal 5mm published; length, collar, leads and electrical ratings require confirmation",
+      "url": "https://www.gotronic.fr/art-assortiment-de-130-leds-wcs101-39775.htm"
     },
     {
       "id": "LED2",
-      "name": "Amber LED3OLN",
+      "name": "Orange L7113NC 5mm clear",
+      "manufacturer_ref": "Gotronic 03051",
       "qty": 1,
       "body_mm": {
-        "diameter": 3,
+        "diameter": 5,
         "length": null
       },
       "lead_pitch_mm": null,
+      "collar_diameter_mm": null,
       "status": "published",
-      "url": "https://www.lextronic.fr/led-standard-orange-led3oln-8422.html"
+      "dimension_note": "Only nominal 5mm confirmed; linked L7113EC PDF is not this reference",
+      "url": "https://www.gotronic.fr/art-led-5-mm-l7113nc-2086.htm"
     },
     {
       "id": "MCU",
@@ -221,11 +227,11 @@
       60,
       31
     ],
-    "orange_led_bore_mm": 3.6,
-    "white_led_nominal_mm": [
-      3,
-      5.1
-    ],
+    "orange_optical_aperture_mm": 2.0,
+    "orange_led_recess_from_front_mm": 3.4,
+    "led_pocket_provisional_diameter_mm": 6.6,
+    "led_service_envelope_provisional_diameter_length_mm": [6.0, 9.0],
+    "led_envelope_status": "design_not_manufacturer_dimensions_measure_before_final_print",
     "capacitor_nominal_mm": [
       10,
       13

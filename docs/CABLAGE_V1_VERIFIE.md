@@ -25,7 +25,7 @@ Correspondance logique confirmée :
 | D4 | P0.04 | LoRa NSS |
 | D5 | P0.05 | LoRa RF switch |
 | D6 | P1.11 | Émetteur : capteur fermé / Récepteur : SIG servo |
-| D7 | P1.12 | Émetteur : capteur ouvert / Récepteur : commande transistor LED blanche |
+| D7 | P1.12 | Émetteur : **libre, un seul SAS308 sur D6** / Récepteur : commande transistor LED blanche |
 | D8 / D9 / D10 | P1.13 / P1.14 / P1.15 | SPI radio SCK / MISO / MOSI |
 
 Sur le schéma du Wio V1.0, **D0 va à un bouton relié à GND et un pull-up de 10 kΩ à +3V3**. D6/D7 ne sont **pas câblées au module Wio** : elles restent utilisables sur les **pastilles du XIAO**, à condition de pouvoir y accéder avec le module enfiché. Prévoir des fils soudés et isolés à la bonne position ; vérifier le câblage sur les cartes réellement reçues à l'ohmmètre.
@@ -66,7 +66,7 @@ Un **BC547B NPN TO-92** a trois broches, collecteur (C), base (B), émetteur (E)
 
 La version initiale prévoyait D7 → 330 Ω → LED blanche → GND. Ce câblage **n'est pas une garantie de luminosité** : une LED blanche Gotronic classique est spécifiée à **Vf ≈ 3,5 V**, alors que D7 ne sort que **3,3 V**.
 
-**Correction de la V1 :** le XIAO commande la **base du BC547B** à très faible courant, tandis que **l'unique LED blanche** reçoit le 5 V externe via 330 Ω. Avec une LED blanche de Vf de 3,0 à 3,5 V, le courant prévu est d'environ 4 à 6 mA (à valider selon la référence exacte). Pour une LED de Vf 2,6 V, il peut être proche de 7 mA. Une LED 3 mm standard en supporte généralement davantage ; **ne pas utiliser une LED de puissance 1 W ou 3 W** avec ce montage.
+**V1 Gotronic :** le XIAO commande la **base du BC547B**, tandis qu'une **blanche chaude 5 mm du lot Whadda WCS101 (03989)** reçoit le 5 V externe via **330 Ω**. La fiche du lot confirme 20 blanches chaudes mais ne précise pas leur Vf/courant admissible : **mesurer le courant et tester l'éclairage**, ne pas lui attribuer les valeurs de l'ancienne LED. Ne choisir ni RGB ni LED de puissance **1 W/3 W**. Aucun changement de logique firmware.
 
 Le code **ne change pas de logique** : D7 HIGH → Q1 conducteur → LED allumée. D7 LOW → LED éteinte. R3 100 kΩ évite l'allumage intempestif lorsque la sortie est flottante.
 
@@ -75,6 +75,8 @@ Le code **ne change pas de logique** : D7 HIGH → Q1 conducteur → LED allumé
 Le schéma Seeed du Wio confirme **D0 → bouton vers GND** et **résistance de rappel 10 kΩ à +3V3**. La LED orange ne doit donc pas être câblée entre D0 et GND en sortie HIGH.
 
 Câblage confirmé : **+3V3 → R4 680 Ω → anode de LED orange → cathode sur D0**. Le firmware met D0 en sortie **LOW pour allumer** (~2 mA pour Vf orange ≈ 2 V) et le remet en **INPUT haute impédance pour éteindre**. Un appui sur le bouton peut alors allumer la LED, sans intérêt pour le fonctionnement habituel.
+
+Orange retenue : **L7113NC 5 mm, Gotronic 03051**, claire, non clignotante ; 80 mcd à 10 mA et angle 15° annoncés, pas une luminosité garantie avec **680 Ω**. Vf et courant réel à confirmer. La cacher en retrait derrière une petite ouverture façade : pas besoin d'exposer les 5 mm.
 
 Attention : ne **jamais** mettre D0 en sortie HIGH dans cette topologie.
 
@@ -86,6 +88,8 @@ Attention : ne **jamais** mettre D0 en sortie HIGH dans cette topologie.
 - Le **condensateur 470 µF / 16 V est polarisé** : + au +5 V servo, bande négative sur GND, au plus près du connecteur servo. Il aide mais ne remplace pas une vraie alimentation adaptée aux appels de courant.
 - Les modules émetteur et récepteur ne partagent **aucun fil** entre eux : radio uniquement.
 - Les deux antennes doivent être installées avant usage.
+
+Pour la variante séparée : [HNP18-USBV2 14749](https://www.gotronic.fr/art-alimentation-hnp18-usbv2-38701.htm) **5 V / 3 A**, puis [cordon USB-A → DC 49101](https://www.gotronic.fr/art-cordon-usb-alim-5-5-x-2-1-mm-34157.htm) (**2 A maxi**) et [bornier PCM10F 48214](https://www.gotronic.fr/art-adaptateur-pcm10f-17984.htm). Le + du bornier alimente servo/C1/R1 uniquement ; le − rejoint leur GND et celui du XIAO. **Le +5 V USB du chargeur XIAO reste séparé.** Vérifier les polarités et isoler les connexions avant branchement. Deux chargeurs côté miniature, donc **trois au total** avec l'émetteur. [Fournitures et limites des références](BOM_V1_VERIFIEE.md#fournitures-indispensables-si-absentes).
 
 **Pas de 5 V appliqué directement aux GPIO.** Ne jamais alimenter le servo depuis le 3V3 de XIAO ou les petites pistes de son module.
 
