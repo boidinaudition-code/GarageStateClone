@@ -193,10 +193,24 @@ holder=holder.cut(cq.Solid.makeCylinder(1.8,4.2,V(led_white_x,led_white_y,holder
 # 10. Import des quatre vrais STEP. Pas de substitution silencieuse.
 def import_ref(key):
  path=REF_FILES[key]
- if not path.exists():
-  print(f'WARNING: STEP manquant {path}. Reference absente de l assemblage.')
-  return None
- return cq.importers.importStep(str(path)).val()
+ if path.exists():
+  return cq.importers.importStep(str(path)).val()
+ # Geometry lossless from STEP, serialized as BREP + zlib + base64 (checked in Git).
+ b64path=path.with_suffix('.brep.z.b64')
+ if b64path.exists():
+  import base64, zlib, tempfile
+  packed=base64.b64decode(b64path.read_text(encoding='ascii').strip())
+  brep_bytes=zlib.decompress(packed)
+  with tempfile.TemporaryDirectory() as td:
+   brep_file=Path(td)/'reference.brep'
+   brep_file.write_bytes(brep_bytes)
+   shape=cq.Shape.importBrep(str(brep_file))
+  if not shape.isValid():
+   raise ValueError(f'BREP geometrie invalide: {b64path}')
+  print(f'REF BREP decompressee sans perte: {b64path.name}')
+  return shape
+ print(f'WARNING: STEP et BREP absents pour {key}; reference non incluse')
+ return None
 
 ref_servo=import_ref('SERVO')
 ref_xiao=import_ref('XIAO')
