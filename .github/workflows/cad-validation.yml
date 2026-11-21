@@ -37,7 +37,7 @@ jobs:
           python cad/verify_gotronic.py
           python cad/test_step_exports.py
 
-      - name: Archiver les 10 STEP, 9 STL et rapports
+      - name: Archiver les 12 STEP, 9 STL et rapports
         if: always()
         uses: actions/upload-artifact@v4
         with:
