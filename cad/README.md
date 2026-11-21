@@ -4,7 +4,7 @@
 
 **V2 de conception**, modèle CAD paramétrique CadQuery, non validé sur matériel réel.
 
-- Les 4 modèles 3D fournis par l'utilisateur ont été importés comme **solides STEP originaux** (servo DMS-MG90-A, XIAO nRF52840, Wio-SX1262 for XIAO, BC547B). Ils sont dans `refs/*.step` et **également incorporés dans `step/GarageStateClone_V2_assemblage_STEP_references.step`**.
+- Les 4 modèles 3D fournis par l'utilisateur ont été importés comme **solides STEP originaux** (servo DMS-MG90-A, XIAO nRF52840, Wio-SX1262 for XIAO, BC547B). Le dépôt contient désormais **les géométries BREP compressées sans perte** dans `refs/*.brep.z.b64`, que le générateur décompresse automatiquement. L'archive complète livrée dans la conversation contient en plus les `refs/*.step` d'origine et l'assemblage STEP.
 - Le servo, le Wio/XIAO et le BC547B sont des **références non imprimables** ; seuls les STL du dossier `stl/` sont destinés à l'impression.
 - Le modèle 3D du servo **MG90-A** fourni n'est pas une attestation de conformité dimensionnelle avec le produit **DMS-MG90** acheté. Vérifier physiquement avant de percer ou visser.
 - La **liaison palonnier/axe de porte**, les **trous de vis servo**, la fixation exacte des cartes par connecteurs et l'antenne demandent encore une prise de cotes sur le matériel réel.
@@ -62,6 +62,6 @@ python generate_cad.py
 python qa_geometry.py
 ```
 
-Les STEP d'origine sont disponibles dans ce ZIP, sous `refs/`, et les 4 ZIP de téléchargement originaux peuvent aussi être convertis via `import_vendor_archives.py`. Les fichiers sources `generate_cad.py`, `qa_geometry.py`, `import_vendor_archives.py` et `reference_measurements.json` sont conçus pour être versionnés dans GitHub.
+Les STEP d'origine sont disponibles dans le ZIP complet, sous `refs/`. **Un clone GitHub du dépôt peut générer la même géométrie sans ces STEP**, grâce aux quatre `refs/*.brep.z.b64` versionnés. Les quatre ZIP de téléchargement originaux peuvent aussi être convertis via `import_vendor_archives.py`. Les fichiers sources `generate_cad.py`, `qa_geometry.py`, `import_vendor_archives.py` et `reference_measurements.json` sont conçus pour être versionnés dans GitHub.
 
 **Sur le vrai garage :** un **seul SAS308** (non inclus dans la miniature) détecte la **fermeture confirmée**. L'ouverture demeure une **estimation décorative** après 40 secondes sans aimant, selon la configuration actuelle du firmware, et ne doit pas être utilisée pour la sécurité du bâtiment.

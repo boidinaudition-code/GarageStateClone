@@ -3,7 +3,7 @@
   "unit": "mm",
   "date": "2026-11-21",
   "source": "quatre archives ZIP fournies par utilisateur (modeles tiers ; verifier licences avant diffusion)",
-  "note": "Les STEP originaux sont inclus dans l'archive de livraison jointe à la conversation, et non encore directement dans le dépôt GitHub. Le script import_vendor_archives.py reconstitue cad/refs/*.step à partir des archives fournies.",
+  "note": "Les originaux STEP sont dans l'archive de livraison. Le dépôt GitHub inclut les quatre géométries lossless sous cad/refs/*.brep.z.b64, automatiquement décompressées en solides CadQuery. Conserver les conditions de licence des modèles tiers.",
   "components": [
     {
       "key": "servo",
@@ -19,7 +19,8 @@
       ],
       "solids": 2,
       "axis": "output +Y original, x=6.05 z=6.1",
-      "physical_validation": "required, servo variant and horn/ears"
+      "physical_validation": "required, servo variant and horn/ears",
+      "git_geometry_path": "cad/refs/servo.brep.z.b64"
     },
     {
       "key": "xiao",
@@ -33,7 +34,8 @@
         4.46,
         17.78
       ],
-      "solids": 77
+      "solids": 77,
+      "git_geometry_path": "cad/refs/xiao.brep.z.b64"
     },
     {
       "key": "wio",
@@ -47,7 +49,8 @@
         22.316,
         7.642
       ],
-      "solids": 39
+      "solids": 39,
+      "git_geometry_path": "cad/refs/wio.brep.z.b64"
     },
     {
       "key": "transistor",
@@ -61,7 +64,8 @@
         3.05,
         12.8
       ],
-      "solids": 1
+      "solids": 1,
+      "git_geometry_path": "cad/refs/transistor.brep.z.b64"
     }
   ],
   "design": {
