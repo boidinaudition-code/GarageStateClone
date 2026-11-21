@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 740" width="1200" height="740" role="img" aria-label="Schema electrique emetteur porte reelle avec deux contacts SAS301 sur D6 et D7 vers GND">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 740" width="1200" height="740" role="img" aria-label="Schema electrique emetteur porte reelle avec deux contacts SAS308 sur D6 et D7 vers GND">
 <rect width="1200" height="740" fill="#f5f8fc"/>
 <style>text{font-family:Arial,sans-serif;fill:#20344d}.h{font-size:26px;font-weight:bold}.s{font-size:19px;font-weight:bold}.m{font-size:17px}.n{font-size:15px;fill:#52637a}.wire{fill:none;stroke:#315e96;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}.ground{fill:none;stroke:#26384d;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}</style>
 <rect x="28" y="24" width="1144" height="92" rx="14" fill="#183651"/><text x="56" y="65" class="h" fill="white" style="fill:white">EMETTEUR — PORTE REELLE</text><text x="56" y="95" class="n" style="fill:#dcebf6">XIAO nRF52840 + Wio-SX1262 / schéma de connexions / 5 V USB-C uniquement</text>
@@ -12,8 +12,8 @@
 <text x="113" y="505" class="m">GND</text>
 <rect x="118" y="215" width="219" height="36" rx="5" fill="#e4f2e5"/><text x="139" y="240" class="m">USB-C : 5 V</text>
 <path d="M371 339 H515" class="wire"/><path d="M371 419 H515" class="wire"/><path d="M371 497 H1086 V485" class="ground"/>
-<text x="486" y="189" class="s">CONTACTS SECS SAS301</text>
-<text x="485" y="225" class="n">Contact fermé lorsque l'aimant est en face (à contrôler).</text>
+<text x="486" y="189" class="s">CONTACTS SECS SAS308</text>
+<text x="485" y="225" class="n">SAS308 : 24 x 15 x 6 mm, cable 25 cm, aimant a 15 mm maximum.</text>
 <text x="513" y="295" class="m">S1 — FIN DE COURSE FERMÉE</text>
 <circle cx="550" cy="339" r="5" fill="#315e96"/><circle cx="720" cy="339" r="5" fill="#315e96"/>
 <path d="M515 339 H545 M555 339 L715 306 M725 339 H1086" class="wire"/>

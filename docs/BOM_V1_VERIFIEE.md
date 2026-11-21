@@ -18,7 +18,7 @@ Vérification du **21 novembre 2026** : comparaison des références constructeu
 
 | Qté à monter | Pièce et référence | Prix produit TTC | Achat / vérification |
 |---:|---|---:|---|
-| **2** | Contact magnétique **SAS301**, réf. Gotronic **26444** | **3,90 € chacun**, soit **7,80 €** | [Gotronic — SAS301](https://www.gotronic.fr/art-contact-magnetique-1t-sas301-12746.htm) ; **aimants inclus**, vis non fournies ; écart maxi **25 mm**, boîtier **53 × 16 × 16 mm** ; vérifier comportement NO/NF avec aimant |
+| **2** | Contact magnétique miniature **SAS308**, réf. Gotronic **26449** | **3,90 € chacun**, soit **7,80 €** (prix fiche article vérifié) | [Gotronic — SAS308](https://www.gotronic.fr/art-contact-magnetique-miniature-sas308-12751.htm) ; **aimants inclus**, vis non fournies ; écart maxi **15 mm**, boîtier **24 × 15 × 6 mm**, **25 cm de câble moulé** par capteur ; contact fermé aimant en face (tester avant pose) |
 | **1** | Microservo **DFRobot DMS-MG90**, réf. Gotronic **36923** | **7,90 €** | [Gotronic — servo](https://www.gotronic.fr/art-servomoteur-dms-mg90-32266.htm) ; **4,8–6 V**, course **2 × 90°**, pignons métal, palonnier et visserie inclus |
 | **1** | Condensateur **470 µF / 16 V**, réf. Gotronic **04947** | **0,20 €** | [Gotronic — condensateur](https://www.gotronic.fr/art-condensateur-radial-470uf-16v-3386.htm) ; **polarisé**, +5 V / GND à proximité du servo |
 | **1** | Transistor **BC547B NPN** TO-92, réf. Gotronic **02173** | **0,15 €** | [Gotronic — BC547B](https://www.gotronic.fr/art-transistor-bc547b-1336.htm) ; **ajout important** : LED blanche 5 V pilotée depuis D7 sans la faire passer directement par le GPIO |
@@ -39,7 +39,7 @@ Vérification du **21 novembre 2026** : comparaison des références constructeu
 - Côté miniature : **répartiteur d'alimentation 5 V** avec branche USB-C vers le XIAO **et sortie 5 V / GND distincte** vers le servo et la LED blanche, **OU** un second chargeur USB 5 V pour le servo/LED avec **GND commun** à celui du XIAO. Ne pas mettre les deux +5 V de deux chargeurs en parallèle.
 - **2 câbles USB-C** vers les XIAO (plus un câble d'alimentation permettant la distribution vers le servo selon montage retenu).
 - **Fils souples**, borniers ou connecteurs, petit morceau de **plaque à souder/perfboard**, gaine thermorétractable et isolants.
-- **Vis de fixation des deux SAS301** (non fournies), support imprimé pour LED orange en façade et LED blanche sous le toit, axe/palier et support servo imprimés.
+- **Vis de fixation des deux SAS308** (non fournies), **fil 2 conducteurs et raccordements protégés pour rallonger leurs câbles moulés de 25 cm**, support imprimé pour LED orange en façade et LED blanche sous le toit, axe/palier et support servo imprimés.
 - Multimètre pour tester la polarité, les résistances, le contact magnétique et les masses.
 
 ## Analyse des risques / corrections
@@ -47,7 +47,7 @@ Vérification du **21 novembre 2026** : comparaison des références constructeu
 1. **LED blanche : ancienne erreur évitée.** Plusieurs LED blanches Gotronic sont données à **Vf 3,5 V** ; il serait trompeur de garantir un éclairage depuis GPIO D7 à 3,3 V. Le nouveau schéma utilise un **BC547B + 4,7 kΩ + 100 kΩ** et 330 Ω sur l'alimentation 5 V.
 2. **D0 : déjà relié à un bouton et à une résistance de pull-up 10 kΩ sur le Wio-SX1262 nRF52840.** L'orange (680 Ω) est câblée **3V3 → résistance → anode LED → cathode D0**. Logiciel : **LOW = allumée ; INPUT = éteinte**. Ne jamais piloter D0 HIGH dans ce schéma.
 3. **Servo : jamais sur 3V3.** 5 V externe, GND commun, condensateur polarisé en parallèle près du servo ; le servo peut demander des pics de courant.
-4. **Capteurs SAS301 : vérifier NF/NO.** La fiche les dit « NF », mais indique « fermé avec aimant en face ». Le firmware attend **contact fermé → entrée LOW**.
+4. **Capteurs SAS308 : vérifier NF/NO.** La fiche les appelle « NF », mais précise que le contact est **fermé lorsque l'aimant est en face** : c'est la logique du firmware (**contact fermé → entrée LOW**). Vérifier chaque exemplaire à l'ohmmètre. **Distance maxi 15 mm**, viser moins pour garder une marge contre les vibrations. Les **25 cm de fils moulés** nécessiteront probablement une prolongation.
 5. **Antennes 868 MHz :** branchées avant mise sous tension radio ; pas de connexion LoRa sans antenne.
 6. **Broches réellement accessibles :** D6/D7 ne sont pas routées au Wio, mais accessibles sur le XIAO lui-même ; en montage empilé, prévoir une soudure et isolation soigneuses.
 
@@ -55,6 +55,6 @@ Vérification du **21 novembre 2026** : comparaison des références constructeu
 
 - [Seeed : schéma du Wio-SX1262 pour XIAO V1.0](https://files.seeedstudio.com/products/113010003/Wio-SX1262%20for%20XIAO%20V1.0.pdf)
 - [Seeed : brochage du XIAO nRF52840](https://wiki.seeedstudio.com/XIAO_BLE/)
-- [Gotronic : page SAS301](https://www.gotronic.fr/art-contact-magnetique-1t-sas301-12746.htm)
+- [Gotronic : page SAS308](https://www.gotronic.fr/art-contact-magnetique-miniature-sas308-12751.htm)
 - [Gotronic : page servo DMS-MG90](https://www.gotronic.fr/art-servomoteur-dms-mg90-32266.htm)
 - [Gotronic : exemple de LED blanche Vf 3,5 V](https://www.gotronic.fr/art-led-3-mm-l3fwc1-35813.htm)

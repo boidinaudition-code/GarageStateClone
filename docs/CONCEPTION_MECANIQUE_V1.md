@@ -105,7 +105,7 @@ Placer l'antenne 868 MHz sans contact avec des pièces métalliques et, si possi
 | **Défaut de capteurs** | Éteinte | **Clignote rapidement, 5 Hz** |
 | **Liaison perdue**, plus de 150 secondes sans trame valide | Éteinte | **Double flash toutes les 2 secondes** |
 
-Le délai de 40 secondes **ne prouve pas que la vraie porte bouge** : les deux capteurs SAS301 sont des fins de course, pas des capteurs de vitesse. Une porte volontairement arrêtée à mi-course provoquera le même clignotement temporaire. Un heartbeat radio de 60 secondes ne doit pas relancer le minuteur.
+Le délai de 40 secondes **ne prouve pas que la vraie porte bouge** : les deux capteurs SAS308 sont des fins de course, pas des capteurs de vitesse. Une porte volontairement arrêtée à mi-course provoquera le même clignotement temporaire. Un heartbeat radio de 60 secondes ne doit pas relancer le minuteur.
 
 **Implémentation :** le firmware de la branche de cette évolution affecte D7 à la lumière blanche et D0 au témoin orange ; les différents clignotements sont non bloquants, basés sur `millis()`. **À valider sur table** avec le bouton utilisateur, la puissance LED, l'assemblage complet et la liaison LoRa. La compilation PlatformIO sur matériel réel reste nécessaire.
 
@@ -118,12 +118,12 @@ Le délai de 40 secondes **ne prouve pas que la vraie porte bouge** : les deux c
 ## Matériel prévu et références
 
 - Déjà disponible : **2 kits XIAO nRF52840 + Wio-SX1262**, Bambu Lab P1S et AMS, filaments blanc/noir/bleu/rouge ; alimentation secteur disponible dans le vrai garage.
-- **2 × SAS301**, Gotronic réf. 26444 : [contact magnétique](https://www.gotronic.fr/art-contact-magnetique-1t-sas301-12746.htm) ; un en fin de course fermée, un en fin de course ouverte.
+- **2 × SAS308**, Gotronic réf. 26449 : [contact magnétique miniature](https://www.gotronic.fr/art-contact-magnetique-miniature-sas308-12751.htm), **24 × 15 × 6 mm**, écartement aimant **15 mm max.**, câble moulé **25 cm** à prolonger au besoin ; un en fin de course fermée, un en fin de course ouverte.
 - **1 × DMS-MG90**, Gotronic réf. 36923 : [servomoteur](https://www.gotronic.fr/art-servomoteur-dms-mg90-32266.htm).
 - **1 × 470 µF / 16 V**, Gotronic réf. 04947 : [condensateur](https://www.gotronic.fr/art-condensateur-radial-470uf-16v-3386.htm).
 - **1 × LED blanche chaude** + **330 Ω / +5 V** + **BC547B NPN** + **4,7 kΩ D7/base** + **100 kΩ base/GND**, **1 × LED orange 3 mm** + **680 Ω / 3V3** ; fil, petit bornier, vis, palonnier, alimentation USB 5 V/2 A et câbles.
 
-À vérifier au multimètre : comportement des contacts SAS301 (la fiche mentionne « NF », mais décrit une fermeture quand l'aimant est présent). Ne relier **aucun GPIO** au 230 V ou aux bornes du moteur du vrai garage ; conserver toutes les sécurités de la porte.
+À vérifier au multimètre : comportement des contacts SAS308 (la fiche mentionne « NF », mais décrit une fermeture quand l'aimant est présent). Ne relier **aucun GPIO** au 230 V ou aux bornes du moteur du vrai garage ; conserver toutes les sécurités de la porte.
 
 ## Prochaines étapes
 

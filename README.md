@@ -16,7 +16,7 @@ Ce dépôt contient les **deux firmwares** dans un seul projet PlatformIO.
 
 ## Fonction
 
-- Emetteur dans le garage : deux contacts magnétiques NO avec aimant proche en fin de course.
+- Emetteur dans le garage : deux contacts magnétiques miniatures **SAS308** avec aimants ; contacts **fermés en présence de l'aimant** à chaque fin de course.
 - Récepteur dans la maison : servomoteur qui imite la porte, **LED blanche chaude intérieure** et **LED orange de signalisation en façade**.
 - Radio LoRa directe 868,125 MHz, sans passerelle / réseau maillé / Internet.
 - Etat ferme, ouvert, intermediaire, defaut des capteurs ; un état est dit « intermediaire » même si la porte est immobilisée en cours de trajet.
@@ -27,7 +27,7 @@ Ce dépôt contient les **deux firmwares** dans un seul projet PlatformIO.
 ## 1 — Matériel
 
 - Deux kits XIAO nRF52840 + Wio-SX1262 avec leurs **antennes 868 MHz** adaptées.
-- Deux contacts magnétiques NO filaires avec aimants (un seul possible, voir plus bas).
+- Deux contacts magnétiques miniatures **SAS308**, Gotronic réf. **26449** (24 × 15 × 6 mm, écart aimant/capteur **15 mm max.**, **25 cm de câble par capteur**, aimants inclus). Tester leur continuité ; un seul capteur reste possible en mode dégradé, voir plus bas.
 - Un servomoteur SG90 ou MG90S, une **alimentation 5 V/2 A** pour la miniature, répartie **avant** le XIAO entre USB-C et servo + LED blanche.
 - Une **LED blanche chaude** avec **Q1 BC547B**, R1 = **330 Ω** sur +5 V, R2 = **4,7 kΩ** sur D7/base et R3 = **100 kΩ** base/GND ; une **LED orange** 3 mm avec R4 = **680 Ω** sur 3V3.
 - Un condensateur électrolytique 470 µF, tension nominale au moins 10 V, près du servo.
@@ -40,8 +40,8 @@ Ce dépôt contient les **deux firmwares** dans un seul projet PlatformIO.
 
 | Usage | Connexion |
 |---|---|
-| Emetteur, capteur fermé | D6 vers GND (contact normalement ouvert, fermé avec aimant proche) |
-| Emetteur, capteur ouvert | D7 vers GND (idem) |
+| Emetteur, capteur fermé | D6 vers GND via **SAS308** (contact fermé **lorsque l'aimant est en face**) |
+| Emetteur, capteur ouvert | D7 vers GND via second **SAS308** (idem) |
 | Récepteur, signal servo | D6 vers fil signal du SG90/MG90S |
 | Récepteur, LED intérieure blanche | **D7 → 4,7 kΩ → base BC547B** ; **base → 100 kΩ → GND** ; émetteur → GND ; collecteur → cathode LED blanche ; **+5 V externe → 330 Ω → anode LED** |
 | Récepteur, LED orange façade | 3V3 → résistance **680 Ω** → anode LED orange ; cathode → **D0** (allumée par LOW, éteinte en INPUT haute impédance) |
@@ -52,7 +52,7 @@ Ce dépôt contient les **deux firmwares** dans un seul projet PlatformIO.
 
 Les D6/D7 du XIAO sont disponibles **mais ne sont pas routés sur la carte Wio**. Accéder aux pads/broches correspondants du XIAO monté sur la carte. Vérifier à l'ohmmètre, isoler contre les courts-circuits.
 
-Ne jamais raccorder de 230 V ni les bornes du moteur de garage aux GPIO. Eviter tout élément de l'ouvrant qui pourrait accrocher les câbles/capteurs ou perturber les sécurités.
+Le SAS308 est livré avec un **câble de 25 cm déjà fixé**, à prolonger au besoin en deux conducteurs correctement isolés ; pas de bornier intégré au capteur. Garder l'aimant idéalement nettement plus près que la limite de 15 mm. Ne jamais raccorder de 230 V ni les bornes du moteur de garage aux GPIO. Eviter tout élément de l'ouvrant qui pourrait accrocher les câbles/capteurs ou perturber les sécurités.
 
 **Servomoteur :** alimenter depuis une source 5 V régulée pouvant fournir au moins ~1 A de pointe ; le XIAO peut être branché sur un second chargeur USB, les GND doivent être communs. Si alimentation unique, utiliser un câble répartiteur 5 V correctement dimensionné pour XIAO + servo. Ne PAS faire passer le courant servo par la sortie 3V3 ni un GPIO.
 
