@@ -16,3 +16,10 @@ Les STEP d'origine sont également présents dans le **ZIP complet fourni dans l
 **Attention licences** : ces modèles 3D ont été fournis par l'utilisateur mais leurs droits de redistribution publique ne sont pas documentés. Vérifier les conditions de réutilisation des fichiers tiers.
 
 [Manifeste d'origine + SHA256](../vendor_models/manifest.json) · [Notice CAO V2](../README.md).
+
+
+## Référence Onshape simplifiée
+
+Le XIAO original (77 solides dans le BREP) a déclenché une erreur **« contains faults »** à l'import dans Onshape. **Ce fichier BREP original est conservé sans altération**, mais l'assemblage STEP généré pour Onshape substitue désormais un **volume de service simplifié à un solide** (carte et USB), dans la même position et avec la même boîte englobante. Les trous, composants individuels et broches ne sont pas préservés dans l'enveloppe simplifiée.
+
+Voir [documentation d'import et dépannage](../../docs/ONSHAPE_IMPORT_XIAO.md). Les fichiers STEP générés sont des artefacts du workflow GitHub Actions et **pas des sources à merger manuellement**.
