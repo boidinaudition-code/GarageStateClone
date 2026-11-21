@@ -97,6 +97,13 @@ N'émettre **jamais** sans antenne adaptée raccordée. Pour 868 MHz, respecter 
 
 Un garage de 160 x 140 x 120 mm avec porte basculante 95 x 85 mm est la première étape raisonnable, même si la porte réelle est sectionnelle. Créer un support de charnière au-dessus de l'ouverture et un palonnier sur le servo MG90S, avec une bielle courte ; ajouter des butées mécaniques non forcées. Tester tout le débattement sans frottement et choisir les angles avant de fixer la porte. Un modèle à panneaux articulés sur rails pourra remplacer la façade en v2.
 
+
+## Conception retenue — porte basculante et éclairage
+
+La V1 conserve le design du **garage noir et blanc au fin liseré bleu posé sur une étagère**. Sa porte monobloc rainurée pivote vers **l'intérieur**, sous le toit, via un **DMS-MG90 monté coaxialement sur la charnière supérieure**, avec un palier côté opposé. Le XIAO + Wio-SX1262 est dissimulé dans une zone arrière hors débattement. Une **seule LED blanche chaude**, positionnée sous le toit à l'arrière, doit s'allumer lorsque l'état **OUVERT** est confirmé.
+
+**Lire la [spécification mécanique et électrique V1](docs/CONCEPTION_MECANIQUE_V1.md)** avant la modélisation 3D. Les anciennes cotes et le montage à bielle évoqués plus bas sont des hypothèses initiales, **supplantées par l'entraînement coaxial**. La logique LED du firmware n'est **pas encore modifiée** : D7 sert actuellement de voyant de diagnostic.
+
 ## Sources matérielles
 
 - Seeed XIAO nRF52840 + Wio-SX1262 : https://wiki.seeedstudio.com/xiao_nrf52840%26_wio_SX1262_kit_for_meshtastic/
