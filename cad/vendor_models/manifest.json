@@ -20,7 +20,8 @@
       "solids": 2,
       "axis": "output +Y original, x=6.05 z=6.1",
       "physical_validation": "required, servo variant and horn/ears",
-      "git_geometry_path": "cad/refs/servo.brep.z.b64"
+      "git_geometry_path": "cad/refs/servo.brep.z.b64",
+      "brep_sha256": "c4fb3047587ee761535711749c2ee0c407af4bc1f3f54faaf4112b044405b3c9"
     },
     {
       "key": "xiao",
@@ -35,7 +36,8 @@
         17.78
       ],
       "solids": 77,
-      "git_geometry_path": "cad/refs/xiao.brep.z.b64"
+      "git_geometry_path": "cad/refs/xiao.brep.z.b64",
+      "brep_sha256": "84dfeee6e6968f75a50b4978f15c7fa2b49994a80bc29520059a7a1603d6424a"
     },
     {
       "key": "wio",
@@ -50,7 +52,8 @@
         7.642
       ],
       "solids": 39,
-      "git_geometry_path": "cad/refs/wio.brep.z.b64"
+      "git_geometry_path": "cad/refs/wio.brep.z.b64",
+      "brep_sha256": "88c6f1973f0aa80afca479a78ea08ed36d51de32ad7c82b16d9dcfb542e5fbcd"
     },
     {
       "key": "transistor",
@@ -65,7 +68,8 @@
         12.8
       ],
       "solids": 1,
-      "git_geometry_path": "cad/refs/transistor.brep.z.b64"
+      "git_geometry_path": "cad/refs/transistor.brep.z.b64",
+      "brep_sha256": "8844d881719853f620e3dbc658ddad00c65e27e864f5916d607ec83ca4e27744"
     }
   ],
   "design": {
@@ -88,7 +92,12 @@
       109.4,
       41.4,
       2.4
-    ]
+    ],
+    "led_orange_center_xz_mm": [
+      142,
+      53.3
+    ],
+    "led_orange_holder_outer_diameter_mm": 10.8
   },
   "qa": {
     "checked_with": "CadQuery 2.8.0, OCP 7.9.3.1, trimesh 4.11.1",
@@ -97,6 +106,8 @@
     "servo_vs_shell_roof_support_door_collision_mm3": 0,
     "boards_intersection_mm3": 0.013,
     "stacking_verified_physically": false,
-    "servo_mount_accurate": "space/envelope yes, horn bolting no"
+    "servo_mount_accurate": "space/envelope yes, horn bolting no",
+    "led_orange_relocated_to_avoid_servo": true,
+    "generated_step_validation": "reimport and compare individual STEP volumes; validate reference checksums and door sweep"
   }
 }
