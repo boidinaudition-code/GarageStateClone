@@ -50,7 +50,11 @@ XIAO_BOARD_NOMINAL = (21.0, 17.8) # Seeed published PCB L x W, height unspecifie
 WIO_STACK_NOMINAL = (23.0, 22.0, 8.0) # Seeed marketing assembled approx; must measure physical stack
 CAP_C1_BODY = (10.0, 13.0) # Gotronic 04947: diameter x height; lead pitch 5mm
 RESISTOR_BODY = (6.5, 2.5) # all 0.5W specified Gotronic: axial length x diameter
-LED_NOMINAL_D = 5.0 # Gotronic WCS101 warm white and L7113NC; detailed dimensions unknown
+LED_NOMINAL_D = 5.0 # WCS101 warm white et L7113NC orange : Ø nominal uniquement
+LED_ENVELOPE = (6.0, 9.0) # enveloppe de service provisoire, pas une cote constructeur
+LED_POCKET_D = 6.6 # envelope Ø6 + 0.30 mm radial par face
+LED_ORANGE_APERTURE_D = 2.0 # ouverture optique discrete en facade
+LED_ORANGE_RECESS = 3.4 # recul de l'optique dans le montant avant
 
 # Modeles STEP source fournis par l'utilisateur; emplacement des archives CAD.
 VENDOR_REF_DIR=ROOT/'refs'
@@ -94,9 +98,9 @@ shell=shell.cut(front_door_cut)
 # Back power cable exit : a 12 x 8 mm slot, away from printed floor
 shell=shell.cut(box(W/2-6,D-WALL-0.2,6,12,WALL+0.5,8))
 # Recessed 5mm amber LED: provisional rear pocket and small optical aperture.
-orange_x=W-14.5
-orange_z=BASE+OPEN_H+6
-orange_holder=cyl_y(orange_x,WALL-0.2,orange_z,10.0,10.2)
+orange_x=OPEN_X+OPEN_W-5.0  # haut droit de la baie, hors volume servo STEP
+orange_z=BASE+OPEN_H+8.3 # assez haut pour ne pas toucher la porte basculante
+orange_holder=cyl_y(orange_x,WALL-0.2,orange_z,10.8,10.2)  # paroi radial >=2.1mm
 shell=shell.fuse(orange_holder)
 shell=shell.cut(cyl_y(orange_x,-0.1,orange_z,LED_ORANGE_APERTURE_D,LED_ORANGE_RECESS+0.2))
 shell=shell.cut(cyl_y(orange_x,LED_ORANGE_RECESS,orange_z,LED_POCKET_D,10.0))
@@ -195,6 +199,18 @@ holder_bottom=roof_under_z-9.8
 holder=cq.Solid.makeCylinder(5.0,10.0,V(led_white_x,led_white_y,holder_bottom),V(0,0,1))
 holder=holder.cut(cq.Solid.makeCylinder(LED_POCKET_D/2,10.2,V(led_white_x,led_white_y,holder_bottom-0.1),V(0,0,1))).clean()
 
+PRINTABLE={
+  '01_coque_blanche':shell,
+  '02_socle_noir':base_plate,
+  '03_toit_noir_pente':roof_lid,
+  '04_porte_noire':door,
+  '05_palier_gauche':bearing,
+  '06_support_servo_step_0p3mm_PROTOTYPE':cradle,
+  '07_plateau_electronique_60x31':tray,
+  '08_liseret_bleu':trim,
+  '09_support_led_blanche':holder,
+}
+
 # 10. Import des quatre vrais STEP. Pas de substitution silencieuse.
 def import_ref(key):
  path=REF_FILES[key]
@@ -214,8 +230,7 @@ def import_ref(key):
    raise ValueError(f'BREP geometrie invalide: {b64path}')
   print(f'REF BREP decompressee sans perte: {b64path.name}')
   return shape
- print(f'WARNING: STEP et BREP absents pour {key}; reference non incluse')
- return None
+ raise FileNotFoundError(f'Reference CAD absente: {key}. Attendu: {path} ou {b64path}')
 
 ref_servo=import_ref('SERVO')
 ref_xiao=import_ref('XIAO')
@@ -249,10 +264,12 @@ if ref_transistor is not None:
  REFERENCES['REF_BC547_STEP_NE_PAS_IMPRIMER']=ref_transistor
 REFERENCES['REF_C1_470uF_16V_NE_PAS_IMPRIMER']=cq.Solid.makeCylinder(
  CAP_C1_BODY[0]/2,CAP_C1_BODY[1],V(W-14,35,BASE+5),V(0,0,1))
-REFERENCES['REF_LED_orange_NE_PAS_IMPRIMER']=cq.Solid.makeCylinder(
- 1.5,6,V(orange_x,-0.6,orange_z),V(0,1,0))
-REFERENCES['REF_LED_blanche_NE_PAS_IMPRIMER']=cq.Solid.makeCylinder(
- 1.5,3.5,V(led_white_x,led_white_y,holder_bottom),V(0,0,1))
+# Enveloppes de service des LED 5 mm : non destinees a l'impression.
+REFERENCES['REF_LED_orange_ENVELOPPE_PROVISOIRE_NE_PAS_IMPRIMER']=cq.Solid.makeCylinder(
+ LED_ENVELOPE[0]/2,LED_ENVELOPE[1],V(orange_x,LED_ORANGE_RECESS,orange_z),V(0,1,0))
+REFERENCES['REF_LED_blanche_ENVELOPPE_PROVISOIRE_NE_PAS_IMPRIMER']=cq.Solid.makeCylinder(
+ LED_ENVELOPE[0]/2,LED_ENVELOPE[1],V(led_white_x,led_white_y,holder_bottom+0.4),V(0,0,1))
+servo_reference=ref_servo # volume de reference a verifier contre les LED et supports
 
 if __name__=='__main__':
     from cadquery import exporters
@@ -301,6 +318,9 @@ if __name__=='__main__':
         'wio_stack_nominal_xyz_seeed_marketing':list(WIO_STACK_NOMINAL),
         'capacitor_body_diameter_height':list(CAP_C1_BODY),
         'resistor_body_length_diameter':list(RESISTOR_BODY),
-        'warm_white_led_diameter_lens_height':list(WHITE_LED_BODY),
+        'orange_optical_aperture_mm':LED_ORANGE_APERTURE_D,
+        'orange_led_recess_from_front_mm':LED_ORANGE_RECESS,
+        'led_pocket_provisional_diameter_mm':LED_POCKET_D,
+        'led_service_envelope_provisional_diameter_length_mm':list(LED_ENVELOPE),
     },'parts':details,'reference_STEP_files':[k for k,v in REF_FILES.items() if v.exists()]},ensure_ascii=False,indent=2))
     print('Done:',STEP)
