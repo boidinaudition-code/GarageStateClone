@@ -73,7 +73,7 @@ Achats **100 % Gotronic** (kits déjà possédés exclus). Prix TTC actuels cont
 
 ## Mécanique retenue
 
-Garage bas et discret : **murs blancs, toit noir mono-pente amovible (+3 mm sur 100 mm de profondeur), porte noire rainurée horizontalement, très fin liseré bleu** au-dessus de la porte. Le visuel de référence est un objet posé sur une étagère ; ce n'est pas un plan coté.
+Garage bas et discret : **murs blancs, toit noir mono-pente amovible (+3 mm sur 100 mm de profondeur), porte noire rainurée horizontalement, **sans bandeau bleu** ; retours de mur dans les deux montants de baie. Le visuel de référence est un objet posé sur une étagère ; ce n'est pas un plan coté.
 
 La porte est **monobloc et bascule vers l'intérieur** autour de l'axe horizontal supérieur de la façade. Fermée, elle est verticale ; ouverte, elle se range sous le toit, vers 90° géométriques. L'aspect sectionnel est purement décoratif : **pas de panneaux articulés, rails courbes, ficelle, poulie, crémaillère ni bielle**.
 
@@ -84,7 +84,7 @@ La porte est **monobloc et bascule vers l'intérieur** autour de l'axe horizonta
 - Compartiment technique arrière hors débattement ; LED blanche chaude **5 mm** sous le toit vers l'arrière, tournée vers le plancher ; orange L7113NC **5 mm cachée en retrait**, derrière un **petit point lumineux** en haut à droite de façade : le diamètre entier n'a pas à être visible. Poches et enveloppes CAO **provisoires**, à ajuster après mesure ; câbles le long de la paroi.
 - Toit démontable, servo/palonnier démontables, USB-C accessible ; antenne éloignée du métal, du servo et des fils 5 V autant que possible. Tester aussi coque fermée.
 
-**Les cotes de coque sont actuellement des propositions CAO, non validées sur les composants physiques** : **184 × 100 mm**, hauteurs avant/arrière **62/65 mm** et baie **110 × 42 mm**. Mesurer en priorité les pattes, l'arbre et le palonnier du servo, l'assemblage XIAO/Wio, l'antenne et les connecteurs avant d'imprimer les fixations définitives. Les angles logiciels 15°/55°/95° ne sont pas des mesures géométriques validées de la porte.
+**Les cotes de coque sont actuellement des propositions CAO, non validées sur les composants physiques** : **190 × 100 mm**, hauteurs avant/arrière **62/65 mm** et baie **110 × 42 mm**. Mesurer en priorité les pattes, l'arbre et le palonnier du servo, l'assemblage XIAO/Wio, l'antenne et les connecteurs avant d'imprimer les fixations définitives. Les angles logiciels 15°/55°/95° ne sont pas des mesures géométriques validées de la porte.
 
 ## Câblage et schémas
 
@@ -233,7 +233,7 @@ Ces commandes sont la procédure à exécuter, **pas une attestation de compilat
 ### Calibration et construction
 
 - Dans `src/main.cpp`, ajuster `ANGLE_CLOSED`, `ANGLE_MIDDLE`, `ANGLE_OPEN` (15°/55°/95° provisoires). Tester sans porte, puis avec un panneau d'essai ; éviter blocage, frottement, surchauffe et effort en butée.
-- Mesurer kit, servo, connecteurs et antenne ; modéliser/imprimer d'abord support servo, accouplement, palier gauche et porte d'essai. Vérifier tout le balayage avant la coque finale à toit amovible. **La CAO V2 paramétrique** dans `cad/generate_cad.py` importe les modèles STEP du MG90, XIAO, Wio et BC547B depuis `cad/refs/`. Les 9 STL et l'assemblage STEP ont été générés localement ; **fixation du palonnier et vis encore à valider**.
+- Mesurer kit, servo, connecteurs et antenne ; modéliser/imprimer d'abord support servo, accouplement, palier gauche et porte d'essai. Vérifier tout le balayage avant la coque finale à toit amovible. **La CAO V2 paramétrique** dans `cad/generate_cad.py` importe les modèles STEP du MG90, XIAO, Wio et BC547B depuis `cad/refs/`. Les 8 STL et l'assemblage STEP ont été générés localement ; **fixation du palonnier et vis encore à valider**.
 - Dans `platformio.ini`, la configuration **V1 à un seul capteur** est maintenant **déjà active** : `OPEN_SENSOR_PRESENT=0`, `SINGLE_SENSOR_OPEN_ESTIMATE_MS=40000UL`. Remplacer la durée par le trajet réel mesuré (en gardant une marge). **L'état 1 est alors une estimation, pas une fin de course ouverte mesurée**.
 - Garder `NETWORK_ID` et paramètres radio identiques sur les deux appareils. Tester SF8 avant d'augmenter `RADIO_SF` sur les deux cartes ; adapter l'implantation des antennes avant la puissance ou le temps d'émission.
 
@@ -271,7 +271,7 @@ Placer les appareils dans le garage réel et la maison, puis tester les quatre �
 
 - [**Tableau exhaustif des cotes connues, réserves et dimensions à mesurer**](docs/ENCOMBREMENT_BOM_V1.md).
 - [**CAO CadQuery paramétrique — source reproductible**](cad/generate_cad.py), [notice CAO](cad/README.md).
-- Dimensions de départ de la miniature **168 × 100 mm**, hauteurs avant/arrière **62/65 mm**, toit mono-pente **3 mm / 100 mm**, parois **2,4 mm**, jeu **0,30 mm par face** ; **ne pas confondre** ces choix CAO avec les dimensions fabricant.
+- Dimensions de départ de la miniature **190 × 100 mm**, hauteurs avant/arrière **62/65 mm**, toit mono-pente **3 mm / 100 mm**, parois **2,4 mm**, jeu **0,30 mm par face** ; **ne pas confondre** ces choix CAO avec les dimensions fabricant.
 - Le **corps** du DMS-MG90 fait **22,3 × 11,8 × 26,3 mm**, mais palonnier, pattes et axe restent **à mesurer avant fabrication définitive**. Le XIAO seul fait **21 × 17,8 mm** ; l'enveloppe radio dans la CAO est une **réserve de service**, non sa taille réelle.
 
 
@@ -291,7 +291,7 @@ Placer les appareils dans le garage réel et la maison, puis tester les quatre �
 
 Les quatre géométries sources `cad/refs/*.brep.z.b64` sont conservées sans perte : **ne pas modifier manuellement ces fichiers compressés** et ne pas faire de résolution de conflit ligne à ligne dans leur contenu. Les STEP et STL **ne sont pas versionnés** ; ils sont **générés** par [`cad/generate_cad.py`](cad/generate_cad.py) pour éviter les conflits de fusion de fichiers CAO binaires.
 
-Une [action GitHub de validation CAO](.github/workflows/cad-validation.yml) reconstruit **9 STEP de pièces + 1 STEP d'assemblage et 9 STL**, vérifie les empreintes SHA256 des quatre références, **réimporte les STEP**, teste les volumes, le caractère fermé des STL et les collisions avec les LED et le servo. Les exports sont disponibles dans l'artefact **`garage-state-clone-cad-step-stl`** de la page **Actions**.
+Une [action GitHub de validation CAO](.github/workflows/cad-validation.yml) reconstruit **8 STEP de pièces + 1 STEP d'assemblage, 2 STEP Onshape de secours et 8 STL**, vérifie les empreintes SHA256 des quatre références, **réimporte les STEP**, teste les volumes, le caractère fermé des STL et les collisions avec les LED et le servo. Les exports sont disponibles dans l'artefact **`garage-state-clone-cad-step-stl`** de la page **Actions**.
 
 ### Génération locale
 
@@ -315,4 +315,12 @@ Si Onshape affiche **« REF_XIAO_NRF52840_STEP_NE_PAS_IMPRIMER — contains faul
 - `GarageStateClone_V2_assemblage_STEP_references.step` : ensemble régénéré avec XIAO simplifié.
 - `GarageStateClone_V2_STRUCTURE_SANS_REFERENCES_ONSHAPE.step` : neuf pièces du garage, **sans géométries tierces**, si Onshape signale d'autres défauts.
 
-Les **12 STEP** et 9 STL sont générés par le workflow [CAD sur GitHub Actions](.github/workflows/cad-validation.yml), pas fusionnés comme fichiers sources. L'ancien modèle déjà importé dans Onshape **ne sera pas remplacé automatiquement**.
+Les **11 STEP** et 8 STL sont générés par le workflow [CAD sur GitHub Actions](.github/workflows/cad-validation.yml), pas fusionnés comme fichiers sources. L'ancien modèle déjà importé dans Onshape **ne sera pas remplacé automatiquement**.
+
+## Modification V3 — joues intérieures, aucun bandeau bleu
+
+Sur la façade, les retours de tableau **gauche et droit** sont désormais intégrés à la coque, **2,4 mm d'épaisseur** et **10 mm de profondeur vers l'intérieur**, pour masquer le vide latéral derrière la porte. Ils restent **en dehors de la largeur mobile de la porte**, avec **0,30 mm de jeu de chaque côté**. Le palier gauche est légèrement décalé et traversé par l'axe avec un trou Ø3,8 mm ; l'axe du servo à droite est décalé de 1,5 mm pour préserver le retour.
+
+Pour éviter l'interférence avec le MG90 réel, la coque passe à **190 × 100 mm** (au lieu de 184 × 100), sans changement de l'ouverture **110 × 42 mm**, du toit mono-pente ni de la hauteur **62/65 mm**. L'écart provisoire entre le bout du panneau et le servo est porté à **3 mm**, nécessitant un accouplement restant à concevoir. **Le liseré bleu a été entièrement supprimé** des exports, des assemblages et de la vue de signalisation : il ne reste que **8 STL imprimables et 11 STEP générés**. [Détails et validations](docs/RETOURS_FACADE_V3.md).
+
+Les STEP importés auparavant dans Onshape ne changent pas automatiquement ; utiliser le nouvel artefact du workflow [CAD](.github/workflows/cad-validation.yml). Montage mécanique non validé physiquement.

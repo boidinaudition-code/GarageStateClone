@@ -26,7 +26,7 @@
 
 | Paramètre CAO | Cote (mm) | Statut |
 |---|---:|---|
-| Coque extérieure W × D | **184 × 100** | **P — CAO V2 actuelle**, largeur initiale 168 obsolète |
+| Coque extérieure W × D | **190 × 100** | **P — CAO V3 actuelle**, largeur initiale 168 et ancienne V2 184 obsolètes |
 | Hauteurs avant/arrière | **62 / 65** | **P** ; mono-pente +3 mm sur 100 mm (≈1,72°) |
 | Parois structurelles | **2,4** | **P**, minimum exigé ≥2 |
 | Toit et socle | **3,0** | **P** |
@@ -46,7 +46,7 @@
 
 - **Servo à l'avant, côté droit**, axe moteur coaxial avec l'axe horizontal **supérieur de la porte**, palier côté gauche ; la porte rigide rainurée **bascule vers l'intérieur** et se range sous le toit en pente.
 - XIAO+Wio sur plateau arrière hors trajectoire ; condensateur proche du servo ; LED blanche à l'arrière sous le toit hors zone balayée ; LED orange en haut à droite de façade.
-- Design esthétique validé : **murs blancs, toit noir légèrement en pente, porte noire, très fin liseré bleu** ; toit amovible. Imprimante **Bambu Lab P1S + AMS**.
+- Design esthétique V3 : **murs blancs, toit noir légèrement en pente, porte noire, aucun liseré bleu** ; toit amovible. Imprimante **Bambu Lab P1S + AMS**.
 - Les pièces de la V1 **ne sont pas prêtes pour l'assemblage final** : centre réel de l'arbre et entraxes de fixations MG90, sortie USB, antenne, aimant du SAS308 et collerette LED orange à mesurer.
 
 ## Capteur unique de fermeture
@@ -80,4 +80,6 @@ L'assemblage Wio **sous** XIAO est une proposition de placement avec très faibl
 
 [Source paramétrique V2](../cad/generate_cad.py) — [Notice CAO V2](../cad/README.md) — [Manifestes et références](../cad/vendor_models/README.md).
 
-**Contrôle post-fusion :** le générateur et le JSON paramétrique ont été réconciliés sur la largeur **184 mm** et la baie **110 mm**. Les 4 BREP ont des empreintes SHA256 fixées dans le [manifeste](../cad/vendor_models/manifest.json), contrôlées avant export. Voir [rapport de validation automatisée](../cad/test_step_exports.py).
+**Contrôle post-fusion :** le générateur et le JSON paramétrique ont été réconciliés sur la largeur **190 mm** et la baie **110 mm**. Les 4 BREP ont des empreintes SHA256 fixées dans le [manifeste](../cad/vendor_models/manifest.json), contrôlées avant export. Voir [rapport de validation automatisée](../cad/test_step_exports.py).
+
+**Nouvel habillage de baie :** deux retours verticaux à épaisseur **2,4 mm**, profondeur **10 mm**, entièrement à l'extérieur de la baie (0,30 mm de jeu latéral au panneau). Passage Ø3,8 mm pour tourillon Ø3,2 mm à gauche. Coque **190 × 100 mm**, servo décalé de 1,5 mm latéralement, accouplement à concevoir sur un entrefer nominal de **3 mm**. Le bandeau bleu et son STL/STEP ont été retirés. [Notes de validation V3](RETOURS_FACADE_V3.md).
