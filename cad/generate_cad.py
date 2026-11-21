@@ -18,7 +18,7 @@ STEP = ROOT / "step"
 for folder in [STL,STEP]: folder.mkdir(parents=True, exist_ok=True)
 
 # ========= PARAMETERS (mm) =========
-W = 168.0                  # external shell width; expanded from concept to fit servo right pier
+W = 184.0                  # external shell width; expanded from concept to fit servo right pier
 D = 100.0                  # external shell depth
 H_FRONT = 62.0             # roof TOP at front
 H_BACK = 65.0              # roof TOP at rear (3 mm mono-pente)
@@ -28,11 +28,11 @@ BASE = 3.0                # floor solid thickness >= 2
 FIT = 0.30                # clearance PER FACE for slide-on and hinged fits
 ROOF_OVERHANG = 3.0
 ROOF_SKIRT_DROP = 4.5
-OPEN_W = 104.0
+OPEN_W = 110.0
 OPEN_H = 42.0
 OPEN_X = (W-OPEN_W)/2
 OPEN_Z = BASE
-PIVOT_Y = 12.0            # recess of axis; avoids front wall and servo body collision
+PIVOT_Y = 9.5            # recess of axis; avoids front wall and servo body collision
 PIVOT_Z = BASE + OPEN_H + 0.4
 DOOR_T = 2.4
 DOOR_W = OPEN_W - 2*FIT
@@ -42,14 +42,22 @@ HINGE_SOCKET_D = HINGE_D + 2*FIT
 HINGE_PIN_LEFT = 6.0
 LED_ORANGE_D = 3.0
 LED_ORANGE_HOLE_D = LED_ORANGE_D + 2*FIT
-SERVO_CASE = (22.3, 11.8, 26.3) # official DFRobot DMS-MG90 BODY only; tabs/shaft/horn not included
-CARD_ENVELOPE = (52.0, 23.0, 12.0) # reserved service envelope, NOT PCB dimensions; include USB/antenna slack
+# STEP fourni: servo complet avec pattes et arbre, repere d'origine XYZ.
+SERVO_CASE = (33.4, 32.5, 12.22)
+SERVO_OUTPUT_AXIS_LOCAL=(6.05,32.5,6.1)
+CARD_ENVELOPE = (29.0, 25.0, 18.0) # enveloppe de service, non la taille des cartes
 XIAO_BOARD_NOMINAL = (21.0, 17.8) # Seeed published PCB L x W, height unspecified
 WIO_STACK_NOMINAL = (23.0, 22.0, 8.0) # Seeed marketing assembled approx; must measure physical stack
 CAP_C1_BODY = (10.0, 13.0) # Gotronic 04947: diameter x height; lead pitch 5mm
 RESISTOR_BODY = (6.5, 2.5) # all 0.5W specified Gotronic: axial length x diameter
 WHITE_LED_BODY = (3.0, 5.1) # Luckylight 304WC2J-W6-3PD: diameter x nominal lens length
 
+# Modeles STEP source fournis par l'utilisateur; emplacement des archives CAD.
+VENDOR_REF_DIR=ROOT/'refs'
+REF_FILES={'SERVO':VENDOR_REF_DIR/'servo.step',
+           'XIAO':VENDOR_REF_DIR/'xiao.step',
+           'WIO':VENDOR_REF_DIR/'wio.step',
+           'BC547':VENDOR_REF_DIR/'transistor.step'}
 # Helpers
 V = cq.Vector
 
@@ -138,21 +146,31 @@ bearing=bearing.cut(cyl_x(bearing_x-0.1,PIVOT_Y,PIVOT_Z,HINGE_SOCKET_D,bearing_w
 flange=box(OPEN_X-18,WALL+0.5,PIVOT_Z-10,12.0,2.4,18.0)
 bearing=bearing.fuse(flange).clean()
 
-# 6. Provisional servo cradle at FRONT RIGHT; fit slot is SERVO Y dimension + 0.6mm
-servo_x=door_x1+3.0
-servo_y=PIVOT_Y-SERVO_CASE[1]/2
-servo_z=PIVOT_Z-SERVO_CASE[2]
-cradle_x0=servo_x-1.0
-cradle_y0=servo_y-(WALL+FIT)
-cradle_dx=SERVO_CASE[0]+2.0
-cradle_dy=SERVO_CASE[1]+2*(WALL+FIT)
-cradle_z0=servo_z-3.0
-cradle=box(cradle_x0,cradle_y0,cradle_z0,cradle_dx,cradle_dy,3.0)
-cradle=cradle.fuse(box(cradle_x0,cradle_y0,cradle_z0+3.0,cradle_dx,WALL,6.0))
-cradle=cradle.fuse(box(cradle_x0,cradle_y0+cradle_dy-WALL,cradle_z0+3.0,cradle_dx,WALL,6.0)).clean()
-# The bottom tray is printable; actual servo tabs and horn adapters require measuring.
+# 6. Servo MG90 complet, dans le montant AVANT DROIT. Axe de sortie coaxial
+# avec le pivot X de la porte (modele STEP: sortie suivant +Y d'origine).
+# Rotations Z(+90) puis X(-90) : arbre dirigé selon -X du garage.
+SERVO_SHAFT_TIP_X=door_x1+1.5   # accouplement palonnier non defini
+SERVO_ORIGIN=(SERVO_SHAFT_TIP_X+32.5,PIVOT_Y-6.1,PIVOT_Z+6.05)
+SERVO_BBOX=(SERVO_SHAFT_TIP_X,SERVO_SHAFT_TIP_X+32.5,
+            PIVOT_Y-6.1,PIVOT_Y+6.12,
+            PIVOT_Z-22.1,PIVOT_Z+11.3)
+servo_xmin,servo_xmax,servo_ymin,servo_ymax,servo_zmin,servo_zmax=SERVO_BBOX
+cradle_z_top=servo_zmin-FIT
+cradle_xmin=servo_xmin-FIT
+cradle_xmax=servo_xmax+FIT
+cradle_ymin=servo_ymin-FIT
+cradle_ymax=servo_ymax+FIT
+cradle=box(cradle_xmin,cradle_ymin,cradle_z_top-2.4,
+           cradle_xmax-cradle_xmin,cradle_ymax-cradle_ymin,2.4)
+cradle=cradle.fuse(box(cradle_xmin,cradle_ymax,cradle_z_top-2.4,
+                      cradle_xmax-cradle_xmin,2.4,6.0))
+for xi in (cradle_xmin+4.0,cradle_xmax-7.5):
+ for yi in (cradle_ymin+0.5,cradle_ymax-3.9):
+  cradle=cradle.fuse(box(xi,yi,BASE,3.2,3.2,cradle_z_top-2.4-BASE+0.02))
+cradle=cradle.clean()
+# Fixations et palonnier restent a mesurer physiquement.
 
-# 7. Rear electronics tray; board envelope reference 52 x 21, lower than roof.
+# 7. Plateau electronique arriere pour les modeles 3D reels.
 tray_x0=W/2-30
 tray_y0=D-WALL-33.5
 tray_z0=6.0
@@ -166,37 +184,56 @@ trim=box(OPEN_X+FIT,-1.2,BASE+OPEN_H+1.2,OPEN_W-2*FIT,1.2,2.0)
 
 # 9. Low-profile single-LED holder glued under the sloping roof, outside door sweep
 led_white_x=W/2
-led_white_y=60.0  # ~7 mm behind the end of the door when opened
+led_white_y=69.0  # ~7 mm behind the end of the door when opened
 roof_under_z=H_FRONT-ROOF+(H_BACK-H_FRONT)*led_white_y/D
 holder_bottom=roof_under_z-4.5
 holder=cq.Solid.makeCylinder(4.0,4.0,V(led_white_x,led_white_y,holder_bottom),V(0,0,1))
 holder=holder.cut(cq.Solid.makeCylinder(1.8,4.2,V(led_white_x,led_white_y,holder_bottom-0.1),V(0,0,1))).clean()
 
-# 10. Reference solids (non printable) to inspect reserved volumes in STEP assembly
-servo_reference=box(servo_x,servo_y,servo_z,*SERVO_CASE)
-servo_shaft_reference=cyl_x(servo_x-3.0,PIVOT_Y,PIVOT_Z,5.0,3.0)
-servo_reference=servo_reference.fuse(servo_shaft_reference).clean()
-board_reference=box(W/2-CARD_ENVELOPE[0]/2,tray_y0+3.2,tray_z0+2.4,
-                    CARD_ENVELOPE[0],CARD_ENVELOPE[1],CARD_ENVELOPE[2])
+# 10. Import des quatre vrais STEP. Pas de substitution silencieuse.
+def import_ref(key):
+ path=REF_FILES[key]
+ if not path.exists():
+  print(f'WARNING: STEP manquant {path}. Reference absente de l assemblage.')
+  return None
+ return cq.importers.importStep(str(path)).val()
 
-PRINTABLE={
-  '01_coque_blanche':shell,
-  '02_socle_noir':base_plate,
-  '03_toit_noir_pente':roof_lid,
-  '04_porte_noire':door,
-  '05_palier_gauche':bearing,
-  '06_support_servo_provisoire':cradle,
-  '07_plateau_electronique':tray,
-  '08_liseret_bleu':trim,
-  '09_support_led_blanche':holder,
-}
-REFERENCES={
-  'REF_servo_a_mesurer_NE_PAS_IMPRIMER':servo_reference,
-  'REF_zone_service_XIAO_Wio_NE_PAS_IMPRIMER':board_reference,
-  'REF_C1_470uF_16V_NE_PAS_IMPRIMER':cq.Solid.makeCylinder(CAP_C1_BODY[0]/2,CAP_C1_BODY[1],V(W-14,35,BASE+5),V(0,0,1)),
-  'REF_LED_orange_NE_PAS_IMPRIMER':cq.Solid.makeCylinder(1.5,6,V(orange_x,-0.6,orange_z),V(0,1,0)),
-  'REF_LED_blanche_NE_PAS_IMPRIMER':cq.Solid.makeCylinder(1.5,3.5,V(led_white_x,led_white_y,holder_bottom),V(0,0,1)),
-}
+ref_servo=import_ref('SERVO')
+ref_xiao=import_ref('XIAO')
+ref_wio=import_ref('WIO')
+ref_transistor=import_ref('BC547')
+REFERENCES={}
+if ref_servo is not None:
+ ref_servo=ref_servo.rotate((0,0,0),(0,0,1),90).rotate((0,0,0),(1,0,0),-90)
+ ref_servo=ref_servo.translate(SERVO_ORIGIN)
+ REFERENCES['REF_MG90_STEP_NE_PAS_IMPRIMER']=ref_servo
+
+TRAY_TOP=tray_z0+2.4
+XIAO_LOCAL_CENTER_X=(-8.673+13.809)/2
+XIAO_LOCAL_CENTER_Y=(-2.779+15.001)/2
+XIAO_OFF_X=W/2-XIAO_LOCAL_CENTER_X
+XIAO_OFF_Y=tray_y0+15.5-XIAO_LOCAL_CENTER_Y
+# Module Wio EN DESSOUS du XIAO. Coaxialite XY des rows de 2.54 mm;
+# hauteur de connexion approximate, a mesurer sur les broches physiques.
+WIO_OFF_Z=TRAY_TOP+3.5+1.53
+XIAO_OFF_Z=WIO_OFF_Z+6.362
+if ref_xiao is not None:
+ ref_xiao=ref_xiao.rotate((0,0,0),(1,0,0),90)
+ ref_xiao=ref_xiao.translate((XIAO_OFF_X,XIAO_OFF_Y,XIAO_OFF_Z))
+ REFERENCES['REF_XIAO_STEP_NE_PAS_IMPRIMER']=ref_xiao
+if ref_wio is not None:
+ ref_wio=ref_wio.rotate((0,0,0),(0,0,1),90)
+ ref_wio=ref_wio.translate((XIAO_OFF_X-119.16,XIAO_OFF_Y-108.29,WIO_OFF_Z))
+ REFERENCES['REF_WIO_STEP_NE_PAS_IMPRIMER']=ref_wio
+if ref_transistor is not None:
+ ref_transistor=ref_transistor.translate((tray_x0+52,tray_y0+14,TRAY_TOP+0.5))
+ REFERENCES['REF_BC547_STEP_NE_PAS_IMPRIMER']=ref_transistor
+REFERENCES['REF_C1_470uF_16V_NE_PAS_IMPRIMER']=cq.Solid.makeCylinder(
+ CAP_C1_BODY[0]/2,CAP_C1_BODY[1],V(W-14,35,BASE+5),V(0,0,1))
+REFERENCES['REF_LED_orange_NE_PAS_IMPRIMER']=cq.Solid.makeCylinder(
+ 1.5,6,V(orange_x,-0.6,orange_z),V(0,1,0))
+REFERENCES['REF_LED_blanche_NE_PAS_IMPRIMER']=cq.Solid.makeCylinder(
+ 1.5,3.5,V(led_white_x,led_white_y,holder_bottom),V(0,0,1))
 
 if __name__=='__main__':
     from cadquery import exporters
@@ -215,15 +252,15 @@ if __name__=='__main__':
                        'bounds_mm':{c:round(getattr(bb,c),2) for c in ['xmin','xmax','ymin','ymax','zmin','zmax']},
                        'solids':len(solids),'valid':s.isValid()}
         print(name,'volume',round(s.Volume(),1),'mm3')
-    assy=cq.Assembly(name='GarageStateClone_V1')
+    assy=cq.Assembly(name='GarageStateClone_V2_STEP')
     colors={
        '01_coque_blanche':cq.Color(0.96,0.96,0.95),
        '02_socle_noir':cq.Color(0.12,0.13,0.15),
        '03_toit_noir_pente':cq.Color(0.12,0.13,0.15),
        '04_porte_noire':cq.Color(0.15,0.16,0.18),
        '05_palier_gauche':cq.Color(0.65,0.68,0.7),
-       '06_support_servo_provisoire':cq.Color(0.50,0.55,0.6),
-       '07_plateau_electronique':cq.Color(0.54,0.58,0.62),
+       '06_support_servo_step_0p3mm_PROTOTYPE':cq.Color(0.50,0.55,0.6),
+       '07_plateau_electronique_60x31':cq.Color(0.54,0.58,0.62),
        '08_liseret_bleu':cq.Color(0.07,0.27,0.65),
        '09_support_led_blanche':cq.Color(0.96,0.96,0.95),
     }
@@ -231,7 +268,7 @@ if __name__=='__main__':
         assy.add(s,name=name,color=colors[name])
     for name,s in REFERENCES.items():
         assy.add(s,name=name,color=cq.Color(0.7,0.35,0.3,0.55))
-    assy.save(str(STEP/'GarageStateClone_V1_assemblage.step'))
+    assy.save(str(STEP/'GarageStateClone_V2_assemblage_STEP_references.step'))
     (ROOT/'metriques_validation.json').write_text(json.dumps({'parameters_mm':{
         'width':W,'depth':D,'front_height':H_FRONT,'rear_height':H_BACK,
         'roof_slope_rise':H_BACK-H_FRONT,'wall':WALL,'roof':ROOF,'base':BASE,
@@ -240,11 +277,11 @@ if __name__=='__main__':
         'bearing_hole_diameter':HINGE_SOCKET_D,
         'pivot_y':PIVOT_Y,'pivot_z':PIVOT_Z,
         'led_white_y':led_white_y,'led_orange_x':orange_x,
-        'servo_body_nominal':list(SERVO_CASE),'card_service_envelope_proposed':list(CARD_ENVELOPE),
+        'servo_complete_STEP_local_bbox_xyz':list(SERVO_CASE),'servo_axis_tip_x':SERVO_SHAFT_TIP_X,'card_service_envelope_proposed':list(CARD_ENVELOPE),
         'xiao_pcb_nominal_LW':list(XIAO_BOARD_NOMINAL),
         'wio_stack_nominal_xyz_seeed_marketing':list(WIO_STACK_NOMINAL),
         'capacitor_body_diameter_height':list(CAP_C1_BODY),
         'resistor_body_length_diameter':list(RESISTOR_BODY),
         'warm_white_led_diameter_lens_height':list(WHITE_LED_BODY),
-    },'parts':details},ensure_ascii=False,indent=2))
+    },'parts':details,'reference_STEP_files':[k for k,v in REF_FILES.items() if v.exists()]},ensure_ascii=False,indent=2))
     print('Done:',STEP)
