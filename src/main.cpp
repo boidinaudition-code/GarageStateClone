@@ -112,7 +112,12 @@ Frame makeFrame(uint8_t kind, uint16_t seq, uint8_t value) {
 #if defined(ROLE_EMETTEUR)
 
 static constexpr uint8_t PIN_CLOSED = D6;
-static constexpr uint8_t PIN_OPEN = D7;
+static constexpr uint8_t PIN_OPEN = D7; // utiliser seulement avec OPEN_SENSOR_PRESENT=1
+#if !OPEN_SENSOR_PRESENT
+  #ifndef SINGLE_SENSOR_OPEN_ESTIMATE_MS
+    #define SINGLE_SENSOR_OPEN_ESTIMATE_MS 40000UL
+  #endif
+#endif
 static constexpr uint32_t DEBOUNCE_MS = 150;
 static constexpr uint32_t HEARTBEAT_MS = 60000; // duree entre deux rapports
 static constexpr uint32_t ACK_WAIT_MS = 600;
@@ -124,6 +129,9 @@ uint32_t candidateSince = 0;
 uint32_t lastReportMs = 0;
 uint16_t seqCounter = 0;
 bool reportPending = true; // envoyer l'etat immediatement au demarrage
+#if !OPEN_SENSOR_PRESENT
+uint32_t absenceMagnetSince = 0; // depart du delai d'ouverture ESTIMEE, pas mesuree
+#endif
 
 uint8_t readDoor() {
   // Contact sec SAS308 qui se FERME quand l'aimant arrive en fin de course.
@@ -202,12 +210,26 @@ void setup() {
   delay(200); // stabilisation contacts au demarrage
   stableState = candidateState = readDoor();
   candidateSince = millis();
+#if !OPEN_SENSOR_PRESENT
+  absenceMagnetSince = candidateSince;
+  Serial.println("Capteur unique FERME : ouverture inferee apres delai, PAS confirmee");
+#endif
   initRadio();
 }
 
 void loop() {
   const uint32_t now = millis();
-  const uint8_t raw = readDoor();
+  uint8_t raw = readDoor();
+#if !OPEN_SENSOR_PRESENT
+  if (raw == STATE_CLOSED) {
+    // Aimant en face = fermeture vraiment constatee.
+    absenceMagnetSince = now;
+  } else if (now - absenceMagnetSince >= SINGLE_SENSOR_OPEN_ESTIMATE_MS) {
+    // Une seule fin de course NE PROUVE JAMAIS la pleine ouverture.
+    // Heuristique purement decorative pour animer la porte/LED miniature.
+    raw = STATE_OPEN;
+  }
+#endif
   if (raw != candidateState) {
     candidateState = raw;
     candidateSince = now;

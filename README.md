@@ -2,7 +2,7 @@
 
 Reproduire dans une maquette l'état de la vraie porte de garage, sans jamais la commander. Deux kits **Seeed Studio XIAO nRF52840 + Wio-SX1262 à deux barrettes de 7 broches** communiquent directement en LoRa ; ce n'est **pas** la variante Wio B2B pour ESP32-S3.
 
-**État du projet : prototype documentaire et logiciel à valider.** Le dépôt contient un firmware commun à deux rôles, quatre documents et trois SVG. Il ne contient **aucun STL** et aucune validation physique sur table, mécanique ou radio n'est démontrée. Les références dites « vérifiées » dans les documents correspondent à une revue documentaire, pas à une qualification matérielle. Ce README centralise la V1 retenue ; les documents détaillés restent disponibles en fin de page.
+**État du projet : prototype documentaire et logiciel à valider.** Le dépôt contient un firmware commun à deux rôles, la documentation de câblage, le relevé dimensionnel et un **code source CAO paramétrique**. Les STL/STEP issus du code sont **des prototypes**, non des pièces finalisées et aucune validation physique sur table, mécanique ou radio n'est démontrée. Les références dites « vérifiées » dans les documents correspondent à une revue documentaire, pas à une qualification matérielle. Ce README centralise la V1 retenue ; les documents détaillés restent disponibles en fin de page.
 
 ## Sommaire
 
@@ -18,7 +18,7 @@ Reproduire dans une maquette l'état de la vraie porte de garage, sans jamais la
 
 ## Architecture et sécurité
 
-- **Émetteur, dans le vrai garage** : deux contacts magnétiques miniatures **SAS308**, un en fin de course fermée et un en fin de course ouverte ; alimentation USB-C 5 V isolée.
+- **Émetteur, dans le vrai garage** : **un seul SAS308**, détectant uniquement la **fermeture** réelle (aimant face au capteur) ; alimentation USB-C 5 V isolée.
 - **Récepteur, dans la maison** : un **DFRobot DMS-MG90** anime uniquement la porte miniature ; une LED blanche chaude éclaire l'intérieur et une LED orange discrète signale les états et anomalies.
 - **Liaison directe 868,125 MHz** : sans passerelle, réseau maillé ni Internet. Aucun fil ne relie les deux appareils. Internet n'est nécessaire que pour installer les outils/dépendances au premier build.
 
@@ -47,7 +47,7 @@ Prix **historiques indicatifs TTC issus de la nomenclature du 21 novembre 2026**
 
 | Quantité montée | Pièce / référence | Prix historique pris en compte | Caractéristiques / usage |
 |---:|---|---:|---|
-| 2 | [SAS308 — Gotronic 26449](https://www.gotronic.fr/art-contact-magnetique-miniature-sas308-12751.htm) | 3,90 € chacun, soit 7,80 € | Aimants inclus, vis non fournies ; 24 × 15 × 6 mm, distance maxi 15 mm, câble moulé de 25 cm par capteur ; contact fermé aimant en face, à vérifier au multimètre |
+| **1** | [SAS308 — Gotronic 26449](https://www.gotronic.fr/art-contact-magnetique-miniature-sas308-12751.htm) | **3,90 €** | 24 × 15 × 6 mm ; écart aimant 15 mm max. ; câble moulé 250 mm ; capteur unique de **fermeture**. Dimensions de l'aimant à mesurer. |
 | 1 | [DFRobot DMS-MG90 — Gotronic 36923](https://www.gotronic.fr/art-servomoteur-dms-mg90-32266.htm) | 7,90 € | Positionnel, pignons métal, 4,8–6 V, course annoncée 2 × 90° ; palonnier et visserie inclus |
 | 1 | [470 µF / 16 V — Gotronic 04947](https://www.gotronic.fr/art-condensateur-radial-470uf-16v-3386.htm) | 0,20 € | Condensateur polarisé près du servo |
 | 1 | [BC547B NPN TO-92 — Gotronic 02173](https://www.gotronic.fr/art-transistor-bc547b-1336.htm) | 0,15 € | Q1, commande de la LED blanche depuis D7 ; identifier C/B/E sur la notice du lot |
@@ -58,20 +58,20 @@ Prix **historiques indicatifs TTC issus de la nomenclature du 21 novembre 2026**
 | 1 | [LED blanche chaude 3 mm 3000 K — 304WC2J-W6-3PD](https://rptronics.fr/led-blanche-chaude-ronde-3mm-5000-8500mcd-304wc2j-w6-3pd%2C179414.html) | 0,19 € pièce, minimum 10, soit 1,90 € | Vf annoncée 2,6–3,6 V ; alimentée en 5 V via R1 et Q1 |
 | 1 | [LED orange 3 mm non clignotante — LED3OLN](https://www.lextronic.fr/leds-18-mm-a-3-mm-10919) | 0,40 € | Clignotement logiciel ; variante L-7104SEC-H à 0,80 € non retenue dans le sous-total |
 
-**Sous-total indicatif historique : 19,55 EUR TTC**, incluant les quatre lots de résistances et le minimum de dix LED blanches, **hors port, consommables, alimentations, câbles, borniers et fixation** ; les kits déjà disponibles ne sont pas comptés. Ce n'est pas le budget complet. Utiliser les LED du stock si compatibles évite des commandes supplémentaires ; les délais de livraison restent à confirmer au panier.
+**Sous-total indicatif historique : 15,65 EUR TTC**, incluant les quatre lots de résistances et le minimum de dix LED blanches, **hors port, consommables, alimentations, câbles, borniers et fixation** ; les kits déjà disponibles ne sont pas comptés. Ce n'est pas le budget complet. Utiliser les LED du stock si compatibles évite des commandes supplémentaires ; les délais de livraison restent à confirmer au panier.
 
 ### Fournitures nécessaires si absentes
 
 - Au minimum **deux alimentations USB 5 V** : une pour l'émetteur, une **5 V / 2 A minimum** pour la miniature.
 - Un **répartiteur de puissance 5 V externe** côté miniature : branche USB-C XIAO et branche 5 V/GND distincte pour servo + LED blanche. Variante : chargeur supplémentaire pour servo + LED blanche, avec GND commun et +5 V séparés.
 - **Deux câbles USB-C**, plus le câble/dispositif de distribution d'alimentation du servo.
-- Fils souples, fil deux conducteurs pour prolonger les **25 cm moulés de chaque SAS308**, borniers/connecteurs, petite plaque à souder, gaine thermorétractable et isolants.
-- Vis pour les deux SAS308, raccordements protégés, supports imprimés du servo et des LED, adaptateur de palonnier, axe/tourillon et palier gauche, coque et toit démontable.
+- Fils souples, fil deux conducteurs pour prolonger les **25 cm moulés du SAS308**, borniers/connecteurs, petite plaque à souder, gaine thermorétractable et isolants.
+- Vis pour le SAS308, raccordements protégés, supports imprimés du servo et des LED, adaptateur de palonnier, axe/tourillon et palier gauche, coque et toit démontable.
 - Multimètre pour continuité, polarités, résistances, tensions et masses ; outillage de soudure et fixation adapté.
 
 ## Mécanique retenue
 
-Garage bas et discret : **murs blancs, toit plat noir amovible, porte noire rainurée horizontalement, très fin liseré bleu** au-dessus de la porte. Le visuel de référence est un objet posé sur une étagère ; ce n'est pas un plan coté.
+Garage bas et discret : **murs blancs, toit noir mono-pente amovible (+3 mm sur 100 mm de profondeur), porte noire rainurée horizontalement, très fin liseré bleu** au-dessus de la porte. Le visuel de référence est un objet posé sur une étagère ; ce n'est pas un plan coté.
 
 La porte est **monobloc et bascule vers l'intérieur** autour de l'axe horizontal supérieur de la façade. Fermée, elle est verticale ; ouverte, elle se range sous le toit, vers 90° géométriques. L'aspect sectionnel est purement décoratif : **pas de panneaux articulés, rails courbes, ficelle, poulie, crémaillère ni bielle**.
 
@@ -82,7 +82,7 @@ La porte est **monobloc et bascule vers l'intérieur** autour de l'axe horizonta
 - Compartiment technique arrière hors débattement ; LED blanche sous le toit vers l'arrière, tournée vers le plancher ; LED orange 3 mm discrètement encastrée en haut à droite de façade, câbles le long de la paroi.
 - Toit démontable, servo/palonnier démontables, USB-C accessible ; antenne éloignée du métal, du servo et des fils 5 V autant que possible. Tester aussi coque fermée.
 
-**Aucune cote de coque ou de porte n'est figée.** Mesurer les composants réels avant modélisation : ne pas réutiliser les anciennes dimensions hypothétiques. Les angles logiciels 15°/55°/95° ne sont pas des mesures géométriques validées de la porte.
+**Les cotes de coque sont actuellement des propositions CAO, non validées sur les composants physiques** : 168 × 100 mm, hauteurs avant/arrière 62/65 mm et baie 104 × 42 mm. Mesurer en priorité les pattes, l'arbre et le palonnier du servo, l'assemblage XIAO/Wio, l'antenne et les connecteurs avant d'imprimer les fixations définitives. Les angles logiciels 15°/55°/95° ne sont pas des mesures géométriques validées de la porte.
 
 ## Câblage et schémas
 
@@ -99,7 +99,7 @@ Les SVG sont des **schémas électriques de principe**, pas des plans PCB ni des
 | D4 | P0.04 | LoRa NSS |
 | D5 | P0.05 | Commutateur RF ; HIGH active la commande par DIO2 |
 | D6 | P1.11 | Émetteur : contact fermé ; récepteur : signal servo |
-| D7 | P1.12 | Émetteur : contact ouvert ; récepteur : commande Q1 |
+| D7 | P1.12 | Émetteur : **libre en V1 (un seul SAS308 sur D6)** ; récepteur : commande Q1 |
 | D8 / D9 / D10 | P1.13 / P1.14 / P1.15 | SPI radio SCK / MISO / MOSI |
 
 ### Émetteur — vraie porte
@@ -108,13 +108,13 @@ Les SVG sont des **schémas électriques de principe**, pas des plans PCB ni des
 |---|---|
 | Chargeur USB isolé 5 V | USB-C du XIAO émetteur |
 | D6 | Fil 1 du SAS308 « fermé » |
-| D7 | Fil 1 du SAS308 « ouvert » |
-| GND XIAO | Fil 2 de chacun des deux SAS308 |
+| D7 | **Non connecté côté émetteur en V1** (ancien second capteur supprimé) |
+| GND XIAO | Fil 2 du SAS308 unique |
 | Connecteur antenne Wio | Antenne 868 MHz adaptée |
 
 Entrées en `INPUT_PULLUP` : **aimant en face → contact fermé → LOW** ; aimant éloigné → circuit ouvert → HIGH. La désignation commerciale « NF » ne remplace pas un contrôle de continuité de chaque exemplaire. Viser nettement moins que les **15 mm maximum** pour garder une marge contre les vibrations. Aucun bornier intégré aux capteurs ; protéger les prolongations des fils moulés.
 
-![Schéma électrique de l'émetteur : deux SAS308 entre D6/D7 et GND](assets/schemas/cablage-emetteur-v1.svg)
+![Schéma émetteur V1 : un SAS308 sur D6 et GND ; D7 libre](assets/schemas/cablage-emetteur-v1.svg)
 
 ### Récepteur — miniature, netlist point à point
 
@@ -141,18 +141,15 @@ Le condensateur aide lors des appels de courant du servo mais ne remplace pas un
 
 ## États, angles et LED
 
-Les contacts détectent des **fins de course, pas un mouvement continu**. « Intermédiaire » signifie ni complètement fermé ni complètement ouvert, même si la vraie porte est immobile.
+**Capteur unique SAS308 :** l'aimant présent permet de confirmer **FERMÉ**. L'aimant absent ne confirme **pas** l'ouverture. Pour l'objet décoratif, l'émetteur envoie INTERMÉDIAIRE immédiatement, puis **OUVERT estimé** si le capteur reste inactif plus de **40 s**, durée réglable ; une porte réellement arrêtée à mi-course sera alors **faussement affichée ouverte**. Ce n'est ni une alarme ni une mesure de sécurité.
 
-| État / situation | Contacts fermé / ouvert | Cible servo | LED blanche | LED orange |
+| État affiché | Capteur unique D6 | Cible servo | Blanche | Orange |
 |---|---|---|---|---|
-| 0 — Fermé, déplacement terminé | Actif / inactif | 15° | Éteinte | Éteinte |
-| 1 — Ouvert, déplacement terminé | Inactif / actif | 95° | Allumée fixe | Fixe |
-| 2 — Intermédiaire, servo arrivé, moins de 40 s depuis le changement d'état | Inactif / inactif | 55° | Éteinte | 1 Hz |
-| 2 — Intermédiaire prolongé, servo arrivé, à partir de 40 s | Inactif / inactif | 55° | Éteinte | Fixe |
-| Déplacement logiciel du servo, liaison fraîche et état non fautif | Selon dernier état exploitable | Vers 15°/55°/95° | Éteinte | 2 Hz |
-| 3 — Défaut capteurs | Actif / actif | **Aucune nouvelle cible** | Éteinte | 5 Hz, prioritaire sur le déplacement |
-| Liaison périmée, plus de 150 s sans état valide | Inconnus | Aucune nouvelle cible | Éteinte | Double flash toutes les 2 s |
-| Démarrage sans trame valide, après initialisation radio réussie | Inconnus | Servo non initialisé | Éteinte | Même double flash, sans attendre 150 s |
+| FERMÉ **confirmé** | Aimant présent | 15° | OFF | OFF |
+| INTERMÉDIAIRE / non fermé | Aimant absent, délai < 40 s | 55° | OFF | Clignote (et 2 Hz si servo bouge) |
+| OUVERT **estimé**, non confirmé | Aimant absent depuis ≥ 40 s | 95° | ON après fin course servo | Fixe |
+| Radio périmée (>150 s) | Non renseigné | Dernière consigne | OFF | Double flash |
+| Défaut capteurs (code 3) | **Impossible** en mode 1 capteur | Pas de nouvelle cible | OFF | 5 Hz si reçu artificiellement |
 
 **Comportement exact du firmware actuel :**
 
@@ -161,7 +158,7 @@ Les contacts détectent des **fins de course, pas un mouvement continu**. « Int
 - Un défaut capteurs **ne fixe pas de nouvelle cible et n'arrête pas l'animation** : un mouvement déjà engagé peut finir vers la cible précédente. Il serait donc inexact de promettre un arrêt immédiat ou un servo toujours immobile sur défaut.
 - La perte de liaison **n'arrête pas non plus un mouvement engagé**. La miniature conserve ou termine la dernière consigne, mais sa position **n'est plus fiable comme indication de la vraie porte** ; la LED blanche s'éteint.
 - Priorités orange : **liaison périmée/absente → défaut → déplacement servo → intermédiaire → ouvert/fermé**. Double flash : deux impulsions de 150 ms, débutant à 0 et 300 ms de chaque période de 2 s.
-- Les 40 s se comptent depuis le changement d'état reçu ; un heartbeat de même état ne relance pas ce délai. Le clignotement intermédiaire est une indication de mouvement **supposé**, jamais une preuve.
+- Les **40 s côté émetteur** sont un **délai d'ouverture estimée** après disparition de l'aimant ; les **40 s côté récepteur** commandent séparément le voyant orange en état intermédiaire. Aucun des deux délais ne prouve le mouvement réel. Le heartbeat ne relance pas les minuteries.
 - Une erreur fatale d'initialisation radio bloque le programme et écrit une erreur série ; le double flash n'est donc pas une garantie dans ce cas.
 
 ![Illustration des états lumineux fermé, mouvement et ouvert, non à l'échelle](assets/visuels/leds-garage-v1.svg)
@@ -189,7 +186,7 @@ Trame compacte de **8 octets**, entiers multioctets little-endian sur nRF52840 :
 - L'émetteur vérifie réseau/version/type et séquence de l'ACK, mais pas sa valeur ni son champ réservé. Il ne s'agit pas d'une preuve de mouvement ou de position physique.
 - Fraîcheur invalidée après **plus de 150 s sans état valide**, défaut capteurs compris dans les états reçus. Une nouvelle trame valide rétablit la fraîcheur.
 
-**Limites connues :** aucun chiffrement, authentification, anti-rejeu ou filtrage des séquences anciennes côté récepteur ; `NETWORK_ID` filtre seulement des trames accidentelles. Aucun journal persistant, aucune protection contre le brouillage volontaire, aucun capteur de déplacement continu ni retour de position de la maquette. Un fil de contact coupé peut apparaître comme « non fermé » ; le double capteur n'est pas une supervision électrique.
+**Limites connues :** aucun chiffrement, authentification, anti-rejeu ou filtrage des séquences anciennes côté récepteur ; `NETWORK_ID` filtre seulement des trames accidentelles. Aucun journal persistant, aucune protection contre le brouillage volontaire, aucun capteur de déplacement continu ni retour de position de la maquette. Un fil de contact coupé peut apparaître comme « non fermé » ; le capteur unique n'est pas une supervision électrique.
 
 **Radio en France :** vérifier les contraintes applicables de puissance rayonnée, antenne et temps d'occupation à 868 MHz. Les messages courts, le heartbeat et les reprises bornées ne constituent **ni un contrôle automatique du rapport cyclique hors scénario normal, ni une certification de conformité**. Augmenter SF allonge les émissions ; renforcer et valider avant une installation pérenne ou un produit distribué.
 
@@ -222,20 +219,20 @@ Ces commandes sont la procédure à exécuter, **pas une attestation de compilat
 ### Contrôles hors tension et première mise sous tension
 
 1. Installer les deux antennes ; vérifier variante des cartes, accès aux D6/D7, isolation, absence de court-circuit et masses communes.
-2. Tester chaque SAS308 avec et sans aimant au multimètre ; confirmer LOW en fin de course active et prévoir une marge sous les 15 mm maximum.
+2. Tester le SAS308 avec et sans aimant au multimètre ; confirmer LOW en fin de course active et prévoir une marge sous les 15 mm maximum.
 3. Vérifier C/B/E du BC547B, valeurs des quatre résistances, polarités des LED et du 470 µF. Contrôler la distribution 5 V ; mesurer ensuite 5 V servo et 3,3 V XIAO sans provoquer de court-circuit.
 4. Alimenter d'abord le récepteur **servo sans porte** et émetteur éteint : après initialisation radio, attendre le double flash, LED blanche éteinte, servo non commandé.
-5. Alimenter l'émetteur sans aimants : état 2, cible 55°, orange 2 Hz pendant le déplacement puis 1 Hz jusqu'à 40 s depuis l'état et ensuite fixe. Confirmer dans les logs ; ne pas confondre « non fermé » et « complètement ouvert ».
-6. Activer seulement D6 vers GND via le SAS308 ou un contact de test : état 0, cible 15°, puis deux LED éteintes. Activer seulement D7 : état 1, cible 95°, puis orange fixe et blanc allumé.
-7. Activer les deux contacts : état 3, blanc éteint, orange 5 Hz ; tester aussi pendant un déplacement pour constater qu'il peut finir. Au besoin redémarrer avec ce défaut initial : aucun attachement du servo avant un état 0/1/2.
+5. Alimenter l'émetteur **sans aimant** : état 2 (non fermé), servo vers 55° ; après **40 s d'absence continue** (+ anti-rebond), état 1 **estimé**, servo vers 95° et blanc allumé lorsqu'il a fini sa course.
+6. Approcher l'aimant du **SAS308 unique D6→GND** : état 0 **FERMÉ confirmé**, servo vers 15° ; les deux LED s'éteignent à la fin.
+7. Retirer à nouveau l'aimant et le remettre avant 40 s : ne jamais déclarer la porte ouverte. **Ne pas raccorder de second contact sur D7** pour la V1.
 8. Éteindre l'émetteur pendant plus de 150 s : double flash et blanc éteint ; noter que le dernier déplacement peut finir et que la position n'est plus fiable. Réalimenter l'émetteur et contrôler la resynchronisation.
 9. Avec câblage D0 vérifié seulement, appuyer brièvement sur le bouton Wio : il peut allumer l'orange indépendamment de la signalisation logicielle.
 
 ### Calibration et construction
 
 - Dans `src/main.cpp`, ajuster `ANGLE_CLOSED`, `ANGLE_MIDDLE`, `ANGLE_OPEN` (15°/55°/95° provisoires). Tester sans porte, puis avec un panneau d'essai ; éviter blocage, frottement, surchauffe et effort en butée.
-- Mesurer kit, servo, connecteurs et antenne ; modéliser/imprimer d'abord support servo, accouplement, palier gauche et porte d'essai. Vérifier tout le balayage avant la coque finale à toit amovible. **Les STL restent à créer.**
-- Dans `platformio.ini`, pour un seul capteur de fermeture, **remplacer** `-D OPEN_SENSOR_PRESENT=1` par `-D OPEN_SENSOR_PRESENT=0` dans l'environnement émetteur : le mode dégradé n'émet jamais « ouvert complet » (1), seulement fermé (0) ou non fermé/intermédiaire (2).
+- Mesurer kit, servo, connecteurs et antenne ; modéliser/imprimer d'abord support servo, accouplement, palier gauche et porte d'essai. Vérifier tout le balayage avant la coque finale à toit amovible. **Une première CAO paramétrique existe** dans `cad/generate_cad.py` ; ses STL/STEP sont encore un prototype à valider sur la visserie et le palonnier réels.
+- Dans `platformio.ini`, la configuration **V1 à un seul capteur** est maintenant **déjà active** : `OPEN_SENSOR_PRESENT=0`, `SINGLE_SENSOR_OPEN_ESTIMATE_MS=40000UL`. Remplacer la durée par le trajet réel mesuré (en gardant une marge). **L'état 1 est alors une estimation, pas une fin de course ouverte mesurée**.
 - Garder `NETWORK_ID` et paramètres radio identiques sur les deux appareils. Tester SF8 avant d'augmenter `RADIO_SF` sur les deux cartes ; adapter l'implantation des antennes avant la puissance ou le temps d'émission.
 
 ### Essai radio en situation, non effectué ici
@@ -244,7 +241,7 @@ Placer les appareils dans le garage réel et la maison, puis tester les quatre �
 
 ## Documents, inventaire et sources
 
-### Les quatre documents détaillés
+### Documentation et CAO V1
 
 - [Conception mécanique et éclairage V1](docs/CONCEPTION_MECANIQUE_V1.md) : décisions esthétiques, entraînement coaxial, implantation et étapes de modélisation.
 - [Câblage V1 et netlist](docs/CABLAGE_V1_VERIFIE.md) : branchements et précautions électriques.
@@ -255,7 +252,7 @@ Placer les appareils dans le garage réel et la maison, puis tester les quatre �
 
 | Fichier | Dimensions du SVG | Rôle |
 |---|---|---|
-| [cablage-emetteur-v1.svg](assets/schemas/cablage-emetteur-v1.svg) | 1200 × 740 | Contacts SAS308, D6/D7, GND et USB |
+| [cablage-emetteur-v1.svg](assets/schemas/cablage-emetteur-v1.svg) | 1200 × 740 | SAS308 unique, D6/GND, D7 libre et USB |
 | [cablage-recepteur-v1.svg](assets/schemas/cablage-recepteur-v1.svg) | 1380 × 1140 | Alimentation, servo, condensateur, transistor et deux LED |
 | [leds-garage-v1.svg](assets/visuels/leds-garage-v1.svg) | 1110 × 412 | Illustration des états lumineux fermé / mouvement / ouvert, non à l'échelle |
 
@@ -268,3 +265,9 @@ Placer les appareils dans le garage réel et la maison, puis tester les quatre �
 - [RadioLib](https://github.com/jgromes/RadioLib)
 - [TrapLineLoRa : référence PlatformIO pour le même matériel](https://github.com/schustercp/TrapLineLoRa)
 - [Exemple de LED blanche annoncée Vf 3,5 V](https://www.gotronic.fr/art-led-3-mm-l3fwc1-35813.htm) : raison de la commande depuis +5 V via transistor, et non directement depuis D7.
+## Dernière révision dimensionnelle et CAO
+
+- [**Tableau exhaustif des cotes connues, réserves et dimensions à mesurer**](docs/ENCOMBREMENT_BOM_V1.md).
+- [**CAO CadQuery paramétrique — source reproductible**](cad/generate_cad.py), [notice CAO](cad/README.md).
+- Dimensions de départ de la miniature **168 × 100 mm**, hauteurs avant/arrière **62/65 mm**, toit mono-pente **3 mm / 100 mm**, parois **2,4 mm**, jeu **0,30 mm par face** ; **ne pas confondre** ces choix CAO avec les dimensions fabricant.
+- Le **corps** du DMS-MG90 fait **22,3 × 11,8 × 26,3 mm**, mais palonnier, pattes et axe restent **à mesurer avant fabrication définitive**. Le XIAO seul fait **21 × 17,8 mm** ; l'enveloppe radio dans la CAO est une **réserve de service**, non sa taille réelle.

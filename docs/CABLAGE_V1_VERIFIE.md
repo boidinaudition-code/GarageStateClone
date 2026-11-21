@@ -36,13 +36,13 @@ Sur le schéma du Wio V1.0, **D0 va à un bouton relié à GND et un pull-up de 
 |---|---|---|
 | Chargeur USB secteur 5 V isolé | USB-C de XIAO émetteur | Alimentation de la carte uniquement |
 | XIAO D6 | **Fil 1** du SAS308 « fermé » (prolongé si besoin) | Contact sec, entrée INPUT_PULLUP |
-| XIAO D7 | **Fil 1** du SAS308 « ouvert » (prolongé si besoin) | Contact sec, entrée INPUT_PULLUP |
-| XIAO GND | **Fil 2** de **chacun** des SAS308 | Masse commune aux entrées |
+| XIAO D7 | **Libre / non raccordé côté émetteur V1** | L'ancien second contact a été supprimé |
+| XIAO GND | **Fil 2 du seul SAS308** | Référence du contact sec |
 | Module Wio SX1262 | Antenne 868 MHz prévue pour ce module | Antenne installée avant toute émission |
 
-Logique attendue : **aimant présent en face = contact fermé = entrée à LOW** ; aimant absent = circuit ouvert = HIGH via pull-up interne. La fiche du SAS308 emploie le terme « NF » mais indique explicitement **fermé avec l'aimant en face** ; vérifier le comportement au multimètre. Mesurer la continuité aimant proche/éloigné avant pose. Lorsque les deux contacts sont fermés simultanément, le firmware indique un défaut.
+Logique attendue : **aimant présent en face = contact fermé = entrée à LOW** ; aimant absent = circuit ouvert = HIGH via pull-up interne. La fiche du SAS308 emploie le terme « NF » mais indique explicitement **fermé avec l'aimant en face** ; vérifier le comportement au multimètre. Mesurer la continuité aimant proche/éloigné avant pose. En mode un seul contact, l'état « défaut capteurs simultanés » ne peut pas être produit normalement. Après 40 s sans aimant, un état « ouvert » est **estimé** pour l'animation uniquement.
 
-⚠️ Ces deux capteurs ne sont **pas raccordés au moteur** : jamais de 230 V, de sortie relais de motorisation ou de connecteur de sécurité sur un GPIO. Installer hors des pièces mobiles, des ressorts et des galets. Le **SAS308 est très plat (24 × 15 × 6 mm)** ; la distance **maximale** annoncée avec son aimant est de **15 mm** (prévoir une marge). Il comporte **25 cm de câble déjà moulé**, sans bornier à vis : prolonger chaque paire de fils proprement et protéger les jonctions de l'humidité.
+⚠️ Ce capteur n'est **pas raccordé au moteur** : jamais de 230 V, de sortie relais de motorisation ou de connecteur de sécurité sur un GPIO. Installer hors des pièces mobiles, des ressorts et des galets. Le **SAS308 est très plat (24 × 15 × 6 mm)** ; la distance **maximale** annoncée avec son aimant est de **15 mm** (prévoir une marge). Il comporte **25 cm de câble déjà moulé**, sans bornier à vis : prolonger sa paire de fils proprement et protéger les jonctions de l'humidité.
 
 ## 3. Récepteur, dans le garage miniature
 
@@ -102,13 +102,13 @@ Porte monobloc noire à rainures horizontales, **bascule vers l'intérieur** aut
 ## 5. Essai sur table avant installation
 
 1. Couper l'alimentation. Installer les **deux antennes LoRa** et vérifier l'absence de court-circuit.
-2. Contrôler les **2 SAS308** au multimètre avec et sans leur aimant.
+2. Contrôler le **SAS308 unique** au multimètre avec et sans son aimant.
 3. Contrôler **C/B/E de Q1**, les résistances (330 / 680 / 4,7 k / 100 k) et **les polarités des 2 LED**.
 4. Contrôler l'orientation du **470 µF** ; mesurer le 5 V du servo puis le 3,3 V du XIAO.
 5. Alimenter le **récepteur avec le servo sans porte**. Tester les trois positions sans blocage ni surchauffe.
-6. Simuler FERMÉ / INTERMÉDIAIRE / OUVERT en fermant les contacts sur l'émetteur : voir le servo et les deux LED changer selon le firmware.
+6. Simuler FERMÉ (aimant présent sur D6), puis NON FERMÉ (aimant retiré) ; après 40 s sans aimant, vérifier que la miniature passe à « OUVERT estimé », avec LED blanche après mouvement du servo.
 7. Appuyer brièvement sur le bouton D0 **uniquement si le câblage est vérifié** : noter que la LED orange peut aussi s'allumer.
-8. Tester les défauts : deux fins de course actives, puis arrêt de l'émetteur pendant plus de 150 s.
+8. Tester la perte radio en arrêtant l'émetteur plus de 150 s. Le défaut « deux fins de course actives » n'est pas testable avec un seul contact.
 
 ## Références des vérifications
 
@@ -117,3 +117,9 @@ Porte monobloc noire à rainures horizontales, **bascule vers l'intérieur** aut
 - [Gotronic : SAS308](https://www.gotronic.fr/art-contact-magnetique-miniature-sas308-12751.htm)
 - [Gotronic : DMS-MG90](https://www.gotronic.fr/art-servomoteur-dms-mg90-32266.htm)
 - [Gotronic : LED blanche Vf 3,5 V](https://www.gotronic.fr/art-led-3-mm-l3fwc1-35813.htm)
+
+## V1 — actualisation capteur unique
+
+**Un seul SAS308 est monté** : D6→contact→GND, aimant en face **si la vraie porte est fermée**. D7 n'est pas raccordé côté émetteur. Le capteur est placé en position fixe hors des éléments mobiles, seul l'aimant suit la porte. [Cotes exactes et inconnues](ENCOMBREMENT_BOM_V1.md).
+
+**Estimation décorative d'ouverture :** après 40 s sans aimant (configurable), le firmware annonce l'état OPEN *estimé* afin d'animer la porte et éclairer la miniature. C'est inexact si la vraie porte reste arrêtée entre les fins de course. **Ce montage n'est pas une sécurité de fermeture.**

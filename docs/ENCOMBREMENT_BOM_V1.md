@@ -1,0 +1,58 @@
+# Encombrement composants – V1 (21 novembre 2026)
+
+**Statuts :** C = publié fabricant/vendeur pour la référence ; V = enveloppe de famille/variante, non garantie pour le lot ; P = valeur proposée dans la CAO ; M = à mesurer. Un nombre connu du vendeur n'est pas une mesure au pied à coulisse de votre exemplaire.
+
+| Qté V1 | Composant | Dimension publiée (mm) | Statut / ce qui manque | Source |
+|---:|---|---|---|---|
+| **1** | SAS308, Gotronic 26449 | Boîtier **24 × 15 × 6**, câble **250**, écart avec aimant **15 maxi** | **C** ; aimant et trous de vis : **M** | [Gotronic](https://www.gotronic.fr/art-contact-magnetique-miniature-sas308-12751.htm) |
+| **1** | DMS-MG90, Gotronic 36923, DFRobot SER0039 | Corps **22,3 × 11,8 × 26,3**, cordon **180** | **C** ; pattes, entraxe vis, arbre, palonnier : **M** ; [plan officiel](https://www.gotronic.fr/pj2-dms-mg90-servo-dimension-2320.pdf) à exploiter/mesurer avant fixation définitive | [Gotronic](https://www.gotronic.fr/art-servomoteur-dms-mg90-32266.htm) |
+| **1** | C1 470 µF / 16 V, Gotronic 04947 | Corps **Ø10 × 13**, écart entre fils **5,0** | **C** ; fournisseur précise variation selon approvisionnement | [Gotronic](https://www.gotronic.fr/art-condensateur-radial-470uf-16v-3386.htm) |
+| **1** | BC547B, Gotronic 02173 | Boîtier **TO-92** ; référence onsemi : enveloppe **5,20 × 5,33 × 4,19** selon axes du plan | **V** ; fabricant/lot exact, C-B-E et fil de sortie : **M** | [onsemi](https://www.onsemi.com/pub/Collateral/BC546-D.PDF), [Gotronic](https://www.gotronic.fr/art-transistor-bc547b-1336.htm) |
+| **1** | R1 330 Ω Gotronic 04130 | Corps **longueur 6,5 × Ø2,5** | **C**, les fils/entraxe montage ne sont pas définis | [Gotronic](https://www.gotronic.fr/art-5-resistances-1-2w-330-8486-2653.htm) |
+| **1** | R2 4,7 kΩ Gotronic 04144 | Corps **6,5 × Ø2,5** | **C**, fils non définis | [Série 1/2 W](https://www.gotronic.fr/cat-resistances-metal-1-2-w-267.htm) |
+| **1** | R3 100 kΩ Gotronic 04160 | Corps **6,5 × Ø2,5** | **C**, fils non définis | [Série 1/2 W](https://www.gotronic.fr/cat-resistances-metal-1-2-w-267.htm) |
+| **1** | R4 680 Ω Gotronic 04134 | Corps **6,5 × Ø2,5** | **C**, fils non définis | [Série 1/2 W](https://www.gotronic.fr/cat-resistances-metal-1-2-w-267.htm) |
+| **1** | LED blanche 304WC2J-W6-3PD | Lentille **Ø3,0 × 5,1**, pas des fils **2,54**, broches Ø0,5–0,6 | **C**, lentille **sans collerette**, les fils se recoupent au montage | [Datasheet Luckylight](https://www.kondik.cz/user/related_files/ll-304wc2j-w6-3pd.pdf) |
+| **1** | LED orange LED3OLN | **Ø3 nominal** | **C** pour diamètre ; hauteur, collerette et pas fils **M** | [Lextronic](https://www.lextronic.fr/led-standard-orange-led3oln-8422.html) |
+| **2 en stock** | XIAO nRF52840 | Carte seule **21 × 17,8** | **C**, hauteur du connecteur USB/soudures non publiée | [Seeed](https://wiki.seeedstudio.com/XIAO_BLE/) |
+| **2 en stock** | XIAO + Wio-SX1262 en pile | Seeed annonce environ **8 × 22 × 23** pour le kit ; **21 × 17,8** pour PCB XIAO seul | **C nominal**, orientation et éléments annexes antenne/USB à **mesurer** | [Seeed kit](https://wiki.seeedstudio.com/xiao_nrf52840%26_wio_SX1262_kit_for_meshtastic/) |
+| **2 en stock, vérifier** | Antennes 868 MHz | **Indéterminé** sans référence exacte | **M**, y compris câble RF et rayon de courbure | Référence réelle à relever |
+| **2+** | Adaptateurs secteur 5 V, câbles USB-C, répartiteur, borniers, perfboard, vis | **Indéterminé** tant que le produit n'est pas choisi | **M** ; ne pas figer un compartiment sur des dimensions inventées | Référence à sélectionner |
+
+## Jeux et pièces imprimées
+
+| Paramètre CAO | Cote (mm) | Statut |
+|---|---:|---|
+| Coque extérieure W × D | **168 × 100** | **P** |
+| Hauteurs avant/arrière | **62 / 65** | **P** ; mono-pente +3 mm sur 100 mm (≈1,72°) |
+| Parois structurelles | **2,4** | **P**, minimum exigé ≥2 |
+| Toit et socle | **3,0** | **P** |
+| Ouverture porte | **104 × 42** | **P** |
+| Panneau de porte | **103,4 × 41,4 × 2,4** | **P** |
+| Jeu d'emboîtement | **0,30 par face**, donc +0,60 sur largeur de trou | **P** ; coupon d'essai PLA nécessaire |
+| Axe / palier | **Ø3,2 / Ø3,8** | **P**, jeu radial 0,30 |
+| Corps servo, volume nominal | **22,3 × 11,8 × 26,3** | **C**, sans palonnier ni pattes |
+| Plateau électronique | **60 × 31**, compartiment arrière | **P** |
+| Réserve de service pour les cartes et leurs fils | **52 × 23 × 12** | **P** ; ce n'est **pas** la taille de la carte |
+| C1 : logement cylindrique minimal de départ | **Ø10,6** pour Ø10 de corps | **P** ; à ajuster après mesure |
+| LED orange façade : trou | **Ø3,6** pour LED Ø3 | **P** ; adapter si collerette |
+
+## Implantation mécanique
+
+- **Servo à l'avant, côté droit**, axe moteur coaxial avec l'axe horizontal **supérieur de la porte**, palier côté gauche ; la porte rigide rainurée **bascule vers l'intérieur** et se range sous le toit en pente.
+- XIAO+Wio sur plateau arrière hors trajectoire ; condensateur proche du servo ; LED blanche à l'arrière sous le toit hors zone balayée ; LED orange en haut à droite de façade.
+- Design esthétique validé : **murs blancs, toit noir légèrement en pente, porte noire, très fin liseré bleu** ; toit amovible. Imprimante **Bambu Lab P1S + AMS**.
+- Les pièces de la V1 **ne sont pas prêtes pour l'assemblage final** : centre réel de l'arbre et entraxes de fixations MG90, sortie USB, antenne, aimant du SAS308 et collerette LED orange à mesurer.
+
+## Capteur unique de fermeture
+
+**Dernière décision : un seul SAS308.** Le contact est fermé quand l'aimant est en face et que la **vraie porte est fermée**. Lorsque l'aimant s'éloigne, cela signifie uniquement **non fermée**, et non forcément complètement ouverte.
+
+La simulation décorative peut faire **FERMÉ confirmé → INTERMÉDIAIRE → OUVERT estimé après 40 s sans aimant** (paramètre de firmware à adapter à la durée réelle). Attention : une vraie porte arrêtée à mi-course pendant plus de 40 s serait représentée ouverte **à tort**. Ne pas utiliser ce modèle comme indicateur de sécurité ni preuve d'ouverture.
+
+## Liens du projet
+
+- [CAO CadQuery paramétrique](../cad/generate_cad.py)
+- [Notice des solides CAO](../cad/README.md)
+- [Nomenclature et liens](BOM_V1_VERIFIEE.md)
+- [Câblage et alimentation](CABLAGE_V1_VERIFIE.md)
