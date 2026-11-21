@@ -232,6 +232,40 @@ def import_ref(key):
   return shape
  raise FileNotFoundError(f'Reference CAD absente: {key}. Attendu: {path} ou {b64path}')
 
+def build_xiao_onshape_proxy(detailed):
+    """One clean solid preserving the overall original PCB+USB dimensions.
+
+    The vendor STEP contains 77 component solids, including microscopic details.
+    Onshape may mark this valid OpenCascade assembly as containing faults.
+    This approximation is for visualization and spatial clearance ONLY:
+    it does NOT preserve footprints, mounting-hole locations or electrical pins.
+    The source BREP is left unchanged for accurate component-level references.
+    """
+    solids=detailed.Solids()
+    if len(solids)<2:
+        raise ValueError('Unexpected XIAO STEP topology')
+    pcb=max(solids,key=lambda shape:shape.Volume())
+    p=pcb.BoundingBox()
+    original=detailed.BoundingBox()
+    connectors=[shape for shape in solids if
+                shape.BoundingBox().xmax>p.xmax+0.5 and
+                shape.BoundingBox().ymax>p.ymax+1.0 and
+                shape.Volume()>2.0]
+    if not connectors:
+        raise ValueError('USB connector not found in XIAO source geometry')
+    u=max(connectors,key=lambda shape:shape.Volume()).BoundingBox()
+    board=box(p.xmin,p.ymin,p.zmin,p.xlen,p.ylen,p.zlen)
+    usb=box(u.xmin,u.ymin,u.zmin,u.xlen,u.ylen,u.zlen)
+    clean=board.fuse(usb).clean()
+    if not clean.isValid() or len(clean.Solids())!=1 or len(clean.Shells())!=1:
+        raise ValueError('Onshape XIAO proxy is not a single valid solid')
+    result=clean.BoundingBox()
+    for got,expected in zip((result.xlen,result.ylen,result.zlen),
+                            (original.xlen,original.ylen,original.zlen)):
+        if abs(got-expected)>0.002:
+            raise ValueError('XIAO proxy lost the original external envelope')
+    return clean
+
 ref_servo=import_ref('SERVO')
 ref_xiao=import_ref('XIAO')
 ref_wio=import_ref('WIO')
@@ -252,9 +286,16 @@ XIAO_OFF_Y=tray_y0+15.5-XIAO_LOCAL_CENTER_Y
 WIO_OFF_Z=TRAY_TOP+3.5+1.53
 XIAO_OFF_Z=WIO_OFF_Z+6.362
 if ref_xiao is not None:
- ref_xiao=ref_xiao.rotate((0,0,0),(1,0,0),90)
- ref_xiao=ref_xiao.translate((XIAO_OFF_X,XIAO_OFF_Y,XIAO_OFF_Z))
- REFERENCES['REF_XIAO_STEP_NE_PAS_IMPRIMER']=ref_xiao
+ # Preserve the user's original 77-solid BREP for measurements and future CAD.
+ XIAO_DETAILED_REFERENCE=ref_xiao.rotate((0,0,0),(1,0,0),90)
+ XIAO_DETAILED_REFERENCE=XIAO_DETAILED_REFERENCE.translate(
+     (XIAO_OFF_X,XIAO_OFF_Y,XIAO_OFF_Z))
+ # Use this one-solid mechanical envelope in the STEP exported for Onshape.
+ XIAO_ONSHAPE_PROXY=build_xiao_onshape_proxy(ref_xiao)
+ XIAO_ONSHAPE_PROXY=XIAO_ONSHAPE_PROXY.rotate((0,0,0),(1,0,0),90)
+ XIAO_ONSHAPE_PROXY=XIAO_ONSHAPE_PROXY.translate(
+     (XIAO_OFF_X,XIAO_OFF_Y,XIAO_OFF_Z))
+ REFERENCES['REF_XIAO_NRF52840_SIMPLIFIE_ONSHAPE_NE_PAS_IMPRIMER']=XIAO_ONSHAPE_PROXY
 if ref_wio is not None:
  ref_wio=ref_wio.rotate((0,0,0),(0,0,1),90)
  ref_wio=ref_wio.translate((XIAO_OFF_X-119.16,XIAO_OFF_Y-108.29,WIO_OFF_Z))
@@ -305,6 +346,15 @@ if __name__=='__main__':
     for name,s in REFERENCES.items():
         assy.add(s,name=name,color=cq.Color(0.7,0.35,0.3,0.55))
     assy.save(str(STEP/'GarageStateClone_V2_assemblage_STEP_references.step'))
+    # Fallback if any third-party STEP causes Onshape import issues:
+    # the nine printable parts only, without manufacturer references.
+    clean_structure=cq.Assembly(name='GarageStateClone_V2_structure_seule_Onshape')
+    for name,solid in PRINTABLE.items():
+        clean_structure.add(solid,name=name,color=colors[name])
+    clean_structure.save(str(STEP/'GarageStateClone_V2_STRUCTURE_SANS_REFERENCES_ONSHAPE.step'))
+    if ref_xiao is not None:
+        exporters.export(XIAO_ONSHAPE_PROXY,
+            str(STEP/'REF_XIAO_NRF52840_SIMPLIFIE_POUR_ONSHAPE.step'))
     (ROOT/'metriques_validation.json').write_text(json.dumps({'parameters_mm':{
         'width':W,'depth':D,'front_height':H_FRONT,'rear_height':H_BACK,
         'roof_slope_rise':H_BACK-H_FRONT,'wall':WALL,'roof':ROOF,'base':BASE,
