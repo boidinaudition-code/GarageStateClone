@@ -17,18 +17,19 @@ Ce dépôt contient les **deux firmwares** dans un seul projet PlatformIO.
 ## Fonction
 
 - Emetteur dans le garage : deux contacts magnétiques NO avec aimant proche en fin de course.
-- Récepteur dans la maison : servomoteur qui imite la porte et une LED de signalisation.
+- Récepteur dans la maison : servomoteur qui imite la porte, **LED blanche chaude intérieure** et **LED orange de signalisation en façade**.
 - Radio LoRa directe 868,125 MHz, sans passerelle / réseau maillé / Internet.
 - Etat ferme, ouvert, intermediaire, defaut des capteurs ; un état est dit « intermediaire » même si la porte est immobilisée en cours de trajet.
 - Acquittement radio, jusqu'a 3 transmissions par rapport, synchronisation toutes les 60 secondes, invalidation de la liaison après 150 secondes sans message.
 - **Aucune commande de la vraie porte de garage**.
+- LED orange : 2 Hz durant le déplacement du servo, 1 Hz durant 40 secondes en état intermédiaire, puis fixe ; 5 Hz sur défaut capteurs, double flash sur perte radio. Les fins de course ne mesurent pas le mouvement réel.
 
 ## 1 — Matériel
 
 - Deux kits XIAO nRF52840 + Wio-SX1262 avec leurs **antennes 868 MHz** adaptées.
 - Deux contacts magnétiques NO filaires avec aimants (un seul possible, voir plus bas).
 - Un servomoteur SG90 ou MG90S, une alimentation 5 V/2 A USB pour la miniature.
-- Une LED standard, résistance série 330 ohms.
+- Une LED blanche chaude avec résistance série **330 Ω** ; une LED orange 3 mm avec résistance **680 Ω**.
 - Un condensateur électrolytique 470 µF, tension nominale au moins 10 V, près du servo.
 - Câblage, dominos ou bornes, support 3D.
 - Une alimentation USB-C 5 V dans le garage pour le XIAO émetteur.
@@ -42,7 +43,8 @@ Ce dépôt contient les **deux firmwares** dans un seul projet PlatformIO.
 | Emetteur, capteur fermé | D6 vers GND (contact normalement ouvert, fermé avec aimant proche) |
 | Emetteur, capteur ouvert | D7 vers GND (idem) |
 | Récepteur, signal servo | D6 vers fil signal du SG90/MG90S |
-| Récepteur, LED | D7 → résistance 330 ohms → anode LED ; cathode → GND |
+| Récepteur, LED intérieure blanche | D7 → résistance 330 ohms → anode LED ; cathode → GND |
+| Récepteur, LED orange façade | 3V3 → résistance **680 Ω** → anode LED orange ; cathode → **D0** (allumée par LOW, éteinte en INPUT haute impédance) |
 | Servo, fil rouge | 5 V de l'alimentation servo (PAS au 3V3 du XIAO) |
 | Servo, fil brun/noir | GND de l'alimentation servo ET GND du XIAO |
 | Condensateur | + sur 5 V servo, – sur GND ; attention à la polarité |
@@ -102,7 +104,7 @@ Un garage de 160 x 140 x 120 mm avec porte basculante 95 x 85 mm est la premièr
 
 La V1 conserve le design du **garage noir et blanc au fin liseré bleu posé sur une étagère**. Sa porte monobloc rainurée pivote vers **l'intérieur**, sous le toit, via un **DMS-MG90 monté coaxialement sur la charnière supérieure**, avec un palier côté opposé. Le XIAO + Wio-SX1262 est dissimulé dans une zone arrière hors débattement. Une **seule LED blanche chaude**, positionnée sous le toit à l'arrière, doit s'allumer lorsque l'état **OUVERT** est confirmé.
 
-**Lire la [spécification mécanique et électrique V1](docs/CONCEPTION_MECANIQUE_V1.md)** avant la modélisation 3D. Les anciennes cotes et le montage à bielle évoqués plus bas sont des hypothèses initiales, **supplantées par l'entraînement coaxial**. La logique LED du firmware n'est **pas encore modifiée** : D7 sert actuellement de voyant de diagnostic.
+**Lire la [spécification mécanique et électrique V1](docs/CONCEPTION_MECANIQUE_V1.md)** avant la modélisation 3D. Les anciennes cotes et le montage à bielle évoqués plus bas sont des hypothèses initiales, **supplantées par l'entraînement coaxial**. Le firmware **pilote maintenant deux LED** : D7 pour l'intérieur, D0 pour la façade (commande active à LOW). Voir le [schéma des états lumineux](assets/visuels/leds-garage-v1.svg). **Nouveau câblage et code à valider physiquement**.
 
 ## Sources matérielles
 
