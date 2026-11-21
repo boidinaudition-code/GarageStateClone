@@ -35,14 +35,14 @@ Sur le schéma du Wio V1.0, **D0 va à un bouton relié à GND et un pull-up de 
 | Départ | Arrivée | Explication |
 |---|---|---|
 | Chargeur USB secteur 5 V isolé | USB-C de XIAO émetteur | Alimentation de la carte uniquement |
-| XIAO D6 | Borne 1 du SAS301 « fermé » | Contact sec, entrée INPUT_PULLUP |
-| XIAO D7 | Borne 1 du SAS301 « ouvert » | Contact sec, entrée INPUT_PULLUP |
-| XIAO GND | Borne 2 de **chacun** des SAS301 | Masse commune aux entrées |
+| XIAO D6 | **Fil 1** du SAS308 « fermé » (prolongé si besoin) | Contact sec, entrée INPUT_PULLUP |
+| XIAO D7 | **Fil 1** du SAS308 « ouvert » (prolongé si besoin) | Contact sec, entrée INPUT_PULLUP |
+| XIAO GND | **Fil 2** de **chacun** des SAS308 | Masse commune aux entrées |
 | Module Wio SX1262 | Antenne 868 MHz prévue pour ce module | Antenne installée avant toute émission |
 
-Logique attendue : **aimant présent en face = contact fermé = entrée à LOW** ; aimant absent = circuit ouvert = HIGH via pull-up interne. La fiche du SAS301 l'appelle « NF » ; ce n'est **pas une raison de deviner le comportement**. Mesurer la continuité aimant proche/éloigné avant pose. Lorsque les deux contacts sont fermés simultanément, le firmware indique un défaut.
+Logique attendue : **aimant présent en face = contact fermé = entrée à LOW** ; aimant absent = circuit ouvert = HIGH via pull-up interne. La fiche du SAS308 emploie le terme « NF » mais indique explicitement **fermé avec l'aimant en face** ; vérifier le comportement au multimètre. Mesurer la continuité aimant proche/éloigné avant pose. Lorsque les deux contacts sont fermés simultanément, le firmware indique un défaut.
 
-⚠️ Ces deux capteurs ne sont **pas raccordés au moteur** : jamais de 230 V, de sortie relais de motorisation ou de connecteur de sécurité sur un GPIO. Installer hors des pièces mobiles, des ressorts et des galets. Le boîtier SAS301 est relativement grand (53 × 16 × 16 mm), la distance maximale annoncée entre les deux parties est 25 mm ; vérifier la géométrie réelle de la porte avant achat/fixation.
+⚠️ Ces deux capteurs ne sont **pas raccordés au moteur** : jamais de 230 V, de sortie relais de motorisation ou de connecteur de sécurité sur un GPIO. Installer hors des pièces mobiles, des ressorts et des galets. Le **SAS308 est très plat (24 × 15 × 6 mm)** ; la distance **maximale** annoncée avec son aimant est de **15 mm** (prévoir une marge). Il comporte **25 cm de câble déjà moulé**, sans bornier à vis : prolonger chaque paire de fils proprement et protéger les jonctions de l'humidité.
 
 ## 3. Récepteur, dans le garage miniature
 
@@ -102,7 +102,7 @@ Porte monobloc noire à rainures horizontales, **bascule vers l'intérieur** aut
 ## 5. Essai sur table avant installation
 
 1. Couper l'alimentation. Installer les **deux antennes LoRa** et vérifier l'absence de court-circuit.
-2. Contrôler les **2 SAS301** au multimètre avec et sans leur aimant.
+2. Contrôler les **2 SAS308** au multimètre avec et sans leur aimant.
 3. Contrôler **C/B/E de Q1**, les résistances (330 / 680 / 4,7 k / 100 k) et **les polarités des 2 LED**.
 4. Contrôler l'orientation du **470 µF** ; mesurer le 5 V du servo puis le 3,3 V du XIAO.
 5. Alimenter le **récepteur avec le servo sans porte**. Tester les trois positions sans blocage ni surchauffe.
@@ -114,6 +114,6 @@ Porte monobloc noire à rainures horizontales, **bascule vers l'intérieur** aut
 
 - [PDF schéma Wio-SX1262 pour XIAO V1.0](https://files.seeedstudio.com/products/113010003/Wio-SX1262%20for%20XIAO%20V1.0.pdf)
 - [Seeed XIAO nRF52840 : pinout](https://wiki.seeedstudio.com/XIAO_BLE/)
-- [Gotronic : SAS301](https://www.gotronic.fr/art-contact-magnetique-1t-sas301-12746.htm)
+- [Gotronic : SAS308](https://www.gotronic.fr/art-contact-magnetique-miniature-sas308-12751.htm)
 - [Gotronic : DMS-MG90](https://www.gotronic.fr/art-servomoteur-dms-mg90-32266.htm)
 - [Gotronic : LED blanche Vf 3,5 V](https://www.gotronic.fr/art-led-3-mm-l3fwc1-35813.htm)

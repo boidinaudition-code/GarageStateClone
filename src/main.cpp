@@ -126,7 +126,7 @@ uint16_t seqCounter = 0;
 bool reportPending = true; // envoyer l'etat immediatement au demarrage
 
 uint8_t readDoor() {
-  // Contact NO qui SE FERME quand son aimant arrive en fin de course.
+  // Contact sec SAS308 qui se FERME quand l'aimant arrive en fin de course.
   const bool atClosed = (digitalRead(PIN_CLOSED) == LOW);
   #if OPEN_SENSOR_PRESENT
   const bool atOpen = (digitalRead(PIN_OPEN) == LOW);
