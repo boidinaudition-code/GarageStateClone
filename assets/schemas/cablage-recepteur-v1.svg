@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1380 1140" width="1380" height="1140" role="img" aria-label="Schema electrique recepteur servo LED blanche via BC547B et LED orange D0">
+<rect width="1380" height="1140" fill="#f6f9fd"/>
+<style>text{font-family:Arial,sans-serif;fill:#20344d}.h{font-size:27px;font-weight:bold}.s{font-size:20px;font-weight:bold}.m{font-size:17px}.n{font-size:15px;fill:#52637a}.v{font-size:15px;font-weight:bold}.w{stroke:#315e96}.r{stroke:#c44848}.g{stroke:#2f465d}.b{fill:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}</style>
+<rect x="25" y="21" width="1330" height="89" rx="15" fill="#183651"/>
+<text x="50" y="63" class="h" fill="white" style="fill:white">RECEPTEUR — MINIATURE / CABLAGE V1</text>
+<text x="50" y="91" class="n" style="fill:#dcebf6">Servo MG90 sur D6 • LED blanche via BC547B sur D7 • LED orange sur D0</text>
+<rect x="30" y="135" width="635" height="270" rx="15" fill="white" stroke="#bdd0df" stroke-width="2"/>
+<rect x="691" y="135" width="659" height="270" rx="15" fill="white" stroke="#bdd0df" stroke-width="2"/>
+<text x="54" y="174" class="s">A — ALIMENTATION EXTERNE 5 V</text>
+<rect x="64" y="216" width="211" height="100" rx="10" fill="#e7f5eb" stroke="#96c2a7"/>
+<text x="83" y="250" class="m">Alim USB</text><text x="83" y="278" class="s">5 V / ≥ 2 A</text>
+<path d="M275 239 H367" class="r b"/>
+<rect x="367" y="207" width="249" height="63" rx="8" fill="#e7f1fb" stroke="#a7bfd8"/><text x="394" y="234" class="v">Branche A : USB-C</text><text x="394" y="256" class="n">XIAO + Wio-SX1262</text>
+<path d="M275 290 H324 V351 H367" class="r b"/>
+<rect x="367" y="324" width="249" height="61" rx="8" fill="#fff0e8" stroke="#edbdac"/><text x="394" y="352" class="v">Branche B : +5 V / GND</text><text x="394" y="375" class="n">Servo + LED blanche</text>
+<text x="53" y="392" class="n">Les masses XIAO / servo / transistor sont reliées ; jamais le servo sur 3V3.</text>
+<text x="715" y="174" class="s">B — SERVO ET CONDENSATEUR</text>
+<rect x="719" y="221" width="212" height="113" rx="9" fill="#e7f1fb" stroke="#a7bfd8"/><text x="749" y="249" class="m">XIAO récepteur</text><text x="749" y="286" class="s">D6 → signal</text>
+<path d="M931 282 H1060" class="w b"/>
+<rect x="1058" y="215" width="265" height="146" rx="9" fill="#fff0e8" stroke="#edbdac"/><text x="1090" y="246" class="s">DMS-MG90</text>
+<text x="1090" y="274" class="m">Signal : D6</text><text x="1090" y="299" class="m" style="fill:#b34440">+ : +5 V externe</text><text x="1090" y="326" class="m">− : GND commun</text>
+<text x="730" y="380" class="n">C1 : 470 µF / 16 V EN PARALLÈLE entre +5 V (+) et GND (−).</text>
+<text x="30" y="460" class="s">C — LED BLANCHE : COURANT 5 V, COMMANDE D7 VIA BC547B</text>
+<rect x="30" y="479" width="820" height="410" rx="15" fill="white" stroke="#bdd0df" stroke-width="2"/>
+<rect x="61" y="533" width="146" height="53" rx="8" fill="#ffe6e0"/><text x="81" y="567" class="m">+5 V EXT</text>
+<path d="M207 559 H269" class="r b"/>
+<rect x="269" y="535" width="155" height="49" rx="7" fill="#f9edd6" stroke="#dfbb78"/><text x="293" y="565" class="v">R1 330 Ω</text>
+<path d="M424 559 H466" class="r b"/>
+<rect x="466" y="522" width="223" height="73" rx="8" fill="#fff8e7" stroke="#eed3a0"/>
+<text x="485" y="550" class="v">LED BLANCHE</text><text x="485" y="574" class="n">A (+) → K (−)</text>
+<path d="M689 559 H759 V644" class="g b"/>
+<rect x="640" y="644" width="160" height="78" rx="8" fill="#eaf6ef" stroke="#98c8ac"/>
+<text x="654" y="673" class="v">Q1 BC547B</text><text x="653" y="696" class="m">C / B / E</text>
+<path d="M720 722 V770 H775" class="g b"/><text x="707" y="799" class="v">GND</text>
+<rect x="63" y="660" width="128" height="46" rx="8" fill="#e7f1fb"/><text x="86" y="690" class="v">XIAO D7</text>
+<path d="M191 683 H252" class="w b"/>
+<rect x="252" y="656" width="172" height="51" rx="8" fill="#f9edd6" stroke="#dfbb78"/><text x="279" y="688" class="v">R2 4,7 kΩ</text>
+<path d="M424 683 H640" class="w b"/><text x="530" y="671" class="n">BASE B</text>
+<circle cx="539" cy="683" r="5" fill="#315e96"/>
+<path d="M539 683 V776" class="w b"/>
+<rect x="444" y="775" width="194" height="51" rx="8" fill="#f9edd6" stroke="#dfbb78"/><text x="461" y="806" class="v">R3 100 kΩ</text>
+<path d="M539 826 V852 H720 V770" class="g b"/>
+<text x="65" y="870" class="n">BC547 : collecteur depuis LED, émetteur à la masse, base via 4,7 kΩ et rappel 100 kΩ.</text>
+<rect x="875" y="479" width="475" height="410" rx="15" fill="white" stroke="#bdd0df" stroke-width="2"/>
+<text x="899" y="521" class="s">D — LED ORANGE (FAÇADE)</text>
+<rect x="897" y="551" width="165" height="50" rx="7" fill="#e7f1fb"/><text x="929" y="582" class="v">XIAO 3V3</text>
+<path d="M979 601 V638" class="w b"/>
+<rect x="898" y="638" width="164" height="50" rx="7" fill="#f9edd6" stroke="#dfbb78"/><text x="925" y="669" class="v">R4 680 Ω</text>
+<path d="M979 688 V727" class="w b"/>
+<rect x="898" y="727" width="164" height="61" rx="7" fill="#fff3e4" stroke="#e5c09e"/>
+<text x="909" y="755" class="v">LED ORANGE</text><text x="915" y="777" class="n">A (+) → K (−)</text>
+<path d="M979 788 V828 H1104" class="w b"/>
+<rect x="1104" y="800" width="175" height="59" rx="8" fill="#e7f1fb"/><text x="1152" y="833" class="v">XIAO D0</text>
+<text x="1085" y="584" class="n">D0 LOW : allumée</text><text x="1085" y="613" class="n">D0 INPUT : éteinte</text>
+<text x="1085" y="654" class="n">Wio : bouton D0→GND</text>
+<text x="1085" y="677" class="n">+ pull-up 10 kΩ intégré</text>
+<text x="1085" y="727" class="n">Jamais OUTPUT HIGH</text>
+<rect x="30" y="917" width="1320" height="193" rx="14" fill="#fff8eb" stroke="#ebd3a8" stroke-width="2"/>
+<text x="59" y="953" class="s">VÉRIFICATIONS AVANT MISE SOUS TENSION</text>
+<text x="59" y="986" class="m">• Antennes 868 MHz installées sur les deux modules • Pas de +5 V sur GPIO ou 3V3.</text>
+<text x="59" y="1017" class="m">• BC547B : identifier C/B/E sur la fiche du composant acheté ; C1 : bande « − » côté GND.</text>
+<text x="59" y="1048" class="m">• Polarité LED : A = anode, K = cathode • GND XIAO et GND servo liés.</text>
+<text x="59" y="1079" class="m">• Servo à tester SANS PORTE • Alimenter le servo depuis une sortie 5 V séparée du XIAO.</text>
+</svg>

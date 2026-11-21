@@ -231,7 +231,7 @@ void loop() {
 #else  // ROLE_RECEPTEUR
 
 static constexpr uint8_t PIN_SERVO = D6;
-static constexpr uint8_t PIN_INTERIOR_LED = D7; // blanche chaude, active HIGH
+static constexpr uint8_t PIN_INTERIOR_LED = D7; // base BC547B via 4.7k ; LED blanche +5V ; active HIGH
 static constexpr uint8_t PIN_AMBER_LED = D0;    // orange facade, active LOW (absorption)
 static constexpr uint32_t LINK_TIMEOUT_MS = 150000;
 static constexpr uint32_t MIDDLE_MOTION_HINT_MS = 40000; // pas de capteur de mouvement
@@ -292,7 +292,7 @@ void updateLeds(uint32_t now) {
   const bool servoMoving = servoStarted && currentAngle != targetAngle;
   const bool fullyOpen = !stale && receivedDoorState == STATE_OPEN && !servoMoving;
 
-  // Eclairage blanc d'ambiance, jamais allume pendant le mouvement ou une panne.
+  // D7 pilote la base du BC547B via 4.7k ; LED blanche sur +5V avec 330 ohms.
   digitalWrite(PIN_INTERIOR_LED, fullyOpen ? HIGH : LOW);
 
   bool amberOn = false;

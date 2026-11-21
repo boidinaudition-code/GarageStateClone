@@ -73,22 +73,25 @@ Placer l'antenne 868 MHz sans contact avec des pièces métalliques et, si possi
 ## Éclairage et signalisation — deux LED, sans ruban
 
 **Choix V1 :**
-1. **LED blanche chaude** à haut rendement et faible courant, dissimulée **sous le toit vers l'arrière**, tournée vers l'intérieur. Ne jamais l'installer dans le volume balayé par la porte. Elle est allumée uniquement après confirmation de l'état **OUVERT** et fin du déplacement du servo miniature.
+1. **LED blanche chaude** à haut rendement, dissimulée **sous le toit vers l'arrière**, tournée vers l'intérieur. **Son alimentation passe désormais par +5 V et un transistor BC547B** : le GPIO D7 ne fournit qu'un courant de commande. Ne jamais l'installer dans le volume balayé par la porte. Elle est allumée uniquement après confirmation de l'état **OUVERT** et fin du déplacement du servo miniature.
 2. **LED orange en façade haute droite**, diamètre cible 3 mm, encastrée derrière un minuscule diffuseur, quasiment invisible lorsqu'elle est éteinte. Elle reproduit le clignotement de signalisation d'une porte en mouvement et sert aussi d'alerte.
 
-### Affectation du XIAO côté miniature
+### Câblage retenu — voir le schéma à jour
 
-| Broche | Fonction | Branchement |
-|---|---|---|
-| **D6** | Signal servo DMS-MG90 | Fil de commande uniquement ; servo alimenté séparément en 5 V |
-| **D7** | **LED blanche chaude intérieure** | D7 → **330 Ω** → anode LED ; cathode → GND |
-| **D0** | **LED orange de façade** | **3V3 → 680 Ω → anode LED orange ; cathode → D0** |
-| **GND** | Masse | Masse commune avec alimentation servo |
-| **5 V régulé** | Puissance servo | 470 µF / 16 V entre +5 V et GND au plus près du servo |
+- [Schéma complet récepteur SVG](../assets/schemas/cablage-recepteur-v1.svg)
+- [Schéma émetteur SVG](../assets/schemas/cablage-emetteur-v1.svg)
+- [Netlist précise, alimentation et test](CABLAGE_V1_VERIFIE.md)
+- [Nomenclature révisée](BOM_V1_VERIFIEE.md)
 
-**Pourquoi 680 Ω pour l'orange ?** Ce choix est volontairement plus conservateur que les 470 Ω envisagés initialement : une LED orange à faible courant sera normalement visible avec environ 1–2 mA (selon sa tension directe), ce qui ménage le GPIO. Vérifier la luminosité réelle avant de finaliser la façade.
+| Broche / alimentation | Branchements |
+|---|---|
+| **D6** | Signal du servo DMS-MG90 (servo alimenté directement en **5 V externe**, jamais en 3V3) |
+| **D7** | **4,7 kΩ** vers la base B d'un **BC547B** ; base B → **100 kΩ** → GND ; émetteur E → GND ; collecteur C → cathode de la LED blanche ; **+5 V externe → 330 Ω → anode LED blanche** |
+| **D0** | Cathode LED orange ; **3V3 → 680 Ω → anode LED orange** ; LOW = ON, INPUT = OFF ; D0 partagé avec bouton/pull-up 10 kΩ du Wio |
+| **GND** | Commun entre alimentation servo, transistor et XIAO |
+| **+5 V externe** | Servo + R1 LED blanche ; condensateur **470 µF / 16 V** entre +5 V et GND près du servo |
 
-**Prudence sur D0 :** c'est un GPIO disponible dans la configuration LoRa du **kit XIAO nRF52840 + Wio-SX1262 à deux rangées de 7 broches** étudié ici. Il faut cependant vérifier la variante physique de carte et la connexion du bouton utilisateur au multimètre avant câblage définitif. Les schémas Seeed de variantes différentes ne sont pas interchangeables. Le firmware commande cette LED **en absorbant le courant** : GPIO mis en **sortie LOW pour allumer**, en **entrée haute impédance pour éteindre**, jamais en sortie HIGH afin d'éviter un court-circuit éventuel en cas de bouton à la masse. **Ne jamais alimenter une LED ou un ruban depuis la broche 5 V via un GPIO.**
+**Correction :** l'ancienne suggestion D7 → 330 Ω → LED blanche → GND n'est pas garantie avec des LED annoncées Vf 3,5 V. Le BC547B ne change **ni le nombre de LED ni la logique du firmware** (D7 HIGH = intérieur éclairé) ; il ajoute une commande basse consommation et permet d'alimenter la LED en 5 V. **Vérifier les broches C/B/E du transistor livré.**
 
 ### Comportements logiciels V1
 
@@ -118,7 +121,7 @@ Le délai de 40 secondes **ne prouve pas que la vraie porte bouge** : les deux c
 - **2 × SAS301**, Gotronic réf. 26444 : [contact magnétique](https://www.gotronic.fr/art-contact-magnetique-1t-sas301-12746.htm) ; un en fin de course fermée, un en fin de course ouverte.
 - **1 × DMS-MG90**, Gotronic réf. 36923 : [servomoteur](https://www.gotronic.fr/art-servomoteur-dms-mg90-32266.htm).
 - **1 × 470 µF / 16 V**, Gotronic réf. 04947 : [condensateur](https://www.gotronic.fr/art-condensateur-radial-470uf-16v-3386.htm).
-- **1 × LED blanche chaude faible courant** + **330 Ω**, **1 × LED orange 3 mm faible courant** + **680 Ω** ; fil, petit bornier, vis, palonnier, alimentation USB 5 V/2 A et câbles.
+- **1 × LED blanche chaude** + **330 Ω / +5 V** + **BC547B NPN** + **4,7 kΩ D7/base** + **100 kΩ base/GND**, **1 × LED orange 3 mm** + **680 Ω / 3V3** ; fil, petit bornier, vis, palonnier, alimentation USB 5 V/2 A et câbles.
 
 À vérifier au multimètre : comportement des contacts SAS301 (la fiche mentionne « NF », mais décrit une fermeture quand l'aimant est présent). Ne relier **aucun GPIO** au 230 V ou aux bornes du moteur du vrai garage ; conserver toutes les sécurités de la porte.
 
@@ -128,5 +131,5 @@ Le délai de 40 secondes **ne prouve pas que la vraie porte bouge** : les deux c
 2. Modéliser et imprimer en priorité **support servo, axe, palier gauche et porte d'essai**.
 3. Tester le balayage complet et régler les angles du servo sans point dur.
 4. Modéliser la coque finale avec toit amovible, électronique en compartiment arrière et passage de câble.
-5. Tester les **deux LED** (blanche sur D7, orange sur D0) avec la résistance correspondante ; compiler et valider le nouveau firmware sur les cartes.
+5. Tester les **deux LED** (blanche sur D7 via transistor BC547B alimenté en +5 V, orange sur D0 via 680 Ω) ; compiler et valider le nouveau firmware sur les cartes.
 6. Poser les capteurs réels, tester la communication LoRa et les cas de panne.
