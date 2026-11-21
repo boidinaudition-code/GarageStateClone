@@ -1,0 +1,98 @@
+{
+  "version": "2.0",
+  "unit": "mm",
+  "date": "2026-11-21",
+  "source": "quatre archives ZIP fournies par utilisateur (modeles tiers ; verifier licences avant diffusion)",
+  "note": "Les STEP originaux sont inclus dans l'archive de livraison jointe à la conversation, et non encore directement dans le dépôt GitHub. Le script import_vendor_archives.py reconstitue cad/refs/*.step à partir des archives fournies.",
+  "components": [
+    {
+      "key": "servo",
+      "zip": "dms-mg90-a-1.snapshot.4.zip",
+      "member": "Mg90.STEP",
+      "dest": "refs/servo.step",
+      "bytes": 5322641,
+      "sha256": "ca4311774b7254b06b8373e7169fb17ea7ba98519c4dd0858a36ff777c1277b1",
+      "original_bbox_mm": [
+        33.4,
+        32.5,
+        12.221
+      ],
+      "solids": 2,
+      "axis": "output +Y original, x=6.05 z=6.1",
+      "physical_validation": "required, servo variant and horn/ears"
+    },
+    {
+      "key": "xiao",
+      "zip": "seeed-studio-xiao-nrf52840-1.snapshot.2.zip",
+      "member": "XIAO-nRF52840  v3.step",
+      "dest": "refs/xiao.step",
+      "bytes": 4200639,
+      "sha256": "7b29d091938cf6b69cec8d10f5365309b677807d1a34a9ef65ea5b2b0f7f20ff",
+      "original_bbox_mm": [
+        22.482,
+        4.46,
+        17.78
+      ],
+      "solids": 77
+    },
+    {
+      "key": "wio",
+      "zip": "wio-sx1262-for-xiao-1.snapshot.4.zip",
+      "member": "Wio-SX1262_for_XIAO_3D_file V2.step",
+      "dest": "refs/wio.step",
+      "bytes": 1543927,
+      "sha256": "4f6312697b985586921e6bae603946540e370b3340cc37396f38a26249e57fa9",
+      "original_bbox_mm": [
+        17.78,
+        22.316,
+        7.642
+      ],
+      "solids": 39
+    },
+    {
+      "key": "transistor",
+      "zip": "transistor-bc547-b-1.snapshot.7.zip",
+      "member": "BC547-B.step",
+      "dest": "refs/transistor.step",
+      "bytes": 472052,
+      "sha256": "9d5ff1308852114088b0461375a98b7c86ab581a5e02aa327555e0a699b17647",
+      "original_bbox_mm": [
+        4.08,
+        3.05,
+        12.8
+      ],
+      "solids": 1
+    }
+  ],
+  "design": {
+    "shell_mm": [
+      184,
+      100
+    ],
+    "roof_z_front_back_mm": [
+      62,
+      65
+    ],
+    "wall_thickness_mm": 2.4,
+    "roof_base_thickness_mm": 3,
+    "fit_per_face_mm": 0.3,
+    "door_opening_mm": [
+      110,
+      42
+    ],
+    "door_panel_mm": [
+      109.4,
+      41.4,
+      2.4
+    ]
+  },
+  "qa": {
+    "checked_with": "CadQuery 2.8.0, OCP 7.9.3.1, trimesh 4.11.1",
+    "printable_stls": 9,
+    "all_stls_watertight": true,
+    "servo_vs_shell_roof_support_door_collision_mm3": 0,
+    "boards_intersection_mm3": 0.013,
+    "stacking_verified_physically": false,
+    "servo_mount_accurate": "space/envelope yes, horn bolting no"
+  }
+}

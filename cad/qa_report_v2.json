@@ -1,0 +1,61 @@
+{
+  "servo": {
+    "bbox": [
+      148.2,
+      180.7,
+      3.4,
+      15.62,
+      23.3,
+      56.7
+    ],
+    "valid": true,
+    "solids": 2
+  },
+  "xiao": {
+    "bbox": [
+      80.76,
+      103.24,
+      70.71,
+      88.49,
+      19.54,
+      24
+    ],
+    "valid": true,
+    "solids": 77
+  },
+  "wio": {
+    "bbox": [
+      79.76,
+      102.07,
+      70.71,
+      88.49,
+      11.9,
+      19.54
+    ],
+    "valid": true,
+    "solids": 39
+  },
+  "bc547": {
+    "original_bbox_xyz_mm": [
+      4.08,
+      3.05,
+      12.8
+    ],
+    "valid": true,
+    "solids": 1
+  },
+  "collision_volumes_mm3": {
+    "servo/shell": 0,
+    "servo/roof": 0,
+    "servo/support": 0,
+    "servo/door": 0,
+    "servo/bearing": 0,
+    "xiao/tray": 0,
+    "wio/tray": 0,
+    "xiao/wio": 0.013,
+    "transistor/tray": 0
+  },
+  "stl_count": 9,
+  "all_stl_closed": true,
+  "description": "Boites englobantes relevees dans les STEP utilisateur et tests CadQuery. Valeurs de collision voisines de zero numeriquement; aucun test de montage reel."
+}
