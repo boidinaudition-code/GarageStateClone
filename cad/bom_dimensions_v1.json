@@ -194,7 +194,7 @@
     }
   ],
   "cad": {
-    "shell_width_mm": 168,
+    "shell_width_mm": 184,
     "shell_depth_mm": 100,
     "front_height_mm": 62,
     "back_height_mm": 65,
@@ -203,11 +203,11 @@
     "base_thickness_mm": 3,
     "fit_per_face_mm": 0.3,
     "door_opening_mm": [
-      104,
+      110,
       42
     ],
     "door_panel_mm": [
-      103.4,
+      109.4,
       41.4,
       2.4
     ],
@@ -227,10 +227,13 @@
       60,
       31
     ],
-    "orange_optical_aperture_mm": 2.0,
+    "orange_optical_aperture_mm": 2,
     "orange_led_recess_from_front_mm": 3.4,
     "led_pocket_provisional_diameter_mm": 6.6,
-    "led_service_envelope_provisional_diameter_length_mm": [6.0, 9.0],
+    "led_service_envelope_provisional_diameter_length_mm": [
+      6,
+      9
+    ],
     "led_envelope_status": "design_not_manufacturer_dimensions_measure_before_final_print",
     "capacitor_nominal_mm": [
       10,
@@ -241,7 +244,17 @@
       100
     ],
     "servo_mounting": "provisional",
-    "volumes_measured_on_hardware": false
+    "volumes_measured_on_hardware": false,
+    "servo_complete_step_envelope_mm": [
+      33.4,
+      32.5,
+      12.221
+    ],
+    "orange_led_center_x_mm": 142,
+    "orange_led_center_z_mm": 53.3,
+    "orange_holder_outer_diameter_mm": 10.8,
+    "orange_holder_min_radial_wall_mm": 2.1,
+    "dimensions_note": "CAO V2 : le servo et l'axe réels imposent 184 mm de largeur; les LED 5 mm ont seulement Ø nominal documenté, cavités provisoires."
   },
   "system_state": {
     "sensor_count": 1,
