@@ -1,5 +1,8 @@
 # Historique V3 — retours intérieurs de façade et suppression du liseré bleu
 
+> **ARCHIVE V3 (190 mm), remplacée par V6 compacte 150 mm avec toit 62/78 et nouveaux supports.** Plan actuel : [ASSEMBLAGE_V6.md](ASSEMBLAGE_V6.md).
+
+
 > **Version historique (190 mm). La version actuelle est la [V4 compacte 150 mm](IMPLANTATION_COMPACTE_V4.md)** ; ces cotes sont conservées pour comprendre les changements, pas pour fabriquer la dernière version.
 
 ## Demande et aspect attendu
