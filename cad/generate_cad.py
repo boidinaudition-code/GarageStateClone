@@ -117,6 +117,29 @@ LED_POCKET_D = 6.6 # envelope Ø6 + 0.30 mm radial par face
 LED_ORANGE_APERTURE_D = 2.0 # ouverture optique discrete en facade
 LED_ORANGE_RECESS = 3.4 # recul de l'optique dans le montant avant
 
+# Gotronic 49067 USB-C 2.0 breakout; only 21x15x4.5 overall dimensions
+# and 2.54mm pad pitch are published. Neither socket offset, board holes nor
+# installed CC pull-downs are documented: this is a SERVICE ENVELOPE, not exact.
+# Board long direction placed along garage Y, USB receptacle toward rear (+Y).
+USB_C_BOARD_VENDOR_LWH_MM=(21.0,15.0,4.5)
+USB_C_BOARD_X0=W/2-USB_C_BOARD_VENDOR_LWH_MM[1]/2 # 67.5
+USB_C_BOARD_Y0=74.4
+USB_C_BOARD_Z0=9.3
+USB_C_REAR_APERTURE_WH=(13.0,8.0)   # design clearance, NOT socket datum
+USB_C_REAR_APERTURE_Z0=8.5
+USB_C_CARRIER_X0=USB_C_BOARD_X0-3.6
+USB_C_CARRIER_Y0=USB_C_BOARD_Y0-2.0
+USB_C_CARRIER_W=USB_C_BOARD_VENDOR_LWH_MM[1]+7.2
+USB_C_CARRIER_D=USB_C_BOARD_VENDOR_LWH_MM[0]+3.2
+USB_C_CARRIER_TOP_Z=USB_C_BOARD_Z0-FIT
+USB_C_GUIDE_WIDTH=2.4
+USB_C_GUIDE_HEIGHT=3.4
+USB_C_STRAP_TUNNEL_YS=(79.0,89.5)
+USB_C_STRAP_TUNNEL_W=3.2 # for up-to-2.5mm nylon zip ties
+USB_C_STRAP_TUNNEL_Z0=BASE+1.1
+USB_C_STRAP_TUNNEL_H=2.7
+USB_C_BOARD_ORIENTATION_STATUS="provisional: 49067 socket/pad offset to measure"
+
 # Modeles STEP source fournis par l'utilisateur; emplacement des archives CAD.
 VENDOR_REF_DIR=ROOT/'refs'
 REF_FILES={'SERVO':VENDOR_REF_DIR/'servo.step',
@@ -190,9 +213,13 @@ attic_right_ledge=box(W-WALL-ATTIC_SUPPORT_WIDTH,ATTIC_Y0+2,
                       ATTIC_Z0-ATTIC_SUPPORT_HEIGHT,ATTIC_SUPPORT_WIDTH,
                       ATTIC_DEPTH-4,ATTIC_SUPPORT_HEIGHT)
 shell=shell.fuse(attic_left_ledge).fuse(attic_right_ledge).clean()
-# Back power cable exit : a 12 x 8 mm slot, away from printed floor
-shell=shell.cut(box(W/2-6,D-WALL-0.2,6,12,WALL+0.5,8))
-# Upper rear low-voltage entry to attic (USB-C / RF lead routing).
+# Rear USB-C service aperture centered on the BREAKOUT cradle (no exact
+# mating-connector datum published by Gotronic). Replaces the old 12x8 low
+# cable hole; keep power cabling wholly inside and strain-relieved.
+shell=shell.cut(box(W/2-USB_C_REAR_APERTURE_WH[0]/2,D-WALL-0.2,
+                   USB_C_REAR_APERTURE_Z0,USB_C_REAR_APERTURE_WH[0],
+                   WALL+0.5,USB_C_REAR_APERTURE_WH[1]))
+# Upper rear low-voltage entry to attic (RF lead routing).
 # Clearance for actual connector/strain relief still to be measured.
 shell=shell.cut(box(W/2-8,D-WALL-0.2,ATTIC_Z0+3,16,WALL+0.5,9))
 # Recessed 5mm amber LED: provisional rear pocket and small optical aperture.
@@ -213,6 +240,31 @@ left_rail=box(WALL+FIT,14.0,rail_z,WALL,D-14.0-WALL-FIT-2.0,rail_h)
 right_rail=box(W-2*WALL-FIT,14.0,rail_z,WALL,D-14.0-WALL-FIT-2.0,rail_h)
 rear_rail=box(WALL+FIT+WALL,D-2*WALL-FIT,rail_z,W-2*(2*WALL+FIT),WALL,rail_h)
 base_plate=union_all([base_plate,left_rail,right_rail,rear_rail])
+
+# Integral USB-C 49067 carrier at center rear. The board is retained by
+# two external nylon ties through HORIZONTAL tunnels under its support deck,
+# never by invented PCB mounting holes or by clamping the USB receptacle.
+# Fuses into the black floor: no additional printed part or captive screw.
+usb_c_carrier=box(USB_C_CARRIER_X0,USB_C_CARRIER_Y0,BASE,
+                  USB_C_CARRIER_W,USB_C_CARRIER_D,
+                  USB_C_CARRIER_TOP_Z-BASE)
+usb_c_guides=[
+    box(gx,USB_C_BOARD_Y0+0.6,USB_C_CARRIER_TOP_Z,
+        USB_C_GUIDE_WIDTH,USB_C_BOARD_VENDOR_LWH_MM[0]-2.0,
+        USB_C_GUIDE_HEIGHT)
+    for gx in (USB_C_CARRIER_X0,
+               USB_C_CARRIER_X0+USB_C_CARRIER_W-USB_C_GUIDE_WIDTH)
+]
+usb_c_carrier=union_all([usb_c_carrier]+usb_c_guides)
+usb_c_strap_tunnels=[]
+for sy in USB_C_STRAP_TUNNEL_YS:
+    tunnel=box(USB_C_CARRIER_X0-0.15,sy,USB_C_STRAP_TUNNEL_Z0,
+               USB_C_CARRIER_W+0.30,USB_C_STRAP_TUNNEL_W,
+               USB_C_STRAP_TUNNEL_H)
+    usb_c_strap_tunnels.append(tunnel)
+    usb_c_carrier=usb_c_carrier.cut(tunnel)
+usb_c_carrier=usb_c_carrier.clean()
+base_plate=base_plate.fuse(usb_c_carrier).clean()
 
 # 3. Roof: wedge lid 3mm, 4.5mm deep overhanging slide-on skirt
 roof_plate=side_wedge(-ROOF_OVERHANG,W+2*ROOF_OVERHANG,
@@ -500,6 +552,13 @@ if ref_wio is not None:
 if ref_transistor is not None:
  ref_transistor=ref_transistor.translate((tray_x0+52,tray_y0+14,TRAY_TOP+0.5))
  REFERENCES['REF_BC547_STEP_NE_PAS_IMPRIMER']=ref_transistor
+# Manufacturer published overall envelope only. This rectangular proxy is
+# intentionally NOT an exact USB socket / PCB hole pattern.
+usb_c_board_proxy=box(USB_C_BOARD_X0,USB_C_BOARD_Y0,USB_C_BOARD_Z0,
+                      USB_C_BOARD_VENDOR_LWH_MM[1],
+                      USB_C_BOARD_VENDOR_LWH_MM[0],
+                      USB_C_BOARD_VENDOR_LWH_MM[2])
+REFERENCES['REF_USB_C_49067_GABARIT_NON_CONTRACTUEL_NE_PAS_IMPRIMER']=usb_c_board_proxy
 REFERENCES['REF_C1_470uF_16V_NE_PAS_IMPRIMER']=cq.Solid.makeCylinder(
  CAP_C1_BODY[0]/2,CAP_C1_BODY[1],V(W-14,35,BASE+5),V(0,0,1))
 # Enveloppes de service des LED 5 mm : non destinees a l'impression.
@@ -606,5 +665,18 @@ if __name__=='__main__':
         'orange_led_recess_from_front_mm':LED_ORANGE_RECESS,
         'led_pocket_provisional_diameter_mm':LED_POCKET_D,
         'led_service_envelope_provisional_diameter_length_mm':list(LED_ENVELOPE),
+        'usb_c_49067_vendor_lwh_mm':list(USB_C_BOARD_VENDOR_LWH_MM),
+        'usb_c_49067_board_nominal_xyz_start_mm':[USB_C_BOARD_X0,USB_C_BOARD_Y0,USB_C_BOARD_Z0],
+        'usb_c_rear_service_slot_width_height_mm':list(USB_C_REAR_APERTURE_WH),
+        'usb_c_rear_service_slot_z0_mm':USB_C_REAR_APERTURE_Z0,
+        'usb_c_carrier_xyz_min_mm':[USB_C_CARRIER_X0,USB_C_CARRIER_Y0,BASE],
+        'usb_c_carrier_xy_width_depth_mm':[USB_C_CARRIER_W,USB_C_CARRIER_D],
+        'usb_c_carrier_top_z_mm':USB_C_CARRIER_TOP_Z,
+        'usb_c_carrier_guides_width_height_mm':[USB_C_GUIDE_WIDTH,USB_C_GUIDE_HEIGHT],
+        'usb_c_carrier_tunnel_centres_y_mm':[sy+USB_C_STRAP_TUNNEL_W/2 for sy in USB_C_STRAP_TUNNEL_YS],
+        'usb_c_carrier_strap_tunnel_width_height_mm':[USB_C_STRAP_TUNNEL_W,USB_C_STRAP_TUNNEL_H],
+        'usb_c_carrier_integrated_into':'02_socle_noir',
+        'usb_c_board_connector_face_and_fastener_holes':'UNKNOWN; actual 49067 placement to dry-fit',
+        'usb_c_board_orientation_status':USB_C_BOARD_ORIENTATION_STATUS,
     },'parts':details,'reference_STEP_files':[k for k,v in REF_FILES.items() if v.exists()]},ensure_ascii=False,indent=2))
     print('Done:',STEP)
