@@ -21,7 +21,7 @@ for folder in [STL,STEP]: folder.mkdir(parents=True, exist_ok=True)
 W = 150.0                  # external shell width; expanded from concept to fit servo right pier
 D = 100.0                  # external shell depth
 H_FRONT = 62.0             # roof TOP at front
-H_BACK = 78.0              # roof TOP at rear (3 mm mono-pente)
+H_BACK = 78.0              # roof top rear: 16mm rise across 100mm depth (V5)
 WALL = 2.4                # minimum structural wall thickness >= 2
 ROOF = 3.0                # roof solid thickness >= 2
 BASE = 3.0                # floor solid thickness >= 2
