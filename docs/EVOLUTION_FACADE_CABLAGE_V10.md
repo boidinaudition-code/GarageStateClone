@@ -14,7 +14,7 @@
 ## LED orange : très légère descente
 
 - Position V9 : **X96 / Z53,3 mm**.
-- Position V10 : **X96 / Z52,1 mm**, soit **−1,2 mm**.
+- Position V10 : **X96 / Z52,8 mm**, soit **−0,5 mm**.
 - Le support interne et le conduit optique sont modifiés ensemble. Le firmware reste sur **D0**, avec la même logique électrique.
 
 ## Boîte aux lettres noire : réduction de 30 %
