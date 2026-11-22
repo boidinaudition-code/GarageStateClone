@@ -1,8 +1,8 @@
 # GarageStateClone — miniature de porte de garage connectée (LoRa)
 
-**Statut : prototype mécanique V8 (USB-C / alimentation), novembre 2026.** Une miniature décorative posée sur une étagère suit *approximativement* l’état d’une vraie porte de garage, sans jamais commander son moteur. Deux kits **Seeed XIAO nRF52840 + Wio-SX1262**, lien LoRa 868 MHz point à point. La miniature est imprimable en plusieurs pièces sur une **Bambu Lab P1S**.
+**Statut : prototype mécanique V9 (toit bac acier / boîte aux lettres), novembre 2026.** Une miniature décorative posée sur une étagère suit *approximativement* l’état d’une vraie porte de garage, sans jamais commander son moteur. Deux kits **Seeed XIAO nRF52840 + Wio-SX1262**, lien LoRa 868 MHz point à point. La miniature est imprimable en plusieurs pièces sur une **Bambu Lab P1S**.
 
-**Version courante : V8 pour l'entrée USB-C et son support intégré au socle ; fixation servo V7 conservée ; coque 150 × 100, toit, porte et firmware restent sur la base V6.** Les documents V1–V6 décrivant des géométries de supports antérieures sont des archives.
+**Version courante : V9 pour le toit bac acier et la boîte aux lettres en façade ; USB-C V8 et servo V7 conservés ; coque 150 × 100, cinématique de porte et firmware restent sur la base V6.** Les documents V1–V6 décrivant des géométries de supports antérieures sont des archives.
 
 > **Supports V7 :** [plan de fixation des vis du DMS-MG90](docs/FIXATIONS_SERVO_V7.md) et [fiches cotées](docs/FICHES_COTEES_COMPOSANTS_V7.md). Le servo a **deux encoches Ø2 à entraxe 29 mm (Z du garage)**, maintenant représentées par **deux pilotes imprimés** ; le berceau dispose toujours de **quatre vis indépendantes** pour son ancrage au socle. Le crochet supérieur V6 a été remplacé. L'ancienne alerte « 0,05 mm de jeu par bout » comparait deux axes différents : **elle était erronée**. Le palonnier, la longueur réelle des vis et l'antenne sont à vérifier avant montage final.
 
@@ -17,6 +17,14 @@ La miniature reçoit une **platine USB-C femelle Gotronic 49067** ([fiche fabric
 **Important avant soudure et impression finale :** vérifier sur la 49067 si les résistances **5,1 kΩ de CC1→GND et CC2→GND** sont présentes ; les ajouter **seulement si elles manquent**, sans relier CC1 et CC2. La **position exacte du connecteur USB-C**, ses trous et le dégagement du câble ne sont **pas documentés** par Gotronic et restent à mesurer. Le XIAO reçoit le 5 V externe sur sa broche VBUS : **débrancher cette alimentation avant de le brancher à un PC pour flasher**, ou ajouter une isolation d'alimentation vérifiée.
 
 **Détails, repères CAO, schéma, liste d'achats et montage : [ALIMENTATION_USB_C_V8.md](docs/ALIMENTATION_USB_C_V8.md).**
+
+## Nouveauté V9 : toiture bac acier et boîte aux lettres d'après photo
+
+Sur le **toit noir amovible**, **13 nervures trapézoïdales** régulièrement espacées de **11,5 mm** suivent l'axe **avant → arrière de la pente**, avec un relief de **0,95 mm** et une base de **2,5 mm** (sommet **1,1 mm**). Elles sont **solidaires du toit imprimé**. La pente reste **62 / 78 mm**, l'épaisseur structurelle sous le relief **3 mm**, la jupe et les dégagements mécaniques inchangés. C'est une **interprétation esthétique** de la couverture sur la photo, pas un profil industriel exact mesuré.
+
+Sur le **montant blanc droit de la façade**, un **renfoncement de 10,6 × 10,6 × 1,05 mm** est réservé à une **plaque noire carrée 10 × 10 × 0,75 mm**, imprimer séparément comme pièce **`10_boite_aux_lettres_noire`**, à coller après peinture/essai à blanc. Plaque légèrement rentrante (0,1 mm), jeu nominal 0,30 mm par côté et une petite fente gravée décorative. L'emplacement de la boîte noire est repris **visuellement** des photos fournies, à droite de la porte ; il n'est pas une cote de relevé sur le vrai bâtiment.
+
+**Les fichiers CAO comptent désormais 9 pièces STL et 12 STEP** (9 pièces, 2 assemblages, 1 XIAO simplifié). Le support d'USB-C **49067 reste solidaire du socle**. La finition V9 est détaillée dans [le guide toiture et boîte aux lettres](docs/TOIT_BAC_ACIER_BOITE_LETTRES_V9.md).
 
 ## Sommaire
 
@@ -51,7 +59,7 @@ Le récepteur commande actuellement le servo entre **15° (fermé) et 95° (ouve
 | Élément | Valeur V6 actuelle |
 |---|---:|
 | Coque extérieure | **150 × 100 mm** au sol |
-| Toit avant / arrière | **62 / 78 mm** (pente **16/100 ≈ 9,1°**) |
+| Toit avant / arrière | **62 / 78 mm** (pente **16/100 ≈ 9,1°**), 13 nervures bac acier +0,95 mm |
 | Mur / toit / socle | **2,4 / 3 / 3 mm** ; parois structurelles ≥2 mm |
 | Ouverture de porte | **100 × 42 mm**, décentrée de **14 mm vers la gauche** |
 | Montants gauche / droit | **11 / 39 mm** ; servo dans le montant droit |
@@ -60,7 +68,7 @@ Le récepteur commande actuellement le servo entre **15° (fermé) et 95° (ouve
 | Jeu d’emboîtement | **0,30 mm par face** en CAO, à calibrer sur la P1S |
 | Faux plafond des combles | **144,6 × 40 × 2,4 mm**, amovible |
 | Éclairage intérieur | Une LED blanche sous le faux plafond, **X75 / Y65 mm** |
-| Façade | Blanche, porte noire, orange discret ; **aucun bandeau bleu** |\n| Alimentation V8 | Platine **USB-C 49067** sur socle arrière intégré, sortie **13 × 8 mm** ; 5 V / 2 A minimum |
+| Façade | Blanche, porte noire, orange discret, **boîte aux lettres noire amovible** sur montant droit ; **aucun bandeau bleu** |\n| Alimentation V8 | Platine **USB-C 49067** sur socle arrière intégré, sortie **13 × 8 mm** ; 5 V / 2 A minimum |
 
 La porte est **rigide et monobloc**. Ses rainures *imitent* une porte sectionnelle, mais elle **bascule vers l’intérieur** sous le toit autour d’un axe horizontal supérieur. On ne peut pas placer une voiture décorative dans son volume balayé.
 
@@ -79,7 +87,7 @@ La V6 concrétise plusieurs interfaces qui étaient seulement illustrées en V5 
 | **LED blanche** | Support amovible à **2 ergots Ø2 dans trous Ø2,6**, fixé au-dessous du faux plafond ; LED orange en façade | Dimensions réelles des collerettes LED et retenue définitive |
 | **Entrée USB-C 49067** | Support intégré au socle noir (2 guides, 2 tunnels de collier Ø fonctionnel 3,2) et **ouverture de service arrière 13 × 8 mm** ; l'ancienne fente basse 12 × 8 est supprimée | Placer la vraie prise dans l'ouverture après mesure ; sans trou de PCB inventé, hauteur et nez USB inconnus |
 | **Câbles** | 4 œillets de guidage muraux **Ø8 extérieur / Ø3,4 intérieur** ; sortie arrière haute **16 × 9 mm** conservée pour RF/câbles | Protéger fils et soudure de la 49067 contre les tractions et la porte mobile |
-| **Émetteur réel** | Un seul SAS308 et son aimant | **Boîtier émetteur et supports capteur/aimant non modélisés** dans les 8 STL de la maquette ; pose sans toucher rails, ressorts, galets ou sécurités |
+| **Émetteur réel** | Un seul SAS308 et son aimant | **Boîtier émetteur et supports capteur/aimant non modélisés** dans les 9 STL de la maquette ; pose sans toucher rails, ressorts, galets ou sécurités |
 
 Le vrai DMS-MG90 pourrait différer du **MG90-A** des références 3D fournies. Les modèles tiers conservent leurs géométries originales en **BREP compressées avec SHA256 contrôlé** ; le modèle XIAO simplifié en un seul solide est réservé à l’importation Onshape et aux dégagements, **pas à la conception exacte de ses trous ou composants**.
 
@@ -134,7 +142,7 @@ python cad/test_fit_coupons.py
 ~~~
 
 Cela produit :
-- **8 STL imprimables** dans **cad/stl/** et **11 STEP** dans **cad/step/** (8 pièces dont socle V8 avec support USB, assemblage avec enveloppe 49067, structure sans références tierces, XIAO simplifié).
+- **9 STL imprimables** dans **cad/stl/** et **12 STEP** dans **cad/step/** (9 pièces dont le toit nervuré, une nouvelle plaque noire de boîte aux lettres, le socle V8 avec support USB ; 1 assemblage avec enveloppe 49067, 1 structure sans références tierces et 1 XIAO simplifié).
 - **3 STL d’éprouvettes** dans **cad/coupons/** pour jeu de charnière, pilote M2 et gabarit vierge de palonnier. Imprimer les éprouvettes avant les grandes pièces.
 - Des rapports de métriques et de vérification. Les tests mesurent les géométries et des échantillons de rotation, **pas la résistance du maintien imprimé ni la fiabilité réelle des vis**.
 

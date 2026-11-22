@@ -28,6 +28,32 @@ BASE = 3.0                # floor solid thickness >= 2
 FIT = 0.30                # clearance PER FACE for slide-on and hinged fits
 ROOF_OVERHANG = 3.0
 ROOF_SKIRT_DROP = 4.5
+# V9 architectural detailing: shallow trapezoidal standing seams, on the
+# TOP surface only, run in roof slope direction (garage +Y). The removable
+# lid underside, slope and skirt engagement are intentionally unchanged.
+ROOF_RIB_COUNT=13
+ROOF_RIB_FIRST_X=5.5
+ROOF_RIB_PITCH=11.5
+ROOF_RIB_BASE_W=2.5
+ROOF_RIB_CROWN_W=1.1
+ROOF_RIB_RISE=0.95
+ROOF_RIB_OVERLAP=0.18
+ROOF_RIB_Y0=-2.5
+ROOF_RIB_Y1=D+2.5
+# Separate black postbox plaque glued into a SHALLOW cosmetic pocket in the
+# white front right pier (reference: user's photographs of real garage).
+# Wall remains 2.4 - 1.05 = 1.35mm behind recess, at local cosmetic feature.
+MAILBOX_POCKET_X0=124.5
+MAILBOX_POCKET_Z0=24.0
+MAILBOX_POCKET_W=10.6
+MAILBOX_POCKET_H=10.6
+MAILBOX_POCKET_DEPTH=1.05
+MAILBOX_FACE_RELIEF_Y=0.10  # 0.1mm recessed from the white front plane
+MAILBOX_INSERT_W=MAILBOX_POCKET_W-2*FIT
+MAILBOX_INSERT_H=MAILBOX_POCKET_H-2*FIT
+MAILBOX_INSERT_THICK=0.75
+MAILBOX_INSERT_X0=MAILBOX_POCKET_X0+FIT
+MAILBOX_INSERT_Z0=MAILBOX_POCKET_Z0+FIT
 OPEN_W = 100.0
 OPEN_H = 42.0
 LEFT_PIER_W = 11.0        # compact LEFT pier for bearing
@@ -173,6 +199,25 @@ def union_all(seq):
     for b in seq[1:]:a=a.fuse(b)
     return a.clean()
 
+def roof_standing_seam(xcenter):
+    """Sloped trapezoidal roof standing seam, solid loft parallel to +Y.
+
+    Its lower edge penetrates the solid top by 0.18mm to create a single
+    watertight FDM printable roof. No changes underneath the existing lid.
+    """
+    def cross_section(y):
+        roof_z=H_FRONT+(H_BACK-H_FRONT)*y/D
+        zb=roof_z-ROOF_RIB_OVERLAP
+        zt=roof_z+ROOF_RIB_RISE
+        half_base=ROOF_RIB_BASE_W/2
+        half_crown=ROOF_RIB_CROWN_W/2
+        return cq.Wire.makePolygon([
+            V(xcenter-half_base,y,zb), V(xcenter+half_base,y,zb),
+            V(xcenter+half_crown,y,zt),V(xcenter-half_crown,y,zt),
+            V(xcenter-half_base,y,zb)])
+    return cq.Solid.makeLoft(
+        [cross_section(ROOF_RIB_Y0),cross_section(ROOF_RIB_Y1)],True)
+
 # 1. Main shell: 2.4mm structural walls with roof slope and wall opening
 shell=side_wedge(0,W,0,D,BASE,BASE,H_FRONT-ROOF,H_BACK-ROOF)
 inner_cavity=box(WALL,WALL,BASE-0.02,W-2*WALL,D-2*WALL,100)
@@ -229,7 +274,22 @@ orange_holder=cyl_y(orange_x,WALL-0.2,orange_z,10.8,10.2)  # paroi radial >=2.1m
 shell=shell.fuse(orange_holder)
 shell=shell.cut(cyl_y(orange_x,-0.1,orange_z,LED_ORANGE_APERTURE_D,LED_ORANGE_RECESS+0.2))
 shell=shell.cut(cyl_y(orange_x,LED_ORANGE_RECESS,orange_z,LED_POCKET_D,10.0))
-shell=shell.clean()
+# Real garage: small black mailbox immediately RIGHT of the garage opening.
+# Pocket cut only through 1.05mm of the 2.4mm front wall, NOT into the
+# servo service envelope behind it. Black plaque printed as separate part.
+mailbox_pocket=box(MAILBOX_POCKET_X0,-0.05,MAILBOX_POCKET_Z0,
+                   MAILBOX_POCKET_W,MAILBOX_POCKET_DEPTH+0.05,
+                   MAILBOX_POCKET_H)
+shell=shell.cut(mailbox_pocket).clean()
+mailbox_insert=box(MAILBOX_INSERT_X0,MAILBOX_FACE_RELIEF_Y,MAILBOX_INSERT_Z0,
+                   MAILBOX_INSERT_W,MAILBOX_INSERT_THICK,MAILBOX_INSERT_H)
+# Very shallow letter-slot cosmetic engraving on the black plaque front,
+# not a functional opening; keeps the small adhesive plate one-piece.
+MAILBOX_SLOT_X0=MAILBOX_INSERT_X0+1.2
+MAILBOX_SLOT_Z0=MAILBOX_INSERT_Z0+MAILBOX_INSERT_H-2.4
+mailbox_insert=mailbox_insert.cut(box(
+    MAILBOX_SLOT_X0,MAILBOX_FACE_RELIEF_Y-0.02,MAILBOX_SLOT_Z0,
+    MAILBOX_INSERT_W-2.4,0.22,0.55)).clean()
 
 # 2. Base: floor 3mm and internal locating L rails with 0.30mm side gap
 base_plate=box(0,0,0,W,D,BASE)
@@ -277,6 +337,13 @@ roof_outer_skirt=side_wedge(-ROOF_OVERHANG,W+2*ROOF_OVERHANG,
 roof_inner_void=box(-FIT,-FIT,0,W+2*FIT,D+2*FIT,90)
 roof_skirt=roof_outer_skirt.cut(roof_inner_void)
 roof_lid=roof_plate.fuse(roof_skirt).clean()
+# Raised, regularly spaced standing seams; structural roof plate stays
+# exactly 3mm thick below the original roof face. The ribs are fused
+# into the roof, not 13 separate loose or unprintable parts.
+ROOF_RIB_XS=[ROOF_RIB_FIRST_X+i*ROOF_RIB_PITCH
+             for i in range(ROOF_RIB_COUNT)]
+roof_standing_seams=[roof_standing_seam(x) for x in ROOF_RIB_XS]
+roof_lid=union_all([roof_lid]+roof_standing_seams)
 
 # 4. Single rigid door, ornamental grooves, rotating around horizontal X-axis.
 door_x0=OPEN_X+FIT
@@ -458,6 +525,7 @@ PRINTABLE={
   '06_support_servo_step_0p3mm_PROTOTYPE':cradle,
   '07_faux_plafond_combles_XIAO':tray,
   '09_support_led_blanche':holder,
+  '10_boite_aux_lettres_noire':mailbox_insert,
 }
 
 # 10. Import des quatre vrais STEP. Pas de substitution silencieuse.
@@ -595,6 +663,7 @@ if __name__=='__main__':
        '06_support_servo_step_0p3mm_PROTOTYPE':cq.Color(0.50,0.55,0.6),
        '07_faux_plafond_combles_XIAO':cq.Color(0.96,0.96,0.95),
        '09_support_led_blanche':cq.Color(0.96,0.96,0.95),
+       '10_boite_aux_lettres_noire':cq.Color(0.06,0.07,0.08),
     }
     for name,s in PRINTABLE.items():
         assy.add(s,name=name,color=colors[name])
@@ -602,7 +671,7 @@ if __name__=='__main__':
         assy.add(s,name=name,color=cq.Color(0.7,0.35,0.3,0.55))
     assy.save(str(STEP/'GarageStateClone_V2_assemblage_STEP_references.step'))
     # Fallback if any third-party STEP causes Onshape import issues:
-    # the eight printable parts only, without manufacturer references.
+    # all nine printable parts only, without manufacturer references.
     clean_structure=cq.Assembly(name='GarageStateClone_V2_structure_seule_Onshape')
     for name,solid in PRINTABLE.items():
         clean_structure.add(solid,name=name,color=colors[name])
@@ -613,6 +682,18 @@ if __name__=='__main__':
     (ROOT/'metriques_validation.json').write_text(json.dumps({'parameters_mm':{
         'width':W,'depth':D,'front_height':H_FRONT,'rear_height':H_BACK,
         'roof_slope_rise':H_BACK-H_FRONT,'wall':WALL,'roof':ROOF,'base':BASE,
+        'roof_bac_acier_rib_count':ROOF_RIB_COUNT,
+        'roof_bac_acier_rib_centres_x_mm':ROOF_RIB_XS,
+        'roof_bac_acier_pitch_mm':ROOF_RIB_PITCH,
+        'roof_bac_acier_trapezoid_base_crown_mm':[ROOF_RIB_BASE_W,ROOF_RIB_CROWN_W],
+        'roof_bac_acier_rise_above_original_top_mm':ROOF_RIB_RISE,
+        'roof_bac_acier_ribs_parallel_to':'Y, roof slope front to rear',
+        'mailbox_pocket_xz_mm':[MAILBOX_POCKET_X0,MAILBOX_POCKET_Z0],
+        'mailbox_pocket_width_height_depth_mm':[MAILBOX_POCKET_W,MAILBOX_POCKET_H,MAILBOX_POCKET_DEPTH],
+        'mailbox_wall_remaining_thickness_mm':WALL-MAILBOX_POCKET_DEPTH,
+        'mailbox_insert_width_height_thickness_mm':[MAILBOX_INSERT_W,MAILBOX_INSERT_H,MAILBOX_INSERT_THICK],
+        'mailbox_insert_surface_recession_y_mm':MAILBOX_FACE_RELIEF_Y,
+        'mailbox_part_name':'10_boite_aux_lettres_noire',
         'fit_per_face':FIT,'opening_width':OPEN_W,'opening_height':OPEN_H,
         'door_width':DOOR_W,'door_height':DOOR_H,'hinge_diameter':HINGE_D,
         'bearing_hole_diameter':HINGE_SOCKET_D,

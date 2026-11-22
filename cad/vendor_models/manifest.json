@@ -214,18 +214,50 @@
     "usb_c_board_mounting_holes_known": false,
     "usb_c_socket_position_known": false,
     "usb_c_CC1_CC2_pull_downs_verified": false,
-    "usb_c_core_power_distribution": "USB 5V -> separate power bus to servo and XIAO, GND common, 470uF near servo; NO feed from XIAO 3V3"
+    "usb_c_core_power_distribution": "USB 5V -> separate power bus to servo and XIAO, GND common, 470uF near servo; NO feed from XIAO 3V3",
+    "roof_style": "bac acier esthétique à joints debout trapézoïdaux, nervures continues selon pente Y",
+    "roof_bac_acier_rib_count": 13,
+    "roof_bac_acier_rib_first_x_mm": 5.5,
+    "roof_bac_acier_rib_pitch_mm": 11.5,
+    "roof_bac_acier_rib_base_crown_width_mm": [
+      2.5,
+      1.1
+    ],
+    "roof_bac_acier_rib_rise_mm": 0.95,
+    "roof_structural_plate_thickness_unchanged_mm": 3,
+    "roof_bac_acier_detail_status": "artistically designed from user garage photo, NOT a measured real roof profile",
+    "mailbox_reference": "user's photo: small near-square dark mailbox on white right pier, immediately right of garage door",
+    "mailbox_pocket_xz_mm": [
+      124.5,
+      24
+    ],
+    "mailbox_pocket_width_height_depth_mm": [
+      10.6,
+      10.6,
+      1.05
+    ],
+    "mailbox_insert_width_height_thickness_mm": [
+      10,
+      10,
+      0.75
+    ],
+    "mailbox_remaining_local_wall_mm": 1.35,
+    "mailbox_insert_separate_stl": true,
+    "mailbox_glue_in_clearance_per_edge_mm": 0.3,
+    "mailbox_insert_color": "black",
+    "mailbox_ornamental_slot": true,
+    "mailbox_physical_scale_verified": false
   },
   "qa": {
     "checked_with": "CadQuery 2.8.0, OCP 7.9.3.1, trimesh 4.11.1",
-    "printable_stls": 8,
+    "printable_stls": 9,
     "all_stls_watertight": true,
     "servo_vs_shell_roof_support_door_collision_mm3": 0,
     "boards_intersection_mm3": 0.013,
     "stacking_verified_physically": false,
     "servo_mount_accurate": "29mm pitch 2 pilot mount locations CAD vs official diagram; physical ear plane and supplied screw type require dry-fit",
     "led_orange_relocated_to_avoid_servo": true,
-    "generated_step_validation": "reimport and compare individual STEP volumes; validate reference checksums and door sweep",
+    "generated_step_validation": "9 individual STEP, 9 watertight STL; 1 full assembly, 1 Onshape structural, 1 simplified XIAO; roof ribs and mailbox insert geometric checks",
     "servo_jamb_intersection_mm3": 0,
     "door_jamb_intersection_mm3": 0,
     "compact_shell_150_collision_check": "validated by CAD CI; no hardware test",
@@ -234,6 +266,7 @@
     "servo_base_M2_holes": "coaxial CAD; tap depth and screw countersink must be coupon-tested",
     "actual_horn_bolt_pattern": "UNKNOWN, interface disk blank on purpose",
     "manufacturer_axis_erratum": "official drawing 33mm ear-span maps to rotated STEP Z=33.4mm, NOT X=32.5mm. Prior 0.05 mm axial clearance claim invalid",
-    "usb_c_carrier": "integral to 02 base; underside strap tunnels and rear shell aperture modeled; physical connector protrusion/hole placement unknown"
+    "usb_c_carrier": "integral to 02 base; underside strap tunnels and rear shell aperture modeled; physical connector protrusion/hole placement unknown",
+    "roof_mailbox_design": "Cosmetic V9: 13 trapezoidal ribs fused to sloped lid and glue-in 10mm square letterbox; no physical build verified."
   }
 }

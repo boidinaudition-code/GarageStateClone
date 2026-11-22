@@ -547,7 +547,40 @@
     "usb_c_49067_socket_face_position_confirmed": false,
     "usb_c_49067_board_mounting_holes_confirmed": false,
     "usb_c_connector_clearance_physical_verified": false,
-    "usb_c_mount_status": "Integral tie-down cradle in base, rear service cutout not exact socket match; prototype dry fit mandatory"
+    "usb_c_mount_status": "Integral tie-down cradle in base, rear service cutout not exact socket match; prototype dry fit mandatory",
+    "roof_style_v9": "13 nervures trapézoïdales de bac acier dans l'axe de la pente, solidaires du toit noir, dimensions esthétiques du projet",
+    "roof_bac_acier_rib_count": 13,
+    "roof_bac_acier_rib_first_x_mm": 5.5,
+    "roof_bac_acier_rib_pitch_mm": 11.5,
+    "roof_bac_acier_rib_base_crown_mm": [
+      2.5,
+      1.1
+    ],
+    "roof_bac_acier_rib_rise_above_original_surface_mm": 0.95,
+    "roof_thickness_under_ribs_mm": 3,
+    "mailbox_separate_black_part": true,
+    "mailbox_print_part": "10_boite_aux_lettres_noire",
+    "mailbox_pocket_xz_mm": [
+      124.5,
+      24
+    ],
+    "mailbox_pocket_width_height_depth_mm": [
+      10.6,
+      10.6,
+      1.05
+    ],
+    "mailbox_insert_width_height_thickness_mm": [
+      10,
+      10,
+      0.75
+    ],
+    "mailbox_glue_fit_per_side_mm": 0.3,
+    "mailbox_insert_recess_from_front_mm": 0.1,
+    "mailbox_remaining_wall_backing_mm": 1.35,
+    "mailbox_hole_or_letter_slot": "shallow decorative groove on black insert only, not a through-hole",
+    "mailbox_reference_confidence": "qualitative proportions derived from two user photos, not physically surveyed dimensions; cosmetic position on front right pier",
+    "cad_printable_part_count": 9,
+    "cad_step_export_count": 12
   },
   "system_state": {
     "sensor_count": 1,
