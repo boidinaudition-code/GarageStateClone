@@ -1,4 +1,4 @@
-# CAO paramétrique GarageStateClone — V8 (support USB-C et fixations servo V7)
+# CAO paramétrique GarageStateClone — V9 (toit bac acier et boîte aux lettres)
 
 **Source de vérité : [generate_cad.py](generate_cad.py)** (CadQuery 2.8, unités mm). La V6 est un **prototype mécanique**, pas un assemblage validé avec le vrai DMS-MG90 ou avec le palonnier livré.
 
@@ -8,7 +8,11 @@
 
 **Entrée USB-C V8 :** platine Gotronic **49067** (enveloppe vendeur **21 × 15 × 4,5 mm**), orientée provisoirement **X15 / Y21 / Z4,5** au bas du garage, juste devant le mur arrière. La pièce **02_socle_noir** comporte un berceau **X63,9..86,1 / Y72,4..96,6 / dessus Z9,0**, deux guides latéraux et **2 tunnels horizontaux de 3,2 × 2,7 mm** pour colliers isolés. La coque possède une **ouverture arrière 13 × 8** de service entre **Z8,5 et Z16,5**, à la place de l'ancienne découpe 12 × 8. Référence simplifiée dans l'assemblage : `REF_USB_C_49067_GABARIT_NON_CONTRACTUEL_NE_PAS_IMPRIMER`. **Aucun perçage, nez de connecteur ni position CC prétendu exact**. Essai obligatoire avec carte et fiche réelles.
 
-L'alimentation 5 V du XIAO et du servo est réalisée **en parallèle depuis la platine**, avec un petit bus soudé à part (borniers 48930, résistances CC1/CC2 5,1 kΩ uniquement si absentes). Voir [le guide V8](../docs/ALIMENTATION_USB_C_V8.md). Les **8 STL** sont conservés, car le support est **intégré au socle**.
+L'alimentation 5 V du XIAO et du servo est réalisée **en parallèle depuis la platine**, avec un petit bus soudé à part (borniers 48930, résistances CC1/CC2 5,1 kΩ uniquement si absentes). Voir [le guide V8](../docs/ALIMENTATION_USB_C_V8.md). Le support USB-C reste **intégré au socle** ; la V9 ajoute une pièce imprimable distincte pour la boîte aux lettres.
+
+**Toit bac acier V9 :** la pièce `03_toit_noir_pente` comporte désormais **13 nervures trapézoïdales**, axes **Y** dans la direction de la pente, premier centre X=5,5 mm, pas X=11,5 mm, base **2,5 mm**, sommet **1,1 mm**, saillie **0,95 mm**. Les nervures sont fusionnées au dessus du toit (pénétration de fusion 0,18 mm), **sans diminuer ses 3 mm d'épaisseur sous le relief**, ni altérer le bord inférieur et la jupe amovible. Paramètres `ROOF_RIB_*`.
+
+**Boîte aux lettres V9 (photo du garage réel) :** niche **X=124,5..135,1 mm, Z=24..34,6 mm, Y=0..1,05 mm** dans le **montant blanc droit** de `01_coque_blanche`. L'épaisseur locale résiduelle de façade est **1,35 mm**. Nouvelle pièce séparée `10_boite_aux_lettres_noire` : carré **10 × 10 × 0,75 mm**, à coller en léger retrait avec **0,30 mm de jeu sur chaque côté**. Fente superficielle imprimée (non fonctionnelle) ; finition cosmétique, photo non relevée au pied à coulisse. Voir [les vues et cotes V9](../docs/TOIT_BAC_ACIER_BOITE_LETTRES_V9.md).
 
 ## Géométrie de référence V6
 
@@ -27,7 +31,7 @@ L'alimentation 5 V du XIAO et du servo est réalisée **en parallèle depuis la 
 | LED orange façade | X96 / Z53,3 |
 | Emboîtements | **0,30 mm par face**, cible CAO à calibrer en FDM |
 
-Les huit STL restent : coque, **socle intégrant désormais le berceau USB-C**, toit, porte, palier gauche, berceau servo, faux plafond, support de LED blanche. Le bandeau bleu est supprimé.
+Les **9 STL** sont : coque avec logement de boîte aux lettres, **socle intégrant le berceau USB-C**, toit nervuré bac acier, porte, palier gauche, berceau servo, faux plafond, support LED blanche et **10_boite_aux_lettres_noire** indépendante. Le bandeau bleu est supprimé.
 
 ### Interfaces mécaniques nouvellement dessinées
 
@@ -58,7 +62,7 @@ python cad/test_fit_coupons.py
 python cad/test_repo_consistency.py
 ~~~
 
-**Sorties** : 8 STL dans le sous-dossier stl, **11 STEP** dans step (8 pièces, 1 assemblage avec références, 1 assemblage structure seule, 1 XIAO simplifié), et **3 coupons STL d'essai** dans coupons.
+**Sorties** : **9 STL** dans le sous-dossier stl, **12 STEP** dans step (9 pièces, 1 assemblage avec références, 1 assemblage structure seule, 1 XIAO simplifié), et **3 coupons STL d'essai** dans coupons.
 
 Les tests contrôlent intégrité SHA256 des quatre géométries BREP tierces, solides fermés, volumes réimportés, collisions et jeux échantillonnés de 0 à 90° par 5°. Ils ne testent ni adhérence des couches, ni résistance des bossages vissés, ni usure, ni véritable accouplement de servo. Les STEP sont des exports dérivés : ne pas les fusionner manuellement dans Git, les télécharger depuis **GitHub Actions**.
 
