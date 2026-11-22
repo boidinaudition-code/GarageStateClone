@@ -95,7 +95,7 @@
     ],
     "led_orange_center_xz_mm": [
       96,
-      52.1
+      52.8
     ],
     "led_orange_holder_outer_diameter_mm": 10.8,
     "front_jamb_return_depth_mm": 10,
@@ -285,6 +285,6 @@
     "actual_horn_bolt_pattern": "UNKNOWN, interface disk blank on purpose",
     "manufacturer_axis_erratum": "official drawing 33mm ear-span maps to rotated STEP Z=33.4mm, NOT X=32.5mm. Prior 0.05 mm axial clearance claim invalid",
     "usb_c_carrier": "integral to 02 base; underside strap tunnels and rear shell aperture modeled; physical connector protrusion/hole placement unknown",
-    "roof_mailbox_design": "V10: 13 trapezoidal ribs on roof top and 13 aligned vertical roof fascia; reduced black glue-in mailbox 7x7mm; orange LED Z52.1; minimal approximate USB opening and interior cable chase; print fit not yet checked physically"
+    "roof_mailbox_design": "V10: 13 trapezoidal ribs on roof top and 13 aligned vertical roof fascia; reduced black glue-in mailbox 7x7mm; orange LED Z52.8; minimal approximate USB opening and interior cable chase; print fit not yet checked physically"
   }
 }
