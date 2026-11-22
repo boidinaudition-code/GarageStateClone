@@ -1,0 +1,284 @@
+{
+  "schema": "GarageStateClone-hardware-BOM-v5.1",
+  "review_date": "2026-11-22",
+  "cad_version": "V5 combles, 150x100mm, roof 62/78mm",
+  "currency": "EUR",
+  "status_convention": {
+    "confirmed": "reference and characteristics checked, required if not already owned",
+    "supplied": "already owned or supplied with core component; do not buy twice",
+    "conditional": "possible prototype part; not validated against final mounting holes",
+    "measure": "required but specific part size or fitting must be measured/designed",
+    "optional": "helps assembly but not mandatory with other wiring choice"
+  },
+  "core_electronics": [
+    {
+      "id": "SAS308",
+      "quantity_mounted": 1,
+      "pack_price_eur": "3.90",
+      "ref": "Gotronic 26449",
+      "url": "https://www.gotronic.fr/art-contact-magnetique-miniature-sas308-12751.htm"
+    },
+    {
+      "id": "DMS-MG90",
+      "quantity_mounted": 1,
+      "pack_price_eur": "7.90",
+      "ref": "Gotronic 36923",
+      "includes": [
+        "horns",
+        "servo fastening hardware",
+        "JR female connector"
+      ],
+      "url": "https://www.gotronic.fr/art-servomoteur-dms-mg90-32266.htm"
+    },
+    {
+      "id": "470uF_16V",
+      "quantity_mounted": 1,
+      "pack_price_eur": "0.20",
+      "ref": "Gotronic 04947",
+      "url": "https://www.gotronic.fr/art-condensateur-radial-470uf-16v-3386.htm"
+    },
+    {
+      "id": "BC547B",
+      "quantity_mounted": 1,
+      "pack_price_eur": "0.15",
+      "ref": "Gotronic 02173",
+      "url": "https://www.gotronic.fr/art-transistor-bc547b-1336.htm"
+    },
+    {
+      "id": "R_330",
+      "quantity_mounted": 1,
+      "pack_size": 5,
+      "pack_price_eur": "0.30",
+      "ref": "Gotronic 04130",
+      "url": "https://www.gotronic.fr/art-5-resistances-1-2w-330-8486-2653.htm"
+    },
+    {
+      "id": "R_680",
+      "quantity_mounted": 1,
+      "pack_size": 5,
+      "pack_price_eur": "0.30",
+      "ref": "Gotronic 04134",
+      "url": "https://www.gotronic.fr/art-5-resistances-1-2w-680-8486-2657.htm"
+    },
+    {
+      "id": "R_4700",
+      "quantity_mounted": 1,
+      "pack_size": 5,
+      "pack_price_eur": "0.30",
+      "ref": "Gotronic 04144",
+      "url": "https://www.gotronic.fr/art-5-resistances-1-2w-4-7-k-8486-2667.htm"
+    },
+    {
+      "id": "R_100000",
+      "quantity_mounted": 1,
+      "pack_size": 5,
+      "pack_price_eur": "0.30",
+      "ref": "Gotronic 04160",
+      "url": "https://www.gotronic.fr/art-5-resistances-1-2w-100-k-8486-2681.htm"
+    },
+    {
+      "id": "WHITE_LED_WCS101",
+      "quantity_mounted": 1,
+      "pack_size": 130,
+      "warm_white_qty_in_pack": 20,
+      "pack_price_eur": "9.90",
+      "ref": "Gotronic 03989",
+      "url": "https://www.gotronic.fr/art-assortiment-de-130-leds-wcs101-39775.htm"
+    },
+    {
+      "id": "ORANGE_LED_L7113NC",
+      "quantity_mounted": 1,
+      "pack_price_eur": "0.18",
+      "ref": "Gotronic 03051",
+      "url": "https://www.gotronic.fr/art-led-5-mm-l7113nc-2086.htm"
+    }
+  ],
+  "core_total_eur": "23.43",
+  "existing_not_rebuy": [
+    {
+      "id": "RADIO_KITS",
+      "qty": 2,
+      "name": "Seeed XIAO nRF52840 + Wio-SX1262 kits",
+      "status": "supplied",
+      "antennas_qty": "verify 2x compatible 868MHz physical antennas"
+    },
+    {
+      "id": "3D_PRINTER",
+      "qty": 1,
+      "name": "Bambu Lab P1S + AMS",
+      "status": "supplied"
+    },
+    {
+      "id": "SERVO_HORN_SCREWS",
+      "qty": 1,
+      "name": "Palonnier + servo manufacturer fasteners",
+      "status": "supplied",
+      "provided_by": "DMS-MG90"
+    },
+    {
+      "id": "LEFT_HINGE_PIN",
+      "qty": 1,
+      "name": "Printed integral Ø3.2mm door pin, Ø3.8mm bearing",
+      "status": "supplied",
+      "provided_by": "cad/generate_cad.py"
+    },
+    {
+      "id": "ROOF_BASE_ATTIC_RETENTION",
+      "qty": 3,
+      "name": "CAD V5 press fit roof/base/false ceiling, no default screws",
+      "status": "supplied",
+      "provided_by": "cad/generate_cad.py"
+    }
+  ],
+  "hardware_candidates": [
+    {
+      "id": "TAP_2_2x6_5",
+      "ref": "Gotronic 11850",
+      "unit": "bag of 10",
+      "pack_price_eur": "0.65",
+      "status": "conditional",
+      "qty_to_mount": "2-4 only if suitable printed bosses added",
+      "url": "https://www.gotronic.fr/art-10-vis-auto-taraudeuses-2-2x6-5mm-6681.htm"
+    },
+    {
+      "id": "M2x8",
+      "ref": "Gotronic 11636",
+      "unit": "bag of 10, countersunk head",
+      "pack_price_eur": "0.65",
+      "status": "conditional",
+      "qty_to_mount": "after servo or coupling holes measured",
+      "url": "https://www.gotronic.fr/cat-visserie-685.htm"
+    },
+    {
+      "id": "M2_NUTS",
+      "ref": "Gotronic 11592",
+      "unit": "bag of 10",
+      "pack_price_eur": "0.40",
+      "status": "conditional",
+      "qty_to_mount": "with M2 through-bolts only",
+      "url": "https://www.gotronic.fr/cat-visserie-685.htm"
+    },
+    {
+      "id": "M2_WASHERS",
+      "ref": "Gotronic 11593",
+      "unit": "bag of 10",
+      "pack_price_eur": "0.20",
+      "status": "conditional",
+      "qty_to_mount": "with M2 through-bolts only",
+      "url": "https://www.gotronic.fr/cat-visserie-685.htm"
+    },
+    {
+      "id": "CABLE_TIES_BLACK",
+      "ref": "Gotronic 11845",
+      "unit": "bag of 100, 2.5x100mm",
+      "pack_price_eur": "1.20",
+      "status": "confirmed",
+      "qty_to_mount": "about 4-8 for cable strain relief and fixed routing; check lengths",
+      "url": "https://www.gotronic.fr/cat-colliers-de-serrage-1330.htm"
+    },
+    {
+      "id": "ADHESIVE_CLIPS",
+      "ref": "Gotronic 49463",
+      "unit": "bag of 12, cable Ø4mm max",
+      "pack_price_eur": "1.80",
+      "status": "optional",
+      "qty_to_mount": "about 4-6 external fixed mounts; 28mm long, not for miniature near servo",
+      "url": "https://www.gotronic.fr/art-12-clips-support-de-cable-40452.htm"
+    },
+    {
+      "id": "SERVO_JR_ADAPTER",
+      "ref": "Gotronic 37783",
+      "unit": "1x JR female to male test contacts, 170mm",
+      "pack_price_eur": "2.35",
+      "status": "optional",
+      "qty_to_mount": 1,
+      "url": "https://www.gotronic.fr/art-adaptateur-pour-servos-vers-contacts-males-35364.htm"
+    },
+    {
+      "id": "SIGNAL_WIRE_BLACK",
+      "ref": "Gotronic 49090",
+      "unit": "10m multi-strand 0.14mm²",
+      "pack_price_eur": "2.30",
+      "status": "conditional",
+      "qty_to_mount": "2 signal wires for SAS308 extension + 1-2m wiring inside miniature as needed",
+      "url": "https://www.gotronic.fr/cat-fil-de-cablage-souple-0-14-mm-1569.htm"
+    },
+    {
+      "id": "ADHESIVE_HEAT_SHRINK",
+      "ref": "Gotronic 08906",
+      "unit": "1.2m, 3:1 adhesive lined",
+      "pack_price_eur": "3.60",
+      "status": "conditional",
+      "qty_to_mount": "2 covered splices if sensor extension needed",
+      "url": "https://www.gotronic.fr/cat-gaine-thermoretractable-823.htm"
+    },
+    {
+      "id": "SENSOR_MAGNET_MOUNT",
+      "ref": null,
+      "unit": "one fixture per detector and magnet",
+      "pack_price_eur": null,
+      "status": "measure",
+      "qty_to_mount": 2,
+      "url": null,
+      "note": "Do not drill operating rails; select clamp/3d printed non-invasive mounts after hole dimensions"
+    },
+    {
+      "id": "TRANSMITTER_HOUSING",
+      "ref": null,
+      "unit": "3D printed protective enclosure and strain relief",
+      "pack_price_eur": null,
+      "status": "measure",
+      "qty_to_mount": 1,
+      "url": null,
+      "note": "not present in the 8 printable garage STL"
+    },
+    {
+      "id": "XIAO_NONCONDUCTIVE_HOLDER",
+      "ref": null,
+      "unit": "3D printed low-profile supports, adhesive optional",
+      "pack_price_eur": null,
+      "status": "measure",
+      "qty_to_mount": 1,
+      "url": null,
+      "note": "Only approximately 6mm of roof gap above XIAO; do NOT buy 10mm standoffs"
+    },
+    {
+      "id": "SERVO_DOOR_COUPLER",
+      "ref": null,
+      "unit": "3D printed arm/coupler for genuine horn",
+      "pack_price_eur": null,
+      "status": "measure",
+      "qty_to_mount": 1,
+      "url": null,
+      "note": "3mm model gap and servo ears mounting pattern need real measurement"
+    },
+    {
+      "id": "USB_STRAIN_RELIEF",
+      "ref": null,
+      "unit": "printed/selected grommet and cable tie anchor",
+      "pack_price_eur": null,
+      "status": "measure",
+      "qty_to_mount": 2,
+      "url": null,
+      "note": "rear upper slot 16x9 mm has no strain-relief feature in CAD"
+    }
+  ],
+  "not_in_core_cost": [
+    "2 or 3 power supplies depending on architecture",
+    "two USB-C cords",
+    "2 x verified 868MHz RF antennas if not in kits",
+    "servo 5V power distribution",
+    "2-core SAS308 extension if needed",
+    "perfboard solder and flux",
+    "filament",
+    "shipping"
+  ],
+  "unvalidated_physical_parts": [
+    "MG90 horn linkage and ear mounting holes",
+    "SAS308 body and magnet mounting dimensions",
+    "Wio/XIAO mechanical hold down and antenna",
+    "USB-C connector and lead bend radius",
+    "transmitter protective box"
+  ],
+  "verification_note": "Design/CAD assertions are not physical fit validation. Optional screws are NOT prescribed as confirmed hardware."
+}

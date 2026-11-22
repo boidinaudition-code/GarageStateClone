@@ -47,7 +47,7 @@ Achats **100 % Gotronic** (kits déjà possédés exclus). Prix TTC actuels cont
 
 | Quantité montée | Pièce / référence | Prix actuel TTC | Caractéristiques / usage |
 |---:|---|---:|---|
-| **1** | [SAS308 — Gotronic 26449](https://www.gotronic.fr/art-contact-magnetique-miniature-sas308-12751.htm) | **5,95 €** | 24 × 15 × 6 mm ; écart aimant 15 mm max. ; câble moulé 250 mm ; capteur unique de **fermeture**. Dimensions de l'aimant à mesurer. |
+| **1** | [SAS308 — Gotronic 26449](https://www.gotronic.fr/art-contact-magnetique-miniature-sas308-12751.htm) | **3,90 €** | 24 × 15 × 6 mm ; écart aimant 15 mm max. ; câble moulé 250 mm ; capteur unique de **fermeture**. Dimensions de l'aimant à mesurer. |
 | 1 | [DFRobot DMS-MG90 — Gotronic 36923](https://www.gotronic.fr/art-servomoteur-dms-mg90-32266.htm) | 7,90 € | Positionnel, pignons métal, 4,8–6 V, course annoncée 2 × 90° ; palonnier et visserie inclus |
 | 1 | [470 µF / 16 V — Gotronic 04947](https://www.gotronic.fr/art-condensateur-radial-470uf-16v-3386.htm) | 0,20 € | Condensateur polarisé près du servo |
 | 1 | [BC547B NPN TO-92 — Gotronic 02173](https://www.gotronic.fr/art-transistor-bc547b-1336.htm) | 0,15 € | Q1, commande de la LED blanche depuis D7 ; identifier C/B/E sur la notice du lot |
@@ -58,7 +58,7 @@ Achats **100 % Gotronic** (kits déjà possédés exclus). Prix TTC actuels cont
 | 1 utilisée | [Whadda WCS101 — Gotronic 03989](https://www.gotronic.fr/art-assortiment-de-130-leds-wcs101-39775.htm) | **9,90 € le lot** | 130 LED **5 mm**, dont **20 blanches chaudes** ; en utiliser une seule, non RGB, sur +5 V via R1 et Q1. Vf, température de couleur et dimensions détaillées à confirmer |
 | 1 | [Orange L7113NC 5 mm — Gotronic 03051](https://www.gotronic.fr/art-led-5-mm-l7113nc-2086.htm) | **0,18 €** | Boîtier clair, 15°, 80 mcd à 10 mA annoncés (pas une promesse à notre courant réduit) ; clignotement logiciel |
 
-**Sous-total actuel du panier noyau : 25,48 EUR TTC**, incluant le lot WCS101 entier et les quatre lots de résistances. **Hors port, fournitures et alimentations** : ce n'est pas un total complet ; les achats complémentaires dépendent du stock déjà possédé et du montage retenu. Aucun achat effectué.
+**Sous-total électronique vérifié : 23,43 EUR TTC**, incluant le lot WCS101 entier et les quatre lots de résistances. **Hors port, fournitures et alimentations** : ce n'est pas un total complet ; les achats complémentaires dépendent du stock déjà possédé et du montage retenu. Aucun achat effectué.
 
 ### Fournitures nécessaires si absentes
 
@@ -69,7 +69,7 @@ Achats **100 % Gotronic** (kits déjà possédés exclus). Prix TTC actuels cont
 - Vis pour le SAS308, raccordements protégés, supports imprimés du servo et des LED, adaptateur de palonnier, axe/tourillon et palier gauche, coque et toit démontable.
 - Multimètre pour continuité, polarités, résistances, tensions et masses ; outillage de soudure et fixation adapté.
 
-**Références Gotronic et quantités de départ : [tableau des fournitures dans la BOM](docs/BOM_V1_VERIFIEE.md#fournitures-indispensables-si-absentes)** : alimentation HNP18-USBV2 14749 (5 V / 3 A, supérieure au minimum 2 A), câbles USB-A/C, cordon 49101 + bornier PCM10F 48214 pour la puissance servo externe, fil FC50G 08941, perfboard BCS050 12470, gaine FTK01 08918, vis M3 11520 (compatibilité fixation à confirmer). La variante à **trois chargeurs au total** évite un répartiteur non vérifié : deux pour les XIAO, un pour servo/LED ; GND commun côté miniature, **+5 V des deux sources jamais réunis**. Le total complet reste **à chiffrer** selon stock, longueurs, vis et panier final.
+**Références Gotronic et quantités de départ : [tableau des fournitures dans la BOM](docs/BOM_V1_VERIFIEE.md#fournitures-indispensables-si-absentes)** : alimentation HNP18-USBV2 14749 (5 V / 3 A, supérieure au minimum 2 A), câbles USB-A/C, cordon 49101 + bornier PCM10F 48214 pour la puissance servo externe, fil FC50G 08941, perfboard BCS050 12470, gaine FTK01 08918, petite visserie de prototype M2 / Ø2,2 mm seulement après validation des supports ; **aucun axe métallique Ø3 mm requis** (tourillon imprimé). La variante à **trois chargeurs au total** évite un répartiteur non vérifié : deux pour les XIAO, un pour servo/LED ; GND commun côté miniature, **+5 V des deux sources jamais réunis**. Le total complet reste **à chiffrer** selon stock, longueurs, vis et panier final.
 
 ## Mécanique retenue
 
@@ -344,3 +344,13 @@ La miniature conserve ses **150 × 100 mm au sol**, mais le toit noir mono-pente
 - **8 STL et 11 STEP** sont toujours générés par GitHub Actions ; le faux plafond remplace l'ancien plateau arrière. Aucun changement du firmware ni du BOM électronique.
 
 [**Plan et précautions de montage du toit/combles V5**](docs/TOIT_COMBLES_V5.md). Le modèle est encore **un prototype mécanique** ; valider les branchements du XIAO, la fixation du PCB, le palonnier et les passages d'antenne avec le matériel réel avant impression définitive.
+
+## Audit quincaillerie V5 — avant commande
+
+Le noyau électronique coûte **23,43 € TTC indicatifs** sur les fiches Gotronic contrôlées le 22/11/2026, après correction du **SAS308 à 3,90 €**. Il manque encore, selon le stock disponible, une **petite connexion servo JR démontable**, du fil fin, des isolants, des attaches de câble et éventuellement de la visserie **M2 / 2,2 mm uniquement pour les supports réellement percés**.
+
+- [**BOM mise à jour et paniers conditionnels**](docs/BOM_V1_VERIFIEE.md)
+- [**Liste de quincaillerie V5, contrôles mécaniques et pièces non achetées**](docs/QUINCAILLERIE_MONTAGE_V5.md)
+- [**Nomenclature JSON vérifiable automatiquement**](cad/hardware_bom_v5.json)
+
+**Ne rien racheter pour le servo sans ouvrir son sachet : palonniers, visserie et JR sont fournis.** Le tourillon de porte est déjà imprimé Ø3,2 mm ; inutile d'acheter un axe Ø3 mm. Les fixations du servo, du palonnier, du Wio/XIAO dans les combles et du SAS308/aimant réel nécessitent encore des dimensions relevées sur les composants et des modifications de supports en CAO. Le **boîtier protecteur de l'émetteur** n'est pas encore dans les huit pièces imprimables.

@@ -83,3 +83,7 @@ Après le workflow GitHub Actions, télécharger l'artefact `garage-state-clone-
 - `07_faux_plafond_combles_XIAO.step` : faux plafond seul.
 
 **Un ancien import Onshape n'est pas automatiquement modifié par un push GitHub** : réimporter la nouvelle version.
+
+## Quincaillerie liée aux combles — audit du 22/11/2026
+
+Le **faux plafond est retenu par deux appuis imprimés sur les murs** : **aucune vis M3 ou entretoise de 10 mm n'est nécessaire pour le maintenir** dans le prototype. Pour le Wio/XIAO, privilégier une petite bride **isolante et démontable**, encore à concevoir, plutôt que de percer au hasard les PCB ; le vide sous toit est d'environ **6,2 mm hors câble USB/antenne**. Pour les câbles, prévoir une décharge de traction sur l'ouverture haute arrière 16×9 mm et les fils D6/D7/D0 plaqués sur les parois. **La visserie définitive du servo, son accouplement et les supports du capteur/aimant du vrai garage restent à dimensionner.** Voir le [tableau complet des fixations V5](QUINCAILLERIE_MONTAGE_V5.md).
