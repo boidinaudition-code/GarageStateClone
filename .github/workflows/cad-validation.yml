@@ -36,6 +36,7 @@ jobs:
           python cad/qa_geometry.py
           python cad/verify_gotronic.py
           python cad/test_step_exports.py
+          python cad/test_hardware_bom.py
 
       - name: Archiver les 11 STEP, 8 STL et rapports
         if: always()

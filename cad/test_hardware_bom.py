@@ -49,7 +49,7 @@ assert "tourillon" in hard.lower()
 servo=next(x for x in core if x["id"]=="DMS-MG90")
 assert "servo fastening hardware" in servo["includes"]
 assert "LEFT_HINGE_PIN" in {x["id"] for x in p["existing_not_rebuy"]}
-assert "SERVO_DOOR_COUPLER" in p["unvalidated_physical_parts"][0].upper() or "coupler" in p["hardware_candidates"][-2]["unit"].lower()
+assert next(x for x in p["hardware_candidates"] if x["id"]=="SERVO_DOOR_COUPLER")["status"]=="measure"
 print(f"PASS BOM V5: {len(core)} articles electroniques = {total} EUR,"
       f" {len(p['hardware_candidates'])} lots/besoins montage classes,"
       " aucune dimension de vis finale pretendue validee")
