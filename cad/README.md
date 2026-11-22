@@ -1,4 +1,4 @@
-# CAO paramétrique GarageStateClone — V6
+# CAO paramétrique GarageStateClone — V7 (fixations servo)
 
 **Source de vérité : [generate_cad.py](generate_cad.py)** (CadQuery 2.8, unités mm). La V6 est un **prototype mécanique**, pas un assemblage validé avec le vrai DMS-MG90 ou avec le palonnier livré.
 
@@ -54,9 +54,9 @@ python cad/test_repo_consistency.py
 
 **Sorties** : 8 STL dans le sous-dossier stl, **11 STEP** dans step (8 pièces, 1 assemblage avec références, 1 assemblage structure seule, 1 XIAO simplifié), et **3 coupons STL d'essai** dans coupons.
 
-Les tests contrôlent intégrité SHA256 des quatre géométries BREP tierces, solides fermés, volumes réimportés, collisions et jeux échantillonnés de 0 à 90° par 5°. Ils ne testent ni adhérence des couches, ni flexion du crochet, ni usure, ni véritable accouplement de servo. Les STEP sont des exports dérivés : ne pas les fusionner manuellement dans Git, les télécharger depuis **GitHub Actions**.
+Les tests contrôlent intégrité SHA256 des quatre géométries BREP tierces, solides fermés, volumes réimportés, collisions et jeux échantillonnés de 0 à 90° par 5°. Ils ne testent ni adhérence des couches, ni résistance des bossages vissés, ni usure, ni véritable accouplement de servo. Les STEP sont des exports dérivés : ne pas les fusionner manuellement dans Git, les télécharger depuis **GitHub Actions**.
 
-**Pour Onshape** : utiliser l'assemblage historique nommé GarageStateClone_V2_assemblage_STEP_references.step, mais son **contenu est V6**. Alternative : GarageStateClone_V2_STRUCTURE_SANS_REFERENCES_ONSHAPE.step, huit pièces uniquement. Les anciens imports Onshape ne se réparent pas automatiquement.
+**Pour Onshape** : utiliser l'assemblage historique nommé GarageStateClone_V2_assemblage_STEP_references.step, mais sa **structure V7** inclut maintenant les deux pilotes de vis du servo (nom historique du fichier conservé). Alternative : GarageStateClone_V2_STRUCTURE_SANS_REFERENCES_ONSHAPE.step, huit pièces uniquement. Les anciens imports Onshape ne se réparent pas automatiquement.
 
 ## Éprouvettes et impression P1S
 
