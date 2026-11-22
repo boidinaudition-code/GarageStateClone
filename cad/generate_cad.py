@@ -63,7 +63,7 @@ SERVO_VENDOR_ORIENTED_XYZ=(32.5,12.221,33.4)
 SERVO_LUG_PITCH=29.0   # manufacturer drawing, two open-ended Ø2 notches
 SERVO_LUG_NOTCH_D=2.0
 SERVO_LUG_PILOT_D=1.7  # threaded pilot, trial fit supplied screws
-SERVO_LUG_BOSS_D=5.2
+SERVO_LUG_BOSS_D=5.8  # (5.8-1.7)/2=2.05 mm radial printed wall
 SERVO_LUG_BOSS_X_FROM_SHAFT_TIP=16.7
 SERVO_LUG_BOSS_LENGTH=6.8
 # Cable eyes and attic strap slots: real apertures, not marketing dimensions.
