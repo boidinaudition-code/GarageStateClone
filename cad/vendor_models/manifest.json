@@ -79,7 +79,7 @@
     ],
     "roof_z_front_back_mm": [
       62,
-      65
+      78
     ],
     "wall_thickness_mm": 2.4,
     "roof_base_thickness_mm": 3,
@@ -105,7 +105,24 @@
     "left_pier_width_mm": 11,
     "right_pier_width_mm": 39,
     "door_offset_from_center_mm": -14,
-    "compact_left_bearing_width_mm": 5
+    "compact_left_bearing_width_mm": 5,
+    "attic_false_ceiling_mm": [
+      144.6,
+      40,
+      2.4
+    ],
+    "attic_floor_bottom_z_mm": 46,
+    "attic_y_start_mm": 55,
+    "attic_led_holder_xy_mm": [
+      75,
+      61.5
+    ],
+    "attic_radio_above_false_ceiling": true,
+    "attic_radio_min_roof_clearance_mm_approx": 6.2,
+    "attic_power_rear_aperture_mm": [
+      16,
+      9
+    ]
   },
   "qa": {
     "checked_with": "CadQuery 2.8.0, OCP 7.9.3.1, trimesh 4.11.1",
@@ -119,6 +136,7 @@
     "generated_step_validation": "reimport and compare individual STEP volumes; validate reference checksums and door sweep",
     "servo_jamb_intersection_mm3": 0,
     "door_jamb_intersection_mm3": 0,
-    "compact_shell_150_collision_check": "validated by CAD CI; no hardware test"
+    "compact_shell_150_collision_check": "validated by CAD CI; no hardware test",
+    "attic_3d_clearance": "XIAO Wio transistor tested against false ceiling, roof and shell; antenna + USB lead not modeled"
   }
 }

@@ -1,4 +1,6 @@
-# Implantation compacte V4 — coque 150 mm, porte décentrée
+# Historique V4 — coque 150 mm, porte décentrée
+
+> **La V4 est remplacée par la [V5 avec électronique dans les combles](TOIT_COMBLES_V5.md).** La largeur et la porte restent identiques, mais le toit passe de 62/65 à 62/78 mm, et le plateau électronique est déplacé au-dessus d'un faux plafond. Les anciennes cotes de toiture/éclairage ci-dessous sont historiques.
 
 **Version courante après la V3 à 190 mm.** Modèle paramétrique : [`cad/generate_cad.py`](../cad/generate_cad.py). Les dimensions ci-dessous sont **des cotes de conception CAO**, pas des mesures du garage réel. Unités en millimètres.
 

@@ -127,3 +127,7 @@ Porte monobloc noire à rainures horizontales, **bascule vers l'intérieur** aut
 **Un seul SAS308 est monté** : D6→contact→GND, aimant en face **si la vraie porte est fermée**. D7 n'est pas raccordé côté émetteur. Le capteur est placé en position fixe hors des éléments mobiles, seul l'aimant suit la porte. [Cotes exactes et inconnues](ENCOMBREMENT_BOM_V1.md).
 
 **Estimation décorative d'ouverture :** après 40 s sans aimant (configurable), le firmware annonce l'état OPEN *estimé* afin d'animer la porte et éclairer la miniature. C'est inexact si la vraie porte reste arrêtée entre les fins de course. **Ce montage n'est pas une sécurité de fermeture.**
+
+## Implantation V5 : alimentation et cartes dans les combles
+
+Le **schéma électrique ne change pas** : XIAO/Wio en combles au-dessus d'un faux plafond amovible à l'arrière ; D6 vers le servo en façade, D7 vers la base du BC547B (LED blanche sous le faux plafond), D0 vers la LED orange en façade ; masses communes et alimentation **5 V externe distincte du 3V3**. Le condensateur de 470 µF reste proche du servo. Prévoir **un faisceau basse tension sécurisé** depuis la zone sous toiture vers le servo et les deux LED, arrimé à la paroi et sans passer par le volume balayé par la porte. La fente arrière haute 16 × 9 mm est une réserve provisoire pour câble, **pas une cote USB-C validée** ; éviter tout pincement lors de la repose du toit. [Implantation précise V5](TOIT_COMBLES_V5.md).
