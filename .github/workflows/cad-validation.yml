@@ -39,6 +39,7 @@ jobs:
           python cad/verify_gotronic.py
           python cad/test_step_exports.py
           python cad/test_hardware_bom.py
+          python cad/test_component_dimensions_sources.py
           python cad/test_fit_coupons.py
           python cad/test_repo_consistency.py
 
