@@ -123,6 +123,36 @@ assert overlap(g.bearing,g.shell) < 1e-5, "compact bearing / wall"
 assert g.bearing.BoundingBox().xmin >= g.WALL + g.FIT - 1e-6
 assert g.cradle.BoundingBox().xmax <= g.W-g.WALL-g.FIT + 1e-6
 assert overlap(g.cradle,g.right_jamb_return) < 1e-5
+# V6 mechanical features: real mounting features, NOT merely reference boxes.
+assert len(g.SERVO_MOUNT_HOLES)==4
+assert len(g.wire_eyes)==4
+assert len(g.PCB_STRAP_SLOTS)==2
+assert len(g.PCB_PADS)==4
+assert len(g.LED_HOLDER_PINS)==2
+assert g.SERVO_SCREW_CLEARANCE_D==2.3
+assert g.SERVO_SCREW_PILOT_D==1.7
+assert (g.SERVO_FOOT_SIZE-g.SERVO_SCREW_PILOT_D)/2>=2
+assert (g.WIRE_EYE_OD-g.WIRE_EYE_ID)/2>=2
+assert g.DRIVE_DISC_R==6
+assert math.isclose(g.DRIVE_JAMB_BORE_D-2*g.DRIVE_DISC_R,2*g.FIT)
+assert math.isclose(g.DRIVE_DISC_END_X,111.5)
+assert math.isclose(g.SERVO_SHAFT_TIP_X-g.DRIVE_DISC_END_X,2.2)
+assert g.door.distance(g.shell)>=g.FIT-0.01
+assert g.bearing.distance(g.shell)<0.01 # bearing rests on integral shelf
+assert g.cradle.distance(g.base_plate)<0.01 # M2 feet rest on 3mm base
+# Four foot pilots and their base countersinks are coaxial.
+for cx,cy in g.SERVO_MOUNT_HOLES:
+    bore=cq.Solid.makeCylinder(g.SERVO_SCREW_CLEARANCE_D/2,
+       g.BASE+0.2,cq.Vector(cx,cy,-0.1),cq.Vector(0,0,1))
+    assert overlap(g.base_plate,bore)<1e-5
+    pilot=cq.Solid.makeCylinder(g.SERVO_SCREW_PILOT_D/2,
+       g.SERVO_FOOT_HEIGHT,cq.Vector(cx,cy,g.BASE),cq.Vector(0,0,1))
+    assert overlap(g.cradle,pilot)<1e-5
+# Wio support pads are 0.3mm below the detailed Wio model.
+assert math.isclose(g.ATTIC_Z0+g.ATTIC_PLATE_THICK+3.2+g.FIT,
+                    g.ref_wio.BoundingBox().zmin,abs_tol=0.02)
+assert g.ATTIC_LED_Y == 65.0
+assert g.orange_x == g.OPEN_X+g.OPEN_W-15.0
 servo = next(s for n, s in g.REFERENCES.items() if "MG90" in n)
 assert overlap(servo,g.right_jamb_return) < 1e-5
 assert overlap(servo,g.shell) < 1e-5
@@ -140,7 +170,8 @@ for led_name, shape in {"orange": orange, "blanche": white}.items():
 assert overlap(white, g.roof_lid) < 1e-5
 assert overlap(white, g.holder) < 1e-5
 assert overlap(g.holder, g.roof_lid) < 1e-5  # roof remains removable
-assert overlap(g.holder, g.tray) > 0  # separate LED socket bonded to attic shelf
+assert overlap(g.holder, g.tray) < 1e-5  # true assembly, not overlapping solids
+assert g.holder.distance(g.tray) < 0.01  # contact / two aligned Ø2mm guide pins
 # True attic: XIAO and Wio completely above the false ceiling, below pitched roof.
 xiao = next(s for n,s in g.REFERENCES.items() if "XIAO" in n)
 wio = next(s for n,s in g.REFERENCES.items() if "WIO" in n)
@@ -175,6 +206,7 @@ for angle in range(0, 91, 5):
     assert overlap(door,g.tray) < 1e-5, ("door / attic false ceiling",angle)
     assert overlap(door,g.holder) < 1e-5, ("door / attic LED",angle)
     assert overlap(door,g.shell) < 1e-5, ("door / shell", angle)
+    assert door.distance(g.shell)>=g.FIT-0.01, ("door frame nominal gap",angle)
     assert overlap(door,g.left_jamb_return) < 1e-5, ("door / left jamb", angle)
     assert overlap(door,g.right_jamb_return) < 1e-5, ("door / right jamb", angle)
     assert overlap(door,servo) < 1e-5, ("door / servo", angle)
@@ -184,4 +216,4 @@ for angle in range(0, 91, 5):
         "support LED blanche": g.holder,
     }.items():
         assert overlap(door, shape) < 1e-5, ("collision porte", angle, label)
-print("PASS — V5 combles sous toit 62/78 ; coque 150 mm ; BREP, 11 STEP, 8 STL, palier et servo contrôlés")
+print("PASS — V6 interfaces mecanique en CAO: porte/retours/berceau/LED/PCB, 11 STEP, 8 STL ; horn non mesure")
