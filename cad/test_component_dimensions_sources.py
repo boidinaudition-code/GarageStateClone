@@ -78,6 +78,17 @@ assert by_id["S1"]["dimensions"]["magnet_lwh"] is None
 assert by_id["ANT"]["dimensions"]["antenna_body"] is None
 assert by_id["MCU"]["manufacturer_2d_dxf_archive"].endswith(".zip")
 assert "non décodé" in docs
+usb=by_id["USB_C_BREAKOUT"]
+assert usb["dimensions"]["overall_length"] == 21
+assert usb["dimensions"]["overall_width"] == 15
+assert usb["dimensions"]["overall_height"] == 4.5
+assert usb["dimensions"]["exact_socket_position"] is None
+assert usb["dimensions"]["mounting_hole_centres"] is None
+assert usb["dimensions"]["cc1_cc2_rds_factory_fitted"] is None
+assert bom["cad"]["usb_c_breakout_published_lwh_mm"] == [21,15,4.5]
+assert by_id["SC02_254"]["dimensions"]["pin_pitch"] == 2.54
+assert by_id["USB_C_CC_RDS"]["dimensions"]["resistance_ohms"] == 5100
+assert "49067" in docs
 print(f"PASS: {len(parts)} composants catalogués, plans sourcés, dimensions absentes explicites.")
 print("PITCH DMS-MG90: 2 encoches ouvertes Ø2, entraxe 29mm (Z du garage), pilotes Ø1.7mm suivant X")
 print("Aucune validation physique de palonnier, vis fournies, antenne et passages USB.")

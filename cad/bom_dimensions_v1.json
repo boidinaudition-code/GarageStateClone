@@ -229,6 +229,52 @@
       "qty": "TBD",
       "dimensions_mm": null,
       "status": "unknown"
+    },
+    {
+      "id": "USB_C_BREAKOUT",
+      "name": "Platine USB-C 2.0 Gotronic 49067",
+      "qty": 1,
+      "manufacturer_ref": "Gotronic 49067",
+      "dimensions_published_lwh_mm": [
+        21,
+        15,
+        4.5
+      ],
+      "pad_pitch_mm": 2.54,
+      "pads_count": 10,
+      "cable_port_position_mm": null,
+      "mounting_hole_locations_mm": null,
+      "cc_pull_downs_populated": null,
+      "status": "published",
+      "url": "https://www.gotronic.fr/art-platine-a-connecteur-usb-type-c-2-0-31137.htm",
+      "cad_assumption": "21mm along garage Y; 15mm across X; envelope height 4.5mm vertical Z; actual jack end/orientation and rear wall flushness to measure; no assumed board mounting holes"
+    },
+    {
+      "id": "POWER_TERMINALS",
+      "name": "2 borniers SC02/2.54 Gotronic 48930",
+      "qty": 2,
+      "manufacturer_ref": "Gotronic 48930",
+      "nominal_pins": 2,
+      "pitch_mm": 2.54,
+      "body_height_mm": 8.5,
+      "pcb_drill_d_mm": 1.3,
+      "max_wire_section_mm2": 0.8,
+      "max_current_A": 6,
+      "status": "published",
+      "url": "https://www.gotronic.fr/art-bornier-sc02-2-54-15468.htm",
+      "mechanical_mount": "on perfboard, NOT on USB-C breakout; cannot assume room under USB-C cradle"
+    },
+    {
+      "id": "POWER_CC_RESISTORS",
+      "name": "2 x 5.1k CC1/CC2 pull-down resistors if absent on USB-C breakout",
+      "qty": "0 or 2 depending on inspection",
+      "manufacturer_ref": "Gotronic 15944 (pack 5)",
+      "resistance_ohms": 5100,
+      "nominal_count": 2,
+      "cc_configuration_known": false,
+      "status": "unknown",
+      "url": "https://www.gotronic.fr/art-5-resistances-1-2w-5-1-k-8486-8829.htm",
+      "note": "inspect breakout and test that both CC1 and CC2 individually have correct pull-downs to GND before attaching USB-C to USB-C supply; don't install duplicates blindly"
     }
   ],
   "cad": {
@@ -452,7 +498,56 @@
     "servo_lug_top_to_shaft_boss_top_visual_estimate_mm": 8,
     "servo_mount_screw_head_diameter_mm": null,
     "servo_mount_screw_under_head_length_mm": null,
-    "servo_horn_mounted_face_to_outer_face_mm": null
+    "servo_horn_mounted_face_to_outer_face_mm": null,
+    "usb_c_breakout_vendor_code": "Gotronic 49067",
+    "usb_c_breakout_published_lwh_mm": [
+      21,
+      15,
+      4.5
+    ],
+    "usb_c_breakout_orientation_for_mockup": "X15 Y21 Z4.5, board long axis along Y facing rear +Y, unmeasured socket offset",
+    "usb_c_board_nominal_xyz_min_mm": [
+      67.5,
+      74.4,
+      9.3
+    ],
+    "usb_c_carrier_integrated_into": "02_socle_noir",
+    "usb_c_carrier_nominal_xyz_min_mm": [
+      63.9,
+      72.4,
+      3
+    ],
+    "usb_c_carrier_nominal_width_depth_mm": [
+      22.2,
+      24.2
+    ],
+    "usb_c_carrier_top_z_mm": 9,
+    "usb_c_guides_mm": [
+      2.4,
+      3.4
+    ],
+    "usb_c_strap_tunnel_ys_mm": [
+      79,
+      89.5
+    ],
+    "usb_c_strap_tunnel_width_height_mm": [
+      3.2,
+      2.7
+    ],
+    "usb_c_rear_aperture_wh_mm": [
+      13,
+      8
+    ],
+    "usb_c_rear_aperture_z0_mm": 8.5,
+    "usb_c_old_low_power_exit_replaced": true,
+    "usb_c_power_connection": "5V/GND input > separate power bus > XIAO 5V/VBUS & GND, servo V+ & GND, 470uF + to 5V/- to GND, R1 supply 5V; servo PWM D6. 3V3 ONLY logic, no buck/boost.",
+    "usb_c_secondary_usb_c_programming_warning": "external 5V on XIAO VBUS and concurrent USB data port power may backfeed; disconnect external 5V before programming or isolate source.",
+    "usb_c_CC1_CC2_Rd_kohm_each_if_not_present": 5.1,
+    "usb_c_49067_CC_populated_confirmed": null,
+    "usb_c_49067_socket_face_position_confirmed": false,
+    "usb_c_49067_board_mounting_holes_confirmed": false,
+    "usb_c_connector_clearance_physical_verified": false,
+    "usb_c_mount_status": "Integral tie-down cradle in base, rear service cutout not exact socket match; prototype dry fit mandatory"
   },
   "system_state": {
     "sensor_count": 1,

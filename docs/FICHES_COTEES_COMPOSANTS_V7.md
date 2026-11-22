@@ -39,6 +39,12 @@ Les trois valeurs ci-dessous restent **provisoires**, estimées à la lecture du
 
 **Mesures toujours indisponibles :** épaisseur du palonnier monté entre sa face d'appui et sa face extérieure (hors tête de vis), diamètre de tête de chaque vis de fixation servo, et longueur des vis sous tête. Elles demeurent **nulles** dans le catalogue JSON, et les perçages du palonnier ne sont pas créés.
 
+### Complément de provenance V8 : entrée USB-C 49067
+
+La [platine USB-C Gotronic 49067](https://www.gotronic.fr/art-platine-a-connecteur-usb-type-c-2-0-31137.htm) est dimensionnée **21 × 15 × 4,5 mm**, avec **10 pastilles au pas de 2,54 mm**. **Aucune cote fabricant du nez de la prise, des trous de fixation, de l'offset sur le PCB ni des résistances CC1/CC2 intégrées n'est fournie.** La nouvelle représentation de référence CAO est une **boîte approximative X15 × Y21 × Z4,5** avec le port présumé vers l'arrière. **Il ne s'agit pas d'un STEP exact de la carte.** Support sur le socle et ouverture **13 × 8 mm** : valeurs **P de conception**, non cotes constructeur. [Plans de fabrication USB-C V8](ALIMENTATION_USB_C_V8.md).
+
+Les [bornes SC02/2.54 Gotronic 48930](https://www.gotronic.fr/art-bornier-sc02-2-54-15468.htm) ont 2 contacts, un pas 2,54 mm, une hauteur d'environ 8,5 mm et un perçage recommandé de 1,3 mm. Elles sont prévues sur une petite **plaque à pastilles distincte**, non sur la platine 49067. Les [5,1 kΩ Gotronic 15944](https://www.gotronic.fr/art-5-resistances-1-2w-5-1-k-8486-8829.htm) sont **conditionnelles** à l'absence de résistances Rd déjà montées.
+
 ## 2. Électronique passive et voyants
 
 | Réf. / qté | Cote fiable et référence | Ce qui reste inconnu |

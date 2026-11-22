@@ -4,6 +4,15 @@
 
 **Fichiers de référence :** [générateur paramétrique](../cad/generate_cad.py) · [BOM](BOM_V1_VERIFIEE.md) · [quincaillerie](QUINCAILLERIE_MONTAGE_V5.md) · [câblage](CABLAGE_V1_VERIFIE.md) · [tests](../cad/test_step_exports.py) · [audit](AUDIT_REPO_V6.md).
 
+## Avis V8 (22 novembre 2026) : modifications à appliquer avant de suivre l'assemblage V6
+
+Ce guide V6 décrit l'assemblage historique et conserve son contenu, **mais deux éléments sont remplacés par des versions plus récentes** :
+
+- **Servo** : le crochet du berceau V6 a été supprimé en V7 ; deux vis au pas de **29 mm** et un positionnement constructeur **16,00 mm fond→dessous oreille avec jeu 0,30 mm** sont décrits dans [FIXATIONS_SERVO_V7.md](FIXATIONS_SERVO_V7.md). **Ne pas essayer de remonter un clip V6 absent du STEP actuel.**
+- **USB-C V8** : l'ancienne fente arrière basse 12 × 8 mm de passage de câble est remplacée par une fenêtre **13 × 8 mm** ; la platine **Gotronic 49067** repose sur un **support monobloc du socle noir** avec deux tunnels de colliers. Une seule alimentation **USB 5 V / 2 A** arrive à la 49067, se distribue en parallèle vers XIAO et servo. La carte USB et le profil exact de son connecteur ne sont qu'une enveloppe CAO approximative. Voir [ALIMENTATION_USB_C_V8.md](ALIMENTATION_USB_C_V8.md) avant impression.
+
+Les **8 pièces STL** restent au même nombre, les STEP historiques `GarageStateClone_V2_...` étant régénérés à partir de l'**état V8 actuel**. Réimporter les STEP dans Onshape pour voir le support arrière. Les anciennes instructions V6 de câblage du servo et du crochet ne remplacent pas les documents V7/V8.
+
 ## 1. Implantation V6 et huit pièces imprimables
 
 Axes : X gauche→droite, Y façade→arrière, Z bas→haut, unités en millimètres. Les STL sont **dans le repère d'assemblage** : les orienter sur le plateau de la P1S avant impression.

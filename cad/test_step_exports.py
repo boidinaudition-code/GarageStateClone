@@ -48,6 +48,21 @@ assert g.bearing_width == 5.0
 assert bom["cad"]["left_pier_width_mm"] == 11
 assert bom["cad"]["right_pier_width_mm"] == 39
 assert bom["cad"]["door_offset_from_center_mm"] == -14.0
+# USB-C 49067 manufacturer published outer envelope is NOT a connector STEP.
+# Carrier is part of the black base, so printable count stays eight.
+assert g.USB_C_BOARD_VENDOR_LWH_MM == (21.0,15.0,4.5)
+assert g.USB_C_REAR_APERTURE_WH == (13.0,8.0)
+assert g.USB_C_REAR_APERTURE_Z0 == 8.5
+assert g.USB_C_CARRIER_TOP_Z == 9.0
+assert g.USB_C_STRAP_TUNNEL_YS == (79.0,89.5)
+assert g.USB_C_STRAP_TUNNEL_W == 3.2
+assert g.USB_C_BOARD_ORIENTATION_STATUS.startswith("provisional")
+assert bom["cad"]["usb_c_breakout_published_lwh_mm"] == [21,15,4.5]
+assert manifest["design"]["usb_c_carrier_integral_base"] is True
+assert manifest["design"]["usb_c_socket_position_known"] is False
+assert bom["cad"]["usb_c_49067_socket_face_position_confirmed"] is False
+assert bom["cad"]["usb_c_49067_CC_populated_confirmed"] is None
+assert "USB_C_BREAKOUT" in {p["id"] for p in bom["components"]}
 
 # Vérifier l'intégrité des fichiers BREP GitHub indépendamment des STEP d'origine.
 for component in manifest["components"]:
@@ -115,6 +130,36 @@ def overlap(a, b):
         return 0.0
     return a.intersect(b).Volume()
 
+# The published 49067 envelope rests ABOVE the integrated base without
+# forcing the actual connector, which is not located on the published drawing.
+usb_reference = g.REFERENCES["REF_USB_C_49067_GABARIT_NON_CONTRACTUEL_NE_PAS_IMPRIMER"]
+assert len(usb_reference.Solids()) == 1
+usb_bb = usb_reference.BoundingBox()
+assert math.isclose(usb_bb.xlen,15,abs_tol=1e-8)
+assert math.isclose(usb_bb.ylen,21,abs_tol=1e-8)
+assert math.isclose(usb_bb.zlen,4.5,abs_tol=1e-8)
+assert math.isclose(usb_bb.zmin-g.USB_C_CARRIER_TOP_Z,g.FIT,abs_tol=1e-8)
+assert overlap(g.base_plate,usb_reference) < 1e-5, "USB board proxy / carrier"
+assert overlap(g.shell,usb_reference) < 1e-5, "USB board proxy / shell"
+assert overlap(g.roof_lid,usb_reference) < 1e-5
+assert overlap(g.door,usb_reference) < 1e-5
+assert g.USB_C_CARRIER_Y0+g.USB_C_CARRIER_D <= g.D-g.WALL-g.FIT, "USB carrier crosses rear wall"
+# Two real channels to pass nylon ties UNDER the board; do not drill the PCB.
+assert len(g.usb_c_strap_tunnels)==2
+for passage in g.usb_c_strap_tunnels:
+    assert overlap(g.base_plate,passage)<1e-5, "USB cable tie tunnel occluded"
+    assert passage.BoundingBox().xlen > g.USB_C_CARRIER_W
+    assert math.isclose(passage.BoundingBox().ylen, g.USB_C_STRAP_TUNNEL_W, abs_tol=1e-8)
+    assert g.USB_C_CARRIER_TOP_Z-(g.USB_C_STRAP_TUNNEL_Z0+g.USB_C_STRAP_TUNNEL_H) >= 2.0-1e-8
+# Rear USB-C cutout replaces ONLY the previous low rear opening.
+usb_service=cq.Workplane("XY").box(g.USB_C_REAR_APERTURE_WH[0],
+    g.WALL+0.20,g.USB_C_REAR_APERTURE_WH[1],centered=(False,False,False)).translate((
+        g.W/2-g.USB_C_REAR_APERTURE_WH[0]/2,
+        g.D-g.WALL-0.05,g.USB_C_REAR_APERTURE_Z0)).val()
+assert overlap(g.shell,usb_service)<1e-5, "rear USB opening obstructed"
+old_slot_lower=cq.Workplane("XY").box(1.0,0.4,0.8,
+    centered=(False,False,False)).translate((g.W/2,98.2,6.0)).val()
+assert overlap(g.shell,old_slot_lower)>0.1, "obsolete lower power slit still open"
 assert g.shell.isValid() and len(g.shell.Solids()) == 1
 assert g.left_jamb_return.Volume() > 500
 assert g.right_jamb_return.Volume() > 500
@@ -182,6 +227,7 @@ assert math.isclose(g.SERVO_SHAFT_TIP_X-g.DRIVE_DISC_END_X,2.2)
 assert g.door.distance(g.shell)>=g.FIT-0.01
 assert g.bearing.distance(g.shell)<0.01 # bearing rests on integral shelf
 assert g.cradle.distance(g.base_plate)<0.01 # M2 feet rest on 3mm base
+assert overlap(g.usb_c_carrier,g.cradle)<1e-5
 # The closest extents of both mounting bosses have a nominal 0.30mm
 # relief to the manufacturer 16.00mm ear datum in the garage X frame.
 # Actual production case, fastening and horn are still not measured.
@@ -200,6 +246,7 @@ assert math.isclose(g.ATTIC_Z0+g.ATTIC_PLATE_THICK+3.2+g.FIT,
 assert g.ATTIC_LED_Y == 65.0
 assert g.orange_x == g.OPEN_X+g.OPEN_W-15.0
 servo = next(s for n, s in g.REFERENCES.items() if "MG90" in n)
+assert overlap(g.usb_c_carrier,servo)<1e-5, "USB rear carrier vs servo"
 assert overlap(servo,g.right_jamb_return) < 1e-5
 assert overlap(servo,g.shell) < 1e-5
 orange = next(s for n, s in g.REFERENCES.items() if "LED_orange" in n)
@@ -250,6 +297,7 @@ for angle in range(0, 91, 5):
         angle,
     )
     assert overlap(door,g.tray) < 1e-5, ("door / attic false ceiling",angle)
+    assert overlap(door,g.usb_c_carrier) < 1e-5, ("door / rear USB-C carrier",angle)
     assert overlap(door,g.holder) < 1e-5, ("door / attic LED",angle)
     assert overlap(door,g.shell) < 1e-5, ("door / shell", angle)
     assert door.distance(g.shell)>=g.FIT-0.01, ("door frame nominal gap",angle)
@@ -262,4 +310,4 @@ for angle in range(0, 91, 5):
         "support LED blanche": g.holder,
     }.items():
         assert overlap(door, shape) < 1e-5, ("collision porte", angle, label)
-print("PASS — V6 interfaces mecanique en CAO: porte/retours/berceau/LED/PCB, 11 STEP, 8 STL ; horn non mesure")
+print("PASS — V8: USB-C 49067 rear breakout, support integral au socle, 2 canaux de brides, interfaces servo/porte et 11 STEP/8 STL")

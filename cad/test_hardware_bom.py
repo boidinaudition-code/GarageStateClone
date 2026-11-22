@@ -60,6 +60,17 @@ assert servo["actual_mount_screw_head_d_mm"] is None
 assert servo["actual_mount_screw_under_head_length_mm"] is None
 assert servo["actual_mounted_horn_thickness_mm"] is None
 assert b["cad"]["servo_lug_underside_from_base_confirmed_mm"]==16
+power=p["power_distribution_usb_c_49067"]
+assert power["breakout_ref"]=="Gotronic 49067"
+assert power["port_mount_in_cad"]=="02_socle_noir"
+assert power["breakout_board_vendor_lwh_mm"]==[21,15,4.5]
+assert power["cc_rd_population_verified"] is False
+assert power["additional_parts_total_max_eur_if_all_missing"]=="8.25"
+assert p["core_total_eur"]=="23.43"
+assert Decimal(power["minimum_extra_with_two_terminals_eur"])==Decimal("6.55")
+assert next(r for r in p["hardware_candidates"] if r["id"]=="USB_C_BREAKOUT")["ref"]=="Gotronic 49067"
+assert next(r for r in p["hardware_candidates"] if r["id"]=="USB_C_TERMINAL_SC02")["qty_to_mount"]==2
+assert next(r for r in p["hardware_candidates"] if r["id"]=="USB_C_CC_RESISTORS")["status"]=="conditional"
 print(f"PASS BOM V5: {len(core)} articles electroniques = {total} EUR,"
       f" {len(p['hardware_candidates'])} lots/besoins montage classes,"
       " aucune dimension de vis finale pretendue validee")

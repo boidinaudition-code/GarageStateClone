@@ -6,6 +6,16 @@ Révision : 21/11/2026. Ces plans correspondent au projet **GarageStateClone** e
 - [Schéma SVG RÉCEPTEUR : servo, deux LED et alimentations](../assets/schemas/cablage-recepteur-v1.svg)
 - [Liste d'achats vérifiée et liens vendeurs](BOM_V1_VERIFIEE.md)
 
+## Mise à jour V8 — alimentation USB-C intégrée (22 novembre 2026)
+
+**Référence courante pour le 5 V du récepteur : [ALIMENTATION_USB_C_V8.md](ALIMENTATION_USB_C_V8.md).** Le câblage des D6/D7/D0 et le schéma de principe des LED ci-dessous restent valides, mais l'ancienne option « deux alimentations 5 V côté miniature » **n'est plus l'architecture privilégiée**.
+
+Une seule alimentation **5 V USB-C / 2 A minimum** alimente la **platine Gotronic 49067** intégrée au socle de la miniature : **VBUS et GND** → petit bus sur plaque à pastilles → deux départs séparés, (**A**) broches **5V/VBUS et GND du XIAO nRF52840 récepteur**, (**B**) fils **rouge +5 V et marron/noir GND du DMS-MG90**. Le **condensateur 470 µF / 16 V** reste en parallèle du servo (polarité respectée) ; **D6 reste le signal 3,3 V** ; R1 de LED blanche reçoit le même bus 5 V. **Ne pas puiser le courant du servo dans le XIAO ou son 3V3.**
+
+Deux borniers **Gotronic 48930** peuvent fournir les deux sorties démontables, **sur un morceau distinct de BCS050 12470**. Il faut vérifier si la platine USB-C 49067 intègre déjà les **deux résistances Rd de 5,1 kΩ** (CC1 et CC2 vers GND) ; à installer uniquement si absentes pour fonctionner correctement avec une source USB-C. **Pendant la programmation du XIAO par USB-C relié au PC, retirer l'alimentation 5 V externe** ou prévoir une isolation de sources réellement vérifiée. Ne pas confondre les limites constructeur USB-C jusqu'à 20 V avec la tension acceptable du servo : **l'ensemble est conçu pour 5 V, sans USB-PD supérieur**.
+
+Le support USB-C V8 est **intégré au socle**, ouverture arrière de **13 × 8 mm** et deux tunnels de collier ; la **position précise du connecteur femelle** reste **à mesurer**, le contour de service n'étant pas validé comme trou affleurant. Voir la [notice CAO et montage](ALIMENTATION_USB_C_V8.md).
+
 ## 1. Variante de matériel : impératif
 
 Les plans concernent le **Seeed XIAO nRF52840**, associé au **Wio-SX1262 à deux barrettes 7 broches** (et NON au Wio-SX1262 B2B destiné à l'ESP32-S3).

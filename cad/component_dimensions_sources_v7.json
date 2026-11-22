@@ -328,6 +328,54 @@
       },
       "source": null,
       "notes": "Mesurer aimant et points de fixation; aucune perforation des rails/sécurités du vrai garage."
+    },
+    {
+      "id": "USB_C_BREAKOUT",
+      "reference": "Gotronic 49067 USB Type-C 2.0 breakout",
+      "qty": 1,
+      "status": "manufacturer_published",
+      "source": "https://www.gotronic.fr/art-platine-a-connecteur-usb-type-c-2-0-31137.htm",
+      "dimensions": {
+        "overall_length": 21,
+        "overall_width": 15,
+        "overall_height": 4.5,
+        "pad_pitch": 2.54,
+        "pads_count": 10,
+        "exact_socket_position": null,
+        "mounting_hole_centres": null,
+        "cc1_cc2_rds_factory_fitted": null
+      },
+      "notes": "Gotronic 49067 seller datasheet only published overall size 21x15x4.5 and pad pitch 2.54. CAD Y-long / X-wide / Z-thick proxy with rearward USB service aperture 13x8, base-integral carrier and strap tunnels; the board, plug face and pinout to verify before printing final. The 5A/20V quoted are component maxima, not proof of negotiated USB-PD or deliverable load at any plug."
+    },
+    {
+      "id": "SC02_254",
+      "reference": "Gotronic 48930 SC02/2.54 miniature 2-contact screw terminal",
+      "qty": 2,
+      "status": "manufacturer_published",
+      "source": "https://www.gotronic.fr/art-bornier-sc02-2-54-15468.htm",
+      "dimensions": {
+        "pin_pitch": 2.54,
+        "pin_count": 2,
+        "terminal_height": 8.5,
+        "pcb_hole_d": 1.3,
+        "max_wire_cross_section_mm2": 0.8,
+        "current_max_A": 6
+      },
+      "notes": "Two terminal blocks on a separate perfboard for detachable outputs. Not mounted to breakout PCB or shown as a verified 3D model."
+    },
+    {
+      "id": "USB_C_CC_RDS",
+      "reference": "2 x CC pull-downs 5.1k Gotronic 15944, conditional if absent",
+      "qty": "0 or 2",
+      "status": "manufacturer_published",
+      "source": "https://www.gotronic.fr/art-5-resistances-1-2w-5-1-k-8486-8829.htm",
+      "dimensions": {
+        "resistance_ohms": 5100,
+        "pkg_qty": 5,
+        "cc1_to_ground_required_if_absent": true,
+        "cc2_to_ground_required_if_absent": true
+      },
+      "notes": "Manufacturer board resistor population not specified: do not duplicate installed Rd. Check schematic / board with multimeter, no USB-PD negotiation claimed."
     }
   ],
   "critical_design": {
@@ -360,6 +408,25 @@
     "servo_lug_support_face_x_from_shaft_tip_nominal_mm": 14.3,
     "servo_lug_support_axial_clearance_mm": 0.3,
     "servo_estimate_values_used_as_tight_fit": false,
-    "servo_pending_horn_screw_dimensions": "null until hardware arrives"
+    "servo_pending_horn_screw_dimensions": "null until hardware arrives",
+    "usb_c_49067_vendor_lwh_mm": [
+      21,
+      15,
+      4.5
+    ],
+    "usb_c_49067_board_orientation_provisional": "garage XYZ=15x21x4.5",
+    "usb_c_rear_slot_wh_mm": [
+      13,
+      8
+    ],
+    "usb_c_carrier_base_integral": true,
+    "usb_c_carrier_top_z_mm": 9,
+    "usb_c_strap_tunnel_ys_mm": [
+      79,
+      89.5
+    ],
+    "usb_c_socket_offsets_and_pcb_holes_unconfirmed": true,
+    "usb_c_Rd_configuration_unverified": true,
+    "usb_c_wiring_document": "docs/ALIMENTATION_USB_C_V8.md"
   }
 }

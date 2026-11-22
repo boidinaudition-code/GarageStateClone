@@ -1,10 +1,14 @@
-# CAO paramétrique GarageStateClone — V7 (fixations servo)
+# CAO paramétrique GarageStateClone — V8 (support USB-C et fixations servo V7)
 
 **Source de vérité : [generate_cad.py](generate_cad.py)** (CadQuery 2.8, unités mm). La V6 est un **prototype mécanique**, pas un assemblage validé avec le vrai DMS-MG90 ou avec le palonnier livré.
 
 **Cotes fournisseurs et fixations V7 :** [audit fiches cotées](../docs/FICHES_COTEES_COMPOSANTS_V7.md), [plan des fixations](../docs/FIXATIONS_SERVO_V7.md) et [catalogue JSON](component_dimensions_sources_v7.json). Le constructeur **DMS-MG90** cote **29 mm entre les deux encoches Ø2** ; le berceau ajoute **deux pilotes Ø1,7** pour ces encoches en plus des **4 vis du socle**. Le crochet V6 a été retiré au profit d'une colonne arrière plus robuste. **Erratum :** les 33 mm constructeur (axe Z du garage) ne se comparent pas aux 32,5 mm STEP (axe X du garage) ; la réserve antérieure de 0,05 mm était un calcul sur axes différents et ne s'applique pas. Comparaison correcte du volume constructeur **X30 / Y12 / Z33** au STEP **X32,5 / Y12,221 / Z33,4**. L'alignement axial des oreilles et le palonnier restent à essayer sur pièces réelles.
 
 **Positionnement longitudinal du support servo pour Onshape :** `SERVO_LUG_UNDERSIDE_FROM_BASE = 16.00` est la **cote fabricant** du dessous des oreilles depuis le fond. Dans le repère X orienté vers le fond : `X_dessous_oreilles = X_bout_arbre + (30.00 - 16.00) = 127.70 mm`. La face imprimée des deux bossages est à `X = 128.00 mm`, soit **+0,30 mm de jeu**, indépendamment des approximations d'épaisseur. Cotes **≈2,5** (épaisseur oreille), **≈4** (haut du boîtier) et **≈8 mm** (bossage arbre) documentées mais **jamais utilisées comme contraintes serrées**. Palonnier et têtes/longueur des vis = inconnus. Les STEP de tiers restent des références, pas la géométrie fabriquée du DMS-MG90.
+
+**Entrée USB-C V8 :** platine Gotronic **49067** (enveloppe vendeur **21 × 15 × 4,5 mm**), orientée provisoirement **X15 / Y21 / Z4,5** au bas du garage, juste devant le mur arrière. La pièce **02_socle_noir** comporte un berceau **X63,9..86,1 / Y72,4..96,6 / dessus Z9,0**, deux guides latéraux et **2 tunnels horizontaux de 3,2 × 2,7 mm** pour colliers isolés. La coque possède une **ouverture arrière 13 × 8** de service entre **Z8,5 et Z16,5**, à la place de l'ancienne découpe 12 × 8. Référence simplifiée dans l'assemblage : `REF_USB_C_49067_GABARIT_NON_CONTRACTUEL_NE_PAS_IMPRIMER`. **Aucun perçage, nez de connecteur ni position CC prétendu exact**. Essai obligatoire avec carte et fiche réelles.
+
+L'alimentation 5 V du XIAO et du servo est réalisée **en parallèle depuis la platine**, avec un petit bus soudé à part (borniers 48930, résistances CC1/CC2 5,1 kΩ uniquement si absentes). Voir [le guide V8](../docs/ALIMENTATION_USB_C_V8.md). Les **8 STL** sont conservés, car le support est **intégré au socle**.
 
 ## Géométrie de référence V6
 
@@ -23,7 +27,7 @@
 | LED orange façade | X96 / Z53,3 |
 | Emboîtements | **0,30 mm par face**, cible CAO à calibrer en FDM |
 
-Les huit STL restent : coque, socle, toit, porte, palier gauche, berceau servo, faux plafond, support de LED blanche. Le bandeau bleu est supprimé.
+Les huit STL restent : coque, **socle intégrant désormais le berceau USB-C**, toit, porte, palier gauche, berceau servo, faux plafond, support de LED blanche. Le bandeau bleu est supprimé.
 
 ### Interfaces mécaniques nouvellement dessinées
 
