@@ -38,15 +38,26 @@ ROOF_RIB_BASE_W=2.5
 ROOF_RIB_CROWN_W=1.1
 ROOF_RIB_RISE=0.95
 ROOF_RIB_OVERLAP=0.18
-ROOF_RIB_Y0=-2.5
+ROOF_RIB_Y0=-ROOF_OVERHANG  # connect top ribs to the visible FRONT folded fascia
 ROOF_RIB_Y1=D+2.5
+# V10: match the roof's standing seams on the DOWNWARD FRONT FASCIA too.
+# Continuity over the front fold; strictly outside the white shell and above
+# the orange LED optical opening (no structural change to the skirt inside).
+ROOF_FASCIA_RIB_PROJECTION=0.85
+ROOF_FASCIA_RIB_FUSE_OVERLAP=0.15
+ROOF_FASCIA_RIB_BOTTOM_MARGIN=0.35
+ROOF_FASCIA_RIB_BOTTOM_Z=H_FRONT-ROOF-ROOF_SKIRT_DROP-(
+    H_BACK-H_FRONT)*ROOF_OVERHANG/D+ROOF_FASCIA_RIB_BOTTOM_MARGIN
+ROOF_FASCIA_RIB_TOP_Z=H_FRONT-(H_BACK-H_FRONT)*ROOF_OVERHANG/D+ROOF_RIB_RISE
 # Separate black postbox plaque glued into a SHALLOW cosmetic pocket in the
 # white front right pier (reference: user's photographs of real garage).
 # Wall remains 2.4 - 1.05 = 1.35mm behind recess, at local cosmetic feature.
-MAILBOX_POCKET_X0=124.5
-MAILBOX_POCKET_Z0=24.0
-MAILBOX_POCKET_W=10.6
-MAILBOX_POCKET_H=10.6
+# Keep the V9 centre exactly X129.8/Z29.3. 30% reduction applies
+# to the visible BLACK PLAQUE LINEAR dimensions: 10 -> 7mm, not area.
+MAILBOX_POCKET_W=7.6
+MAILBOX_POCKET_H=7.6
+MAILBOX_POCKET_X0=129.8-MAILBOX_POCKET_W/2
+MAILBOX_POCKET_Z0=29.3-MAILBOX_POCKET_H/2
 MAILBOX_POCKET_DEPTH=1.05
 MAILBOX_FACE_RELIEF_Y=0.10  # 0.1mm recessed from the white front plane
 MAILBOX_INSERT_W=MAILBOX_POCKET_W-2*FIT
@@ -151,8 +162,13 @@ USB_C_BOARD_VENDOR_LWH_MM=(21.0,15.0,4.5)
 USB_C_BOARD_X0=W/2-USB_C_BOARD_VENDOR_LWH_MM[1]/2 # 67.5
 USB_C_BOARD_Y0=74.4
 USB_C_BOARD_Z0=9.3
-USB_C_REAR_APERTURE_WH=(13.0,8.0)   # design clearance, NOT socket datum
-USB_C_REAR_APERTURE_Z0=8.5
+# V10 USB shell-only aperture is intentionally as small as practical:
+# ~10 x 4.2mm, nominal USB-C metal receptacle face + printer clearance.
+# Manufacturer publishes NO location of the actual receptacle on its board.
+# This centered hole is a PROVISIONAL PARAMETRIC CUT, NOT a certified fit.
+# Verify socket x/z with the received 49067 BEFORE printing final shell.
+USB_C_REAR_APERTURE_WH=(10.0,4.2)
+USB_C_REAR_APERTURE_Z0=9.45
 USB_C_CARRIER_X0=USB_C_BOARD_X0-3.6
 USB_C_CARRIER_Y0=USB_C_BOARD_Y0-2.0
 USB_C_CARRIER_W=USB_C_BOARD_VENDOR_LWH_MM[1]+7.2
@@ -164,7 +180,21 @@ USB_C_STRAP_TUNNEL_YS=(79.0,89.5)
 USB_C_STRAP_TUNNEL_W=3.2 # for up-to-2.5mm nylon zip ties
 USB_C_STRAP_TUNNEL_Z0=BASE+1.1
 USB_C_STRAP_TUNNEL_H=2.7
-USB_C_BOARD_ORIENTATION_STATUS="provisional: 49067 socket/pad offset to measure"
+USB_C_BOARD_ORIENTATION_STATUS="provisional: exact 49067 socket xy/z offset and actual plug clearance MUST be measured"
+# V10 internal ONLY cable chase from rear USB/power distro up to attic,
+# against the inner rear wall, shifted to X~95 to clear USB carrier X64..86.
+# Open U guide + alternating small lips, no new hole through the shell.
+CABLE_RISER_X0=90.0
+CABLE_RISER_INNER_W=7.2
+CABLE_RISER_RAIL_W=1.8
+CABLE_RISER_Y0=D-WALL-4.0
+CABLE_RISER_DEPTH=4.12 # overlaps rear wall 0.12 to fuse solidly
+CABLE_RISER_Z0=14.0
+CABLE_RISER_HEIGHT=29.0 # ends Z43, below ceiling Z46
+CABLE_RISER_LIP_ZS=(19.0,29.0,39.0)
+CABLE_RISER_LIP_INSET=1.8
+CABLE_RISER_LIP_DEPTH=1.2
+CABLE_RISER_LIP_HEIGHT=2.0
 
 # Modeles STEP source fournis par l'utilisateur; emplacement des archives CAD.
 VENDOR_REF_DIR=ROOT/'refs'
@@ -218,6 +248,23 @@ def roof_standing_seam(xcenter):
     return cq.Solid.makeLoft(
         [cross_section(ROOF_RIB_Y0),cross_section(ROOF_RIB_Y1)],True)
 
+def front_fascia_standing_seam(xcenter):
+    """Vertical trapezoidal rib down the front of the dark roof flashing.
+
+    Uses the same X pitch/crown as the upper ribs and connects over the
+    front fold at Y=-3.00, leaving the removable skirt's INNER face alone.
+    """
+    yface=-ROOF_OVERHANG
+    outline=[
+        (xcenter-ROOF_RIB_BASE_W/2,yface+ROOF_FASCIA_RIB_FUSE_OVERLAP),
+        (xcenter+ROOF_RIB_BASE_W/2,yface+ROOF_FASCIA_RIB_FUSE_OVERLAP),
+        (xcenter+ROOF_RIB_CROWN_W/2,yface-ROOF_FASCIA_RIB_PROJECTION),
+        (xcenter-ROOF_RIB_CROWN_W/2,yface-ROOF_FASCIA_RIB_PROJECTION),
+    ]
+    return cq.Workplane("XY").polyline(outline).close().extrude(
+        ROOF_FASCIA_RIB_TOP_Z-ROOF_FASCIA_RIB_BOTTOM_Z).translate(
+        (0,0,ROOF_FASCIA_RIB_BOTTOM_Z)).val()
+
 # 1. Main shell: 2.4mm structural walls with roof slope and wall opening
 shell=side_wedge(0,W,0,D,BASE,BASE,H_FRONT-ROOF,H_BACK-ROOF)
 inner_cavity=box(WALL,WALL,BASE-0.02,W-2*WALL,D-2*WALL,100)
@@ -264,12 +311,12 @@ shell=shell.fuse(attic_left_ledge).fuse(attic_right_ledge).clean()
 shell=shell.cut(box(W/2-USB_C_REAR_APERTURE_WH[0]/2,D-WALL-0.2,
                    USB_C_REAR_APERTURE_Z0,USB_C_REAR_APERTURE_WH[0],
                    WALL+0.5,USB_C_REAR_APERTURE_WH[1]))
-# Upper rear low-voltage entry to attic (RF lead routing).
-# Clearance for actual connector/strain relief still to be measured.
-shell=shell.cut(box(W/2-8,D-WALL-0.2,ATTIC_Z0+3,16,WALL+0.5,9))
+# The V8 upper rear 16x9 through-hole is REMOVED.
+# All low-voltage wires now rise INSIDE along an open rear cable chase.
+# No upper cutout is made in the shell.
 # Recessed 5mm amber LED: provisional rear pocket and small optical aperture.
 orange_x=OPEN_X+OPEN_W-15.0 # above opening, clear of V6 drive hub
-orange_z=BASE+OPEN_H+8.3 # assez haut pour ne pas toucher la porte basculante
+orange_z=BASE+OPEN_H+7.1 # V10 lowered 1.2mm (53.3 -> 52.1), above moving door
 orange_holder=cyl_y(orange_x,WALL-0.2,orange_z,10.8,10.2)  # paroi radial >=2.1mm
 shell=shell.fuse(orange_holder)
 shell=shell.cut(cyl_y(orange_x,-0.1,orange_z,LED_ORANGE_APERTURE_D,LED_ORANGE_RECESS+0.2))
@@ -285,11 +332,29 @@ mailbox_insert=box(MAILBOX_INSERT_X0,MAILBOX_FACE_RELIEF_Y,MAILBOX_INSERT_Z0,
                    MAILBOX_INSERT_W,MAILBOX_INSERT_THICK,MAILBOX_INSERT_H)
 # Very shallow letter-slot cosmetic engraving on the black plaque front,
 # not a functional opening; keeps the small adhesive plate one-piece.
-MAILBOX_SLOT_X0=MAILBOX_INSERT_X0+1.2
-MAILBOX_SLOT_Z0=MAILBOX_INSERT_Z0+MAILBOX_INSERT_H-2.4
+MAILBOX_SLOT_X0=MAILBOX_INSERT_X0+0.85
+MAILBOX_SLOT_Z0=MAILBOX_INSERT_Z0+MAILBOX_INSERT_H-1.7
 mailbox_insert=mailbox_insert.cut(box(
     MAILBOX_SLOT_X0,MAILBOX_FACE_RELIEF_Y-0.02,MAILBOX_SLOT_Z0,
-    MAILBOX_INSERT_W-2.4,0.22,0.55)).clean()
+    MAILBOX_INSERT_W-1.7,0.22,0.40)).clean()
+
+# Routed cable rise: two printed rear-side ribs and alternating partial lips
+# form a NON-closed channel. Wires can be pushed in from the open interior.
+# The external rear wall stays completely smooth, except the small USB-C port.
+cable_riser_left=box(CABLE_RISER_X0,CABLE_RISER_Y0,CABLE_RISER_Z0,
+    CABLE_RISER_RAIL_W,CABLE_RISER_DEPTH,CABLE_RISER_HEIGHT)
+cable_riser_right=box(CABLE_RISER_X0+CABLE_RISER_RAIL_W+CABLE_RISER_INNER_W,
+    CABLE_RISER_Y0,CABLE_RISER_Z0,CABLE_RISER_RAIL_W,
+    CABLE_RISER_DEPTH,CABLE_RISER_HEIGHT)
+cable_riser_lips=[]
+for i,zc in enumerate(CABLE_RISER_LIP_ZS):
+    xlip=(CABLE_RISER_X0+CABLE_RISER_RAIL_W-0.1
+          if i%2==0 else CABLE_RISER_X0+CABLE_RISER_RAIL_W+
+          CABLE_RISER_INNER_W-CABLE_RISER_LIP_INSET+0.1)
+    lip=box(xlip,CABLE_RISER_Y0,zc,CABLE_RISER_LIP_INSET,
+            CABLE_RISER_LIP_DEPTH,CABLE_RISER_LIP_HEIGHT)
+    cable_riser_lips.append(lip)
+shell=union_all([shell,cable_riser_left,cable_riser_right]+cable_riser_lips)
 
 # 2. Base: floor 3mm and internal locating L rails with 0.30mm side gap
 base_plate=box(0,0,0,W,D,BASE)
@@ -343,7 +408,9 @@ roof_lid=roof_plate.fuse(roof_skirt).clean()
 ROOF_RIB_XS=[ROOF_RIB_FIRST_X+i*ROOF_RIB_PITCH
              for i in range(ROOF_RIB_COUNT)]
 roof_standing_seams=[roof_standing_seam(x) for x in ROOF_RIB_XS]
-roof_lid=union_all([roof_lid]+roof_standing_seams)
+# Same standing-seam rhythm continues on the DOWNWARD front fascia.
+roof_front_fascia_seams=[front_fascia_standing_seam(x) for x in ROOF_RIB_XS]
+roof_lid=union_all([roof_lid]+roof_standing_seams+roof_front_fascia_seams)
 
 # 4. Single rigid door, ornamental grooves, rotating around horizontal X-axis.
 door_x0=OPEN_X+FIT
@@ -683,12 +750,18 @@ if __name__=='__main__':
         'width':W,'depth':D,'front_height':H_FRONT,'rear_height':H_BACK,
         'roof_slope_rise':H_BACK-H_FRONT,'wall':WALL,'roof':ROOF,'base':BASE,
         'roof_bac_acier_rib_count':ROOF_RIB_COUNT,
+        'roof_front_fascia_rib_count':len(roof_front_fascia_seams),
+        'roof_front_fascia_rib_projection_y_mm':ROOF_FASCIA_RIB_PROJECTION,
+        'roof_front_fascia_rib_bottom_top_z_mm':[ROOF_FASCIA_RIB_BOTTOM_Z,ROOF_FASCIA_RIB_TOP_Z],
+        'roof_front_fascia_ribs_aligned_with_top':True,
         'roof_bac_acier_rib_centres_x_mm':ROOF_RIB_XS,
         'roof_bac_acier_pitch_mm':ROOF_RIB_PITCH,
         'roof_bac_acier_trapezoid_base_crown_mm':[ROOF_RIB_BASE_W,ROOF_RIB_CROWN_W],
         'roof_bac_acier_rise_above_original_top_mm':ROOF_RIB_RISE,
         'roof_bac_acier_ribs_parallel_to':'Y, roof slope front to rear',
         'mailbox_pocket_xz_mm':[MAILBOX_POCKET_X0,MAILBOX_POCKET_Z0],
+        'mailbox_insert_linear_reduction_from_v9_percent':30,
+        'mailbox_insert_old_width_height_mm':[10.0,10.0],
         'mailbox_pocket_width_height_depth_mm':[MAILBOX_POCKET_W,MAILBOX_POCKET_H,MAILBOX_POCKET_DEPTH],
         'mailbox_wall_remaining_thickness_mm':WALL-MAILBOX_POCKET_DEPTH,
         'mailbox_insert_width_height_thickness_mm':[MAILBOX_INSERT_W,MAILBOX_INSERT_H,MAILBOX_INSERT_THICK],
@@ -702,6 +775,8 @@ if __name__=='__main__':
         'door_offset_from_center':(OPEN_X+OPEN_W/2)-W/2,
         'compact_left_bearing_width':bearing_width,
         'led_white_y':led_white_y,'led_orange_x':orange_x,
+        'led_orange_z':orange_z,
+        'led_orange_lowering_vs_v9_mm':1.2,
         'door_drive_disc_outer_diameter':2*DRIVE_DISC_R,
         'door_drive_disc_face_x':DRIVE_DISC_END_X,
         'door_drive_gap_to_servo_shaft_nominal':SERVO_SHAFT_TIP_X-DRIVE_DISC_END_X,
@@ -749,6 +824,12 @@ if __name__=='__main__':
         'usb_c_49067_vendor_lwh_mm':list(USB_C_BOARD_VENDOR_LWH_MM),
         'usb_c_49067_board_nominal_xyz_start_mm':[USB_C_BOARD_X0,USB_C_BOARD_Y0,USB_C_BOARD_Z0],
         'usb_c_rear_service_slot_width_height_mm':list(USB_C_REAR_APERTURE_WH),
+        'usb_c_port_aperture_is_provisional':True,
+        'rear_upper_attic_through_hole_removed':True,
+        'cable_riser_inner_rear_wall_only':True,
+        'cable_riser_x0_y0_z0_mm':[CABLE_RISER_X0,CABLE_RISER_Y0,CABLE_RISER_Z0],
+        'cable_riser_inner_width_depth_height_mm':[CABLE_RISER_INNER_W,CABLE_RISER_DEPTH,CABLE_RISER_HEIGHT],
+        'cable_riser_retaining_lip_count':len(cable_riser_lips),
         'usb_c_rear_service_slot_z0_mm':USB_C_REAR_APERTURE_Z0,
         'usb_c_carrier_xyz_min_mm':[USB_C_CARRIER_X0,USB_C_CARRIER_Y0,BASE],
         'usb_c_carrier_xy_width_depth_mm':[USB_C_CARRIER_W,USB_C_CARRIER_D],
