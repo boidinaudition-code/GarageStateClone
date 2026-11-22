@@ -1,7 +1,7 @@
 {
   "schema": "GarageStateClone-hardware-BOM-v5.1",
   "review_date": "2026-11-22",
-  "cad_version": "V6 mechanical interfaces; shell 150x100 roof 62/78",
+  "cad_version": "V7 servo mounting datum 16.00mm from base; physical screw/horn trial pending; shell 150x100 roof 62/78",
   "currency": "EUR",
   "status_convention": {
     "confirmed": "reference and characteristics checked, required if not already owned",
@@ -28,7 +28,15 @@
         "servo fastening hardware",
         "JR female connector"
       ],
-      "url": "https://www.gotronic.fr/art-servomoteur-dms-mg90-32266.htm"
+      "url": "https://www.gotronic.fr/art-servomoteur-dms-mg90-32266.htm",
+      "verified_dimensioned_ear_underside_height_from_servo_base_mm": 16,
+      "ear_thickness_estimate_mm": 2.5,
+      "ear_top_to_case_top_estimate_mm": 4,
+      "ear_top_to_shaft_boss_top_estimate_mm": 8,
+      "estimate_confidence": "visual approximation, not a tight-fit CAD dimension",
+      "actual_mount_screw_head_d_mm": null,
+      "actual_mount_screw_under_head_length_mm": null,
+      "actual_mounted_horn_thickness_mm": null
     },
     {
       "id": "470uF_16V",
@@ -113,7 +121,8 @@
       "qty": 1,
       "name": "Palonnier + servo manufacturer fasteners",
       "status": "supplied",
-      "provided_by": "DMS-MG90"
+      "provided_by": "DMS-MG90",
+      "note": "Supplier states hardware included; verify quantity and head/under-head dimensions when delivered; do not assume M2x8 base screws suitable for servo ears."
     },
     {
       "id": "LEFT_HINGE_PIN",
@@ -137,7 +146,7 @@
       "unit": "bag of 10",
       "pack_price_eur": "0.65",
       "status": "conditional",
-      "qty_to_mount": "2-4 only if suitable printed bosses added",
+      "qty_to_mount": "Only for separately verified printed pilot fits; 2.2mm nominal shank may be incompatible with manufacturer's open Ø2mm servo lug notch",
       "url": "https://www.gotronic.fr/art-10-vis-auto-taraudeuses-2-2x6-5mm-6681.htm"
     },
     {
@@ -148,6 +157,16 @@
       "status": "conditional",
       "qty_to_mount": "4 nominal M2×8 countersunk from underside into printed cradle feet (pilot Ø1.7), verify screw length/head diameter with Bambu fit coupon",
       "url": "https://www.gotronic.fr/cat-visserie-685.htm"
+    },
+    {
+      "id": "SERVO_EAR_MOUNTING_SCREWS",
+      "ref": null,
+      "unit": "2 screws from manufacturer hardware or verified substitute",
+      "pack_price_eur": null,
+      "status": "measure",
+      "qty_to_mount": 2,
+      "url": null,
+      "note": "Two servo mounting ears have open Ø2mm notches at 29mm pitch. Printed support front faces anchored on 16.00mm manufacturer underside-from-base datum with 0.30mm relief. Head diameter and under-head length unknown; check supplied DMS-MG90 kit before buying. Never assume base-cradle M2x8 countersunk screws are interchangeable with servo-ear screws."
     },
     {
       "id": "M2_NUTS",
@@ -275,11 +294,11 @@
   ],
   "unvalidated_physical_parts": [
     "genuine DMS-MG90 horn screw-hole pattern and shaft axial clearance (V6 printed blank Ø12)",
-    "actual servo body dimension/spring-clip insertion and M2 pilot screw head/depth after print",
+    "actual servo ear thickness ≈2.5 mm only estimated; M2 pilot boss engagement, servo-ear screw head diameter and under-head length unknown; no spring clip in V7",
     "SAS308 detector and magnet mounting-hole pattern",
     "Wio/XIAO strap pressure on PCB SMD and USB/868MHz antenna clearance",
     "true garage transmitter enclosure and cable strain relief"
   ],
-  "verification_note": "V6: M2 4x countersunk cradle-base pilot holes are actually drawn, horn mating disk Ø12 is blank, optional tie-down PCB and LED pegs drawn. Sizes and horn holes remain trial-only until measured. 0.3mm per side is CAD target, not guaranteed printer output.",
+  "verification_note": "V7: dimensioned servo underside-of-lug 16.00mm from base with 0.30mm printed axial relief; visual 2.5/4/8mm are estimates only. 2 ear screws are separate from 4 tentative base-to-cradle M2x8 screws. Horn, screws, antenna and hardware fit to be measured after delivery.",
   "updated_on": "2026-11-22"
 }
