@@ -1,0 +1,333 @@
+{
+  "schema": "GarageStateClone-dimension-sources-v7",
+  "reviewed_on": "2026-11-22",
+  "units": "mm",
+  "status_codes": {
+    "manufacturer_drawing": "plan cote constructeur pour la reference exacte",
+    "manufacturer_published": "cote fabricant/fiche fournisseur identifiee (pas mesure sur exemplaire)",
+    "reference_3d": "boite englobante d'un STEP tiers; variante non garantie",
+    "package_family": "plan de famille/boitier; marque/lot non garanti",
+    "unknown": "non publie pour la reference ou non defini (mesurer)"
+  },
+  "parts": [
+    {
+      "id": "S1",
+      "reference": "SAS308 / Gotronic 26449",
+      "qty": 1,
+      "status": "manufacturer_published",
+      "dimensions": {
+        "sensor_body_lwh": [
+          24,
+          15,
+          6
+        ],
+        "molded_cable_length": 250,
+        "max_actuation_gap": 15,
+        "magnet_lwh": null,
+        "sensor_fixing_hole_pitch": null,
+        "magnet_fixing_hole_pitch": null
+      },
+      "source": "https://www.gotronic.fr/art-contact-magnetique-miniature-sas308-12751.htm",
+      "notes": "Le vendeur indique une fixation par vis non fournies; ni aimant ni entraxe de trous publiés."
+    },
+    {
+      "id": "M1",
+      "reference": "DFRobot DMS-MG90 / SER0039 / Gotronic 36923",
+      "qty": 1,
+      "status": "manufacturer_drawing",
+      "dimensions": {
+        "overall_lug_length": 33,
+        "overall_width": 12,
+        "overall_height_excluding_horn": 30,
+        "case_length_on_drawing": 23,
+        "lug_centres_pitch": 29,
+        "lug_open_notch_diameter": 2,
+        "shaft_axis_from_case_left_end": 6,
+        "shaft_feature_diameters_on_drawing": [
+          3,
+          5
+        ],
+        "top_cap_level_from_base": 26.5,
+        "upper_step_level_from_base": 22.5,
+        "lug_level_from_base": 16
+      },
+      "source": "https://www.gotronic.fr/pj2-dimensions-dms-mg90-36923-2320.pdf",
+      "secondary_source": "https://www.gotronic.fr/art-servomoteur-dms-mg90-32266.htm",
+      "third_party_step_bbox_original_xyz": [
+        33.4,
+        32.5,
+        12.221
+      ],
+      "third_party_step_oriented_lwh": [
+        32.5,
+        12.221,
+        33.4
+      ],
+      "missing": [
+        "actual horn outline and hole pattern",
+        "supplied mounting screw head/length",
+        "shaft spline/central screw interface",
+        "actual production tolerance"
+      ],
+      "notes": "Cotes lues sur plan officiel Gotronic (3 vues), contrairement au MG90-A STEP tiers. Le dessin cote des lumières ouvertes Ø2; ne pas supposer des trous fermes. La cotation Ø3/Ø5 est celle des fonctions circulaires du dessin, pas des cannelures documentees."
+    },
+    {
+      "id": "C1",
+      "reference": "470 uF 16 V radial / Gotronic 04947",
+      "qty": 1,
+      "status": "manufacturer_published",
+      "dimensions": {
+        "can_diameter": 10,
+        "can_height": 13,
+        "pin_pitch": 5
+      },
+      "source": "https://www.gotronic.fr/art-condensateur-radial-470uf-16v-3386.htm",
+      "notes": "Gotronic avertit que ces cotes varient selon approvisionnement; marge de service et vérification du lot obligatoires."
+    },
+    {
+      "id": "Q1",
+      "reference": "BC547B TO-92 / Gotronic 02173",
+      "qty": 1,
+      "status": "package_family",
+      "dimensions": {
+        "onsemi_case29_dim_A_max": 5.2,
+        "onsemi_case29_dim_B_max": 5.33,
+        "onsemi_case29_dim_C_max": 4.19,
+        "onsemi_lead_min_length_K": 12.7
+      },
+      "source": "https://www.onsemi.com/pdf/datasheet/bc546-d.pdf",
+      "notes": "Le fabricant du BC547B vendu par Gotronic n'est pas garanti onsemi. Les dimensions sont du package TO-92 onsemi case 29-11, pas du STEP tiers."
+    },
+    {
+      "id": "R1",
+      "reference": "330 ohm / Gotronic 04130",
+      "qty": 1,
+      "status": "manufacturer_published",
+      "dimensions": {
+        "body_length": 6.5,
+        "body_diameter": 2.5
+      },
+      "source": "https://www.gotronic.fr/art-5-resistances-1-2w-330-8486-2653.htm",
+      "notes": "Les fils et l'entraxe soudé ne sont pas cotes."
+    },
+    {
+      "id": "R2",
+      "reference": "4.7 kohm / Gotronic 04144",
+      "qty": 1,
+      "status": "manufacturer_published",
+      "dimensions": {
+        "body_length": 6.5,
+        "body_diameter": 2.5
+      },
+      "source": "https://www.gotronic.fr/art-5-resistances-1-2w-4-7-k-8486-2667.htm",
+      "notes": "Les fils et l'entraxe soudé ne sont pas cotes."
+    },
+    {
+      "id": "R3",
+      "reference": "100 kohm / Gotronic 04160",
+      "qty": 1,
+      "status": "manufacturer_published",
+      "dimensions": {
+        "body_length": 6.5,
+        "body_diameter": 2.5
+      },
+      "source": "https://www.gotronic.fr/art-5-resistances-1-2w-100-k-8486-2681.htm",
+      "notes": "Les fils et l'entraxe soudé ne sont pas cotes."
+    },
+    {
+      "id": "R4",
+      "reference": "680 ohm / Gotronic 04134",
+      "qty": 1,
+      "status": "manufacturer_published",
+      "dimensions": {
+        "body_length": 6.5,
+        "body_diameter": 2.5
+      },
+      "source": "https://www.gotronic.fr/art-5-resistances-1-2w-680-8486-2657.htm",
+      "notes": "Les fils et l'entraxe soudé ne sont pas cotes."
+    },
+    {
+      "id": "LED1",
+      "reference": "Whadda WCS101 white warm 5 mm / Gotronic 03989",
+      "qty": 1,
+      "status": "manufacturer_published",
+      "dimensions": {
+        "nominal_body_diameter": 5,
+        "body_length": null,
+        "flange_diameter": null,
+        "lead_pitch": null
+      },
+      "source": "https://www.velleman.eu/fr_BE/shop/wcs101-assortiment-de-led-1573",
+      "notes": "Whadda spécifie un assortiment, pas une référence détaillée de chaque LED; aucune fiche mecaniquement cotée fiable pour la LED blanc chaud du lot."
+    },
+    {
+      "id": "LED2",
+      "reference": "L7113NC orange 5 mm / Gotronic 03051",
+      "qty": 1,
+      "status": "manufacturer_published",
+      "dimensions": {
+        "nominal_body_diameter": 5,
+        "body_length": null,
+        "flange_diameter": null,
+        "lead_pitch": null
+      },
+      "source": "https://www.gotronic.fr/art-led-5-mm-l7113nc-2086.htm",
+      "notes": "La fiche PDF L7113EC (ref 03050) liee par erreur sur la page Gotronic n'est PAS celle de L7113NC (03051); ne pas propager ses cotes."
+    },
+    {
+      "id": "MCU",
+      "reference": "Seeed XIAO nRF52840 (non Sense/Plus)",
+      "qty": 2,
+      "status": "manufacturer_published",
+      "dimensions": {
+        "pcb_length": 21,
+        "pcb_width": 17.8,
+        "pcb_thickness": null,
+        "usb_port_projection": null
+      },
+      "source": "https://wiki.seeedstudio.com/XIAO_BLE/",
+      "manufacturer_2d_dxf_archive": "https://files.seeedstudio.com/wiki/XIAO-BLE/XIAO-nRF52840-DXF.zip",
+      "manufacturer_bottom_pad_archive": "https://files.seeedstudio.com/wiki/XIAO-BLE/Bottom-pad-positioning.zip",
+      "third_party_step_bbox_xyz": [
+        22.482,
+        4.46,
+        17.78
+      ],
+      "notes": "Le DXF officiel est proposé par Seeed mais ses trous/pads ne sont pas extraits dans cet inventaire. Le modèle tiers 3D ne garantit pas les composants du lot."
+    },
+    {
+      "id": "WIO",
+      "reference": "Seeed Wio-SX1262 for XIAO",
+      "qty": 2,
+      "status": "reference_3d",
+      "dimensions": {
+        "third_party_step_bbox_xyz": [
+          17.78,
+          22.316,
+          7.642
+        ],
+        "board_only_exact": null,
+        "mating_connector_height": null,
+        "ipex_connector_clearance": null
+      },
+      "source": "https://wiki.seeedstudio.com/wio_sx1262_and_xiao_esp32s3_kit_with_3dprinted_enclosure_introduction_and_assembly_guide/",
+      "notes": "Seeed diffuse un fichier 3D pour Wio-SX1262; cote de boite du STEP fourni par l'utilisateur, NON une cote nominale constructeur de carte seule."
+    },
+    {
+      "id": "RF_STACK",
+      "reference": "Seeed XIAO nRF52840 + Wio-SX1262 assembled",
+      "qty": 2,
+      "status": "manufacturer_published",
+      "dimensions": {
+        "marketing_envelope_xyz": [
+          23,
+          22,
+          8
+        ],
+        "actual_stack_assembled": null,
+        "antenna_and_cable": null
+      },
+      "source": "https://wiki.seeedstudio.com/xiao_nrf52840%26_wio_SX1262_kit_for_meshtastic/",
+      "notes": "Seeed exprime 8x22x23 mm sans repère d'axes. L'antenne, le faisceau USB et la prise ne sont pas cotes dans cette enveloppe."
+    },
+    {
+      "id": "ANT",
+      "reference": "Antenna(s) 868 MHz",
+      "qty": 2,
+      "status": "unknown",
+      "dimensions": {
+        "antenna_body": null,
+        "connector": null,
+        "coax_bend_radius": null
+      },
+      "source": null,
+      "notes": "Reference exacte non figee dans la BOM: impossible d'affirmer un encombrement mecanique."
+    },
+    {
+      "id": "PERFBOARD",
+      "reference": "Gotronic BCS050 / 12470",
+      "qty": 1,
+      "status": "manufacturer_published",
+      "dimensions": {
+        "full_board_lwh": [
+          100,
+          50,
+          1.5
+        ],
+        "grid_pitch": 2.54,
+        "cut_piece_proposed": [
+          30,
+          25
+        ]
+      },
+      "source": "https://www.gotronic.fr/art-plaque-d-essais-bcs050-6931.htm",
+      "notes": "La decoupe 30x25 est un choix de CAO, pas une caracteristique fournisseur."
+    },
+    {
+      "id": "SERVO_M2",
+      "reference": "M2x8 countersunk trial / Gotronic 11636",
+      "qty": 4,
+      "status": "unknown",
+      "dimensions": {
+        "thread_nominal": 2,
+        "length_nominal": 8,
+        "head_diameter": null,
+        "head_angle": null
+      },
+      "source": "https://www.gotronic.fr/cat-visserie-685.htm",
+      "notes": "La tête Ø4,2 et la fraisure 1,2 mm sont des cotes CAO d'essai, pas une mesure fabricant de la référence 11636."
+    },
+    {
+      "id": "PCB_TIE",
+      "reference": "Gotronic 11845 nylon ties",
+      "qty": "1+spares",
+      "status": "manufacturer_published",
+      "dimensions": {
+        "strap_width": 2.5,
+        "strap_length": 100,
+        "head_thickness": null
+      },
+      "source": "https://www.gotronic.fr/cat-colliers-de-serrage-1330.htm",
+      "notes": "Largeur et longueur nominales seulement; tête et rayon de courbure a verifier."
+    },
+    {
+      "id": "USB_POWER",
+      "reference": "USB-C leads, power adapters and servo supply",
+      "qty": "TBD",
+      "status": "unknown",
+      "dimensions": {
+        "usb_connector_actual_molded_lwh": null,
+        "cable_bend_radius": null,
+        "splitter_actual_lwh": null
+      },
+      "source": null,
+      "notes": "Aucune marque/modele de fiche et cable definie. L'alimentation secteur reste externe a la miniature; passage arriere 16x9 doit etre eprouve."
+    },
+    {
+      "id": "SENSOR_FIXINGS",
+      "reference": "SAS308 and magnet mounting hardware",
+      "qty": 2,
+      "status": "unknown",
+      "dimensions": {
+        "sensor_mount_centres": null,
+        "magnet_mount_centres": null,
+        "mounting_surface": null
+      },
+      "source": null,
+      "notes": "Mesurer aimant et points de fixation; aucune perforation des rails/sécurités du vrai garage."
+    }
+  ],
+  "critical_design": {
+    "shell_lw": [
+      150,
+      100
+    ],
+    "servo_mount_nominal_clearance_per_face": 0.3,
+    "servo_vendor_step_oriented_length": 32.5,
+    "servo_official_overall_length": 33,
+    "cradle_length_if_derived_only_from_step": 33.1,
+    "remaining_nominal_clearance_total_with_official_length": 0.1,
+    "remaining_nominal_clearance_per_end_with_official_length": 0.05,
+    "note": "0,05 mm par bout est INSUFFISANT comme marge FDM; recalculer le berceau sur mesure reelle + 0,30 mm mini par face. Ne PAS utiliser une valeur de hauteur de STEP pour faire un clip definitif sans controle reel."
+  }
+}
