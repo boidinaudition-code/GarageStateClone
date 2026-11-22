@@ -29,7 +29,9 @@ jobs:
           python -m pip install 'cadquery==2.8.0' 'trimesh==4.11.1'
 
       - name: Generer les STEP et STL a partir des BREP du depot
-        run: python cad/generate_cad.py
+        run: |
+          python cad/generate_cad.py
+          python cad/generate_fit_coupons.py
 
       - name: Controler l'integrite du modele et des exports
         run: |
@@ -37,8 +39,9 @@ jobs:
           python cad/verify_gotronic.py
           python cad/test_step_exports.py
           python cad/test_hardware_bom.py
+          python cad/test_fit_coupons.py
 
-      - name: Archiver les 11 STEP, 8 STL et rapports
+      - name: Archiver les 11 STEP, 8 STL, 3 coupons et rapports
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -46,6 +49,7 @@ jobs:
           path: |
             cad/step/*.step
             cad/stl/*.stl
+            cad/coupons/*.stl
             cad/metriques_validation.json
             cad/qa_report_runtime.json
           if-no-files-found: warn
