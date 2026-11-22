@@ -92,7 +92,7 @@ Pour ménager le retour droit face au servo STEP, le servo est déplacé **1,5 m
 
 La V3 génère **8 STL** et **11 STEP** (8 STEP de pièces, assemblage complet avec XIAO simplifié, structure seule, XIAO simplifié). **La géométrie doit encore être vérifiée après impression** et les vis et le palonnier du servo restent provisoires. [Notes et tests V3](../docs/RETOURS_FACADE_V3.md).
 
-## V4 — coque compacte asymétrique, édition courante
+## Historique V4 — coque compacte asymétrique (hauteur toiture remplacée en V5)
 
 La **coque 150 × 100 mm** conserve le toit mono-pente (62/65 mm), le montant intérieur/retrait de tableau de **10 mm** et la porte rigide noire. **Baie 100 × 42 mm**, centrée à X=61 mm dans une coque centrée à X=75 mm : **décentrage −14 mm**. Montants gauche/droit : **11 / 39 mm**.
 
