@@ -49,14 +49,14 @@
 
 **Non requis par défaut :** axe métallique, roulement, inserts M3, grosses entretoises 10 mm, vis toit/socle hors berceau, second SAS308, ruban LED, nouveau palonnier, vis de la sortie cannelée.
 
-**À commander après essais uniquement :** vis spécifiques du palonnier *vers disque Ø12*, attaches de capteur/aimant du vrai garage et éventuels adaptateurs de fixation du servo si le crochet ne convient pas.
+**À commander après essais uniquement :** vis spécifiques du palonnier *vers disque Ø12*, attaches de capteur/aimant du vrai garage et éventuels adaptateurs de fixation du servo si les deux pilotes ne conviennent pas.
 
 ## D. Bons de contrôle avant le « prêt à monter »
 
 1. Mesurer l'entraxe et l'épaisseur du **vrai palonnier** du servo ; le disque Ø12 est un **gabarit vierge**, avec un **espace axial nominal 2,2 mm** jusqu'à la sortie servo en STEP. Si la pièce réelle occupe davantage, **modifier la CAO**, pas forcer.
 2. Imprimer **coupon B** : essayer les M2×8 fraisées dans les pilotes Ø1,6 / Ø1,7 / Ø1,8. La vis doit tenir sans casser le pied. Le lot 11636 est une *hypothèse de vis*, pas une validation imprimante.
 3. Imprimer **coupon A** : tourillon Ø3,2 / alésages Ø3,6, 3,8 et 4,0 ; conserver la valeur qui tourne librement sans jeu visible excessif.
-4. Tester le **crochet servo** sur le DMS-MG90, plusieurs insertions/déposes sans casse, toit fermé.
+4. Tester l'**entraxe 29 mm** et les **deux vis du servo** dans les deux pilotes de la colonne V7. Ne pas forcer : vérifier les têtes, rondelles si nécessaires, la prise dans le plastique, l'épaisseur des encoches et le toit fermé.
 5. Utiliser une **fine protection souple isolante** sous le lien radio ; ne jamais écraser les SMD ni gêner prise USB/antenne (~6,2 mm de garde brute dans la CAO).
 6. Poser et fixer à blanc l'émetteur réel hors mobile, protections de rallonge si besoin ; vérifier deux antennes 868 MHz.
 
