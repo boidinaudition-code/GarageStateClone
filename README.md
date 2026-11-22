@@ -60,7 +60,7 @@ La V6 concrétise plusieurs interfaces qui étaient seulement illustrées en V5 
 
 | Sous-ensemble | Interface modélisée | Ce qui reste à valider |
 |---|---|---|
-| **Servo DMS-MG90** à l’avant droit | Berceau imprimé, **4 pieds Ø1,7 vissés au socle** et **2 pilotes Ø1,7** pour les **2 encoches Ø2, entraxe 29 mm** du servo ; colonne de retenue à la place du crochet | Tester les vis réellement livrées, la hauteur des oreilles et l'alignement en X avant mise sous tension |
+| **Servo DMS-MG90** à l’avant droit | Berceau imprimé, **4 pieds à pilotes Ø1,7** vissés au socle à travers les **passages Ø2,3** et **2 pilotes Ø1,7** pour les **2 encoches Ø2, entraxe 29 mm** du servo ; colonne de retenue à la place du crochet | Tester les vis réellement livrées, la hauteur des oreilles et l'alignement en X avant mise sous tension |
 | **Porte/servo** | Disque **Ø12 mm** intégré côté porte, passage Ø12,6 dans retour droit, **2,2 mm d’écart axial nominal** entre disque et bout d’arbre du modèle servo | **Palonnier livré non mesuré. Disque laissé volontairement sans trous.** Mesurer l’épaisseur et les trous du vrai palonnier, dessiner/percer une liaison positive avant essai motorisé |
 | **Palier gauche** | Tourillon Ø3,2 / alésage Ø3,8, **tablette d’appui** dans la coque | Vérifier rotation et maintien sur support, collage ponctuel après essai |
 | **XIAO/Wio** | 4 plots bas non conducteurs (3,2 mm haut), **2 fentes 3,2×4,2** pour lien nylon 2,5 mm avec protection isolante | Ne pas écraser les SMD ; contrôler USB-C, antenne et accès |
