@@ -128,6 +128,7 @@ assert len(g.SERVO_MOUNT_HOLES)==4
 assert g.SERVO_LUG_PITCH == 29.0
 assert g.SERVO_LUG_NOTCH_D == 2.0
 assert g.SERVO_LUG_PILOT_D == 1.7
+assert (g.SERVO_LUG_BOSS_D - g.SERVO_LUG_PILOT_D)/2 >= 2.0, "lug pilot boss wall too thin"
 assert len(g.SERVO_LUG_CENTERS_YZ) == 2
 assert len(g.SERVO_LUG_CENTERS_Z) == 2
 assert math.isclose(g.SERVO_LUG_CENTERS_Z[1] - g.SERVO_LUG_CENTERS_Z[0], 29, abs_tol=1e-6)
