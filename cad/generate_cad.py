@@ -316,7 +316,7 @@ shell=shell.cut(box(W/2-USB_C_REAR_APERTURE_WH[0]/2,D-WALL-0.2,
 # No upper cutout is made in the shell.
 # Recessed 5mm amber LED: provisional rear pocket and small optical aperture.
 orange_x=OPEN_X+OPEN_W-15.0 # above opening, clear of V6 drive hub
-orange_z=BASE+OPEN_H+7.1 # V10 lowered 1.2mm (53.3 -> 52.1), above moving door
+orange_z=BASE+OPEN_H+7.8 # V10 lowered 0.5mm (53.3 -> 52.8); keep hinge pin clearance
 orange_holder=cyl_y(orange_x,WALL-0.2,orange_z,10.8,10.2)  # paroi radial >=2.1mm
 shell=shell.fuse(orange_holder)
 shell=shell.cut(cyl_y(orange_x,-0.1,orange_z,LED_ORANGE_APERTURE_D,LED_ORANGE_RECESS+0.2))
@@ -776,7 +776,7 @@ if __name__=='__main__':
         'compact_left_bearing_width':bearing_width,
         'led_white_y':led_white_y,'led_orange_x':orange_x,
         'led_orange_z':orange_z,
-        'led_orange_lowering_vs_v9_mm':1.2,
+        'led_orange_lowering_vs_v9_mm':0.5,
         'door_drive_disc_outer_diameter':2*DRIVE_DISC_R,
         'door_drive_disc_face_x':DRIVE_DISC_END_X,
         'door_drive_gap_to_servo_shaft_nominal':SERVO_SHAFT_TIP_X-DRIVE_DISC_END_X,
