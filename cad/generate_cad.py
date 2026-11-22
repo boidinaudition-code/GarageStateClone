@@ -21,7 +21,7 @@ for folder in [STL,STEP]: folder.mkdir(parents=True, exist_ok=True)
 W = 150.0                  # external shell width; expanded from concept to fit servo right pier
 D = 100.0                  # external shell depth
 H_FRONT = 62.0             # roof TOP at front
-H_BACK = 65.0              # roof TOP at rear (3 mm mono-pente)
+H_BACK = 78.0              # roof TOP at rear (3 mm mono-pente)
 WALL = 2.4                # minimum structural wall thickness >= 2
 ROOF = 3.0                # roof solid thickness >= 2
 BASE = 3.0                # floor solid thickness >= 2
@@ -44,6 +44,17 @@ HINGE_SOCKET_D = HINGE_D + 2*FIT
 HINGE_PIN_LEFT = 6.0
 JAMB_RETURN_DEPTH = 10.0  # internal extension beyond front wall
 JAMB_RETURN_THICK = WALL  # 2.4mm, outside door panel width
+# V5: removable attic floor, XIAO/Wio stack ABOVE the garage, rear under roof.
+ATTIC_Y0=55.0
+ATTIC_DEPTH=40.0
+ATTIC_Z0=46.0
+ATTIC_PLATE_THICK=WALL
+ATTIC_X0=WALL+FIT
+ATTIC_W=W-2*(WALL+FIT)
+ATTIC_LED_X=W/2
+ATTIC_LED_Y=61.5
+ATTIC_SUPPORT_WIDTH=4.0
+ATTIC_SUPPORT_HEIGHT=WALL
 LED_ORANGE_D = 3.0
 LED_ORANGE_HOLE_D = LED_ORANGE_D + 2*FIT
 # STEP fourni: servo complet avec pattes et arbre, repere d'origine XYZ.
@@ -109,8 +120,18 @@ left_jamb_return=left_jamb_return.cut(
 right_jamb_return=box(OPEN_X+OPEN_W,WALL-0.05,BASE,
                       JAMB_RETURN_THICK,JAMB_RETURN_DEPTH+0.05,OPEN_H)
 shell=shell.fuse(left_jamb_return).fuse(right_jamb_return).clean()
+# Low-profile ledges fused to the walls to support the removable attic shelf.
+attic_left_ledge=box(WALL,ATTIC_Y0+2,ATTIC_Z0-ATTIC_SUPPORT_HEIGHT,
+                     ATTIC_SUPPORT_WIDTH,ATTIC_DEPTH-4,ATTIC_SUPPORT_HEIGHT)
+attic_right_ledge=box(W-WALL-ATTIC_SUPPORT_WIDTH,ATTIC_Y0+2,
+                      ATTIC_Z0-ATTIC_SUPPORT_HEIGHT,ATTIC_SUPPORT_WIDTH,
+                      ATTIC_DEPTH-4,ATTIC_SUPPORT_HEIGHT)
+shell=shell.fuse(attic_left_ledge).fuse(attic_right_ledge).clean()
 # Back power cable exit : a 12 x 8 mm slot, away from printed floor
 shell=shell.cut(box(W/2-6,D-WALL-0.2,6,12,WALL+0.5,8))
+# Upper rear low-voltage entry to attic (USB-C / RF lead routing).
+# Clearance for actual connector/strain relief still to be measured.
+shell=shell.cut(box(W/2-8,D-WALL-0.2,ATTIC_Z0+3,16,WALL+0.5,9))
 # Recessed 5mm amber LED: provisional rear pocket and small optical aperture.
 orange_x=OPEN_X+OPEN_W-5.0  # haut droit de la baie, hors volume servo STEP
 orange_z=BASE+OPEN_H+8.3 # assez haut pour ne pas toucher la porte basculante
@@ -193,26 +214,37 @@ for xi in (cradle_xmin+4.0,cradle_xmax-7.5):
 cradle=cradle.clean()
 # Fixations et palonnier restent a mesurer physiquement.
 
-# 7. Plateau electronique arriere pour les modeles 3D reels.
+# 7. Removable full-width false ceiling at REAR, with XIAO/Wio above.
 tray_x0=W/2-30
-tray_y0=D-WALL-33.5
-tray_z0=6.0
-tray=box(tray_x0,tray_y0,tray_z0,60,31,2.4)
-tray=tray.fuse(box(tray_x0,tray_y0,tray_z0+2.4,60,2.4,5.0))
-tray=tray.fuse(box(tray_x0,tray_y0+31-2.4,tray_z0+2.4,60,2.4,5.0)).clean()
-# Mounting of real board is not designed until exact stack/antenna measured.
+tray_y0=63.5
+tray_z0=ATTIC_Z0
+tray=box(ATTIC_X0,ATTIC_Y0,ATTIC_Z0,ATTIC_W,ATTIC_DEPTH,ATTIC_PLATE_THICK)
+# Two underside ribs for stiffness, spaced clear of wall support ledges.
+for y in (ATTIC_Y0+2.0,ATTIC_Y0+ATTIC_DEPTH-4.4):
+    tray=tray.fuse(box(ATTIC_X0+5.2,y,ATTIC_Z0-2.4,
+                       ATTIC_W-10.4,2.4,2.4))
+# Rear PCB guides (no unverified exact holes/bolt positions).
+tray=tray.fuse(box(tray_x0,tray_y0,ATTIC_Z0+ATTIC_PLATE_THICK,
+                   60,2.4,2.4))
+tray=tray.fuse(box(tray_x0,tray_y0+31-2.4,ATTIC_Z0+ATTIC_PLATE_THICK,
+                   60,2.4,2.4))
+# Wire feedthrough to the warm-white LED below, away from radio board.
+tray=tray.cut(cq.Solid.makeCylinder(1.2,ATTIC_PLATE_THICK+0.2,
+                     V(ATTIC_LED_X,ATTIC_LED_Y,ATTIC_Z0-0.1),V(0,0,1))).clean()
+# The printed roof remains removable for service; exact PCB mounts TBD.
 
 # 8. Liseré bleu supprimé : façade blanche sans pièce additionnelle.
 
-# 9. Low-profile single-LED holder glued under the sloping roof, outside door sweep
-led_white_x=W/2
-led_white_y=69.0  # ~7 mm behind the end of the door when opened
+# 9. Single white LED holder BELOW the false ceiling, lighting the garage.
+# 0.2mm design overlap with attic tray is intentional for adhesive mounting;
+# do not glue to the removable pitched roof.
+led_white_x=ATTIC_LED_X
+led_white_y=ATTIC_LED_Y
 roof_under_z=H_FRONT-ROOF+(H_BACK-H_FRONT)*led_white_y/D
-holder_bottom=roof_under_z-9.8
-# Pocket intentionally accommodates an UNKNOWN collar; no press-fit claim.
-# Top overlaps roof underside by 0.2mm for later bonding, not a validated fixing.
+holder_bottom=ATTIC_Z0-9.8
 holder=cq.Solid.makeCylinder(5.0,10.0,V(led_white_x,led_white_y,holder_bottom),V(0,0,1))
-holder=holder.cut(cq.Solid.makeCylinder(LED_POCKET_D/2,10.2,V(led_white_x,led_white_y,holder_bottom-0.1),V(0,0,1))).clean()
+holder=holder.cut(cq.Solid.makeCylinder(LED_POCKET_D/2,10.2,
+                   V(led_white_x,led_white_y,holder_bottom-0.1),V(0,0,1))).clean()
 
 PRINTABLE={
   '01_coque_blanche':shell,
@@ -221,7 +253,7 @@ PRINTABLE={
   '04_porte_noire':door,
   '05_palier_gauche':bearing,
   '06_support_servo_step_0p3mm_PROTOTYPE':cradle,
-  '07_plateau_electronique_60x31':tray,
+  '07_faux_plafond_combles_XIAO':tray,
   '09_support_led_blanche':holder,
 }
 
@@ -351,7 +383,7 @@ if __name__=='__main__':
        '04_porte_noire':cq.Color(0.15,0.16,0.18),
        '05_palier_gauche':cq.Color(0.65,0.68,0.7),
        '06_support_servo_step_0p3mm_PROTOTYPE':cq.Color(0.50,0.55,0.6),
-       '07_plateau_electronique_60x31':cq.Color(0.54,0.58,0.62),
+       '07_faux_plafond_combles_XIAO':cq.Color(0.96,0.96,0.95),
        '09_support_led_blanche':cq.Color(0.96,0.96,0.95),
     }
     for name,s in PRINTABLE.items():
@@ -379,6 +411,12 @@ if __name__=='__main__':
         'door_offset_from_center':(OPEN_X+OPEN_W/2)-W/2,
         'compact_left_bearing_width':bearing_width,
         'led_white_y':led_white_y,'led_orange_x':orange_x,
+        'attic_ceiling_bottom_z':ATTIC_Z0,
+        'attic_ceiling_top_z':ATTIC_Z0+ATTIC_PLATE_THICK,
+        'attic_y_start':ATTIC_Y0,'attic_depth':ATTIC_DEPTH,
+        'attic_width':ATTIC_W,
+        'attic_xiao_top_z':XIAO_DETAILED_REFERENCE.BoundingBox().zmax,
+        'attic_roof_inner_z_above_xiao_front':H_FRONT-ROOF+(H_BACK-H_FRONT)*XIAO_DETAILED_REFERENCE.BoundingBox().ymin/D,
         'servo_complete_STEP_local_bbox_xyz':list(SERVO_CASE),'servo_axis_tip_x':SERVO_SHAFT_TIP_X,'card_service_envelope_proposed':list(CARD_ENVELOPE),
         'xiao_pcb_nominal_LW':list(XIAO_BOARD_NOMINAL),
         'wio_stack_nominal_xyz_seeed_marketing':list(WIO_STACK_NOMINAL),
