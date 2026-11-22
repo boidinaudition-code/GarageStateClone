@@ -48,6 +48,15 @@ assert g.door_x1 < g.right_jamb_return.BoundingBox().xmin
 # V9 user photo: roof standing seams on upper face; shallow glued black
 # mailbox in the white FRONT right pier; no change below the roof.
 assert g.ROOF_RIB_COUNT == 13
+assert len(g.roof_front_fascia_seams) == 13
+assert g.ROOF_FASCIA_RIB_PROJECTION == 0.85
+assert g.ROOF_FASCIA_RIB_BOTTOM_Z > g.H_FRONT-g.ROOF-g.ROOF_SKIRT_DROP-1.0
+assert g.ROOF_FASCIA_RIB_TOP_Z > g.H_FRONT-1.0
+assert manifest["design"]["roof_front_fascia_standing_seams_count"] == 13
+assert manifest["design"]["roof_front_fascia_seams_continuous_with_top"] is True
+assert bom["cad"]["roof_front_fascia_bac_acier_rib_count"] == 13
+assert all(seam.isValid() and len(seam.Solids())==1
+           for seam in g.roof_front_fascia_seams)
 assert len(g.ROOF_RIB_XS) == len(g.roof_standing_seams) == 13
 assert math.isclose(g.ROOF_RIB_PITCH, 11.5)
 assert math.isclose(g.ROOF_RIB_RISE, 0.95)
@@ -72,7 +81,13 @@ assert g.MAILBOX_FACE_RELIEF_Y+g.MAILBOX_INSERT_THICK < g.MAILBOX_POCKET_DEPTH
 assert g.mailbox_insert.isValid() and len(g.mailbox_insert.Solids())==1
 assert bom["cad"]["roof_bac_acier_rib_count"] == manifest["design"]["roof_bac_acier_rib_count"] == 13
 assert bom["cad"]["mailbox_separate_black_part"] is True
-assert bom["cad"]["mailbox_pocket_width_height_depth_mm"] == [10.6,10.6,1.05]
+assert bom["cad"]["mailbox_pocket_width_height_depth_mm"] == [7.6,7.6,1.05]
+assert bom["cad"]["mailbox_insert_width_height_thickness_mm"] == [7,7,0.75]
+assert bom["cad"]["mailbox_insert_linear_reduction_from_v9_percent"] == 30
+assert math.isclose(g.MAILBOX_INSERT_W / 10.0, 0.7, abs_tol=1e-8)
+assert math.isclose(g.MAILBOX_INSERT_H / 10.0, 0.7, abs_tol=1e-8)
+assert math.isclose(g.MAILBOX_POCKET_X0+g.MAILBOX_POCKET_W/2,129.8,abs_tol=1e-8)
+assert math.isclose(g.MAILBOX_POCKET_Z0+g.MAILBOX_POCKET_H/2,29.3,abs_tol=1e-8)
 assert manifest["design"]["mailbox_insert_separate_stl"] is True
 assert g.bearing_width == 5.0
 assert bom["cad"]["left_pier_width_mm"] == 11
@@ -81,8 +96,18 @@ assert bom["cad"]["door_offset_from_center_mm"] == -14.0
 # USB-C 49067 manufacturer published outer envelope is NOT a connector STEP.
 # Carrier is part of the black base, so printable count stays eight.
 assert g.USB_C_BOARD_VENDOR_LWH_MM == (21.0,15.0,4.5)
-assert g.USB_C_REAR_APERTURE_WH == (13.0,8.0)
-assert g.USB_C_REAR_APERTURE_Z0 == 8.5
+assert g.USB_C_REAR_APERTURE_WH == (10.0,4.2)
+assert g.USB_C_REAR_APERTURE_Z0 == 9.45
+assert bom["cad"]["usb_c_port_only_reduced_aperture_provisional"] is True
+assert manifest["design"]["usb_c_port_only_provisional_cut"] is True
+# The 49067 vendor does not supply the actual nose offset; this is deliberately
+# a tiny hole to adjust once a real breakout and mating plug are received.
+assert manifest["design"]["usb_c_socket_position_known"] is False
+assert g.CABLE_RISER_X0 > g.USB_C_CARRIER_X0+g.USB_C_CARRIER_W
+assert g.CABLE_RISER_HEIGHT == 29
+assert len(g.cable_riser_lips) == 3
+assert manifest["design"]["upper_rear_attic_external_hole_removed"] is True
+assert bom["cad"]["attic_rear_upper_wall_cutout_removed"] is True
 assert g.USB_C_CARRIER_TOP_Z == 9.0
 assert g.USB_C_STRAP_TUNNEL_YS == (79.0,89.5)
 assert g.USB_C_STRAP_TUNNEL_W == 3.2
@@ -275,6 +300,9 @@ assert math.isclose(g.ATTIC_Z0+g.ATTIC_PLATE_THICK+3.2+g.FIT,
                     g.ref_wio.BoundingBox().zmin,abs_tol=0.02)
 assert g.ATTIC_LED_Y == 65.0
 assert g.orange_x == g.OPEN_X+g.OPEN_W-15.0
+assert math.isclose(g.orange_z,52.1,abs_tol=1e-8)
+assert bom["cad"]["orange_led_center_z_mm"] == manifest["design"]["led_orange_center_xz_mm"][1] == 52.1
+assert math.isclose(53.3-g.orange_z,1.2,abs_tol=1e-8)
 servo = next(s for n, s in g.REFERENCES.items() if "MG90" in n)
 assert overlap(g.usb_c_carrier,servo)<1e-5, "USB rear carrier vs servo"
 assert overlap(servo,g.right_jamb_return) < 1e-5
@@ -302,6 +330,27 @@ assert overlap(g.mailbox_insert, g.roof_lid)<1e-5
 for xc in g.ROOF_RIB_XS:
     probe=cq.Vector(xc,45.0,g.H_FRONT+(g.H_BACK-g.H_FRONT)*0.45+0.4)
     assert g.roof_lid.isInside(probe,1e-5), ("raised steel rib missing",xc)
+    # Second V10 corrugation segment is perpendicular to the roof sheet
+    # and sits down on the visible FRONT FASCIA, same 11.5mm pitch.
+    fold=cq.Vector(xc,-g.ROOF_OVERHANG-0.40,58.0)
+    assert g.roof_lid.isInside(fold,1e-5), ("front fascia standing seam missing",xc)
+# Old 16x9 rear wall service slot is physically filled again.
+rear_top=cq.Vector(g.W/2,g.D-g.WALL/2,g.ATTIC_Z0+8)
+assert g.shell.isInside(rear_top,1e-5), "upper rear wall cutout still present"
+# Open internal U-channel lies close to rear wall but has continuous air
+# at its centre and does NOT break the outside wall at any height.
+assert math.isclose(g.CABLE_RISER_Y0,93.6,abs_tol=1e-8)
+assert math.isclose(g.CABLE_RISER_Z0+g.CABLE_RISER_HEIGHT,43,abs_tol=1e-8)
+for z in (15.0,23.0,35.0,42.0):
+    air=cq.Vector(g.CABLE_RISER_X0+g.CABLE_RISER_RAIL_W+
+                  g.CABLE_RISER_INNER_W/2,95.5,z)
+    assert not g.shell.isInside(air,1e-5), ("cable chase blocked",z)
+    back=cq.Vector(95.0,g.D-g.WALL/2,z)
+    assert g.shell.isInside(back,1e-5), ("rear external wall perforated",z)
+assert overlap(g.tray,g.cable_riser_left)<1e-5
+assert overlap(g.tray,g.cable_riser_right)<1e-5
+assert overlap(g.usb_c_carrier,g.cable_riser_left)<1e-5
+assert overlap(g.usb_c_carrier,g.cable_riser_right)<1e-5
 assert overlap(g.holder, g.tray) < 1e-5  # true assembly, not overlapping solids
 assert g.holder.distance(g.tray) < 0.01  # contact / two aligned Ø2mm guide pins
 # True attic: XIAO and Wio completely above the false ceiling, below pitched roof.
@@ -349,4 +398,4 @@ for angle in range(0, 91, 5):
         "support LED blanche": g.holder,
     }.items():
         assert overlap(door, shape) < 1e-5, ("collision porte", angle, label)
-print("PASS — V9: 13 reliefs bac acier, niche boite aux lettres/plaque noire, USB-C, servo, 12 STEP/9 STL")
+print("PASS — V10: 13 nervures sur toit ET fascia, LED Z52.1, boite 7x7, USB 10x4.2, goulotte, 12 STEP/9 STL")
