@@ -335,7 +335,7 @@
       12.221
     ],
     "orange_led_center_x_mm": 96,
-    "orange_led_center_z_mm": 53.3,
+    "orange_led_center_z_mm": 52.8,
     "orange_holder_outer_diameter_mm": 10.8,
     "orange_holder_min_radial_wall_mm": 2.1,
     "dimensions_note": "V7: 150x100 shell retained. 4 base-to-cradle M2 pilot screws plus 2 *servo ears* Ø2 open notches at manufacturer 29mm pitch along garage Z. Clip replaced by printed screw pilot bosses. Manufacturer vs third-party STEP axis confusion corrected. Physical hardware validation pending.",
@@ -535,10 +535,10 @@
       2.7
     ],
     "usb_c_rear_aperture_wh_mm": [
-      13,
-      8
+      10,
+      4.2
     ],
-    "usb_c_rear_aperture_z0_mm": 8.5,
+    "usb_c_rear_aperture_z0_mm": 9.45,
     "usb_c_old_low_power_exit_replaced": true,
     "usb_c_power_connection": "5V/GND input > separate power bus > XIAO 5V/VBUS & GND, servo V+ & GND, 470uF + to 5V/- to GND, R1 supply 5V; servo PWM D6. 3V3 ONLY logic, no buck/boost.",
     "usb_c_secondary_usb_c_programming_warning": "external 5V on XIAO VBUS and concurrent USB data port power may backfeed; disconnect external 5V before programming or isolate source.",
@@ -547,7 +547,7 @@
     "usb_c_49067_socket_face_position_confirmed": false,
     "usb_c_49067_board_mounting_holes_confirmed": false,
     "usb_c_connector_clearance_physical_verified": false,
-    "usb_c_mount_status": "Integral tie-down cradle in base, rear service cutout not exact socket match; prototype dry fit mandatory",
+    "usb_c_mount_status": "V10 minimal rear aperture 10.0x4.2 at Z9.45, approximate USB-C socket face only, not vendor measured; before final printing compare actual 49067 socket and real plug",
     "roof_style_v9": "13 nervures trapézoïdales de bac acier dans l'axe de la pente, solidaires du toit noir, dimensions esthétiques du projet",
     "roof_bac_acier_rib_count": 13,
     "roof_bac_acier_rib_first_x_mm": 5.5,
@@ -561,26 +561,61 @@
     "mailbox_separate_black_part": true,
     "mailbox_print_part": "10_boite_aux_lettres_noire",
     "mailbox_pocket_xz_mm": [
-      124.5,
-      24
+      126,
+      25.5
     ],
     "mailbox_pocket_width_height_depth_mm": [
-      10.6,
-      10.6,
+      7.6,
+      7.6,
       1.05
     ],
     "mailbox_insert_width_height_thickness_mm": [
-      10,
-      10,
+      7,
+      7,
       0.75
     ],
     "mailbox_glue_fit_per_side_mm": 0.3,
     "mailbox_insert_recess_from_front_mm": 0.1,
     "mailbox_remaining_wall_backing_mm": 1.35,
     "mailbox_hole_or_letter_slot": "shallow decorative groove on black insert only, not a through-hole",
-    "mailbox_reference_confidence": "qualitative proportions derived from two user photos, not physically surveyed dimensions; cosmetic position on front right pier",
+    "mailbox_reference_confidence": "same photo-based centre as V9, black face reduced by exactly 30% linearly (10->7mm), not 30% in area",
     "cad_printable_part_count": 9,
-    "cad_step_export_count": 12
+    "cad_step_export_count": 12,
+    "orange_led_lowered_from_v9_by_mm": 0.5,
+    "roof_front_fascia_bac_acier_rib_count": 13,
+    "roof_front_fascia_rib_height_projection_mm": 0.85,
+    "roof_front_fascia_rib_bottom_top_z_approx_mm": [
+      54.37,
+      62.47
+    ],
+    "roof_front_fascia_rib_trapezoid_base_crown_mm": [
+      2.5,
+      1.1
+    ],
+    "roof_front_fascia_ribs_same_pitch_as_top": true,
+    "roof_front_fascia_ribs_integral_roof": true,
+    "mailbox_insert_linear_reduction_from_v9_percent": 30,
+    "usb_c_port_only_reduced_aperture_provisional": true,
+    "attic_rear_upper_wall_cutout_removed": true,
+    "upper_rear_legacy_hole_mm": [
+      16,
+      9
+    ],
+    "internal_cable_riser_geometry": "open rear U-channel with two 1.8mm rails from Z14 to43, X90.0..100.8, inner width 7.2; three staggered lips; exterior upper wall remains solid",
+    "internal_cable_riser_x0_y0_z0_mm": [
+      90,
+      93.6,
+      14
+    ],
+    "internal_cable_riser_rail_width_mm": 1.8,
+    "internal_cable_riser_inner_width_mm": 7.2,
+    "internal_cable_riser_depth_mm": 4.12,
+    "internal_cable_riser_height_mm": 29,
+    "internal_cable_riser_lips_z_mm": [
+      19,
+      29,
+      39
+    ]
   },
   "system_state": {
     "sensor_count": 1,

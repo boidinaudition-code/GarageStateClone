@@ -2,6 +2,9 @@
 
 **Projet : GarageStateClone · 22 novembre 2026 · unités en millimètres.**
 
+> **Archive V9 :** la version actuelle est **V10** : les mêmes 13 nervures sont prolongées sur le bandeau métallique descendant, LED orange abaissée 0,5 mm et boîte noire réduite à 7 × 7 mm. Voir [EVOLUTION_FACADE_CABLAGE_V10.md](EVOLUTION_FACADE_CABLAGE_V10.md) pour les cotes à imprimer ; les cotes V9 ci-dessous décrivent l'ancienne géométrie.
+
+
 Les deux photos fournies par le propriétaire montrent une façade de garage blanche, une porte sectionnelle noire et une **petite boîte aux lettres noire à droite du portail**. La couverture métallique gris anthracite comporte des **lignes régulières verticales sur la bande en façade**. La maquette choisit une interprétation **bac acier à nervures sur le pan de toit** : cette géométrie est volontairement décorative et **n'est pas une reproduction cotée exacte du vrai profil métallique**.
 
 ## 1. Toit noir, plan incliné et nervures

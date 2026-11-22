@@ -2,6 +2,8 @@
 
 **22 novembre 2026 · GarageStateClone, version mécanique CAO V8** (socle et sortie arrière seulement ; servo V7 et firmware inchangés). **Prototype : les interfaces sont contrôlées en CAO, pas sur le composant réel.**
 
+> **Version courante V10 (22/11/2026) :** ce document conserve l'historique et la nomenclature électriques V8, qui restent valables. La **coque** a changé : **ouverture USB-C réduite et provisoire 10 × 4,2 mm à Z9,45**, suppression complète de la **sortie haute 16 × 9 mm**, ajout d'une **goulotte interne arrière** de Z14 à Z43 pour les câbles montant vers les combles. Consulter [la révision mécanique V10](EVOLUTION_FACADE_CABLAGE_V10.md) plutôt que les anciens chiffres de découpe ci-dessous. Le vrai connecteur 49067 doit toujours être mesuré.
+
 ## 1. Architecture électrique
 
 **Une seule alimentation secteur USB 5 V régulée, 2 A minimum**, raccordée à une **platine USB-C femelle Gotronic 49067**, alimente **en parallèle** le récepteur XIAO/Wio et le servo DMS-MG90. L'émetteur LoRa placé dans le vrai garage conserve son alimentation USB indépendante.
@@ -71,11 +73,11 @@ D'après la fiche officielle Gotronic : **21 × 15 × 4,5 mm** hors tout, **10 p
 | **Support sur le socle noir** | X **63,90..86,10**, Y **72,40..96,60**, face haute **Z9,00** | **Intégré à la pièce `02_socle_noir`**, maintien indépendant du perçage de la carte |
 | Guides latéraux | **2,4 mm** largeur × **3,4 mm** hauteur | Réserve latérale ; aucun clipsage forcé sur les composants de la platine |
 | Deux tunnels sous le support | Y **79,00..82,20** et **89,50..92,70**, largeur libre **3,2 mm**, hauteur **2,7 mm** | Deux colliers nylon **2,5 mm**, boucle par-dessous puis par-dessus carte avec isolant mou, sans serrer la prise ni les CMS |
-| **Ouverture arrière USB-C** | X **68,50..81,50** ; Z **8,50..16,50** ; traverse le mur arrière Y≈97,6..100 | **13 × 8 mm, ouverture de service provisoire** ; *pas* le contour exact du nez USB-C |
+| **Ouverture arrière USB-C** | X **68,50..81,50** ; Z **8,50..16,50** ; traverse le mur arrière Y≈97,6..100 | **HISTORIQUE V8 13 × 8 mm, remplacée par 10 × 4,2 mm en V10**, *pas encore* le contour exact du nez USB-C |
 | Ancienne sortie basse des fils | Ancienne fente **12 × 8 mm**, désormais **supprimée** | Une seule ouverture basse visible à l'arrière |
-| Sortie haute en combles | **16 × 9 mm**, vers Z49..58 | **Conservée** pour service antenne/fils ; la carte radio reste en combles |
+| Sortie haute en combles | **16 × 9 mm**, vers Z49..58 | **SUPPRIMÉE en V10** : fils dans goulotte intérieure, la carte radio reste en combles |
 
-La carte est fixée **sans inventer les trous de vis** : deux guides + deux colliers dans le support bas. Ajouter une fine isolation souple entre bande et carte ; contrôler que rien ne touche le connecteur. La façade reste inchangée (blanc, porte noire), le toit reste démontable, la miniature conserve **150 × 100 mm** au sol et **8 pièces imprimables**, avec **11 STEP** générés.
+La carte est fixée **sans inventer les trous de vis** : deux guides + deux colliers dans le support bas. Ajouter une fine isolation souple entre bande et carte ; contrôler que rien ne touche le connecteur. La façade blanche et le toit amovible sont conservés ; la version courante V10 a **150 × 100 mm** au sol et **9 pièces imprimables**, avec **12 STEP** (la boîte noire est indépendante).
 
 Le gabarit `REF_USB_C_49067_GABARIT_NON_CONTRACTUEL_NE_PAS_IMPRIMER` apparaît dans l'assemblage STEP **avec références** ; le STEP structure seule comporte le support mais pas le gabarit. Fichiers de sortie générés, non versionnés dans Git : `cad/stl/02_socle_noir.stl`, `cad/step/02_socle_noir.step` et les deux STEP d'assemblage (noms historiques V2 maintenus).
 

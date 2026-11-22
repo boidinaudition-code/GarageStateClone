@@ -40,7 +40,11 @@ assert b["cad"]["usb_c_breakout_vendor_code"] == m["design"]["usb_c_breakout_cod
 assert b["cad"]["roof_bac_acier_rib_count"] == m["design"]["roof_bac_acier_rib_count"] == 13
 assert b["cad"]["roof_bac_acier_rib_pitch_mm"] == m["design"]["roof_bac_acier_rib_pitch_mm"] == 11.5
 assert b["cad"]["roof_bac_acier_rib_rise_above_original_surface_mm"] == m["design"]["roof_bac_acier_rib_rise_mm"] == 0.95
-assert b["cad"]["mailbox_pocket_width_height_depth_mm"] == m["design"]["mailbox_pocket_width_height_depth_mm"] == [10.6,10.6,1.05]
+assert b["cad"]["mailbox_pocket_width_height_depth_mm"] == m["design"]["mailbox_pocket_width_height_depth_mm"] == [7.6,7.6,1.05]
+assert b["cad"]["mailbox_insert_width_height_thickness_mm"] == m["design"]["mailbox_insert_width_height_thickness_mm"] == [7,7,0.75]
+assert b["cad"]["mailbox_insert_linear_reduction_from_v9_percent"] == m["design"]["mailbox_insert_reduction_linear_percent_vs_v9"] == 30
+assert b["cad"]["roof_front_fascia_bac_acier_rib_count"] == m["design"]["roof_front_fascia_standing_seams_count"] == 13
+assert b["cad"]["orange_led_center_z_mm"] == m["design"]["led_orange_center_xz_mm"][1] == 52.8
 assert b["cad"]["mailbox_separate_black_part"] is True
 assert m["design"]["mailbox_insert_separate_stl"] is True
 assert b["cad"]["mailbox_print_part"] == "10_boite_aux_lettres_noire"
@@ -52,7 +56,17 @@ assert (root/"docs/TOIT_BAC_ACIER_BOITE_LETTRES_V9.md").is_file()
 assert "9 STL" in cadread and "12 STEP" in cadread
 assert b["cad"]["usb_c_breakout_published_lwh_mm"] == m["design"]["usb_c_breakout_vendor_lwh_mm"] == [21,15,4.5]
 assert b["cad"]["usb_c_carrier_integrated_into"] == "02_socle_noir"
-assert b["cad"]["usb_c_rear_aperture_wh_mm"] == m["design"]["usb_c_rear_slot_wh_mm"] == [13,8]
+assert b["cad"]["usb_c_rear_aperture_wh_mm"] == m["design"]["usb_c_rear_slot_wh_mm"] == [10,4.2]
+assert b["cad"]["usb_c_rear_aperture_z0_mm"] == m["design"]["usb_c_rear_slot_z0_mm"] == 9.45
+assert b["cad"]["usb_c_port_only_reduced_aperture_provisional"] is True
+assert m["design"]["usb_c_port_only_provisional_cut"] is True
+assert b["cad"]["attic_rear_upper_wall_cutout_removed"] is True
+assert m["design"]["upper_rear_attic_external_hole_removed"] is True
+assert b["cad"]["internal_cable_riser_lips_z_mm"] == [19,29,39]
+assert m["design"]["cable_riser_lip_count"] == 3
+assert "bandeau" in read.lower() and "goulotte" in read.lower()
+assert "10 × 4,2" in read
+assert "7 × 7" in read
 assert b["cad"]["usb_c_49067_socket_face_position_confirmed"] is False
 assert b["cad"]["usb_c_49067_CC_populated_confirmed"] is None
 assert b["cad"]["usb_c_old_low_power_exit_replaced"] is True

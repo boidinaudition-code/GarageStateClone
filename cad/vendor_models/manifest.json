@@ -95,7 +95,7 @@
     ],
     "led_orange_center_xz_mm": [
       96,
-      53.3
+      52.8
     ],
     "led_orange_holder_outer_diameter_mm": 10.8,
     "front_jamb_return_depth_mm": 10,
@@ -179,10 +179,10 @@
       4.5
     ],
     "usb_c_rear_slot_wh_mm": [
-      13,
-      8
+      10,
+      4.2
     ],
-    "usb_c_rear_slot_z0_mm": 8.5,
+    "usb_c_rear_slot_z0_mm": 9.45,
     "usb_c_carrier_integral_base": true,
     "usb_c_carrier_min_xyz_mm": [
       63.9,
@@ -228,17 +228,17 @@
     "roof_bac_acier_detail_status": "artistically designed from user garage photo, NOT a measured real roof profile",
     "mailbox_reference": "user's photo: small near-square dark mailbox on white right pier, immediately right of garage door",
     "mailbox_pocket_xz_mm": [
-      124.5,
-      24
+      126,
+      25.5
     ],
     "mailbox_pocket_width_height_depth_mm": [
-      10.6,
-      10.6,
+      7.6,
+      7.6,
       1.05
     ],
     "mailbox_insert_width_height_thickness_mm": [
-      10,
-      10,
+      7,
+      7,
       0.75
     ],
     "mailbox_remaining_local_wall_mm": 1.35,
@@ -246,7 +246,25 @@
     "mailbox_glue_in_clearance_per_edge_mm": 0.3,
     "mailbox_insert_color": "black",
     "mailbox_ornamental_slot": true,
-    "mailbox_physical_scale_verified": false
+    "mailbox_physical_scale_verified": false,
+    "roof_front_fascia_standing_seams_count": 13,
+    "roof_front_fascia_standing_seams_pitch_mm": 11.5,
+    "roof_front_fascia_seam_outward_projection_mm": 0.85,
+    "roof_front_fascia_seams_continuous_with_top": true,
+    "roof_front_fascia_is_part_of": "03_toit_noir_pente",
+    "mailbox_insert_reduction_linear_percent_vs_v9": 30,
+    "usb_c_port_only_provisional_cut": true,
+    "upper_rear_attic_external_hole_removed": true,
+    "cable_riser_internal_rear_open_channel": true,
+    "cable_riser_wall_position_xyz_mm": [
+      90,
+      93.6,
+      14
+    ],
+    "cable_riser_open_width_mm": 7.2,
+    "cable_riser_length_z_mm": 29,
+    "cable_riser_lip_count": 3,
+    "cable_riser_reaches_attic_without_external_hole": true
   },
   "qa": {
     "checked_with": "CadQuery 2.8.0, OCP 7.9.3.1, trimesh 4.11.1",
@@ -267,6 +285,6 @@
     "actual_horn_bolt_pattern": "UNKNOWN, interface disk blank on purpose",
     "manufacturer_axis_erratum": "official drawing 33mm ear-span maps to rotated STEP Z=33.4mm, NOT X=32.5mm. Prior 0.05 mm axial clearance claim invalid",
     "usb_c_carrier": "integral to 02 base; underside strap tunnels and rear shell aperture modeled; physical connector protrusion/hole placement unknown",
-    "roof_mailbox_design": "Cosmetic V9: 13 trapezoidal ribs fused to sloped lid and glue-in 10mm square letterbox; no physical build verified."
+    "roof_mailbox_design": "V10: 13 trapezoidal ribs on roof top and 13 aligned vertical roof fascia; reduced black glue-in mailbox 7x7mm; orange LED Z52.8; minimal approximate USB opening and interior cable chase; print fit not yet checked physically"
   }
 }
