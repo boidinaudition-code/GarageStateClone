@@ -128,6 +128,30 @@ assert len(g.SERVO_MOUNT_HOLES)==4
 assert g.SERVO_LUG_PITCH == 29.0
 assert g.SERVO_LUG_NOTCH_D == 2.0
 assert g.SERVO_LUG_PILOT_D == 1.7
+# The dimensioned manufacturer datum from base to UNDER the mounting ear.
+# Garage X runs from shaft tip toward base: 30 - 16 = 14 mm.
+# Apply the 0.30mm printer clearance only, not the three estimated offsets.
+assert g.SERVO_LUG_UNDERSIDE_FROM_BASE == 16.0
+assert g.SERVO_OFFICIAL_ORIENTED_XYZ[0] == 30.0
+assert math.isclose(g.SERVO_MANUFACTURER_BASE_X - g.SERVO_LUG_UNDERSIDE_DATUM_X,
+                    16.0, abs_tol=1e-8)
+assert math.isclose(g.SERVO_LUG_UNDERSIDE_DATUM_X - g.SERVO_SHAFT_TIP_X,
+                    14.0, abs_tol=1e-8)
+assert math.isclose(g.spine_x - g.SERVO_LUG_UNDERSIDE_DATUM_X,
+                    g.FIT, abs_tol=1e-8)
+assert math.isclose(g.spine_x - g.SERVO_SHAFT_TIP_X, 14.3, abs_tol=1e-8)
+assert (g.SERVO_LUG_THICKNESS_EST_MM,
+        g.SERVO_LUG_TOP_TO_CASE_TOP_EST_MM,
+        g.SERVO_LUG_TOP_TO_SHAFT_BOSS_TOP_EST_MM) == (2.5,4.0,8.0)
+assert g.SERVO_HORN_MOUNTED_THICKNESS_MM is None
+assert g.SERVO_MOUNT_SCREW_HEAD_D_MM is None
+assert g.SERVO_MOUNT_SCREW_UNDER_HEAD_LENGTH_MM is None
+assert manifest["design"]["servo_mount_visual_estimates_drive_geometry"] is False
+assert bom["cad"]["servo_lug_underside_from_base_confirmed_mm"] == 16.0
+assert bom["cad"]["servo_lug_mount_axial_clearance_mm"] == g.FIT
+assert bom["cad"]["servo_mount_screw_head_diameter_mm"] is None
+assert bom["cad"]["servo_mount_screw_under_head_length_mm"] is None
+assert bom["cad"]["servo_horn_mounted_face_to_outer_face_mm"] is None
 assert (g.SERVO_LUG_BOSS_D - g.SERVO_LUG_PILOT_D)/2 >= 2.0, "lug pilot boss wall too thin"
 assert len(g.SERVO_LUG_CENTERS_YZ) == 2
 assert len(g.SERVO_LUG_CENTERS_Z) == 2
@@ -158,6 +182,10 @@ assert math.isclose(g.SERVO_SHAFT_TIP_X-g.DRIVE_DISC_END_X,2.2)
 assert g.door.distance(g.shell)>=g.FIT-0.01
 assert g.bearing.distance(g.shell)<0.01 # bearing rests on integral shelf
 assert g.cradle.distance(g.base_plate)<0.01 # M2 feet rest on 3mm base
+# The closest extents of both mounting bosses have a nominal 0.30mm
+# relief to the manufacturer 16.00mm ear datum in the garage X frame.
+# Actual production case, fastening and horn are still not measured.
+assert g.spine_x >= g.SERVO_LUG_UNDERSIDE_DATUM_X + g.FIT - 1e-8
 # Four foot pilots and their base countersinks are coaxial.
 for cx,cy in g.SERVO_MOUNT_HOLES:
     bore=cq.Solid.makeCylinder(g.SERVO_SCREW_CLEARANCE_D/2,

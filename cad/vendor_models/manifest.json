@@ -157,8 +157,21 @@
       12.221,
       33.4
     ],
-    "servo_ear_mount_boss_geometry_status": "CAD pilot not physically validated; screw selection depends on real notch thickness",
-    "servo_retention": "2 pilot screw bosses instead of brittle top snap clip"
+    "servo_ear_mount_boss_geometry_status": "Face referenced to 16.00mm manufacturer underside-from-base datum +0.30mm print clearance; 2.5/4/8mm estimates recorded but do not drive geometry; unmeasured actual hardware.",
+    "servo_retention": "2 pilot screw bosses instead of brittle top snap clip",
+    "servo_lug_underside_from_base_manufacturer_mm": 16,
+    "servo_lug_underside_x_from_shaft_tip_nominal_mm": 14,
+    "servo_lug_printed_boss_face_x_from_shaft_tip_mm": 14.3,
+    "servo_lug_printed_boss_axial_fit_mm": 0.3,
+    "servo_mount_three_visual_estimates_mm": {
+      "lug_thickness": 2.5,
+      "ear_to_flat_case_top": 4,
+      "ear_to_shaft_boss_top": 8
+    },
+    "servo_mount_visual_estimates_drive_geometry": false,
+    "servo_mount_screw_head_d_mm": null,
+    "servo_mount_screw_length_under_head_mm": null,
+    "servo_horn_mounted_total_thickness_mm": null
   },
   "qa": {
     "checked_with": "CadQuery 2.8.0, OCP 7.9.3.1, trimesh 4.11.1",

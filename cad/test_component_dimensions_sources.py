@@ -38,6 +38,11 @@ assert actual_drawing["overall_lug_length"] == 33
 assert actual_drawing["overall_width"] == 12
 assert actual_drawing["overall_height_excluding_horn"] == 30
 assert actual_drawing["lug_centres_pitch"] == 29
+assert actual_drawing["lug_underside_height_from_base"] == 16.0
+assert servo["visual_estimates_from_drawing_mm"]["lug_thickness"] == 2.5
+assert servo["visual_estimates_from_drawing_mm"]["lug_top_to_flat_case_top"] == 4.0
+assert servo["visual_estimates_from_drawing_mm"]["lug_top_to_shaft_boss_top_excluding_shaft"] == 8.0
+assert all(v is None for v in servo["pending_physical_measurements_mm"].values())
 assert actual_drawing["lug_open_notch_diameter"] == 2
 assert servo["source"].lower().endswith(".pdf")
 assert servo["dimensions"]["lug_centres_pitch"] == bom["components"][1]["manufacturer_drawing_mm"]["lug_center_pitch"]
@@ -54,6 +59,16 @@ assert design["servo_ear_3d_printed_pilot_d"] == 1.7
 assert design["servo_mounting_screw_count"] == 2
 assert design["servo_base_mounting_screw_count"] == 4
 assert design["servo_ear_screw_axis"] == "X"
+assert design["servo_lug_underside_height_from_base_confirmed_mm"] == 16.0
+assert design["servo_manufacturer_height_shaft_tip_from_base_mm"] == 30.0
+assert design["servo_lug_underside_x_from_shaft_tip_nominal_mm"] == 30.0-16.0
+assert abs(design["servo_lug_support_face_x_from_shaft_tip_nominal_mm"]-(30.0-16.0+0.30)) < 1e-8
+assert design["servo_estimate_values_used_as_tight_fit"] is False
+assert bom["cad"]["servo_lug_mount_axial_clearance_mm"] == 0.30
+assert bom["cad"]["servo_mount_screw_head_diameter_mm"] is None
+assert bom["cad"]["servo_mount_screw_under_head_length_mm"] is None
+assert bom["cad"]["servo_horn_mounted_face_to_outer_face_mm"] is None
+assert "16,00" in docs and "provisoire" in docs.lower()
 assert not bom["cad"]["servo_horn_physical_verified"]
 
 assert by_id["LED1"]["dimensions"]["flange_diameter"] is None

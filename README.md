@@ -6,6 +6,8 @@
 
 > **Supports V7 :** [plan de fixation des vis du DMS-MG90](docs/FIXATIONS_SERVO_V7.md) et [fiches cotées](docs/FICHES_COTEES_COMPOSANTS_V7.md). Le servo a **deux encoches Ø2 à entraxe 29 mm (Z du garage)**, maintenant représentées par **deux pilotes imprimés** ; le berceau dispose toujours de **quatre vis indépendantes** pour son ancrage au socle. Le crochet supérieur V6 a été remplacé. L'ancienne alerte « 0,05 mm de jeu par bout » comparait deux axes différents : **elle était erronée**. Le palonnier, la longueur réelle des vis et l'antenne sont à vérifier avant montage final.
 
+**Mise à jour du 22/11 — repère servo pour Onshape :** le plan donne **16,00 mm** du fond du DMS-MG90 au dessous des oreilles de fixation. Le berceau positionne ses deux points de vissage avec cette cote et **0,30 mm de jeu** (enveloppe nominale X30, plan sous oreille à X bout arbre +14,00). Les valeurs **≈2,5 mm** (épaisseur d'oreille), **≈4,0 mm** (vers dessus du boîtier) et **≈8,0 mm** (vers bossage d'arbre) sont **provisoires et uniquement documentaires**. Les dimensions du palonnier monté et des vis fournies restent inconnues. [Détails et schéma des plans](docs/FIXATIONS_SERVO_V7.md).
+
 ## Sommaire
 
 1. [Ce que fait réellement le système](#ce-que-fait-réellement-le-système)
@@ -60,7 +62,7 @@ La V6 concrétise plusieurs interfaces qui étaient seulement illustrées en V5 
 
 | Sous-ensemble | Interface modélisée | Ce qui reste à valider |
 |---|---|---|
-| **Servo DMS-MG90** à l’avant droit | Berceau imprimé, **4 pieds à pilotes Ø1,7** vissés au socle à travers les **passages Ø2,3** et **2 pilotes Ø1,7** pour les **2 encoches Ø2, entraxe 29 mm** du servo ; colonne de retenue à la place du crochet | Tester les vis réellement livrées, la hauteur des oreilles et l'alignement en X avant mise sous tension |
+| **Servo DMS-MG90** à l’avant droit | Berceau imprimé, **4 pieds à pilotes Ø1,7** vissés au socle à travers les **passages Ø2,3** et **2 pilotes Ø1,7** pour les **2 encoches Ø2, entraxe 29 mm** du servo ; colonne de retenue à la place du crochet | Face support calée sur cote constructeur 16,00 mm avec 0,30 mm de jeu ; tester vis, épaisseur d'oreille et alignement réel en X avant mise sous tension |
 | **Porte/servo** | Disque **Ø12 mm** intégré côté porte, passage Ø12,6 dans retour droit, **2,2 mm d’écart axial nominal** entre disque et bout d’arbre du modèle servo | **Palonnier livré non mesuré. Disque laissé volontairement sans trous.** Mesurer l’épaisseur et les trous du vrai palonnier, dessiner/percer une liaison positive avant essai motorisé |
 | **Palier gauche** | Tourillon Ø3,2 / alésage Ø3,8, **tablette d’appui** dans la coque | Vérifier rotation et maintien sur support, collage ponctuel après essai |
 | **XIAO/Wio** | 4 plots bas non conducteurs (3,2 mm haut), **2 fentes 3,2×4,2** pour lien nylon 2,5 mm avec protection isolante | Ne pas écraser les SMD ; contrôler USB-C, antenne et accès |

@@ -30,6 +30,13 @@ assert b["cad"]["servo_base_mount_count"] == m["design"]["servo_mounting_pilot_c
 assert b["cad"]["servo_lug_pitch_mm"] == m["design"]["servo_ear_screws_pitch_z_mm"] == 29
 assert b["cad"]["servo_lug_notch_nominal_d_mm"] == m["design"]["servo_ear_open_notches_d_mm"] == 2
 assert b["cad"]["servo_lug_screw_count"] == m["design"]["servo_ear_mount_count"] == 2
+assert b["cad"]["servo_lug_underside_from_base_confirmed_mm"] == m["design"]["servo_lug_underside_from_base_manufacturer_mm"] == 16.0
+assert b["cad"]["servo_lug_support_face_from_shaft_tip_nominal_mm"] == m["design"]["servo_lug_printed_boss_face_x_from_shaft_tip_mm"] == 14.3
+assert b["cad"]["servo_lug_mount_axial_clearance_mm"] == m["design"]["servo_lug_printed_boss_axial_fit_mm"] == 0.3
+assert m["design"]["servo_mount_visual_estimates_drive_geometry"] is False
+assert b["cad"]["servo_lug_boss_d_mm"] == 5.8
+assert b["cad"]["servo_mount_screw_head_diameter_mm"] is None
+assert b["cad"]["servo_mount_screw_under_head_length_mm"] is None
 assert b["cad"]["servo_official_oriented_xyz_mm"] == m["design"]["servo_official_oriented_xyz_mm"]
 assert b["cad"]["servo_vendor_step_oriented_xyz_mm"] == m["design"]["servo_generic_step_oriented_xyz_mm"]
 assert b["cad"]["servo_foot_pilot_hole_mm"] == 1.7

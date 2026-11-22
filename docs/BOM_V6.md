@@ -4,6 +4,8 @@
 
 **Sources dimensionnelles mises à jour** : voir [l'audit V7 de toutes les fiches cotées](FICHES_COTEES_COMPOSANTS_V7.md) et [son inventaire JSON](../cad/component_dimensions_sources_v7.json). **Erratum et géométrie V7 :** les **33 mm** constructeur (oreilles, suivant Z) et les **32,5 mm** du STEP (sortie d'arbre, suivant X) avaient été comparés par erreur : la réserve de 0,05 mm n'est pas valable. Deux **encoches Ø2 à entraxe 29 mm** sont désormais alignées sur **2 pilotes imprimés** du berceau V7. **4 vis supplémentaires, indépendantes**, fixent le berceau au socle. [Détails de conception V7](FIXATIONS_SERVO_V7.md). Longueur et tête des vis, épaisseur réelle des oreilles et palonnier à vérifier.
 
+**Complément fixation du vrai DMS-MG90 (22/11)** : dessous d'oreille à **16,00 mm du fond du servo**, valeur cotée constructeur et désormais employée pour la position X des bossages avec **0,30 mm de jeu de montage**. Les valeurs **≈2,5 mm** d'épaisseur d'oreille, **≈4,0 mm** jusqu'au dessus plat du boîtier et **≈8,0 mm** jusqu'au haut du bossage de l'axe sont des estimations **non contraignantes**. Le diamètre de tête et la longueur sous tête des **2 vis de fixation servo**, ainsi que l'épaisseur du palonnier monté, sont **à mesurer après livraison**. Ne pas confondre ces deux vis avec les **4 vis M2 d'essai** du socle.
+
 ## A. Déjà disponible — ne pas acheter deux fois
 
 | Quantité | Élément | Vérification requise |

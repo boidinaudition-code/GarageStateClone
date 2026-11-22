@@ -29,7 +29,15 @@ Le document initial comparait à tort les 33 mm de longueur avec oreilles du pla
 
 **Les deux encoches de fixation constructeur Ø2 sont espacées de 29 mm (Z miniature)** et les deux pilotes correspondants ont été modélisés dans le support servo V7. **Quatre autres vis** fixent le berceau au socle, sans entraxe fabricant. Les anciennes mentions de crochet supérieur correspondent à V6 ; le crochet est remplacé en V7 par une colonne portant deux points de serrage.
 
-La géométrie exacte des oreilles en épaisseur X, les vis fournies et le palonnier ne sont pas certifiés par ce seul dessin ; les validations réelles restent nécessaires.
+La cote longitudinale de dessous d'oreille 16,00 mm est cotée, mais l'épaisseur réelle des oreilles, les vis fournies et le palonnier ne sont pas certifiés par ce seul dessin ; les validations réelles restent nécessaires.
+
+### Complément fourni avant achat des composants (22/11/2026)
+
+La cote **16,00 mm du fond du servo au dessous de l'oreille de fixation** est **cotée sur le plan**. Elle est utilisée pour placer les supports du servo dans la CAO : axe X aligné sur l'arbre, **X sous oreille = X bout arbre + (30,00 − 16,00) = X bout arbre + 14,00 mm**, avec **0,30 mm de jeu imprimé** ajouté à la face de support. Voir [le plan des fixations V7 actualisé](FIXATIONS_SERVO_V7.md).
+
+Les trois valeurs ci-dessous restent **provisoires**, estimées à la lecture du dessin et **non utilisées pour des ajustements serrés** : épaisseur d'oreille **≈ 2,5 mm**, dessus oreille au dessus plat du boîtier **≈ 4,0 mm**, dessus oreille au sommet du bossage d'arbre hors arbre **≈ 8,0 mm**.
+
+**Mesures toujours indisponibles :** épaisseur du palonnier monté entre sa face d'appui et sa face extérieure (hors tête de vis), diamètre de tête de chaque vis de fixation servo, et longueur des vis sous tête. Elles demeurent **nulles** dans le catalogue JSON, et les perçages du palonnier ne sont pas créés.
 
 ## 2. Électronique passive et voyants
 
