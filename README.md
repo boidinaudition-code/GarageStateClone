@@ -4,6 +4,8 @@
 
 **Version courante : V6.** Les anciennes mentions « V1–V5 » dans certains documents sont des **archives de conception**, pas des instructions dimensionnelles à utiliser pour fabriquer V6.
 
+> **Audit des plans cotés V7 (22/11/2026)** : [fiches constructeurs et cotes par composant](docs/FICHES_COTEES_COMPOSANTS_V7.md) · [catalogue JSON pour la CAO](cad/component_dimensions_sources_v7.json). **Attention :** le plan officiel du **DMS-MG90** donne 33 mm hors tout et 29 mm d'entraxe de fixation, tandis que le berceau V6 repose sur un STEP MG90-A différent. Avec la longueur interne actuelle de 33,1 mm, il ne reste théoriquement que **0,05 mm de jeu par extrémité**, insuffisant pour valider une impression définitive. Le palonnier, l'antenne et les prises/câbles nécessitent aussi un relevé réel.
+
 ## Sommaire
 
 1. [Ce que fait réellement le système](#ce-que-fait-réellement-le-système)
@@ -112,6 +114,7 @@ python cad/qa_geometry.py
 python cad/verify_gotronic.py
 python cad/test_step_exports.py
 python cad/test_hardware_bom.py
+python cad/test_component_dimensions_sources.py
 python cad/test_fit_coupons.py
 ~~~
 
