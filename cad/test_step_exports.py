@@ -149,8 +149,8 @@ assert len(g.usb_c_strap_tunnels)==2
 for passage in g.usb_c_strap_tunnels:
     assert overlap(g.base_plate,passage)<1e-5, "USB cable tie tunnel occluded"
     assert passage.BoundingBox().xlen > g.USB_C_CARRIER_W
-    assert passage.BoundingBox().ylen == g.USB_C_STRAP_TUNNEL_W
-    assert g.USB_C_CARRIER_TOP_Z-(g.USB_C_STRAP_TUNNEL_Z0+g.USB_C_STRAP_TUNNEL_H) >= 2.0
+    assert math.isclose(passage.BoundingBox().ylen, g.USB_C_STRAP_TUNNEL_W, abs_tol=1e-8)
+    assert g.USB_C_CARRIER_TOP_Z-(g.USB_C_STRAP_TUNNEL_Z0+g.USB_C_STRAP_TUNNEL_H) >= 2.0-1e-8
 # Rear USB-C cutout replaces ONLY the previous low rear opening.
 usb_service=cq.Workplane("XY").box(g.USB_C_REAR_APERTURE_WH[0],
     g.WALL+0.20,g.USB_C_REAR_APERTURE_WH[1],centered=(False,False,False)).translate((
