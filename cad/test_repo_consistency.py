@@ -36,6 +36,20 @@ assert b["cad"]["servo_lug_mount_axial_clearance_mm"] == m["design"]["servo_lug_
 assert m["design"]["servo_mount_visual_estimates_drive_geometry"] is False
 assert b["cad"]["servo_lug_boss_d_mm"] == 5.8
 assert b["cad"]["usb_c_breakout_vendor_code"] == m["design"]["usb_c_breakout_code"] == "Gotronic 49067"
+# V9 photo-derived roof/letterbox geometry: no electrical or hardware change.
+assert b["cad"]["roof_bac_acier_rib_count"] == m["design"]["roof_bac_acier_rib_count"] == 13
+assert b["cad"]["roof_bac_acier_rib_pitch_mm"] == m["design"]["roof_bac_acier_rib_pitch_mm"] == 11.5
+assert b["cad"]["roof_bac_acier_rib_rise_above_original_surface_mm"] == m["design"]["roof_bac_acier_rib_rise_mm"] == 0.95
+assert b["cad"]["mailbox_pocket_width_height_depth_mm"] == m["design"]["mailbox_pocket_width_height_depth_mm"] == [10.6,10.6,1.05]
+assert b["cad"]["mailbox_separate_black_part"] is True
+assert m["design"]["mailbox_insert_separate_stl"] is True
+assert b["cad"]["mailbox_print_part"] == "10_boite_aux_lettres_noire"
+assert b["cad"]["cad_printable_part_count"] == 9
+assert b["cad"]["cad_step_export_count"] == 12
+assert "bac acier" in read and "boîte aux lettres" in read
+assert "docs/TOIT_BAC_ACIER_BOITE_LETTRES_V9.md" in read
+assert (root/"docs/TOIT_BAC_ACIER_BOITE_LETTRES_V9.md").is_file()
+assert "9 STL" in cadread and "12 STEP" in cadread
 assert b["cad"]["usb_c_breakout_published_lwh_mm"] == m["design"]["usb_c_breakout_vendor_lwh_mm"] == [21,15,4.5]
 assert b["cad"]["usb_c_carrier_integrated_into"] == "02_socle_noir"
 assert b["cad"]["usb_c_rear_aperture_wh_mm"] == m["design"]["usb_c_rear_slot_wh_mm"] == [13,8]
