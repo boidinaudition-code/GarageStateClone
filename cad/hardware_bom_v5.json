@@ -1,7 +1,7 @@
 {
   "schema": "GarageStateClone-hardware-BOM-v5.1",
   "review_date": "2026-11-22",
-  "cad_version": "V7 servo mounting datum 16.00mm from base; physical screw/horn trial pending; shell 150x100 roof 62/78",
+  "cad_version": "V8 additive USB-C 49067 / parallel 5V distributor (servo support V7 retained)",
   "currency": "EUR",
   "status_convention": {
     "confirmed": "reference and characteristics checked, required if not already owned",
@@ -280,6 +280,46 @@
       "qty_to_mount": 2,
       "url": null,
       "note": "rear upper slot 16x9 mm has no strain-relief feature in CAD"
+    },
+    {
+      "id": "USB_C_BREAKOUT",
+      "ref": "Gotronic 49067",
+      "unit": "1x USB-C female breakout",
+      "pack_price_eur": "4.95",
+      "status": "confirmed",
+      "qty_to_mount": 1,
+      "url": "https://www.gotronic.fr/art-platine-a-connecteur-usb-type-c-2-0-31137.htm",
+      "note": "21x15x4.5mm vendor envelope; integral tray and rear service slot in base CAD; actual USB connector face and CC1/CC2 resistor population unconfirmed; solder 5V/GND, do not assume hole pattern."
+    },
+    {
+      "id": "USB_C_TERMINAL_SC02",
+      "ref": "Gotronic 48930",
+      "unit": "1x SC02/2.54 screw terminal 2-contact (0.80 EUR each)",
+      "pack_price_eur": "0.80",
+      "status": "confirmed",
+      "qty_to_mount": 2,
+      "url": "https://www.gotronic.fr/art-bornier-sc02-2-54-15468.htm",
+      "note": "Two separate detachable positive/negative 5V+GND output pairs on perfboard, one for XIAO and one for servo; 8.5mm high, max wire 0.8mm². Must solder to board, not directly screw on breakout."
+    },
+    {
+      "id": "USB_C_CC_RESISTORS",
+      "ref": "Gotronic 15944",
+      "unit": "5 resistors 5.1k 1/2W",
+      "pack_price_eur": "0.30",
+      "status": "conditional",
+      "qty_to_mount": "0 or 2 ONLY if CC1/CC2 pull-downs not fitted on 49067",
+      "url": "https://www.gotronic.fr/art-5-resistances-1-2w-5-1-k-8486-8829.htm",
+      "note": "CC1 5.1k to GND and CC2 independent 5.1k to GND for USB-C sink; confirm board population before adding, do not tie CC1 and CC2."
+    },
+    {
+      "id": "USB_C_PERFBOARD_BCS050",
+      "ref": "Gotronic 12470",
+      "unit": "50x100mm perfboard (cut to fit)",
+      "pack_price_eur": "1.40",
+      "status": "conditional",
+      "qty_to_mount": "1 only if not already purchased for BC547 LED and terminal distribution",
+      "url": "https://www.gotronic.fr/art-plaque-d-essais-bcs050-6931.htm",
+      "note": "Use same already-planned 50x100 perfboard stock, not duplicate purchase. Strip of 2.54mm solder pads for 5V/GND bus and 2 terminal blocks. No physically validated holder for cut perfboard."
     }
   ],
   "not_in_core_cost": [
@@ -297,8 +337,36 @@
     "actual servo ear thickness ≈2.5 mm only estimated; M2 pilot boss engagement, servo-ear screw head diameter and under-head length unknown; no spring clip in V7",
     "SAS308 detector and magnet mounting-hole pattern",
     "Wio/XIAO strap pressure on PCB SMD and USB/868MHz antenna clearance",
-    "true garage transmitter enclosure and cable strain relief"
+    "true garage transmitter enclosure and cable strain relief",
+    "actual Gotronic 49067 USB-C female location/connector nose position relative to 21x15x4.5 board; whether CC1/CC2 Rd resistors already installed; USB-C USB-C cable plug reach",
+    "terminal perfboard placement/support; 5V cable polarity/strain relief, 470uF mounting and XIAO external-VBUS isolation during USB programming"
   ],
-  "verification_note": "V7: dimensioned servo underside-of-lug 16.00mm from base with 0.30mm printed axial relief; visual 2.5/4/8mm are estimates only. 2 ear screws are separate from 4 tentative base-to-cradle M2x8 screws. Horn, screws, antenna and hardware fit to be measured after delivery.",
-  "updated_on": "2026-11-22"
+  "verification_note": "V7: dimensioned servo underside-of-lug 16.00mm from base with 0.30mm printed axial relief; visual 2.5/4/8mm are estimates only. 2 ear screws are separate from 4 tentative base-to-cradle M2x8 screws. Horn, screws, antenna and hardware fit to be measured after delivery. V8: rear USB-C breakout 49067 integral carrier to base, physically dry fit required; 5V bus separate XIAO and servo power; CC status unknown until inspected.",
+  "updated_on": "2026-11-22",
+  "power_distribution_usb_c_49067": {
+    "breakout_ref": "Gotronic 49067",
+    "port_mount_in_cad": "02_socle_noir",
+    "breakout_board_vendor_lwh_mm": [
+      21,
+      15,
+      4.5
+    ],
+    "breakout_to_power_bus_wiring": "+5V VBUS and GND only; do not join data lines or CC with supply",
+    "output_A": "5V/GND to XIAO receiver VBUS/5V pad (single active power input) and Wio via XIAO",
+    "output_B": "5V/GND direct to MG90 servo red/black-brown lead; white/orange/yellow control signal from XIAO D6 (logic 3.3V)",
+    "other_power": "+5V to white LED BC547 circuit R1; 470uF/16V + to servo 5V, - to common GND, adjacent to servo",
+    "usb_supply": "regulated 5V USB-C adapter 2A or greater nominal, NOT a 20V PD sink; cable current rating verify; no buck/boost",
+    "cc_rd_population_verified": false,
+    "cc_sink_requirement": "one 5.1kohm pulldown on CC1 to GND and another independently on CC2 to GND if they are not already fitted",
+    "xiao_usb_warning": "XIAO VIN/5V is VBUS; using both external power bus and direct USB programming connection can backfeed; disconnect external feed or add verified power-path isolation",
+    "min_power_wiring_section_recommendation_mm2": 0.25,
+    "strain_relief": "carrier nylon ties through two 3.2mm horizontal tunnels and anchored wire slack; insulate board and avoid solder pads",
+    "board_socket_offset_verified": false,
+    "minimum_extra_with_two_terminals_eur": "6.55",
+    "conditional_cc_resistor_lot_eur": "0.30",
+    "conditional_perforated_board_eur": "1.40",
+    "additional_parts_total_max_eur_if_all_missing": "8.25",
+    "electronics_core_eur_excluding_addons": "23.43",
+    "electrical_and_physical_validation_status": "prototype CAD and schematic, real USB female depth/CC stuffing/current and strain relief not validated"
+  }
 }
