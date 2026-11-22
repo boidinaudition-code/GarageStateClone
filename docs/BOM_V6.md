@@ -6,6 +6,21 @@
 
 **Complément fixation du vrai DMS-MG90 (22/11)** : dessous d'oreille à **16,00 mm du fond du servo**, valeur cotée constructeur et désormais employée pour la position X des bossages avec **0,30 mm de jeu de montage**. Les valeurs **≈2,5 mm** d'épaisseur d'oreille, **≈4,0 mm** jusqu'au dessus plat du boîtier et **≈8,0 mm** jusqu'au haut du bossage de l'axe sont des estimations **non contraignantes**. Le diamètre de tête et la longueur sous tête des **2 vis de fixation servo**, ainsi que l'épaisseur du palonnier monté, sont **à mesurer après livraison**. Ne pas confondre ces deux vis avec les **4 vis M2 d'essai** du socle.
 
+## Addendum V8 — entrée USB-C et distribution parallèle 5 V
+
+**Liste à ajouter à la commande si absent du stock** (voir [guide d'alimentation et support CAO V8](ALIMENTATION_USB_C_V8.md)) :
+
+| Article | Qté | Prix indicatif TTC | Statut |
+|---|---:|---:|---|
+| [Platine USB-C 2.0 **49067**](https://www.gotronic.fr/art-platine-a-connecteur-usb-type-c-2-0-31137.htm) | 1 | **4,95 €** | Requise pour la solution arrière V8 ; encombrement publié **21 × 15 × 4,5 mm** |
+| [Bornier 2 voies SC02/2.54 **48930**](https://www.gotronic.fr/art-bornier-sc02-2-54-15468.htm) | 2 | **1,60 €** | Deux sorties indépendantes +5 V/GND sur petit circuit de distribution |
+| [Résistances 5,1 kΩ **15944**](https://www.gotronic.fr/art-5-resistances-1-2w-5-1-k-8486-8829.htm) | Lot de 5 | **0,30 €** | **Conditionnel :** 2 résistances Rd, seulement si absentes de la platine 49067 |
+| [Plaque BCS050 **12470**](https://www.gotronic.fr/art-plaque-d-essais-bcs050-6931.htm) | 1 | **1,40 €** | **Seulement si non déjà achetée** pour circuit Q1/LED et distribution 5 V |
+
+**Surcoût ferme : 6,55 € ; jusqu'à 8,25 € si les articles conditionnels manquent.** Noyau historique **23,43 €** inchangé, soit **31,68 €** avec tous ces accessoires et hors alimentation USB-C 5 V / 2 A, fil, soudure, livraison et quincaillerie. L'ajout des éléments V8 ne signifie **pas** qu'ils sont inclus dans les 23,43 €.
+
+**Modélisé** : support de la 49067 **intégral à `02_socle_noir`**, 2 passages pour colliers, fenêtre arrière **13 × 8 mm** de service. L'ancien passage arrière bas **12 × 8 mm** est supprimé ; l'ouverture haute pour les fils est conservée. La position du nez de la prise et des trous de PCB est inconnue. **Non modélisé :** petite plaque de distribution BCS050 découpée et borniers, à fixer proprement après essais. **Une seule source 5 V, masses communes et branches XIAO/servo distinctes ; ne jamais alimenter le servo à partir du 3V3 du XIAO.**
+
 ## A. Déjà disponible — ne pas acheter deux fois
 
 | Quantité | Élément | Vérification requise |
