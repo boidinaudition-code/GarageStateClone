@@ -66,14 +66,22 @@ for name, solid in refs.items():
     assert solid.intersect(cad["holder"]).Volume() < 1e-6, name
 white_ref = next(s for n, s in refs.items() if "blanche" in n)
 assert white_ref.intersect(cad["roof_lid"]).Volume() < 1e-6
-# White holder intentionally overlaps roof slightly for bonding.
-assert cad["holder"].intersect(cad["roof_lid"]).Volume() > 0
+# V5: white LED socket bonds to the FALSE CEILING, not to removable roof.
+assert cad["holder"].intersect(cad["roof_lid"]).Volume() < 1e-6
+assert cad["holder"].intersect(cad["tray"]).Volume() > 0
+assert cad["H_BACK"] == 78.0 and cad["ATTIC_Z0"] == 46.0
+for name in ("XIAO","WIO","BC547"):
+    comp = next(v for k,v in cad["REFERENCES"].items() if name in k)
+    assert comp.BoundingBox().zmin > cad["ATTIC_Z0"]+cad["ATTIC_PLATE_THICK"]
+    assert comp.intersect(cad["tray"]).Volume() < 1e-6
+    assert comp.intersect(cad["roof_lid"]).Volume() < 1e-6
+print("V5 attic: modules above ceiling and clear of sloping roof")
 orange_ref = next(s for n, s in refs.items() if "orange" in n)
 assert orange_ref.BoundingBox().ymin > cad["WALL"]
 for angle in range(0, 91, 5):
     door = cad["door"].rotate((0, cad["PIVOT_Y"], cad["PIVOT_Z"]),
                               (1, cad["PIVOT_Y"], cad["PIVOT_Z"]), angle)
-    for name, solid in {**refs, "white_holder": cad["holder"],
+    for name, solid in {**refs, "white_holder": cad["holder"], "attic_ceiling": cad["tray"],
                         "orange_holder": cad["orange_holder"]}.items():
         assert door.intersect(solid).Volume() < 1e-6, (angle, name)
 print("LED envelopes fit reserved pockets, clear servo/roof; LED zones clear sampled door sweep 0..90 by 5 degrees")

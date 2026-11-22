@@ -31,6 +31,16 @@ assert not any("liseret" in k or "bleu" in k for k in g.PRINTABLE)
 assert g.JAMB_RETURN_DEPTH == 10.0
 assert g.JAMB_RETURN_THICK >= 2.0
 assert abs(g.SERVO_SHAFT_TIP_X-g.door_x1-3.0) < 1e-6
+# Roof attic geometry, stack reserve and mounting plane.
+assert g.H_FRONT == 62.0 and g.H_BACK == 78.0
+assert g.H_BACK-g.H_FRONT == 16.0
+assert manifest["design"]["roof_z_front_back_mm"] == [62,78]
+assert bom["cad"]["front_height_mm"] == 62 and bom["cad"]["back_height_mm"] == 78
+assert bom["cad"]["attic_ceiling_bottom_z_mm"] == g.ATTIC_Z0 == 46
+assert bom["cad"]["attic_ceiling_depth_mm"] == g.ATTIC_DEPTH == 40
+assert bom["cad"]["attic_ceiling_width_mm"] == g.ATTIC_W == 144.6
+assert g.ATTIC_PLATE_THICK == g.WALL == 2.4
+assert "07_faux_plafond_combles_XIAO" in g.PRINTABLE
 assert g.LEFT_PIER_W == g.OPEN_X == 11.0
 assert g.RIGHT_PIER_W == 39.0
 assert g.door_x1 < g.right_jamb_return.BoundingBox().xmin
@@ -129,7 +139,30 @@ for led_name, shape in {"orange": orange, "blanche": white}.items():
     assert overlap(shape, g.shell) < 1e-5, ("collision LED/coque", led_name)
 assert overlap(white, g.roof_lid) < 1e-5
 assert overlap(white, g.holder) < 1e-5
-assert overlap(g.holder, g.roof_lid) > 0  # overlap de collage intentionnel
+assert overlap(g.holder, g.roof_lid) < 1e-5  # roof remains removable
+assert overlap(g.holder, g.tray) > 0  # separate LED socket bonded to attic shelf
+# True attic: XIAO and Wio completely above the false ceiling, below pitched roof.
+xiao = next(s for n,s in g.REFERENCES.items() if "XIAO" in n)
+wio = next(s for n,s in g.REFERENCES.items() if "WIO" in n)
+bc547 = next(s for n,s in g.REFERENCES.items() if "BC547" in n)
+for refname, component in {"XIAO":xiao, "Wio":wio, "BC547":bc547}.items():
+    assert component.BoundingBox().zmin > g.ATTIC_Z0+g.ATTIC_PLATE_THICK
+    for name, part in {"false_ceiling":g.tray, "roof":g.roof_lid,
+                       "walls":g.shell}.items():
+        assert overlap(component,part)<1e-5, ("attic part collision",refname,name)
+assert overlap(g.tray,g.shell) < 1e-5
+assert overlap(g.tray,g.roof_lid) < 1e-5
+assert overlap(g.tray,g.cradle) < 1e-5
+assert overlap(g.tray,servo) < 1e-5
+assert overlap(g.tray,g.attic_left_ledge) < 1e-5
+assert overlap(g.tray,g.attic_right_ledge) < 1e-5
+assert g.attic_left_ledge.Volume()>200 and g.attic_right_ledge.Volume()>200
+# At the front of the XIAO envelope, even with a sloping roof there is a
+# minimum theoretical roof clearance >5mm (connectors/cables remain unvalidated).
+bb=xiao.BoundingBox()
+roof_under=g.H_FRONT-g.ROOF+(g.H_BACK-g.H_FRONT)*bb.ymin/g.D
+assert roof_under-bb.zmax>=5.0, ("insufficient XIAO roof clearance",roof_under-bb.zmax)
+print("ATTIC XIAO roof clearance at forward edge:",round(roof_under-bb.zmax,2),"mm")
 assert overlap(g.orange_holder, g.roof_lid) < 1e-5
 
 # Porte rigide pivotant vers l'intérieur : échantillonnage 0...90°.
@@ -139,6 +172,8 @@ for angle in range(0, 91, 5):
         (1, g.PIVOT_Y, g.PIVOT_Z),
         angle,
     )
+    assert overlap(door,g.tray) < 1e-5, ("door / attic false ceiling",angle)
+    assert overlap(door,g.holder) < 1e-5, ("door / attic LED",angle)
     assert overlap(door,g.shell) < 1e-5, ("door / shell", angle)
     assert overlap(door,g.left_jamb_return) < 1e-5, ("door / left jamb", angle)
     assert overlap(door,g.right_jamb_return) < 1e-5, ("door / right jamb", angle)
@@ -149,4 +184,4 @@ for angle in range(0, 91, 5):
         "support LED blanche": g.holder,
     }.items():
         assert overlap(door, shape) < 1e-5, ("collision porte", angle, label)
-print("PASS — coque compacte 150 mm ; porte décentrée ; BREP, 11 STEP, 8 STL, palier et servo contrôlés")
+print("PASS — V5 combles sous toit 62/78 ; coque 150 mm ; BREP, 11 STEP, 8 STL, palier et servo contrôlés")

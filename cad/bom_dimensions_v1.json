@@ -197,7 +197,7 @@
     "shell_width_mm": 150,
     "shell_depth_mm": 100,
     "front_height_mm": 62,
-    "back_height_mm": 65,
+    "back_height_mm": 78,
     "wall_mm": 2.4,
     "roof_thickness_mm": 3,
     "base_thickness_mm": 3,
@@ -224,8 +224,8 @@
       12
     ],
     "service_tray_mm": [
-      60,
-      31
+      144.6,
+      40
     ],
     "orange_optical_aperture_mm": 2,
     "orange_led_recess_from_front_mm": 3.4,
@@ -240,7 +240,7 @@
       13
     ],
     "roof_rise_over_depth_mm": [
-      3,
+      16,
       100
     ],
     "servo_mounting": "provisional",
@@ -254,7 +254,7 @@
     "orange_led_center_z_mm": 53.3,
     "orange_holder_outer_diameter_mm": 10.8,
     "orange_holder_min_radial_wall_mm": 2.1,
-    "dimensions_note": "V4 compact 150x100mm : baie 100x42 decalee de 14mm a gauche; montants 11 et 39mm ; palier compact largeur 5mm ; servo a droite ; murs 2.4mm, retours 10mm, jeu 0.30mm/face ; accouplement non finalise.",
+    "dimensions_note": "V5 compact 150x100mm, toit 62/78mm (+16mm de pente); faux plafond arriere 144.6x40 a Z46mm; pile XIAO/Wio au-dessus, LED blanche dessous. Murs 2.4mm, toit 3mm, jeu 0.30mm/face.",
     "front_jamb_return_depth_mm": 10,
     "front_jamb_return_thickness_mm": 2.4,
     "left_pivot_jamb_bore_mm": 3.8,
@@ -267,7 +267,27 @@
     "compact_bearing_left_edge_mm": 3.2,
     "compact_bearing_y_front_mm": 2.7,
     "compact_bearing_flange_width_mm": 5,
-    "compact_bearing_flange_x_start_mm": 3
+    "compact_bearing_flange_x_start_mm": 3,
+    "attic_ceiling_width_mm": 144.6,
+    "attic_ceiling_depth_mm": 40,
+    "attic_ceiling_y_start_mm": 55,
+    "attic_ceiling_bottom_z_mm": 46,
+    "attic_ceiling_top_z_mm": 48.4,
+    "attic_ceiling_thickness_mm": 2.4,
+    "attic_internal_light_holder_xy_mm": [
+      75,
+      61.5
+    ],
+    "attic_radio_reference_z_range_mm": [
+      51.9,
+      64.002
+    ],
+    "attic_min_xiao_clearance_to_roof_mm_approx": 6.2,
+    "attic_rear_low_voltage_cutout_mm": [
+      16,
+      9
+    ],
+    "attic_note": "Faux plafond arrière amovible pour placer XIAO/Wio dans les combles; supports latéraux sur coque; la fixation PCB/antenne/USB reste à confirmer."
   },
   "system_state": {
     "sensor_count": 1,
