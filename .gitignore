@@ -23,3 +23,6 @@ cad/stl/
 cad/metriques_validation.json
 cad/qa_report_runtime.json
 cad/*.pyc
+
+# Eprouvettes P1S generees par CadQuery (3 STL de test)
+cad/coupons/
