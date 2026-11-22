@@ -228,7 +228,6 @@ assert g.door.distance(g.shell)>=g.FIT-0.01
 assert g.bearing.distance(g.shell)<0.01 # bearing rests on integral shelf
 assert g.cradle.distance(g.base_plate)<0.01 # M2 feet rest on 3mm base
 assert overlap(g.usb_c_carrier,g.cradle)<1e-5
-assert overlap(g.usb_c_carrier,servo)<1e-5
 # The closest extents of both mounting bosses have a nominal 0.30mm
 # relief to the manufacturer 16.00mm ear datum in the garage X frame.
 # Actual production case, fastening and horn are still not measured.
@@ -247,6 +246,7 @@ assert math.isclose(g.ATTIC_Z0+g.ATTIC_PLATE_THICK+3.2+g.FIT,
 assert g.ATTIC_LED_Y == 65.0
 assert g.orange_x == g.OPEN_X+g.OPEN_W-15.0
 servo = next(s for n, s in g.REFERENCES.items() if "MG90" in n)
+assert overlap(g.usb_c_carrier,servo)<1e-5, "USB rear carrier vs servo"
 assert overlap(servo,g.right_jamb_return) < 1e-5
 assert overlap(servo,g.shell) < 1e-5
 orange = next(s for n, s in g.REFERENCES.items() if "LED_orange" in n)
