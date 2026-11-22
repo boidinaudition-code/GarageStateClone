@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Régression CAO : BREP source, 8 STEP, 8 STL et assemblage V2.
+"""Régression CAO : BREP source, 9 STEP, 9 STL et assemblage V9.
 
 Lancer après: python cad/generate_cad.py
 Ne prétend pas remplacer un essai d'impression ou un montage mécanique.
@@ -26,7 +26,8 @@ assert manifest["design"]["shell_mm"][0] == g.W == bom["cad"]["shell_width_mm"] 
 assert manifest["design"]["door_opening_mm"][0] == g.OPEN_W == bom["cad"]["door_opening_mm"][0] == 100
 assert g.WALL >= 2 and g.ROOF >= 2 and g.BASE >= 2 and g.FIT == 0.3
 assert g.LED_ENVELOPE == (6.0, 9.0)
-assert len(g.PRINTABLE) == 8
+assert len(g.PRINTABLE) == 9
+assert "10_boite_aux_lettres_noire" in g.PRINTABLE
 assert not any("liseret" in k or "bleu" in k for k in g.PRINTABLE)
 assert g.JAMB_RETURN_DEPTH == 10.0
 assert g.JAMB_RETURN_THICK >= 2.0
@@ -44,6 +45,35 @@ assert "07_faux_plafond_combles_XIAO" in g.PRINTABLE
 assert g.LEFT_PIER_W == g.OPEN_X == 11.0
 assert g.RIGHT_PIER_W == 39.0
 assert g.door_x1 < g.right_jamb_return.BoundingBox().xmin
+# V9 user photo: roof standing seams on upper face; shallow glued black
+# mailbox in the white FRONT right pier; no change below the roof.
+assert g.ROOF_RIB_COUNT == 13
+assert len(g.ROOF_RIB_XS) == len(g.roof_standing_seams) == 13
+assert math.isclose(g.ROOF_RIB_PITCH, 11.5)
+assert math.isclose(g.ROOF_RIB_RISE, 0.95)
+assert math.isclose(g.ROOF_RIB_BASE_W, 2.5)
+assert math.isclose(g.ROOF_RIB_CROWN_W, 1.1)
+assert all(math.isclose(b-a,g.ROOF_RIB_PITCH,abs_tol=1e-8)
+           for a,b in zip(g.ROOF_RIB_XS,g.ROOF_RIB_XS[1:]))
+assert g.ROOF_RIB_XS[0]-g.ROOF_RIB_BASE_W/2 > -g.ROOF_OVERHANG
+assert g.ROOF_RIB_XS[-1]+g.ROOF_RIB_BASE_W/2 < g.W+g.ROOF_OVERHANG
+assert g.ROOF_RIB_Y0 >= -g.ROOF_OVERHANG
+assert g.ROOF_RIB_Y1 <= g.D+g.ROOF_OVERHANG
+assert all(rib.isValid() and len(rib.Solids())==1
+           for rib in g.roof_standing_seams)
+assert g.MAILBOX_POCKET_X0 > g.OPEN_X+g.OPEN_W+5
+assert g.MAILBOX_POCKET_X0+g.MAILBOX_POCKET_W < g.W-4
+assert g.MAILBOX_POCKET_Z0 >= g.BASE+g.MAILBOX_POCKET_H
+assert g.MAILBOX_POCKET_Z0+g.MAILBOX_POCKET_H < g.OPEN_Z+g.OPEN_H
+assert math.isclose(g.WALL-g.MAILBOX_POCKET_DEPTH,1.35,abs_tol=1e-8)
+assert math.isclose((g.MAILBOX_POCKET_W-g.MAILBOX_INSERT_W)/2,g.FIT,abs_tol=1e-8)
+assert math.isclose((g.MAILBOX_POCKET_H-g.MAILBOX_INSERT_H)/2,g.FIT,abs_tol=1e-8)
+assert g.MAILBOX_FACE_RELIEF_Y+g.MAILBOX_INSERT_THICK < g.MAILBOX_POCKET_DEPTH
+assert g.mailbox_insert.isValid() and len(g.mailbox_insert.Solids())==1
+assert bom["cad"]["roof_bac_acier_rib_count"] == manifest["design"]["roof_bac_acier_rib_count"] == 13
+assert bom["cad"]["mailbox_separate_black_part"] is True
+assert bom["cad"]["mailbox_pocket_width_height_depth_mm"] == [10.6,10.6,1.05]
+assert manifest["design"]["mailbox_insert_separate_stl"] is True
 assert g.bearing_width == 5.0
 assert bom["cad"]["left_pier_width_mm"] == 11
 assert bom["cad"]["right_pier_width_mm"] == 39
@@ -116,9 +146,9 @@ for k in ("xmin","xmax","ymin","ymax","zmin","zmax"):
 structure_path = ROOT / "step/GarageStateClone_V2_STRUCTURE_SANS_REFERENCES_ONSHAPE.step"
 assert structure_path.stat().st_size > 1000
 structure = cq.importers.importStep(str(structure_path)).val()
-assert structure.isValid() and len(structure.Solids()) == 8
-assert len(list((ROOT / "step").glob("*.step"))) == 11
-assert len(list((ROOT / "stl").glob("*.stl"))) == 8
+assert structure.isValid() and len(structure.Solids()) == 9
+assert len(list((ROOT / "step").glob("*.step"))) == 12
+assert len(list((ROOT / "stl").glob("*.stl"))) == 9
 
 def overlap(a, b):
     aa, bb = a.BoundingBox(), b.BoundingBox()
@@ -263,6 +293,15 @@ for led_name, shape in {"orange": orange, "blanche": white}.items():
 assert overlap(white, g.roof_lid) < 1e-5
 assert overlap(white, g.holder) < 1e-5
 assert overlap(g.holder, g.roof_lid) < 1e-5  # roof remains removable
+# Mailbox insert occupies its local shallow cut without embedding in shell.
+assert overlap(g.mailbox_insert, g.shell)<1e-5
+assert g.mailbox_insert.distance(g.shell)<g.FIT+0.03
+assert overlap(g.mailbox_insert, g.door)<1e-5
+assert overlap(g.mailbox_insert, g.cradle)<1e-5
+assert overlap(g.mailbox_insert, g.roof_lid)<1e-5
+for xc in g.ROOF_RIB_XS:
+    probe=cq.Vector(xc,45.0,g.H_FRONT+(g.H_BACK-g.H_FRONT)*0.45+0.4)
+    assert g.roof_lid.isInside(probe,1e-5), ("raised steel rib missing",xc)
 assert overlap(g.holder, g.tray) < 1e-5  # true assembly, not overlapping solids
 assert g.holder.distance(g.tray) < 0.01  # contact / two aligned Ø2mm guide pins
 # True attic: XIAO and Wio completely above the false ceiling, below pitched roof.
@@ -310,4 +349,4 @@ for angle in range(0, 91, 5):
         "support LED blanche": g.holder,
     }.items():
         assert overlap(door, shape) < 1e-5, ("collision porte", angle, label)
-print("PASS — V8: USB-C 49067 rear breakout, support integral au socle, 2 canaux de brides, interfaces servo/porte et 11 STEP/8 STL")
+print("PASS — V9: 13 reliefs bac acier, niche boite aux lettres/plaque noire, USB-C, servo, 12 STEP/9 STL")
