@@ -58,7 +58,7 @@
           30
         ]
       },
-      "cad_step_discrepancy_note": "Original supplied MG90-A STEP bbox [33.4,32.5,12.221] (XYZ) => oriented 32.5x12.221x33.4mm (LWH). Official DMS-MG90 drawing => 33x12x30mm. The existing cradle derived from STEP length 32.5 +2x0.3=33.1 leaves just 0.05mm/side with the official nominal 33mm, below target FDM fit. Top clip also relies on 3.4mm taller variant. Physical measurement required before alteration.",
+      "cad_step_discrepancy_note": "Axis-matched comparison: official drawing 33 mm ear span -> garage Z, 30 mm shaft-axis height -> garage X, 12 mm width -> garage Y. MG90-A STEP after rotation: 33.4mm Z, 32.5mm X, 12.221mm Y. Earlier 33 vs 32.5 (0.05mm/side) statement INCORRECT: it compared different axes. Four base screws remain independent from two 29mm servo-ear screw positions. Physical ear thickness, fastener type and horn must be measured.",
       "actual_hardware_fit_verified": false
     },
     {
@@ -265,7 +265,7 @@
       16,
       100
     ],
-    "servo_mounting": "four M2 through-base countersinks/pilot feet + integral upper retaining clip, CAD prototype; case physical fit not validated",
+    "servo_mounting": "Four M2 trial base-to-cradle screws + two co-axial M2 pilot bosses for manufacturer Ø2 open ear notches with 29mm Z pitch; screw length and physical fit not validated",
     "volumes_measured_on_hardware": false,
     "servo_complete_step_envelope_mm": [
       33.4,
@@ -276,7 +276,7 @@
     "orange_led_center_z_mm": 53.3,
     "orange_holder_outer_diameter_mm": 10.8,
     "orange_holder_min_radial_wall_mm": 2.1,
-    "dimensions_note": "V6: coque 150×100, toit 62/78; façade sans bandeau bleu. Réelle fixation berceau 4 pilotes M2 dans base, clips, supports PCB par lien isolé, LED à ergots Ø2/2.6; disque palonnier Ø12 vierge, fixation réelle à percer après prise de cotes; dimensions physiques non validées.",
+    "dimensions_note": "V7: 150x100 shell retained. 4 base-to-cradle M2 pilot screws plus 2 *servo ears* Ø2 open notches at manufacturer 29mm pitch along garage Z. Clip replaced by printed screw pilot bosses. Manufacturer vs third-party STEP axis confusion corrected. Physical hardware validation pending.",
     "front_jamb_return_depth_mm": 10,
     "front_jamb_return_thickness_mm": 2.4,
     "left_pivot_jamb_bore_mm": 3.8,
@@ -328,7 +328,7 @@
       5.5
     ],
     "servo_foot_min_radial_wall_mm": 2.15,
-    "servo_retention": "integrated rear upper elastic hook, check real servo and PETG/PLA fit",
+    "servo_retention": "two printed lug pilot bosses spaced 29mm with back-wall spine (replacing thin upper snap clip); fastening trials required",
     "bearing_mount": "shelf supports printed bearing at z34.4, adhesive after dry-fit; not screwed",
     "cable_eyes_qty": 4,
     "cable_eye_diameters_mm": [
@@ -390,7 +390,7 @@
       "horn_blank_12mm"
     ],
     "fit_coupons_hardware_verified": false,
-    "physical_mechanical_status": "prototype / needs print & actual DMS-MG90 horn, fastener, antenna, board stack validation",
+    "physical_mechanical_status": "Prototype V7/29mm pilots modeled; manufacturer exact horn, ear thickness, screw length, PCB/USB/antenna fit NOT physically validated",
     "servo_official_dms_mg90_lwh_mm": [
       33,
       12,
@@ -402,11 +402,29 @@
       33.4
     ],
     "servo_mount_cradle_nominal_step_internal_length_mm": 33.1,
-    "servo_mount_clearance_per_end_using_official_nominal_mm": 0.05,
+    "servo_mount_clearance_per_end_using_official_nominal_mm": null,
     "servo_horn_physical_verified": false,
     "technical_dimension_catalog": "cad/component_dimensions_sources_v7.json",
     "technical_dimension_document": "docs/FICHES_COTEES_COMPOSANTS_V7.md",
-    "precise_geometry_warning": "Do not treat the existing DMS-MG90 cradle or upper clip as manufacturer-fit: official dimensioned drawing differs from STEP proxy. Real servo and horn measurements are needed for printed final geometry."
+    "precise_geometry_warning": "29mm manufacturer ear screw centers are modeled. They are NOT proof of actual screw fit, alignment or horn-to-door coupling; physical fit coupons and real servo measurements mandatory.",
+    "servo_official_oriented_xyz_mm": [
+      30,
+      12,
+      33
+    ],
+    "servo_vendor_step_oriented_xyz_mm": [
+      32.5,
+      12.221,
+      33.4
+    ],
+    "servo_official_envelope_vs_step_note": "Official and STEP must be compared X=30 vs 32.5, Y=12 vs 12.221, Z=33 vs 33.4. STEP is an over-envelope, NOT 0.05mm clearance.",
+    "servo_lug_screw_count": 2,
+    "servo_lug_pitch_mm": 29,
+    "servo_lug_notch_nominal_d_mm": 2,
+    "servo_lug_pilot_d_mm": 1.7,
+    "servo_lug_boss_d_mm": 5.2,
+    "servo_lug_mount_screw_axis": "garage X (parallel to output shaft), 2 pilot bosses",
+    "servo_lug_mount_assumed_ear_plane": "Ear plane nominal ~16mm from shaft tip projected from official drawing; aft pilot boss start is 16.7mm. Actual ear thickness and screw length to check."
   },
   "system_state": {
     "sensor_count": 1,
