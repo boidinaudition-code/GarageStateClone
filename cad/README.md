@@ -2,6 +2,8 @@
 
 **Source de vérité : [generate_cad.py](generate_cad.py)** (CadQuery 2.8, unités mm). La V6 est un **prototype mécanique**, pas un assemblage validé avec le vrai DMS-MG90 ou avec le palonnier livré.
 
+**Cotes fournisseurs V7 :** [catalogue JSON sourcé](component_dimensions_sources_v7.json) et [audit des fiches cotées](../docs/FICHES_COTEES_COMPOSANTS_V7.md). Le **plan constructeur DMS-MG90** donne **33 × 12 × 30 mm** et **entraxe 29 mm** ; l'ancien STEP de référence MG90-A est plus haut et plus court. Le berceau imprimé V6 de longueur intérieure 33,1 mm ne laisse qu'environ **0,05 mm de jeu à chaque extrémité** par rapport à la longueur nominale officielle ; **ne pas le déclarer compatible** avant recalage de l'axe, redimensionnement du berceau/clip et essais sur pièce réelle. Les palonniers ne sont pas cotés.
+
 ## Géométrie de référence V6
 
 | Cote | Valeur |
@@ -45,6 +47,7 @@ python cad/qa_geometry.py
 python cad/verify_gotronic.py
 python cad/test_step_exports.py
 python cad/test_hardware_bom.py
+python cad/test_component_dimensions_sources.py
 python cad/test_fit_coupons.py
 python cad/test_repo_consistency.py
 ~~~
