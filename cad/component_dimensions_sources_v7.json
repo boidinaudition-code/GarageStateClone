@@ -49,7 +49,9 @@
         ],
         "top_cap_level_from_base": 26.5,
         "upper_step_level_from_base": 22.5,
-        "lug_level_from_base": 16
+        "lug_level_from_base": 16,
+        "lug_underside_height_from_base": 16,
+        "lug_underside_height_from_base_provenance": "manufacturer-dimensioned drawing, user-supplied confirmed 2026-11-22"
       },
       "source": "https://www.gotronic.fr/pj2-dimensions-dms-mg90-36923-2320.pdf",
       "secondary_source": "https://www.gotronic.fr/art-servomoteur-dms-mg90-32266.htm",
@@ -69,7 +71,18 @@
         "shaft spline/central screw interface",
         "actual production tolerance"
       ],
-      "notes": "Cotes lues sur plan officiel Gotronic (3 vues), contrairement au MG90-A STEP tiers. Le dessin cote des lumières ouvertes Ø2; ne pas supposer des trous fermes. La cotation Ø3/Ø5 est celle des fonctions circulaires du dessin, pas des cannelures documentees."
+      "notes": "Cotes lues sur plan officiel Gotronic (3 vues), contrairement au MG90-A STEP tiers. Le dessin cote des lumières ouvertes Ø2; ne pas supposer des trous fermes. La cotation Ø3/Ø5 est celle des fonctions circulaires du dessin, pas des cannelures documentees. Additional documentation supplied 2026-11-22: lug underside is dimensioned 16.00 mm above servo base. 2.5 / 4 / 8 mm are APPROXIMATIONS only, not hard CAD constraints; horn and mounting screw measurements unknown.",
+      "visual_estimates_from_drawing_mm": {
+        "lug_thickness": 2.5,
+        "lug_top_to_flat_case_top": 4,
+        "lug_top_to_shaft_boss_top_excluding_shaft": 8,
+        "precision": "approximately; unverified estimates, NOT toleranced technical drawing values"
+      },
+      "pending_physical_measurements_mm": {
+        "mounted_horn_support_face_to_outer_face_excluding_head": null,
+        "servo_mount_screw_head_diameter": null,
+        "servo_mount_screw_under_head_length": null
+      }
     },
     {
       "id": "C1",
@@ -340,6 +353,13 @@
     "servo_mounting_screw_count": 2,
     "servo_base_mounting_screw_count": 4,
     "servo_ear_screw_axis": "X",
-    "servo_lug_mount_status": "CAD pilot bosses to manufacturer 29mm datum; mechanical screw length and ear seating not validated physically"
+    "servo_lug_mount_status": "Onshape nominal screw-boss face is X=shaft_tip+(30-16)+0.30mm. Manufacturer 16.00mm mounting datum, 0.30mm design clearance; ear thickness approx 2.5mm, upper offsets approx 4 and 8mm are NON-driving. Actual screw and horn measurement pending.",
+    "servo_lug_underside_height_from_base_confirmed_mm": 16,
+    "servo_manufacturer_height_shaft_tip_from_base_mm": 30,
+    "servo_lug_underside_x_from_shaft_tip_nominal_mm": 14,
+    "servo_lug_support_face_x_from_shaft_tip_nominal_mm": 14.3,
+    "servo_lug_support_axial_clearance_mm": 0.3,
+    "servo_estimate_values_used_as_tight_fit": false,
+    "servo_pending_horn_screw_dimensions": "null until hardware arrives"
   }
 }
