@@ -300,9 +300,9 @@ assert math.isclose(g.ATTIC_Z0+g.ATTIC_PLATE_THICK+3.2+g.FIT,
                     g.ref_wio.BoundingBox().zmin,abs_tol=0.02)
 assert g.ATTIC_LED_Y == 65.0
 assert g.orange_x == g.OPEN_X+g.OPEN_W-15.0
-assert math.isclose(g.orange_z,52.1,abs_tol=1e-8)
-assert bom["cad"]["orange_led_center_z_mm"] == manifest["design"]["led_orange_center_xz_mm"][1] == 52.1
-assert math.isclose(53.3-g.orange_z,1.2,abs_tol=1e-8)
+assert math.isclose(g.orange_z,52.8,abs_tol=1e-8)
+assert bom["cad"]["orange_led_center_z_mm"] == manifest["design"]["led_orange_center_xz_mm"][1] == 52.8
+assert math.isclose(53.3-g.orange_z,0.5,abs_tol=1e-8)
 servo = next(s for n, s in g.REFERENCES.items() if "MG90" in n)
 assert overlap(g.usb_c_carrier,servo)<1e-5, "USB rear carrier vs servo"
 assert overlap(servo,g.right_jamb_return) < 1e-5
@@ -398,4 +398,4 @@ for angle in range(0, 91, 5):
         "support LED blanche": g.holder,
     }.items():
         assert overlap(door, shape) < 1e-5, ("collision porte", angle, label)
-print("PASS — V10: 13 nervures sur toit ET fascia, LED Z52.1, boite 7x7, USB 10x4.2, goulotte, 12 STEP/9 STL")
+print("PASS — V10: 13 nervures sur toit ET fascia, LED Z52.8, boite 7x7, USB 10x4.2, goulotte, 12 STEP/9 STL")
