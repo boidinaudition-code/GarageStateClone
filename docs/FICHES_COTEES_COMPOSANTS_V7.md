@@ -2,7 +2,7 @@
 
 **22 novembre 2026 · Unités mm · cible CAD V6 : coque 150 × 100 mm, toit 62/78 mm.**
 
-Cette note est la **référence documentaire des cotes à utiliser pour la prochaine révision mécanique**, sans déclarer l'assemblage physique validé. Les dimensions exploitables par script sont dans [`cad/component_dimensions_sources_v7.json`](../cad/component_dimensions_sources_v7.json). Le [jeu actuel](../cad/generate_cad.py) et les STEP de tiers ne sont **pas automatiquement corrigés** par cette collecte.
+Cette note fournit les cotes constructeur exploitées dans la fixation mécanique V7, sans déclarer l'assemblage physique validé. Les dimensions exploitables par script sont dans [`cad/component_dimensions_sources_v7.json`](../cad/component_dimensions_sources_v7.json). Le [générateur V7](../cad/generate_cad.py) exploite désormais l'entraxe servo de 29 mm ; le modèle tiers reste conservateur et le palonnier reste inconnu.
 
 ## Méthode et confiance
 
@@ -23,13 +23,13 @@ Cette note est la **référence documentaire des cotes à utiliser pour la proch
 | **RF_STACK — 2× kit XIAO+Wio** | Donnée de présentation du kit nRF52840 | Enveloppe annoncée par Seeed **8 × 22 × 23** (ordre non assimilable sans repère XYZ) | **B nominal** · [kit Seeed nRF52840](https://wiki.seeedstudio.com/xiao_nrf52840%26_wio_SX1262_kit_for_meshtastic/) | **Mesurer le montage complet**, antenne et câble branchés, le rayon de courbure du coaxial et la prise USB ; réserve au toit seulement ~6,2 mm dans V6 sans ces accessoires |
 | **ANT — 2× antenne 868 MHz** | Référence non verrouillée | **Aucune cote exploitable** | **D** | Identifier modèle, type de connecteur RF, câble, diamètre du corps et rayon de courbure. Ne pas imprimer de trou fixé à une antenne imaginaire |
 
-### Pourquoi le servomoteur est un point bloquant
+### Erratum de repère et supports V7
 
-Le fichier tiers conservé comme **MG90-A** dans le dépôt a, **une fois orienté dans la miniature**, une boîte de **L 32,5 × l 12,221 × h 33,4**. Le **plan officiel DMS-MG90** donne **L 33 × l 12 × h 30**, palonnier non inclus. Ce ne sont pas des tolérances de production, mais **deux géométries qui ne coïncident pas**.
+Le document initial comparait à tort les 33 mm de longueur avec oreilles du plan DMS-MG90 aux 32,5 mm du STEP. **Ce ne sont pas le même axe.** Une fois la maquette orientée, le constructeur donne **X30 / Y12 / Z33 mm**, tandis que le STEP générique donne **X32,5 / Y12,221 / Z33,4 mm**. L'enveloppe STEP est donc plus grande dans les trois axes, et **l'ancienne conclusion « 0,05 mm par extrémité » est annulée**. Les cotes sont correctement comparées par direction dans [le dossier des fixations V7](FIXATIONS_SERVO_V7.md).
 
-Dans [`generate_cad.py`](../cad/generate_cad.py), le berceau V6 est dérivé d'une longueur STEP de 32,5 avec un jeu de **0,30 mm par bout**. Longueur interne résultante **33,10**. Avec **33,00 mm officiels**, il ne reste que **0,10 mm au total**, soit **0,05 mm par bout si le servo est centré** : **insuffisant pour une pièce FDM**, et la retenue supérieure basée sur un STEP **3,4 mm plus haut** risque de ne pas fonctionner.
+**Les deux encoches de fixation constructeur Ø2 sont espacées de 29 mm (Z miniature)** et les deux pilotes correspondants ont été modélisés dans le support servo V7. **Quatre autres vis** fixent le berceau au socle, sans entraxe fabricant. Les anciennes mentions de crochet supérieur correspondent à V6 ; le crochet est remplacé en V7 par une colonne portant deux points de serrage.
 
-**Décision de conception :** conserver la V6 comme *prototype non certifié*, mais **redimensionner le berceau et son clip d'après le DMS-MG90 physique**, puis recaler l'axe et vérifier les collisions. Le plan officiel autorise dès maintenant un **gabarit test à entraxe 29 et lumières Ø2**, pas un accouplement de porte définitif. Les symboles **Ø3 / Ø5** du dessin désignent les détails circulaires du haut du servo, **pas** une fiche de cannelure de palonnier.
+La géométrie exacte des oreilles en épaisseur X, les vis fournies et le palonnier ne sont pas certifiés par ce seul dessin ; les validations réelles restent nécessaires.
 
 ## 2. Électronique passive et voyants
 

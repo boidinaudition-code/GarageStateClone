@@ -54,6 +54,18 @@ SERVO_FOOT_HEIGHT = 5.5
 SERVO_SCREW_CLEARANCE_D = 2.3 # pilot / head tested on printed coupon
 SERVO_SCREW_PILOT_D = 1.7
 SERVO_SCREW_HEAD_D = 4.2
+# DMS-MG90/SER0039: drawing 33 mm across ears = garage Z,
+# 30 mm along output axis = garage X, 12 mm transverse = garage Y.
+# Supplied generic MG90-A STEP bounds (garage X,Y,Z)=(32.5,12.221,33.4).
+# Earlier claim of 0.05mm end clearance mistakenly compared different axes.
+SERVO_OFFICIAL_ORIENTED_XYZ=(30.0,12.0,33.0)
+SERVO_VENDOR_ORIENTED_XYZ=(32.5,12.221,33.4)
+SERVO_LUG_PITCH=29.0   # manufacturer drawing, two open-ended Ø2 notches
+SERVO_LUG_NOTCH_D=2.0
+SERVO_LUG_PILOT_D=1.7  # threaded pilot, trial fit supplied screws
+SERVO_LUG_BOSS_D=5.8  # (5.8-1.7)/2=2.05 mm radial printed wall
+SERVO_LUG_BOSS_X_FROM_SHAFT_TIP=16.7
+SERVO_LUG_BOSS_LENGTH=6.8
 # Cable eyes and attic strap slots: real apertures, not marketing dimensions.
 WIRE_EYE_OD = 8.0
 WIRE_EYE_ID = 3.4
@@ -73,6 +85,8 @@ ATTIC_SUPPORT_WIDTH=4.0
 ATTIC_SUPPORT_HEIGHT=WALL
 LED_ORANGE_D = 3.0
 LED_ORANGE_HOLE_D = LED_ORANGE_D + 2*FIT
+# STEP original XYZ: X=ear span 33.4, Y=shaft direction 32.5,
+# Z=transverse 12.22; MG90-A is not the exact DMS-MG90 SER0039.
 # STEP fourni: servo complet avec pattes et arbre, repere d'origine XYZ.
 SERVO_CASE = (33.4, 32.5, 12.22)
 SERVO_OUTPUT_AXIS_LOCAL=(6.05,32.5,6.1)
@@ -249,7 +263,8 @@ cradle=box(cradle_xmin,cradle_ymin,cradle_z_top-2.4,
            cradle_xmax-cradle_xmin,cradle_ymax-cradle_ymin,2.4)
 cradle=cradle.fuse(box(cradle_xmin,cradle_ymax,cradle_z_top-2.4,
                       cradle_xmax-cradle_xmin,2.4,6.0))
-# Four thickened M2 pilot feet on cradle, secured FROM BELOW the base.
+# Four M2 pilot feet attach the PRINTED cradle to the base from below.
+# These 4 screws are distinct from the 2 manufacturer servo lug fasteners.
 # Counterbores in base use flush-head screw geometry; test actual screw first.
 SERVO_MOUNT_HOLES=[]
 for xi in (cradle_xmin+4.0,cradle_xmax-7.5):
@@ -270,12 +285,31 @@ for mx,my in SERVO_MOUNT_HOLES:
    V(mx,my,BASE-0.005),V(0,0,1)))
 base_plate=base_plate.clean()
 cradle=cradle.clean()
-# Integrated slender RETENTION CLIP at back of servo, ~0.8mm lip intrusion.
-# The STEP proxy still does not certify flexural life or servo variant fit.
-servo_clip_stem=box(130.0,16.05,cradle_z_top-0.5,7.0,2.4,
-                     57.6-(cradle_z_top-0.5))
-servo_clip_lip=box(130.0,14.8,57.6,7.0,3.65,1.6)
-cradle=cradle.fuse(servo_clip_stem).fuse(servo_clip_lip).clean()
+# Servo-specific attachment: TWO Ø2 open notches, 29mm between centres.
+# M2 pilots run along garage X (parallel to shaft), at both Z extremities.
+# The rearmost mounting pillars avoid the main body, supported by a spine
+# along its outboard side. Supplied screw head/length must be trial-fitted.
+SERVO_LUG_CENTERS_Z=(
+ (servo_zmin+servo_zmax-SERVO_LUG_PITCH)/2,
+ (servo_zmin+servo_zmax+SERVO_LUG_PITCH)/2,
+)
+SERVO_LUG_CENTERS_YZ=[]
+spine_x=SERVO_SHAFT_TIP_X+SERVO_LUG_BOSS_X_FROM_SHAFT_TIP
+spine_y=cradle_ymax
+spine_top=SERVO_LUG_CENTERS_Z[1]+2.5
+spine=box(spine_x,spine_y,cradle_z_top-2.4,
+          SERVO_LUG_BOSS_LENGTH,2.4,spine_top-(cradle_z_top-2.4))
+cradle=cradle.fuse(spine)
+for zc in SERVO_LUG_CENTERS_Z:
+ boss=cyl_x(spine_x,PIVOT_Y,zc,SERVO_LUG_BOSS_D,SERVO_LUG_BOSS_LENGTH)
+ rib=box(spine_x,PIVOT_Y+1.9,zc-1.15,
+         SERVO_LUG_BOSS_LENGTH,spine_y-(PIVOT_Y+1.9)+0.5,2.3)
+ cradle=cradle.fuse(boss).fuse(rib)
+ cradle=cradle.cut(cyl_x(spine_x-0.1,PIVOT_Y,zc,
+                          SERVO_LUG_PILOT_D,SERVO_LUG_BOSS_LENGTH+0.2))
+ SERVO_LUG_CENTERS_YZ.append((PIVOT_Y,zc))
+cradle=cradle.clean()
+# Servo horn drill pattern still unknown: blank Ø12 disk intentionally kept.
 # Horn drilling and precise case retainer strength require printed trial.
 
 # 7. Removable full-width false ceiling at REAR, with XIAO/Wio above.
@@ -507,6 +541,13 @@ if __name__=='__main__':
         'door_drive_gap_to_servo_shaft_nominal':SERVO_SHAFT_TIP_X-DRIVE_DISC_END_X,
         'door_drive_jamb_bore_diameter':DRIVE_JAMB_BORE_D,
         'servo_base_screw_centers_xy':SERVO_MOUNT_HOLES,
+        'servo_lug_pitch_manufacturer_mm':SERVO_LUG_PITCH,
+        'servo_lug_notch_diameter_manufacturer_mm':SERVO_LUG_NOTCH_D,
+        'servo_lug_pilot_diameter_print_mm':SERVO_LUG_PILOT_D,
+        'servo_lug_screw_centers_yz':SERVO_LUG_CENTERS_YZ,
+        'servo_lug_screw_axis':'X (parallel to servo output axis)',
+        'servo_official_oriented_xyz_mm':list(SERVO_OFFICIAL_ORIENTED_XYZ),
+        'servo_vendor_step_oriented_xyz_mm':list(SERVO_VENDOR_ORIENTED_XYZ),
         'servo_m2_pilot_diameter':SERVO_SCREW_PILOT_D,
         'servo_m2_clearance_diameter':SERVO_SCREW_CLEARANCE_D,
         'pcb_strap_slots_xy':PCB_STRAP_SLOTS,

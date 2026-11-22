@@ -125,6 +125,17 @@ assert g.cradle.BoundingBox().xmax <= g.W-g.WALL-g.FIT + 1e-6
 assert overlap(g.cradle,g.right_jamb_return) < 1e-5
 # V6 mechanical features: real mounting features, NOT merely reference boxes.
 assert len(g.SERVO_MOUNT_HOLES)==4
+assert g.SERVO_LUG_PITCH == 29.0
+assert g.SERVO_LUG_NOTCH_D == 2.0
+assert g.SERVO_LUG_PILOT_D == 1.7
+assert (g.SERVO_LUG_BOSS_D - g.SERVO_LUG_PILOT_D)/2 >= 2.0, "lug pilot boss wall too thin"
+assert len(g.SERVO_LUG_CENTERS_YZ) == 2
+assert len(g.SERVO_LUG_CENTERS_Z) == 2
+assert math.isclose(g.SERVO_LUG_CENTERS_Z[1] - g.SERVO_LUG_CENTERS_Z[0], 29, abs_tol=1e-6)
+assert [*g.SERVO_OFFICIAL_ORIENTED_XYZ] == bom["cad"]["servo_official_oriented_xyz_mm"]
+assert [*g.SERVO_VENDOR_ORIENTED_XYZ] == bom["cad"]["servo_vendor_step_oriented_xyz_mm"]
+assert bom["cad"]["servo_lug_screw_count"] == manifest["design"]["servo_ear_mount_count"] == 2
+assert bom["cad"]["servo_base_mount_count"] == 4
 assert len(g.wire_eyes)==4
 assert len(g.PCB_STRAP_SLOTS)==2
 assert len(g.PCB_PADS)==4
@@ -132,6 +143,13 @@ assert len(g.LED_HOLDER_PINS)==2
 assert g.SERVO_SCREW_CLEARANCE_D==2.3
 assert g.SERVO_SCREW_PILOT_D==1.7
 assert (g.SERVO_FOOT_SIZE-g.SERVO_SCREW_PILOT_D)/2>=2
+# Both genuine ear pilot holes run along garage X, outside the case centre.
+for ey,ez in g.SERVO_LUG_CENTERS_YZ:
+    hole=cq.Solid.makeCylinder(g.SERVO_LUG_PILOT_D/2,
+                              g.SERVO_LUG_BOSS_LENGTH+0.2,
+                              cq.Vector(g.spine_x-0.1,ey,ez), cq.Vector(1,0,0))
+    assert overlap(g.cradle,hole)<1e-5, ("servo lug pilot blocked",ez)
+assert not hasattr(g,"servo_clip_lip"), "fragile unverified hook should be removed"
 assert (g.WIRE_EYE_OD-g.WIRE_EYE_ID)/2>=2
 assert g.DRIVE_DISC_R==6
 assert math.isclose(g.DRIVE_JAMB_BORE_D-2*g.DRIVE_DISC_R,2*g.FIT)

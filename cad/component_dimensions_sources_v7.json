@@ -323,11 +323,23 @@
       100
     ],
     "servo_mount_nominal_clearance_per_face": 0.3,
-    "servo_vendor_step_oriented_length": 32.5,
-    "servo_official_overall_length": 33,
-    "cradle_length_if_derived_only_from_step": 33.1,
-    "remaining_nominal_clearance_total_with_official_length": 0.1,
-    "remaining_nominal_clearance_per_end_with_official_length": 0.05,
-    "note": "0,05 mm par bout est INSUFFISANT comme marge FDM; recalculer le berceau sur mesure reelle + 0,30 mm mini par face. Ne PAS utiliser une valeur de hauteur de STEP pour faire un clip definitif sans controle reel."
+    "note": "ERRATUM: V7 predecessor compared manufacturer 33mm ear-span (Z in assembled model) to STEP 32.5mm output-axis (X); the claimed 0.05mm/side interference was INVALID. Correct matched-axis comparisons are manufacturer X30 vs STEP X32.5; Y12 vs STEP Y12.221; Z33 vs STEP Z33.4. Pitch 29mm along Z is authoritative, not necessarily face/horn screw pattern.",
+    "servo_official_oriented_xyz": [
+      30,
+      12,
+      33
+    ],
+    "servo_vendor_step_oriented_xyz": [
+      32.5,
+      12.221,
+      33.4
+    ],
+    "servo_ear_pitch_z": 29,
+    "servo_ear_notch_nominal_d": 2,
+    "servo_ear_3d_printed_pilot_d": 1.7,
+    "servo_mounting_screw_count": 2,
+    "servo_base_mounting_screw_count": 4,
+    "servo_ear_screw_axis": "X",
+    "servo_lug_mount_status": "CAD pilot bosses to manufacturer 29mm datum; mechanical screw length and ear seating not validated physically"
   }
 }

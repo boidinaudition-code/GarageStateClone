@@ -1,8 +1,8 @@
-# CAO paramétrique GarageStateClone — V6
+# CAO paramétrique GarageStateClone — V7 (fixations servo)
 
 **Source de vérité : [generate_cad.py](generate_cad.py)** (CadQuery 2.8, unités mm). La V6 est un **prototype mécanique**, pas un assemblage validé avec le vrai DMS-MG90 ou avec le palonnier livré.
 
-**Cotes fournisseurs V7 :** [catalogue JSON sourcé](component_dimensions_sources_v7.json) et [audit des fiches cotées](../docs/FICHES_COTEES_COMPOSANTS_V7.md). Le **plan constructeur DMS-MG90** donne **33 × 12 × 30 mm** et **entraxe 29 mm** ; l'ancien STEP de référence MG90-A est plus haut et plus court. Le berceau imprimé V6 de longueur intérieure 33,1 mm ne laisse qu'environ **0,05 mm de jeu à chaque extrémité** par rapport à la longueur nominale officielle ; **ne pas le déclarer compatible** avant recalage de l'axe, redimensionnement du berceau/clip et essais sur pièce réelle. Les palonniers ne sont pas cotés.
+**Cotes fournisseurs et fixations V7 :** [audit fiches cotées](../docs/FICHES_COTEES_COMPOSANTS_V7.md), [plan des fixations](../docs/FIXATIONS_SERVO_V7.md) et [catalogue JSON](component_dimensions_sources_v7.json). Le constructeur **DMS-MG90** cote **29 mm entre les deux encoches Ø2** ; le berceau ajoute **deux pilotes Ø1,7** pour ces encoches en plus des **4 vis du socle**. Le crochet V6 a été retiré au profit d'une colonne arrière plus robuste. **Erratum :** les 33 mm constructeur (axe Z du garage) ne se comparent pas aux 32,5 mm STEP (axe X du garage) ; la réserve antérieure de 0,05 mm était un calcul sur axes différents et ne s'applique pas. Comparaison correcte du volume constructeur **X30 / Y12 / Z33** au STEP **X32,5 / Y12,221 / Z33,4**. L'alignement axial des oreilles et le palonnier restent à essayer sur pièces réelles.
 
 ## Géométrie de référence V6
 
@@ -26,7 +26,7 @@ Les huit STL restent : coque, socle, toit, porte, palier gauche, berceau servo, 
 ### Interfaces mécaniques nouvellement dessinées
 
 - **Berceau servo** : quatre pieds **6 × 6 × 5,5 mm**, pilotes **Ø1,7** alignés sur quatre trous socle **Ø2,3** et fraisures **Ø4,2** ; **essai de quatre vis M2×8 à tête fraisée depuis dessous**, sans garantie de filet ni hauteur de tête.
-- **Maintien moteur** : crochet supérieur arrière imprimé avec berceau ; résistance à la déformation et tenue du DMS-MG90 réel non validées.
+- **Maintien moteur V7** : colonne extérieure et **2 vis pilotes Ø1,7 espacées de 29 mm** selon les encoches Ø2 du DMS-MG90. Les quatre M2 de fixation du berceau au socle sont distinctes. Longueur des vis et position axiale des oreilles à essayer sur le servo réel.
 - **Palier gauche** : tablette de support intégrée à la coque ; collage localisé après essai à blanc, pas de vis inventée.
 - **Liaison servo/porte** : disque imprimé Ø12 avec face à X111,5, pointe d’axe MG90-A STEP à X113,7 ; **pas de trous du vrai palonnier**. Faire le gabarit C, mesurer l'entraxe sur le palonnier fourni et choisir une liaison positive démontable.
 - **Radio en combles** : quatre plots de soutien sous Wio, deux fentes **3,2 × 4,2 mm** pour un petit lien isolant ; jamais de serrage direct sur SMD, prise USB ou antenne.
@@ -54,9 +54,9 @@ python cad/test_repo_consistency.py
 
 **Sorties** : 8 STL dans le sous-dossier stl, **11 STEP** dans step (8 pièces, 1 assemblage avec références, 1 assemblage structure seule, 1 XIAO simplifié), et **3 coupons STL d'essai** dans coupons.
 
-Les tests contrôlent intégrité SHA256 des quatre géométries BREP tierces, solides fermés, volumes réimportés, collisions et jeux échantillonnés de 0 à 90° par 5°. Ils ne testent ni adhérence des couches, ni flexion du crochet, ni usure, ni véritable accouplement de servo. Les STEP sont des exports dérivés : ne pas les fusionner manuellement dans Git, les télécharger depuis **GitHub Actions**.
+Les tests contrôlent intégrité SHA256 des quatre géométries BREP tierces, solides fermés, volumes réimportés, collisions et jeux échantillonnés de 0 à 90° par 5°. Ils ne testent ni adhérence des couches, ni résistance des bossages vissés, ni usure, ni véritable accouplement de servo. Les STEP sont des exports dérivés : ne pas les fusionner manuellement dans Git, les télécharger depuis **GitHub Actions**.
 
-**Pour Onshape** : utiliser l'assemblage historique nommé GarageStateClone_V2_assemblage_STEP_references.step, mais son **contenu est V6**. Alternative : GarageStateClone_V2_STRUCTURE_SANS_REFERENCES_ONSHAPE.step, huit pièces uniquement. Les anciens imports Onshape ne se réparent pas automatiquement.
+**Pour Onshape** : utiliser l'assemblage historique nommé GarageStateClone_V2_assemblage_STEP_references.step, mais sa **structure V7** inclut maintenant les deux pilotes de vis du servo (nom historique du fichier conservé). Alternative : GarageStateClone_V2_STRUCTURE_SANS_REFERENCES_ONSHAPE.step, huit pièces uniquement. Les anciens imports Onshape ne se réparent pas automatiquement.
 
 ## Éprouvettes et impression P1S
 

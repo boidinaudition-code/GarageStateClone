@@ -141,7 +141,24 @@
     "led_peg_fit_per_face_mm": 0.3,
     "mounted_led_y_mm": 65,
     "cable_eye_qty": 4,
-    "assembly_status": "prototype, verify actual horn and servo geometry after measuring"
+    "assembly_status": "prototype, verify actual horn and servo geometry after measuring",
+    "servo_ear_screws_pitch_z_mm": 29,
+    "servo_ear_open_notches_d_mm": 2,
+    "servo_ear_pilot_d_mm": 1.7,
+    "servo_ear_mount_screw_axis": "X",
+    "servo_ear_mount_count": 2,
+    "servo_official_oriented_xyz_mm": [
+      30,
+      12,
+      33
+    ],
+    "servo_generic_step_oriented_xyz_mm": [
+      32.5,
+      12.221,
+      33.4
+    ],
+    "servo_ear_mount_boss_geometry_status": "CAD pilot not physically validated; screw selection depends on real notch thickness",
+    "servo_retention": "2 pilot screw bosses instead of brittle top snap clip"
   },
   "qa": {
     "checked_with": "CadQuery 2.8.0, OCP 7.9.3.1, trimesh 4.11.1",
@@ -150,15 +167,16 @@
     "servo_vs_shell_roof_support_door_collision_mm3": 0,
     "boards_intersection_mm3": 0.013,
     "stacking_verified_physically": false,
-    "servo_mount_accurate": "space/envelope yes, horn bolting no",
+    "servo_mount_accurate": "29mm pitch 2 pilot mount locations CAD vs official diagram; physical ear plane and supplied screw type require dry-fit",
     "led_orange_relocated_to_avoid_servo": true,
     "generated_step_validation": "reimport and compare individual STEP volumes; validate reference checksums and door sweep",
     "servo_jamb_intersection_mm3": 0,
     "door_jamb_intersection_mm3": 0,
     "compact_shell_150_collision_check": "validated by CAD CI; no hardware test",
     "attic_3d_clearance": "XIAO Wio transistor tested against false ceiling, roof and shell; antenna + USB lead not modeled",
-    "integral_clip_retention": "modeled without collisions; flex durability not physically tested",
+    "integral_clip_retention": "removed in V7: two screw pilot bosses instead",
     "servo_base_M2_holes": "coaxial CAD; tap depth and screw countersink must be coupon-tested",
-    "actual_horn_bolt_pattern": "UNKNOWN, interface disk blank on purpose"
+    "actual_horn_bolt_pattern": "UNKNOWN, interface disk blank on purpose",
+    "manufacturer_axis_erratum": "official drawing 33mm ear-span maps to rotated STEP Z=33.4mm, NOT X=32.5mm. Prior 0.05 mm axial clearance claim invalid"
   }
 }

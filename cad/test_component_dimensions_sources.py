@@ -44,10 +44,16 @@ assert servo["dimensions"]["lug_centres_pitch"] == bom["components"][1]["manufac
 
 design = catalog["critical_design"]
 assert design["shell_lw"] == [bom["cad"]["shell_width_mm"], bom["cad"]["shell_depth_mm"]]
-step_cradle_length = design["servo_vendor_step_oriented_length"] + 2 * design["servo_mount_nominal_clearance_per_face"]
-available_per_end = (step_cradle_length - actual_drawing["overall_lug_length"]) / 2
-assert abs(available_per_end - design["remaining_nominal_clearance_per_end_with_official_length"]) < 1e-9
-assert available_per_end < design["servo_mount_nominal_clearance_per_face"]
+# Compare matching axes; old 0.05mm-per-end claim compared wrong axes.
+assert design["servo_vendor_step_oriented_xyz"] == [32.5, 12.221, 33.4]
+assert design["servo_official_oriented_xyz"] == [30, 12, 33]
+assert all(a>b for a,b in zip(design["servo_vendor_step_oriented_xyz"], design["servo_official_oriented_xyz"]))
+assert design["servo_ear_pitch_z"] == actual_drawing["lug_centres_pitch"] == bom["cad"]["servo_lug_pitch_mm"] == 29
+assert design["servo_ear_notch_nominal_d"] == 2
+assert design["servo_ear_3d_printed_pilot_d"] == 1.7
+assert design["servo_mounting_screw_count"] == 2
+assert design["servo_base_mounting_screw_count"] == 4
+assert design["servo_ear_screw_axis"] == "X"
 assert not bom["cad"]["servo_horn_physical_verified"]
 
 assert by_id["LED1"]["dimensions"]["flange_diameter"] is None
@@ -58,5 +64,5 @@ assert by_id["ANT"]["dimensions"]["antenna_body"] is None
 assert by_id["MCU"]["manufacturer_2d_dxf_archive"].endswith(".zip")
 assert "non décodé" in docs
 print(f"PASS: {len(parts)} composants catalogués, plans sourcés, dimensions absentes explicites.")
-print(f"ATTENTION MECANIQUE: berceau STEP longueur {step_cradle_length:.2f} mm / DMS-MG90 officiel {actual_drawing['overall_lug_length']:.2f} mm : garde théorique {available_per_end:.2f} mm par côté, au lieu des {design['servo_mount_nominal_clearance_per_face']:.2f} mm de projet.")
-print("Aucune validation physique de palonnier, clip, antenne et passages USB.")
+print("PITCH DMS-MG90: 2 encoches ouvertes Ø2, entraxe 29mm (Z du garage), pilotes Ø1.7mm suivant X")
+print("Aucune validation physique de palonnier, vis fournies, antenne et passages USB.")

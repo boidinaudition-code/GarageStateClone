@@ -27,6 +27,11 @@ assert b["cad"]["attic_internal_light_holder_xy_mm"] == m["design"]["attic_led_h
 assert b["cad"]["led_holder_pin_diameter_mm"] == 2
 assert b["cad"]["led_holder_hole_diameter_mm"] == 2.6
 assert b["cad"]["servo_base_mount_count"] == m["design"]["servo_mounting_pilot_count"] == 4
+assert b["cad"]["servo_lug_pitch_mm"] == m["design"]["servo_ear_screws_pitch_z_mm"] == 29
+assert b["cad"]["servo_lug_notch_nominal_d_mm"] == m["design"]["servo_ear_open_notches_d_mm"] == 2
+assert b["cad"]["servo_lug_screw_count"] == m["design"]["servo_ear_mount_count"] == 2
+assert b["cad"]["servo_official_oriented_xyz_mm"] == m["design"]["servo_official_oriented_xyz_mm"]
+assert b["cad"]["servo_vendor_step_oriented_xyz_mm"] == m["design"]["servo_generic_step_oriented_xyz_mm"]
 assert b["cad"]["servo_foot_pilot_hole_mm"] == 1.7
 assert b["cad"]["servo_base_clearance_hole_mm"] == 2.3
 assert b["cad"]["door_drive_disc_outer_diameter_mm"] == 12
