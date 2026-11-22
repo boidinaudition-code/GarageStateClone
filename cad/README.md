@@ -1,4 +1,4 @@
-# CAO paramétrique GarageStateClone — V9 (toit bac acier et boîte aux lettres)
+# CAO paramétrique GarageStateClone — V10 (bandeau nervuré, façade et câblage intérieur)
 
 **Source de vérité : [generate_cad.py](generate_cad.py)** (CadQuery 2.8, unités mm). La V6 est un **prototype mécanique**, pas un assemblage validé avec le vrai DMS-MG90 ou avec le palonnier livré.
 
@@ -6,13 +6,19 @@
 
 **Positionnement longitudinal du support servo pour Onshape :** `SERVO_LUG_UNDERSIDE_FROM_BASE = 16.00` est la **cote fabricant** du dessous des oreilles depuis le fond. Dans le repère X orienté vers le fond : `X_dessous_oreilles = X_bout_arbre + (30.00 - 16.00) = 127.70 mm`. La face imprimée des deux bossages est à `X = 128.00 mm`, soit **+0,30 mm de jeu**, indépendamment des approximations d'épaisseur. Cotes **≈2,5** (épaisseur oreille), **≈4** (haut du boîtier) et **≈8 mm** (bossage arbre) documentées mais **jamais utilisées comme contraintes serrées**. Palonnier et têtes/longueur des vis = inconnus. Les STEP de tiers restent des références, pas la géométrie fabriquée du DMS-MG90.
 
-**Entrée USB-C V8 :** platine Gotronic **49067** (enveloppe vendeur **21 × 15 × 4,5 mm**), orientée provisoirement **X15 / Y21 / Z4,5** au bas du garage, juste devant le mur arrière. La pièce **02_socle_noir** comporte un berceau **X63,9..86,1 / Y72,4..96,6 / dessus Z9,0**, deux guides latéraux et **2 tunnels horizontaux de 3,2 × 2,7 mm** pour colliers isolés. La coque possède une **ouverture arrière 13 × 8** de service entre **Z8,5 et Z16,5**, à la place de l'ancienne découpe 12 × 8. Référence simplifiée dans l'assemblage : `REF_USB_C_49067_GABARIT_NON_CONTRACTUEL_NE_PAS_IMPRIMER`. **Aucun perçage, nez de connecteur ni position CC prétendu exact**. Essai obligatoire avec carte et fiche réelles.
+**Entrée USB-C V8 :** platine Gotronic **49067** (enveloppe vendeur **21 × 15 × 4,5 mm**), orientée provisoirement **X15 / Y21 / Z4,5** au bas du garage, juste devant le mur arrière. La pièce **02_socle_noir** comporte un berceau **X63,9..86,1 / Y72,4..96,6 / dessus Z9,0**, deux guides latéraux et **2 tunnels horizontaux de 3,2 × 2,7 mm** pour colliers isolés. La coque V10 a une **ouverture USB-C arrière 10 × 4,2 mm**, entre **Z9,45 et Z13,65**, qui remplace l'ancienne découpe 13 × 8. L'empreinte et la position exactes de la prise sur la 49067 **ne sont pas vérifiées** : essayer la platine réelle avant impression finale. Référence simplifiée dans l'assemblage : `REF_USB_C_49067_GABARIT_NON_CONTRACTUEL_NE_PAS_IMPRIMER`. **Aucun perçage, nez de connecteur ni position CC prétendu exact**. Essai obligatoire avec carte et fiche réelles.
 
 L'alimentation 5 V du XIAO et du servo est réalisée **en parallèle depuis la platine**, avec un petit bus soudé à part (borniers 48930, résistances CC1/CC2 5,1 kΩ uniquement si absentes). Voir [le guide V8](../docs/ALIMENTATION_USB_C_V8.md). Le support USB-C reste **intégré au socle** ; la V9 ajoute une pièce imprimable distincte pour la boîte aux lettres.
 
 **Toit bac acier V9 :** la pièce `03_toit_noir_pente` comporte désormais **13 nervures trapézoïdales**, axes **Y** dans la direction de la pente, premier centre X=5,5 mm, pas X=11,5 mm, base **2,5 mm**, sommet **1,1 mm**, saillie **0,95 mm**. Les nervures sont fusionnées au dessus du toit (pénétration de fusion 0,18 mm), **sans diminuer ses 3 mm d'épaisseur sous le relief**, ni altérer le bord inférieur et la jupe amovible. Paramètres `ROOF_RIB_*`.
 
-**Boîte aux lettres V9 (photo du garage réel) :** niche **X=124,5..135,1 mm, Z=24..34,6 mm, Y=0..1,05 mm** dans le **montant blanc droit** de `01_coque_blanche`. L'épaisseur locale résiduelle de façade est **1,35 mm**. Nouvelle pièce séparée `10_boite_aux_lettres_noire` : carré **10 × 10 × 0,75 mm**, à coller en léger retrait avec **0,30 mm de jeu sur chaque côté**. Fente superficielle imprimée (non fonctionnelle) ; finition cosmétique, photo non relevée au pied à coulisse. Voir [les vues et cotes V9](../docs/TOIT_BAC_ACIER_BOITE_LETTRES_V9.md).
+**Boîte aux lettres V10 :** niche **X=126,0..133,6 mm, Z=25,5..33,1 mm, Y=0..1,05 mm** dans le **montant blanc droit** de `01_coque_blanche`. L'épaisseur locale résiduelle de façade est toujours **1,35 mm**. Pièce séparée `10_boite_aux_lettres_noire` : carré **7 × 7 × 0,75 mm** (30 % de réduction linéaire par rapport aux 10 × 10 de V9), à coller en léger retrait avec **0,30 mm de jeu sur chaque côté**. Fente superficielle imprimée (non fonctionnelle) ; finition cosmétique, photo non relevée au pied à coulisse. Voir [la révision V10](../docs/EVOLUTION_FACADE_CABLAGE_V10.md).
+
+**Bandeau de toiture métallique V10 :** `roof_front_fascia_seams` ajoute **13 nervures trapézoïdales verticales** sur la partie **descendante en façade** du toit noir, exactement aux mêmes X que les nervures supérieures, espacement 11,5 mm, relief de **0,85 mm en direction −Y**. Environ Z54,37..62,47. La jupe interne, la pente et le système de toit amovible restent intacts.
+
+**LED orange :** X96 inchangé et Z **53,3 → 52,1 mm**. Le boîtier de LED, le conduit optique et la référence STEP suivent cette descente de 1,2 mm.
+
+**Goulotte intérieure V10 :** le **trou extérieur arrière haut 16 × 9 est supprimé**. Deux rails de **1,8 mm** et trois petites lèvres alternées constituent un guide de fils **ouvert** contre le mur arrière, **X90..100,8 / Y93,6..97,72 / Z14..43**, laissant **7,2 mm de largeur** entre les deux rails. Le câble part de la distribution 5 V en bas et monte sous le faux plafond ; aucun nouveau trou de façade n'est nécessaire. Ce passage est un prototype pour fils souples, pas un conduit garanti pour tout connecteur/coaxial.
 
 ## Géométrie de référence V6
 
@@ -28,7 +34,7 @@ L'alimentation 5 V du XIAO et du servo est réalisée **en parallèle depuis la 
 | Écart disque / pointe d’axe servo STEP | **2,2 mm nominal**, **hors vrai palonnier** |
 | Faux plafond | **144,6 × 40 × 2,4 mm**, Y55..95 et Z46..48,4 |
 | Support de LED blanche | X75 / Y65, **2 ergots Ø2 dans Ø2,6** |
-| LED orange façade | X96 / Z53,3 |
+| LED orange façade | X96 / Z52,1 |
 | Emboîtements | **0,30 mm par face**, cible CAO à calibrer en FDM |
 
 Les **9 STL** sont : coque avec logement de boîte aux lettres, **socle intégrant le berceau USB-C**, toit nervuré bac acier, porte, palier gauche, berceau servo, faux plafond, support LED blanche et **10_boite_aux_lettres_noire** indépendante. Le bandeau bleu est supprimé.
