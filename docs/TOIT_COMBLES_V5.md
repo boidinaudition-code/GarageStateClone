@@ -1,5 +1,8 @@
 # V5 — toit plus pentu, module XIAO/Wio dans les combles
 
+> **ARCHIVE de conception V5 : ne pas fabriquer depuis ces cotes.** En V6, la LED blanche est à X75/Y65, son support possède deux ergots Ø2, le palier/servo et les cartes ont de nouvelles fixations. Les cotes actuelles sont dans [ASSEMBLAGE_V6.md](ASSEMBLAGE_V6.md) et [README](../README.md).
+
+
 **Statut : prototype CAO validé numériquement, pas encore imprimé ni assemblé.** Source paramétrique : [`cad/generate_cad.py`](../cad/generate_cad.py). Importation Onshape : STEP générés automatiquement via GitHub Actions. Le firmware et les références BOM électroniques restent inchangés.
 
 ![Vue de coupe technique V5, électronique sous toiture](../assets/schemas/garage_combles_v5_coupe.svg)

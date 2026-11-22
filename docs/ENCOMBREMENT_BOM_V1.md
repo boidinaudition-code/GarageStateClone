@@ -1,5 +1,8 @@
 # Encombrement composants – V1 (21 novembre 2026)
 
+> **RELEVÉS COMPOSANTS ET HISTORIQUE.** Les cotes constructeur restent utiles, mais certaines réserves CAO sont dépassées en V6. Consulter [ASSEMBLAGE_V6.md](ASSEMBLAGE_V6.md) et le [JSON CAO actuel](../cad/bom_dimensions_v1.json) pour fixer les pièces.
+
+
 **Statuts :** C = publié fabricant/vendeur pour la référence ; V = enveloppe de famille/variante, non garantie pour le lot ; P = valeur proposée dans la CAO ; M = à mesurer. Un nombre connu du vendeur n'est pas une mesure au pied à coulisse de votre exemplaire.
 
 | Qté V1 | Composant | Dimension publiée (mm) | Statut / ce qui manque | Source |

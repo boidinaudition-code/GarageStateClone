@@ -1,5 +1,8 @@
 # GarageStateClone — V1 retenue : mécanique et éclairage
 
+> **ARCHIVE des choix V1–V5 : certaines dimensions, positions LED et fixations sont obsolètes.** Pour une impression ou un assemblage actuel, se référer uniquement à [ASSEMBLAGE_V6.md](ASSEMBLAGE_V6.md), [BOM_V6.md](BOM_V6.md) et au [générateur](../cad/generate_cad.py).
+
+
 **Décisions du 21/11/2026 — CAO de prototype (STL et STEP générés localement), sans validation par impression ni sur matériel physique.**
 
 ## Design extérieur retenu

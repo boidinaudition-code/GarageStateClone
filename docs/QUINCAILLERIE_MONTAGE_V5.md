@@ -1,5 +1,8 @@
 # Quincaillerie et montage — GarageStateClone V5
 
+> **ARCHIVE QUINCAILLERIE V5.** Le berceau V6 est désormais percé pour **quatre vis M2 candidates par-dessous**, le faux plafond a **deux fentes de sanglage et quatre plots**, et le disque Ø12 de porte est un gabarit de palonnier vierge. Lire [BOM_V6.md](BOM_V6.md) et [ASSEMBLAGE_V6.md](ASSEMBLAGE_V6.md) ; les recommandations V5 n’intègrent pas tous ces changements.
+
+
 **Audit du 22 novembre 2026.** À utiliser avec la [BOM électronique](BOM_V1_VERIFIEE.md), le [câblage](CABLAGE_V1_VERIFIE.md), les [cotes de combles V5](TOIT_COMBLES_V5.md) et [le générateur CadQuery](../cad/generate_cad.py).
 
 **Classification stricte :** **DÉJÀ LIVRÉ** = ne pas racheter ; **À PRÉVOIR** = nécessaire pour un montage fiable si absent du stock personnel ; **OPTION DE PROTOTYPAGE** = peut servir après modification de la CAO ; **À DIMENSIONNER** = ne pas commander comme fixation définitive avant mesure ou conception.

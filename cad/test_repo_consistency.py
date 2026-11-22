@@ -1,0 +1,61 @@
+#!/usr/bin/env python3
+"""V6: cross-check firmware, CAD, BOM and canonical README.
+
+This test checks repository claims and source constants, NOT actual hardware fit.
+"""
+import json
+import re
+from pathlib import Path
+root=Path(__file__).resolve().parent.parent
+s=(root/"cad/generate_cad.py").read_text(encoding="utf-8")
+read=(root/"README.md").read_text(encoding="utf-8")
+cadread=(root/"cad/README.md").read_text(encoding="utf-8")
+platform=(root/"platformio.ini").read_text(encoding="utf-8")
+firm=(root/"src/main.cpp").read_text(encoding="utf-8")
+b=json.loads((root/"cad/bom_dimensions_v1.json").read_text(encoding="utf-8"))
+m=json.loads((root/"cad/vendor_models/manifest.json").read_text(encoding="utf-8"))
+hardware=json.loads((root/"cad/hardware_bom_v5.json").read_text(encoding="utf-8"))
+assert b["cad"]["shell_width_mm"] == m["design"]["shell_mm"][0] == 150
+assert b["cad"]["shell_depth_mm"] == 100
+assert [b["cad"]["front_height_mm"],b["cad"]["back_height_mm"]] == m["design"]["roof_z_front_back_mm"] == [62,78]
+assert b["cad"]["door_opening_mm"] == [100,42]
+assert b["cad"]["door_panel_mm"] == [99.4,41.4,2.4]
+assert b["cad"]["fit_per_face_mm"] == 0.3
+assert b["cad"]["wall_mm"] >= 2.0
+assert b["cad"]["orange_led_center_x_mm"] == m["design"]["led_orange_center_xz_mm"][0] == 96
+assert b["cad"]["attic_internal_light_holder_xy_mm"] == m["design"]["attic_led_holder_xy_mm"] == [75,65]
+assert b["cad"]["led_holder_pin_diameter_mm"] == 2
+assert b["cad"]["led_holder_hole_diameter_mm"] == 2.6
+assert b["cad"]["servo_base_mount_count"] == m["design"]["servo_mounting_pilot_count"] == 4
+assert b["cad"]["servo_foot_pilot_hole_mm"] == 1.7
+assert b["cad"]["servo_base_clearance_hole_mm"] == 2.3
+assert b["cad"]["door_drive_disc_outer_diameter_mm"] == 12
+assert b["cad"]["door_drive_disc_face_to_shaft_tip_gap_mm"] == 2.2
+assert not m["design"]["horn_bolt_pattern_validated"]
+assert hardware["core_total_eur"] == "23.43"
+assert b["system_state"]["sensor_count"] == 1
+assert "OPEN_SENSOR_PRESENT=0" in platform
+assert "SINGLE_SENSOR_OPEN_ESTIMATE_MS=40000UL" in platform
+assert "arduino-libraries/Servo" not in platform
+assert "Servo.h" in firm and "#include <Servo.h>" in firm
+assert "static constexpr uint8_t PIN_SERVO = D6" in firm
+assert "static constexpr uint8_t PIN_INTERIOR_LED = D7" in firm
+assert "static constexpr uint8_t PIN_AMBER_LED = D0" in firm
+assert "ANGLE_CLOSED = 15" in firm and "ANGLE_OPEN = 95" in firm
+for marker in ("V6", "150 × 100", "62 / 78", "2,4", "0,30",
+               "23,43", "Ø12", "Ø2,3", "Ø1,7", "0–90", "LoRa"):
+    assert marker in read, ("README missing",marker)
+assert "V6" in cadread and "3 coupons" in cadread
+assert "Ø3,2" in read and "Ø3,8" in read
+assert "docs/ASSEMBLAGE_V6.md" in read and "docs/AUDIT_REPO_V6.md" in read
+assert "BOM_V6.md" in read
+for name in ("ASSEMBLAGE_V6.md","AUDIT_REPO_V6.md","BOM_V6.md"):
+    assert (root/"docs"/name).is_file()
+assert "V6" in (root/"docs/BOM_V6.md").read_text()
+assert "V6" in (root/"docs/ASSEMBLAGE_V6.md").read_text()
+assert len(list((root/"cad/refs").glob("*.brep.z.b64"))) == 4
+# Explicit non-certified assembly claims in canonical docs
+for token in ("palonnier", "non", "tester"):
+    assert token in read.lower()
+assert "boîtier" in read.lower() and "SAS308" in read
+print("PASS cross-check V6: firmware roles/pins, CAD/BOM/LED positions, README, unknowns")

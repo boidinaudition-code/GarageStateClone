@@ -1,7 +1,7 @@
 {
   "schema": "GarageStateClone-hardware-BOM-v5.1",
   "review_date": "2026-11-22",
-  "cad_version": "V5 combles, 150x100mm, roof 62/78mm",
+  "cad_version": "V6 mechanical interfaces; shell 150x100 roof 62/78",
   "currency": "EUR",
   "status_convention": {
     "confirmed": "reference and characteristics checked, required if not already owned",
@@ -146,7 +146,7 @@
       "unit": "bag of 10, countersunk head",
       "pack_price_eur": "0.65",
       "status": "conditional",
-      "qty_to_mount": "after servo or coupling holes measured",
+      "qty_to_mount": "4 nominal M2×8 countersunk from underside into printed cradle feet (pilot Ø1.7), verify screw length/head diameter with Bambu fit coupon",
       "url": "https://www.gotronic.fr/cat-visserie-685.htm"
     },
     {
@@ -173,7 +173,7 @@
       "unit": "bag of 100, 2.5x100mm",
       "pack_price_eur": "1.20",
       "status": "confirmed",
-      "qty_to_mount": "about 4-8 for cable strain relief and fixed routing; check lengths",
+      "qty_to_mount": "one 2.5mm insulated tie for Wio/XIAO strap slots plus about 4-8 for wiring, avoid tightening on SMD",
       "url": "https://www.gotronic.fr/cat-colliers-de-serrage-1330.htm"
     },
     {
@@ -240,7 +240,7 @@
       "status": "measure",
       "qty_to_mount": 1,
       "url": null,
-      "note": "Only approximately 6mm of roof gap above XIAO; do NOT buy 10mm standoffs"
+      "note": "V6 two 3.2×4.2 strap slots and four low support pads now drawn, but use soft insulation and test USB/antenna; do not clamp connector/PCB"
     },
     {
       "id": "SERVO_DOOR_COUPLER",
@@ -250,7 +250,7 @@
       "status": "measure",
       "qty_to_mount": 1,
       "url": null,
-      "note": "3mm model gap and servo ears mounting pattern need real measurement"
+      "note": "V6 door-side disc Ø12 is modeled but un-drilled for genuine horn; face 2.2mm from STEP shaft tip; exact horn fixing hardware unknown"
     },
     {
       "id": "USB_STRAIN_RELIEF",
@@ -274,11 +274,12 @@
     "shipping"
   ],
   "unvalidated_physical_parts": [
-    "MG90 horn linkage and ear mounting holes",
-    "SAS308 body and magnet mounting dimensions",
-    "Wio/XIAO mechanical hold down and antenna",
-    "USB-C connector and lead bend radius",
-    "transmitter protective box"
+    "genuine DMS-MG90 horn screw-hole pattern and shaft axial clearance (V6 printed blank Ø12)",
+    "actual servo body dimension/spring-clip insertion and M2 pilot screw head/depth after print",
+    "SAS308 detector and magnet mounting-hole pattern",
+    "Wio/XIAO strap pressure on PCB SMD and USB/868MHz antenna clearance",
+    "true garage transmitter enclosure and cable strain relief"
   ],
-  "verification_note": "Design/CAD assertions are not physical fit validation. Optional screws are NOT prescribed as confirmed hardware."
+  "verification_note": "V6: M2 4x countersunk cradle-base pilot holes are actually drawn, horn mating disk Ø12 is blank, optional tie-down PCB and LED pegs drawn. Sizes and horn holes remain trial-only until measured. 0.3mm per side is CAD target, not guaranteed printer output.",
+  "updated_on": "2026-11-22"
 }

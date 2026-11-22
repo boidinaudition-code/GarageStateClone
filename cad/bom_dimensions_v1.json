@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_on": "2026-11-21",
+  "updated_on": "2026-11-22",
   "units": "mm",
   "dimension_status": {
     "published": "manufacturer_or_identified_vendor_value",
@@ -243,18 +243,18 @@
       16,
       100
     ],
-    "servo_mounting": "provisional",
+    "servo_mounting": "four M2 through-base countersinks/pilot feet + integral upper retaining clip, CAD prototype; case physical fit not validated",
     "volumes_measured_on_hardware": false,
     "servo_complete_step_envelope_mm": [
       33.4,
       32.5,
       12.221
     ],
-    "orange_led_center_x_mm": 142,
+    "orange_led_center_x_mm": 96,
     "orange_led_center_z_mm": 53.3,
     "orange_holder_outer_diameter_mm": 10.8,
     "orange_holder_min_radial_wall_mm": 2.1,
-    "dimensions_note": "V5 compact 150x100mm, toit 62/78mm (+16mm de pente); faux plafond arriere 144.6x40 a Z46mm; pile XIAO/Wio au-dessus, LED blanche dessous. Murs 2.4mm, toit 3mm, jeu 0.30mm/face.",
+    "dimensions_note": "V6: coque 150×100, toit 62/78; façade sans bandeau bleu. Réelle fixation berceau 4 pilotes M2 dans base, clips, supports PCB par lien isolé, LED à ergots Ø2/2.6; disque palonnier Ø12 vierge, fixation réelle à percer après prise de cotes; dimensions physiques non validées.",
     "front_jamb_return_depth_mm": 10,
     "front_jamb_return_thickness_mm": 2.4,
     "left_pivot_jamb_bore_mm": 3.8,
@@ -276,7 +276,7 @@
     "attic_ceiling_thickness_mm": 2.4,
     "attic_internal_light_holder_xy_mm": [
       75,
-      61.5
+      65
     ],
     "attic_radio_reference_z_range_mm": [
       51.9,
@@ -287,7 +287,88 @@
       16,
       9
     ],
-    "attic_note": "Faux plafond arrière amovible pour placer XIAO/Wio dans les combles; supports latéraux sur coque; la fixation PCB/antenne/USB reste à confirmer."
+    "attic_note": "Faux plafond arrière amovible pour placer XIAO/Wio dans les combles; supports latéraux sur coque; la fixation PCB/antenne/USB reste à confirmer.",
+    "door_drive_disc_face_to_shaft_tip_gap_mm": 2.2,
+    "door_drive_disc_outer_diameter_mm": 12,
+    "door_drive_disc_axial_bounds_mm": [
+      108,
+      111.5
+    ],
+    "door_drive_jamb_bore_diameter_mm": 12.6,
+    "door_drive_interface_status": "blank printed datum Ø12 without horn bolt holes; supplied genuine horn drilling mandatory",
+    "servo_base_mount_count": 4,
+    "servo_base_fastener_nominal": "M2x8 countersunk trial screw",
+    "servo_base_clearance_hole_mm": 2.3,
+    "servo_foot_pilot_hole_mm": 1.7,
+    "servo_foot_outer_mm": [
+      6,
+      6,
+      5.5
+    ],
+    "servo_foot_min_radial_wall_mm": 2.15,
+    "servo_retention": "integrated rear upper elastic hook, check real servo and PETG/PLA fit",
+    "bearing_mount": "shelf supports printed bearing at z34.4, adhesive after dry-fit; not screwed",
+    "cable_eyes_qty": 4,
+    "cable_eye_diameters_mm": [
+      8,
+      3.4
+    ],
+    "cable_eye_min_wall_mm": 2.3,
+    "pcb_retention": "two 3.2x4.2mm strap slots + four 4x3x3.2mm stand-off pads 0.3mm below actual Wio envelope, one 2.5mm insulated strap (not modeled)",
+    "pcb_strap_slot_mm": [
+      3.2,
+      4.2
+    ],
+    "pcb_strap_slot_positions_xy_mm": [
+      [
+        56.8,
+        77
+      ],
+      [
+        89.7,
+        77
+      ]
+    ],
+    "pcb_support_pads_xy_mm": [
+      [
+        64,
+        70.5
+      ],
+      [
+        81,
+        70.5
+      ],
+      [
+        64,
+        84
+      ],
+      [
+        81,
+        84
+      ]
+    ],
+    "pcb_support_pad_top_z_mm": 51.6,
+    "led_holder_mount": "two Ø2 pins into Ø2.6 through-holes in attic shelf, no solid intersection; optional glue on flanges",
+    "led_holder_pin_diameter_mm": 2,
+    "led_holder_hole_diameter_mm": 2.6,
+    "led_holder_pin_radial_clearance_mm": 0.3,
+    "led_holder_pin_positions_xy_mm": [
+      [
+        68.5,
+        65
+      ],
+      [
+        81.5,
+        65
+      ]
+    ],
+    "fit_coupons": [
+      "hinge_bores_3.6_3.8_4.0",
+      "M2_pilots_1.6_1.7_1.8",
+      "horn_blank_12mm"
+    ],
+    "fit_coupons_hardware_verified": false,
+    "physical_mechanical_status": "prototype / needs print & actual DMS-MG90 horn, fastener, antenna, board stack validation"
   },
   "system_state": {
     "sensor_count": 1,
