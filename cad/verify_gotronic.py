@@ -68,14 +68,19 @@ white_ref = next(s for n, s in refs.items() if "blanche" in n)
 assert white_ref.intersect(cad["roof_lid"]).Volume() < 1e-6
 # V5: white LED socket bonds to the FALSE CEILING, not to removable roof.
 assert cad["holder"].intersect(cad["roof_lid"]).Volume() < 1e-6
-assert cad["holder"].intersect(cad["tray"]).Volume() > 0
+assert cad["holder"].intersect(cad["tray"]).Volume() < 1e-6
+assert cad["holder"].distance(cad["tray"])<0.01  # dry-fit pegs rather than glue overlap
 assert cad["H_BACK"] == 78.0 and cad["ATTIC_Z0"] == 46.0
 for name in ("XIAO","WIO","BC547"):
     comp = next(v for k,v in cad["REFERENCES"].items() if name in k)
     assert comp.BoundingBox().zmin > cad["ATTIC_Z0"]+cad["ATTIC_PLATE_THICK"]
     assert comp.intersect(cad["tray"]).Volume() < 1e-6
     assert comp.intersect(cad["roof_lid"]).Volume() < 1e-6
-print("V5 attic: modules above ceiling and clear of sloping roof")
+assert cad["ATTIC_LED_Y"]==65.0
+assert len(cad["SERVO_MOUNT_HOLES"])==4
+assert len(cad["PCB_STRAP_SLOTS"])==2
+assert len(cad["LED_HOLDER_PINS"])==2
+print("V6 attic and assembly: modules above ceiling; LED locating pegs and M2 mount features")
 orange_ref = next(s for n, s in refs.items() if "orange" in n)
 assert orange_ref.BoundingBox().ymin > cad["WALL"]
 for angle in range(0, 91, 5):
@@ -84,5 +89,5 @@ for angle in range(0, 91, 5):
     for name, solid in {**refs, "white_holder": cad["holder"], "attic_ceiling": cad["tray"],
                         "orange_holder": cad["orange_holder"]}.items():
         assert door.intersect(solid).Volume() < 1e-6, (angle, name)
-print("LED envelopes fit reserved pockets, clear servo/roof; LED zones clear sampled door sweep 0..90 by 5 degrees")
+print("LED envelopes clear shell, servo and sampled door sweep 0..90 by 5 degrees")
 print("PASS — numerical prototype checks only; no hardware, printing, radio or full assembly qualification")
