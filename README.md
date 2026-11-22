@@ -78,7 +78,9 @@ Le récepteur commande actuellement le servo entre **15° (fermé) et 95° (ouve
 | Jeu d’emboîtement | **0,30 mm par face** en CAO, à calibrer sur la P1S |
 | Faux plafond des combles | **144,6 × 40 × 2,4 mm**, amovible |
 | Éclairage intérieur | Une LED blanche sous le faux plafond, **X75 / Y65 mm** |
-| Façade | Blanche, porte noire, orange discret, **boîte aux lettres noire 7 × 7 mm** sur montant droit ; **aucun bandeau bleu** |\n| Alimentation V8 | Platine **USB-C 49067** sur socle arrière intégré, sortie **10 × 4,2 mm** ; 5 V / 2 A minimum |
+| Façade | Blanche, porte noire, orange discret, **boîte aux lettres noire 7 × 7 mm** sur montant droit ; **aucun bandeau bleu** |
+| Bandeau V10 | Même nervurage bac acier sur toit et façade descendante |
+| Alimentation V10 | Platine **USB-C 49067** sur socle arrière intégré, sortie **10 × 4,2 mm** ; 5 V / 2 A minimum |
 
 La porte est **rigide et monobloc**. Ses rainures *imitent* une porte sectionnelle, mais elle **bascule vers l’intérieur** sous le toit autour d’un axe horizontal supérieur. On ne peut pas placer une voiture décorative dans son volume balayé.
 
@@ -96,7 +98,7 @@ La V6 concrétise plusieurs interfaces qui étaient seulement illustrées en V5 
 | **XIAO/Wio** | 4 plots bas non conducteurs (3,2 mm haut), **2 fentes 3,2×4,2** pour lien nylon 2,5 mm avec protection isolante | Ne pas écraser les SMD ; contrôler USB-C, antenne et accès |
 | **LED blanche** | Support amovible à **2 ergots Ø2 dans trous Ø2,6**, fixé au-dessous du faux plafond ; LED orange en façade | Dimensions réelles des collerettes LED et retenue définitive |
 | **Entrée USB-C 49067** | Support intégré au socle noir (2 guides, 2 tunnels de collier Ø fonctionnel 3,2) et **ouverture USB-C arrière 10 × 4,2 mm (essai)** ; l'ancienne fente basse 12 × 8 est supprimée | Placer la vraie prise dans l'ouverture après mesure ; sans trou de PCB inventé, hauteur et nez USB inconnus |
-| **Câbles** | 4 œillets de guidage muraux **Ø8 extérieur / Ø3,4 intérieur** ; sortie arrière haute **16 × 9 mm** conservée pour RF/câbles | Protéger fils et soudure de la 49067 contre les tractions et la porte mobile |
+| **Câbles** | 4 œillets de guidage muraux **Ø8 extérieur / Ø3,4 intérieur** ; **goulotte intérieure sans sortie haute arrière** | Protéger fils et soudure de la 49067 contre les tractions et la porte mobile |
 | **Émetteur réel** | Un seul SAS308 et son aimant | **Boîtier émetteur et supports capteur/aimant non modélisés** dans les 9 STL de la maquette ; pose sans toucher rails, ressorts, galets ou sécurités |
 
 Le vrai DMS-MG90 pourrait différer du **MG90-A** des références 3D fournies. Les modèles tiers conservent leurs géométries originales en **BREP compressées avec SHA256 contrôlé** ; le modèle XIAO simplifié en un seul solide est réservé à l’importation Onshape et aux dégagements, **pas à la conception exacte de ses trous ou composants**.
