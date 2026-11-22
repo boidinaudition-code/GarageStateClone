@@ -94,7 +94,7 @@
       2.4
     ],
     "led_orange_center_xz_mm": [
-      142,
+      96,
       53.3
     ],
     "led_orange_holder_outer_diameter_mm": 10.8,
@@ -115,14 +115,33 @@
     "attic_y_start_mm": 55,
     "attic_led_holder_xy_mm": [
       75,
-      61.5
+      65
     ],
     "attic_radio_above_false_ceiling": true,
     "attic_radio_min_roof_clearance_mm_approx": 6.2,
     "attic_power_rear_aperture_mm": [
       16,
       9
-    ]
+    ],
+    "servo_mounting_pilot_count": 4,
+    "servo_mounting_pilot_diameter_mm": 1.7,
+    "servo_mounting_base_clearance_diameter_mm": 2.3,
+    "door_side_horn_interface_diameter_mm": 12,
+    "door_side_horn_face_x_mm": 111.5,
+    "door_side_horn_to_servo_shaft_tip_nominal_gap_mm": 2.2,
+    "horn_bolt_pattern_validated": false,
+    "bearing_support_shelf_integral": true,
+    "pcb_strap_slots_mm": [
+      3.2,
+      4.2
+    ],
+    "pcb_strap_slot_count": 2,
+    "led_peg_diameter_mm": 2,
+    "led_peg_bore_diameter_mm": 2.6,
+    "led_peg_fit_per_face_mm": 0.3,
+    "mounted_led_y_mm": 65,
+    "cable_eye_qty": 4,
+    "assembly_status": "prototype, verify actual horn and servo geometry after measuring"
   },
   "qa": {
     "checked_with": "CadQuery 2.8.0, OCP 7.9.3.1, trimesh 4.11.1",
@@ -137,6 +156,9 @@
     "servo_jamb_intersection_mm3": 0,
     "door_jamb_intersection_mm3": 0,
     "compact_shell_150_collision_check": "validated by CAD CI; no hardware test",
-    "attic_3d_clearance": "XIAO Wio transistor tested against false ceiling, roof and shell; antenna + USB lead not modeled"
+    "attic_3d_clearance": "XIAO Wio transistor tested against false ceiling, roof and shell; antenna + USB lead not modeled",
+    "integral_clip_retention": "modeled without collisions; flex durability not physically tested",
+    "servo_base_M2_holes": "coaxial CAD; tap depth and screw countersink must be coupon-tested",
+    "actual_horn_bolt_pattern": "UNKNOWN, interface disk blank on purpose"
   }
 }
