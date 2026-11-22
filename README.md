@@ -73,7 +73,7 @@ Achats **100 % Gotronic** (kits déjà possédés exclus). Prix TTC actuels cont
 
 ## Mécanique retenue
 
-Garage bas et discret : **murs blancs, toit noir mono-pente amovible (+16 mm de pente sur 100 mm de profondeur), porte noire rainurée horizontalement, **sans bandeau bleu** ; retours de mur dans les deux montants de baie. Le visuel de référence est un objet posé sur une étagère ; ce n'est pas un plan coté.
+Garage bas et discret : **murs blancs, toit noir mono-pente amovible (+16 mm sur 100 mm de profondeur), porte noire rainurée horizontalement, sans bandeau bleu** ; retours de mur dans les deux montants de baie. Le visuel de référence est un objet posé sur une étagère ; ce n'est pas un plan coté.
 
 La porte est **monobloc et bascule vers l'intérieur** autour de l'axe horizontal supérieur de la façade. Fermée, elle est verticale ; ouverte, elle se range sous le toit, vers 90° géométriques. L'aspect sectionnel est purement décoratif : **pas de panneaux articulés, rails courbes, ficelle, poulie, crémaillère ni bielle**.
 
@@ -325,9 +325,9 @@ Pour éviter l'interférence avec le MG90 réel, la coque passe à **190 × 100 
 
 Les STEP importés auparavant dans Onshape ne changent pas automatiquement ; utiliser le nouvel artefact du workflow [CAD](.github/workflows/cad-validation.yml). Montage mécanique non validé physiquement.
 
-## Implantation compacte V4 — référence actuelle
+## Historique V4 — implantation compacte (toit remplacé en V5)
 
-**Le modèle actuel est une coque de 150 × 100 mm (hauteur 62/65 mm)**, soit 40 mm de moins en largeur que la V3. La porte est **décalée de 14 mm vers la gauche** : ouverture **100 × 42 mm**, **montant gauche 11 mm** (palier compact) et **montant droit 39 mm** (servo). Panneau : **99,4 × 41,4 × 2,4 mm**. Les joues intérieures de 10 mm, le toit noir en pente, les parois de 2,4 mm et l'absence de bandeau bleu sont conservés.
+**Le modèle V4 était une coque de 150 × 100 mm (hauteur 62/65 mm)** ; le toit de V5 est désormais 62/78 mm, soit 40 mm de moins en largeur que la V3. La porte est **décalée de 14 mm vers la gauche** : ouverture **100 × 42 mm**, **montant gauche 11 mm** (palier compact) et **montant droit 39 mm** (servo). Panneau : **99,4 × 41,4 × 2,4 mm**. Les joues intérieures de 10 mm, le toit noir en pente, les parois de 2,4 mm et l'absence de bandeau bleu sont conservés.
 
 Le **palier gauche est réduit à 5 mm de largeur**, avec patte compacte intégrée ; il a été reculé vers l'intérieur pour éviter d'intersecter la façade. Le servo MG90 reste **en haut à droite, coaxial à l'axe de la porte**. L'accouplement palonnier/porte de 3 mm est toujours un espace provisoire, **non une pièce mécaniquement validée**. Voir le [plan coté V4](docs/IMPLANTATION_COMPACTE_V4.md) et le [générateur](cad/generate_cad.py).
 
