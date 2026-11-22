@@ -64,8 +64,24 @@ SERVO_LUG_PITCH=29.0   # manufacturer drawing, two open-ended Ø2 notches
 SERVO_LUG_NOTCH_D=2.0
 SERVO_LUG_PILOT_D=1.7  # threaded pilot, trial fit supplied screws
 SERVO_LUG_BOSS_D=5.8  # (5.8-1.7)/2=2.05 mm radial printed wall
-SERVO_LUG_BOSS_X_FROM_SHAFT_TIP=16.7
+# DMS-MG90 official drawing, measured from the BASE of the servo toward
+# its output shaft: underside of mounting ears = exactly 16.00 mm.
+# Garage X points FROM the shaft tip TOWARD the servo base, hence the
+# underside-of-ear datum is 30 - 16 = 14 mm aft of the shaft tip.
+SERVO_LUG_UNDERSIDE_FROM_BASE = 16.0  # dimensioned, authoritative datum
+SERVO_LUG_BOSS_X_FROM_SHAFT_TIP = (
+    SERVO_OFFICIAL_ORIENTED_XYZ[0] - SERVO_LUG_UNDERSIDE_FROM_BASE + FIT
+)  # 14.30 mm: 0.30 mm printed clearance, not a tight press-fit
 SERVO_LUG_BOSS_LENGTH=6.8
+# Provisional visual estimates supplied 2026-11-22, NOT machining datums.
+# Do not use these to drive any tight feature or hole / fastener fit.
+SERVO_LUG_THICKNESS_EST_MM=2.5
+SERVO_LUG_TOP_TO_CASE_TOP_EST_MM=4.0
+SERVO_LUG_TOP_TO_SHAFT_BOSS_TOP_EST_MM=8.0
+# Unmeasured real horn and mounting screws remain explicitly unknown.
+SERVO_HORN_MOUNTED_THICKNESS_MM=None
+SERVO_MOUNT_SCREW_HEAD_D_MM=None
+SERVO_MOUNT_SCREW_UNDER_HEAD_LENGTH_MM=None
 # Cable eyes and attic strap slots: real apertures, not marketing dimensions.
 WIRE_EYE_OD = 8.0
 WIRE_EYE_ID = 3.4
@@ -287,14 +303,24 @@ base_plate=base_plate.clean()
 cradle=cradle.clean()
 # Servo-specific attachment: TWO Ø2 open notches, 29mm between centres.
 # M2 pilots run along garage X (parallel to shaft), at both Z extremities.
-# The rearmost mounting pillars avoid the main body, supported by a spine
-# along its outboard side. Supplied screw head/length must be trial-fitted.
+# The mounting pillars avoid the main body and are supported by a spine
+# along its outboard side. X position derives ONLY from manufacturer datum
+# base-to-ear underside 16mm, with FIT=0.30mm intentional relief.
+# Supplied screw head/length and ear thickness must be trial-fitted.
 SERVO_LUG_CENTERS_Z=(
  (servo_zmin+servo_zmax-SERVO_LUG_PITCH)/2,
  (servo_zmin+servo_zmax+SERVO_LUG_PITCH)/2,
 )
 SERVO_LUG_CENTERS_YZ=[]
-spine_x=SERVO_SHAFT_TIP_X+SERVO_LUG_BOSS_X_FROM_SHAFT_TIP
+# Reference-only manufacturer datum for Onshape / dimensioning; computed
+# from the CONFIRMED 16mm from base (not from three approximate offsets).
+SERVO_MANUFACTURER_BASE_X = SERVO_SHAFT_TIP_X + SERVO_OFFICIAL_ORIENTED_XYZ[0]
+SERVO_LUG_UNDERSIDE_DATUM_X = SERVO_MANUFACTURER_BASE_X - SERVO_LUG_UNDERSIDE_FROM_BASE
+# Printed front face lies 0.30 mm aft of the nominal ear underside, so
+# the surrogate MG90-A STEP and the actual ear are not force-fitted.
+spine_x=SERVO_LUG_UNDERSIDE_DATUM_X+FIT
+if abs(spine_x - (SERVO_SHAFT_TIP_X+SERVO_LUG_BOSS_X_FROM_SHAFT_TIP)) > 1e-8:
+ raise ValueError("Inconsistent servo 16mm datum placement")
 spine_y=cradle_ymax
 spine_top=SERVO_LUG_CENTERS_Z[1]+2.5
 spine=box(spine_x,spine_y,cradle_z_top-2.4,
@@ -546,6 +572,17 @@ if __name__=='__main__':
         'servo_lug_pilot_diameter_print_mm':SERVO_LUG_PILOT_D,
         'servo_lug_screw_centers_yz':SERVO_LUG_CENTERS_YZ,
         'servo_lug_screw_axis':'X (parallel to servo output axis)',
+        'servo_manufacturer_base_plane_x_mm':SERVO_MANUFACTURER_BASE_X,
+        'servo_lug_underside_from_base_manufacturer_mm':SERVO_LUG_UNDERSIDE_FROM_BASE,
+        'servo_lug_underside_nominal_datum_x_mm':SERVO_LUG_UNDERSIDE_DATUM_X,
+        'servo_lug_printed_boss_face_x_mm':spine_x,
+        'servo_lug_nominal_axial_assembly_clearance_mm':FIT,
+        'servo_ear_thickness_estimated_mm':SERVO_LUG_THICKNESS_EST_MM,
+        'servo_ear_top_to_case_top_estimated_mm':SERVO_LUG_TOP_TO_CASE_TOP_EST_MM,
+        'servo_ear_top_to_shaft_boss_top_estimated_mm':SERVO_LUG_TOP_TO_SHAFT_BOSS_TOP_EST_MM,
+        'servo_horn_mounted_thickness_mm':SERVO_HORN_MOUNTED_THICKNESS_MM,
+        'servo_mount_screw_head_diameter_mm':SERVO_MOUNT_SCREW_HEAD_D_MM,
+        'servo_mount_screw_under_head_length_mm':SERVO_MOUNT_SCREW_UNDER_HEAD_LENGTH_MM,
         'servo_official_oriented_xyz_mm':list(SERVO_OFFICIAL_ORIENTED_XYZ),
         'servo_vendor_step_oriented_xyz_mm':list(SERVO_VENDOR_ORIENTED_XYZ),
         'servo_m2_pilot_diameter':SERVO_SCREW_PILOT_D,
