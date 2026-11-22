@@ -35,6 +35,17 @@ assert b["cad"]["servo_lug_support_face_from_shaft_tip_nominal_mm"] == m["design
 assert b["cad"]["servo_lug_mount_axial_clearance_mm"] == m["design"]["servo_lug_printed_boss_axial_fit_mm"] == 0.3
 assert m["design"]["servo_mount_visual_estimates_drive_geometry"] is False
 assert b["cad"]["servo_lug_boss_d_mm"] == 5.8
+assert b["cad"]["usb_c_breakout_vendor_code"] == m["design"]["usb_c_breakout_code"] == "Gotronic 49067"
+assert b["cad"]["usb_c_breakout_published_lwh_mm"] == m["design"]["usb_c_breakout_vendor_lwh_mm"] == [21,15,4.5]
+assert b["cad"]["usb_c_carrier_integrated_into"] == "02_socle_noir"
+assert b["cad"]["usb_c_rear_aperture_wh_mm"] == m["design"]["usb_c_rear_slot_wh_mm"] == [13,8]
+assert b["cad"]["usb_c_49067_socket_face_position_confirmed"] is False
+assert b["cad"]["usb_c_49067_CC_populated_confirmed"] is None
+assert b["cad"]["usb_c_old_low_power_exit_replaced"] is True
+assert "49067" in read and "5,1 kΩ" in read
+assert "docs/ALIMENTATION_USB_C_V8.md" in read
+assert (root/"docs/ALIMENTATION_USB_C_V8.md").is_file()
+assert "USB-C" in (root/"docs/ALIMENTATION_USB_C_V8.md").read_text(encoding="utf-8")
 assert b["cad"]["servo_mount_screw_head_diameter_mm"] is None
 assert b["cad"]["servo_mount_screw_under_head_length_mm"] is None
 assert b["cad"]["servo_official_oriented_xyz_mm"] == m["design"]["servo_official_oriented_xyz_mm"]
