@@ -61,8 +61,8 @@ Les valeurs actuelles du firmware (**15° fermé, 55° intermédiaire, 95° ouve
 | **Avant en haut à droite** | Servo + support, axe coaxial sur le bord supérieur de la porte |
 | **Avant en haut à gauche** | Palier imprimé du côté opposé |
 | **Sous le toit vers l'arrière sur longueur H** | **Volume balayé : laisser intégralement libre** |
-| **Zone arrière / compartiment technique** | XIAO nRF52840 + Wio-SX1262, connecteurs, résistances et câbles ; vérifier que cette zone n'empiète pas dans le balayage |
-| **Dessous du toit à l'arrière** | Une LED blanche chaude de faible courant, tournée vers le plancher, **hors du balayage** |
+| **Dans les combles, arrière** | XIAO nRF52840 + Wio-SX1262 sur la face supérieure du faux plafond à Z=46–48,4 mm ; connecteurs, résistances et câbles hors débattement |
+| **Sous le faux plafond arrière** | LED blanche chaude tournée vers le plancher, centrée X=75, Y=61,5 mm, **hors du balayage** |
 | **Façade haute droite** | Une L7113NC 5 mm cachée en retrait derrière un petit point lumineux, résistance dédiée, câbles longeant la paroi latérale hors débattement |
 | **Face arrière** | Passage discret des alimentations USB / des fils et accès de maintenance |
 
@@ -73,7 +73,7 @@ Placer l'antenne 868 MHz sans contact avec des pièces métalliques et, si possi
 ## Éclairage et signalisation — deux LED, sans ruban
 
 **Choix V1 :**
-1. **LED blanche chaude 5 mm du lot Whadda WCS101**, Gotronic **03989**, dissimulée **sous le toit vers l'arrière**, tournée vers l'intérieur. **+5 V via 330 Ω et BC547B**, jamais une LED de puissance : D7 ne fournit qu'un courant de commande. Ne jamais l'installer dans le volume balayé. Allumée après état **OUVERT estimé** et fin du déplacement logiciel du servo, sans confirmation physique d'ouverture.
+1. **LED blanche chaude 5 mm du lot Whadda WCS101**, Gotronic **03989**, dissimulée **sous le faux plafond des combles arrière**, tournée vers l'intérieur. **+5 V via 330 Ω et BC547B**, jamais une LED de puissance : D7 ne fournit qu'un courant de commande. Ne jamais l'installer dans le volume balayé. Allumée après état **OUVERT estimé** et fin du déplacement logiciel du servo, sans confirmation physique d'ouverture.
 2. **Orange L7113NC 5 mm**, Gotronic **03051**, en façade haute droite mais **cachée derrière un petit point lumineux** (ouverture CAO proposée Ø2 mm). Elle reproduit le clignotement logiciel et sert aussi d'alerte ; luminosité et discrétion à tester.
 
 Les deux poches CAO Ø6,6 et les enveloppes Ø6 × 9 sont **provisoires**, pas des dimensions constructeur. Mesurer longueur, collerette et pattes avant impression définitive ; ne pas reprendre les cotes de l'ancienne LED 3 mm. [Achats et fournitures Gotronic](BOM_V1_VERIFIEE.md).
@@ -139,7 +139,7 @@ Le délai de 40 secondes **ne prouve pas que la vraie porte bouge** : le SAS308 
 ## Précisions dimensionnelles V1 (nouvelle CAO)
 
 - **[Tableau dimensionnel des composants et des réserves](ENCOMBREMENT_BOM_V1.md)** ; [source CAO paramétrique](../cad/generate_cad.py).
-- Gabarit décoratif CAO V4 **150 × 100 mm**, hauteur avant **62 mm** et arrière **65 mm** (pente de toit ≈ **1,72°**), parois structurelles **2,4 mm** et toit/socle **3 mm**.
+- Gabarit décoratif CAO V5 **150 × 100 mm**, hauteur avant **62 mm** et arrière **78 mm** (pente de toit ≈ **1,72°**), parois structurelles **2,4 mm** et toit/socle **3 mm**.
 - Jeu d'assemblage **0,30 mm par face** (soit +0,60 mm au diamètre ou à la largeur du logement).
 - Servo **en haut à droite de la façade** ; son **boîtier** mesure **22,3 × 11,8 × 26,3 mm** selon DFRobot ; pattes, arbre et palonnier à mesurer. Réserve de service électronique arrière **52 × 23 × 12 mm**, qui **n'est pas la dimension physique** du XIAO/Wio.
 - Porte : baie **100 × 42 mm**, vantail **99,4 × 41,4 × 2,4 mm** ; axe **Ø3,2 mm** avec palier **Ø3,8 mm** ; animation vers l'intérieur sous le toit.
@@ -154,3 +154,9 @@ Les deux **joues/retours de tableau** font **2,4 mm d'épaisseur** et se prolong
 ## V4 actuelle — réduction de largeur et décentrage
 
 La coque actuelle mesure **150 × 100 mm**, soit **40 mm plus courte** que la V3 ; l'ouverture **100 × 42 mm** est décentrée de **14 mm vers la gauche**. Montant gauche **11 mm**, droit **39 mm**. Porte **99,4 × 41,4 × 2,4 mm**, jeux **0,30 mm par côté**. Le palier est ramené à **5 mm de largeur** et possède une bride de fixation compacte entièrement hors du mur ; le servo et ses pattes restent dans le montant droit. Les joues intérieures **10 mm de profondeur et 2,4 mm d'épaisseur** et le toit en pente sont conservés. Voir [plan V4](IMPLANTATION_COMPACTE_V4.md). Tests numériques de collisions uniquement, pas encore de validation du servo réel et de son palonnier.
+
+## V5 — combles au-dessus du garage
+
+La **largeur reste 150 mm** et la profondeur 100 mm. Toit mono-pente **avant 62 mm / arrière 78 mm**, soit **+16 mm sur 100 mm** et pente ≈9,1°. Un **faux plafond démontable de 2,4 mm** s'étend de Y=55 à 95 mm et X=2,7 à 147,3 mm, posé sur des appuis imprimés latéraux ; sa face supérieure est à **Z=48,4 mm**. La pile XIAO/Wio est placée **au-dessus du plafond et sous le toit**, loin de la trajectoire de porte. Une **LED blanche unique** éclaire par le dessous du plafond (Y=61,5 mm, fil passant dans un trou Ø2,4 mm). Le servo à l'avant droit et la LED orange de façade sont inchangés. Passage arrière supérieur 16 × 9 mm ajouté pour câble basse tension ; pas d'accès secteur interne.
+
+Les STEP du XIAO/Wio et du BC547B ne rencontrent pas le toit, le faux plafond ni la coque. **≈6,2 mm de jeu vertical** sous le toit au point avant de l'enveloppe XIAO ; USB, antenne, câble coaxial et visseries **non représentés**. Voir [plan V5](TOIT_COMBLES_V5.md).

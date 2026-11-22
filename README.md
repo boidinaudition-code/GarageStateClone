@@ -73,7 +73,7 @@ Achats **100 % Gotronic** (kits déjà possédés exclus). Prix TTC actuels cont
 
 ## Mécanique retenue
 
-Garage bas et discret : **murs blancs, toit noir mono-pente amovible (+3 mm sur 100 mm de profondeur), porte noire rainurée horizontalement, **sans bandeau bleu** ; retours de mur dans les deux montants de baie. Le visuel de référence est un objet posé sur une étagère ; ce n'est pas un plan coté.
+Garage bas et discret : **murs blancs, toit noir mono-pente amovible (+16 mm de pente sur 100 mm de profondeur), porte noire rainurée horizontalement, **sans bandeau bleu** ; retours de mur dans les deux montants de baie. Le visuel de référence est un objet posé sur une étagère ; ce n'est pas un plan coté.
 
 La porte est **monobloc et bascule vers l'intérieur** autour de l'axe horizontal supérieur de la façade. Fermée, elle est verticale ; ouverte, elle se range sous le toit, vers 90° géométriques. L'aspect sectionnel est purement décoratif : **pas de panneaux articulés, rails courbes, ficelle, poulie, crémaillère ni bielle**.
 
@@ -81,10 +81,10 @@ La porte est **monobloc et bascule vers l'intérieur** autour de l'axe horizonta
 - **Palier imprimé à gauche**, avec portée/tourillon pour limiter l'effort latéral sur le servo.
 - Porte légère et rigide ; une épaisseur de départ d'environ 2 mm reste à ajuster. Prévoir jeux et butées sans jamais maintenir le servo en effort contre une butée.
 - Pour une porte de hauteur H, réserver **au moins H + marge vers l'arrière depuis l'axe** ; vérifier toute la trajectoire, épaisseur et accouplement compris. Aucune voiture décorative, LED, électronique ou fil dans le volume balayé.
-- Compartiment technique arrière hors débattement ; LED blanche chaude **5 mm** sous le toit vers l'arrière, tournée vers le plancher ; orange L7113NC **5 mm cachée en retrait**, derrière un **petit point lumineux** en haut à droite de façade : le diamètre entier n'a pas à être visible. Poches et enveloppes CAO **provisoires**, à ajuster après mesure ; câbles le long de la paroi.
+- **Combles techniques arrière** au-dessus d'un **faux plafond amovible** (XIAO/Wio). LED blanche chaude **5 mm** sous ce faux plafond, tournée vers le plancher ; orange L7113NC **5 mm cachée en retrait**, derrière un **petit point lumineux** en haut à droite de façade : le diamètre entier n'a pas à être visible. Poches et enveloppes CAO **provisoires**, à ajuster après mesure ; câbles le long de la paroi.
 - Toit démontable, servo/palonnier démontables, USB-C accessible ; antenne éloignée du métal, du servo et des fils 5 V autant que possible. Tester aussi coque fermée.
 
-**Les cotes de coque sont actuellement des propositions CAO, non validées sur les composants physiques** : **150 × 100 mm**, hauteurs avant/arrière **62/65 mm** et baie **100 × 42 mm**, décentrée de 14 mm vers la gauche. Mesurer en priorité les pattes, l'arbre et le palonnier du servo, l'assemblage XIAO/Wio, l'antenne et les connecteurs avant d'imprimer les fixations définitives. Les angles logiciels 15°/55°/95° ne sont pas des mesures géométriques validées de la porte.
+**Les cotes de coque sont actuellement des propositions CAO, non validées sur les composants physiques** : **150 × 100 mm**, hauteurs avant/arrière **62/78 mm** et baie **100 × 42 mm**, décentrée de 14 mm vers la gauche. Mesurer en priorité les pattes, l'arbre et le palonnier du servo, l'assemblage XIAO/Wio, l'antenne et les connecteurs avant d'imprimer les fixations définitives. Les angles logiciels 15°/55°/95° ne sont pas des mesures géométriques validées de la porte.
 
 ## Câblage et schémas
 
@@ -271,7 +271,7 @@ Placer les appareils dans le garage réel et la maison, puis tester les quatre �
 
 - [**Tableau exhaustif des cotes connues, réserves et dimensions à mesurer**](docs/ENCOMBREMENT_BOM_V1.md).
 - [**CAO CadQuery paramétrique — source reproductible**](cad/generate_cad.py), [notice CAO](cad/README.md).
-- Dimensions actuelles de la miniature **150 × 100 mm**, hauteurs avant/arrière **62/65 mm**, toit mono-pente **3 mm / 100 mm**, parois **2,4 mm**, jeu **0,30 mm par face** ; **ne pas confondre** ces choix CAO avec les dimensions fabricant.
+- Dimensions actuelles de la miniature **150 × 100 mm**, hauteurs avant/arrière **62/78 mm**, toit mono-pente **16 mm / 100 mm**, parois **2,4 mm**, jeu **0,30 mm par face** ; **ne pas confondre** ces choix CAO avec les dimensions fabricant.
 - Le **corps** du DMS-MG90 fait **22,3 × 11,8 × 26,3 mm**, mais palonnier, pattes et axe restent **à mesurer avant fabrication définitive**. Le XIAO seul fait **21 × 17,8 mm** ; l'enveloppe radio dans la CAO est une **réserve de service**, non sa taille réelle.
 
 
@@ -332,3 +332,15 @@ Les STEP importés auparavant dans Onshape ne changent pas automatiquement ; uti
 Le **palier gauche est réduit à 5 mm de largeur**, avec patte compacte intégrée ; il a été reculé vers l'intérieur pour éviter d'intersecter la façade. Le servo MG90 reste **en haut à droite, coaxial à l'axe de la porte**. L'accouplement palonnier/porte de 3 mm est toujours un espace provisoire, **non une pièce mécaniquement validée**. Voir le [plan coté V4](docs/IMPLANTATION_COMPACTE_V4.md) et le [générateur](cad/generate_cad.py).
 
 **Important pour Onshape :** télécharger les nouveaux STEP depuis GitHub Actions puis **réimporter le modèle**. L'ancien assemblage STEP ne sera pas automatiquement remplacé. Les contrôles CAO ne remplacent pas une impression d'essai ni une mesure des composants réels.
+
+## Version actuelle V5 : modules radio dans les combles
+
+La miniature conserve ses **150 × 100 mm au sol**, mais le toit noir mono-pente passe de **62 mm à l'avant à 78 mm à l'arrière** (rehausse arrière de 13 mm par rapport à V4, pente de 16 mm sur 100 mm). **Pas de changement du servo ni de la baie** (100 × 42 mm, décentrée vers la gauche).
+
+- Un **faux plafond amovible** (144,6 × 40 mm, épaisseur 2,4 mm) est installé **à l'arrière, Y=55–95 mm, Z=46–48,4 mm**, sur deux petits appuis solidaires des murs latéraux.
+- Les références STEP **XIAO nRF52840 + Wio-SX1262** sont déplacées **au-dessus**, sous le toit, avec environ **6,2 mm de marge verticale modélisée** sous la pente au début de leur enveloppe ; les câbles USB, l'antenne et leurs rayons de courbure **restent à valider**.
+- La **LED blanche** est désormais fixée **sous le faux plafond**, vers Y=61,5 mm, et non collée au toit. Son passage de fils Ø2,4 mm traverse le faux plafond. La LED orange et le servo restent à l'avant.
+- Une ouverture arrière basse existante est conservée, et une **nouvelle ouverture haute 16 × 9 mm** est ajoutée pour l'alimentation/connexion de la zone des combles.
+- **8 STL et 11 STEP** sont toujours générés par GitHub Actions ; le faux plafond remplace l'ancien plateau arrière. Aucun changement du firmware ni du BOM électronique.
+
+[**Plan et précautions de montage du toit/combles V5**](docs/TOIT_COMBLES_V5.md). Le modèle est encore **un prototype mécanique** ; valider les branchements du XIAO, la fixation du PCB, le palonnier et les passages d'antenne avec le matériel réel avant impression définitive.

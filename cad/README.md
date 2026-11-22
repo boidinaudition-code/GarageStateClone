@@ -14,15 +14,15 @@
 
 Le servo complet (pattes comprises) montre une enveloppe hors tout de **33,40 × 32,50 × 12,22 mm** dans le repère de son STEP. La coque actuelle est **150 × 100 mm** avec porte décentrée vers la gauche pour garder le moteur **dans le montant avant droit**, coaxial à la charnière haute de la porte. Le servo est orienté de côté pour réduire l'emprise devant la façade, et le volet continue de **se rabattre à l'intérieur**.
 
-Le XIAO et le Wio sont représentés avec leurs géométries 3D sur le plateau arrière, sans intersection avec coque, toit ou plateau. Leur empilage est **aligné approximativement** selon les trous de fixation des deux STEP et reste à contrôler après montage.
+Le XIAO et le Wio sont représentés avec leurs géométries 3D **dans les combles arrière, au-dessus du faux plafond amovible**, sans intersection avec coque, toit ou plateau. Leur empilage est **aligné approximativement** selon les trous de fixation des deux STEP et reste à contrôler après montage.
 
 ## Paramètres CAO
 
 | Paramètre | V2 |
 |---|---:|
-| Largeur × profondeur | **150 × 100 mm** |
-| Hauteur avant / arrière | **62 / 65 mm** |
-| Pente de toit | **3 mm** sur 100 mm (1,72°) |
+| Largeur × profondeur | **150 × 100 mm** (inchangé en V5) |
+| Hauteur avant / arrière | **62 / 78 mm** |
+| Pente de toit | **16 mm** sur 100 mm (≈9,1°) |
 | Parois principales | **2,4 mm** |
 | Toit / socle | **3 mm** |
 | Largeur baie / hauteur | **100 × 42 mm** |
@@ -31,7 +31,7 @@ Le XIAO et le Wio sont représentés avec leurs géométries 3D sur le plateau a
 | Axe porte / alésage palier | **Ø 3,2 / Ø 3,8 mm** |
 | Centre axe porte (repère CAO) | Y = **9,5 mm**, Z = **45,4 mm** |
 | Servo STEP, gabarit dans l'assemblage | X **113,7–146,2**, Y **3,4–15,62**, Z **23,3–56,7 mm** |
-| Éclairage blanc sous toit, arrière | Y = **69 mm** |
+| LED blanche sous faux plafond arrière | Y = **61,5 mm** (X=75, hauteur du support Z=36,2–46,2) |
 | LED orange en façade | **Ouverture optique Ø 2,0 mm**, LED Ø5 mm masquée dans une poche Ø6,6 mm, retrait **3,4 mm** |
 
 ### Modules STEP relevés (avant mise en place, hors antennes/câbles)
@@ -99,3 +99,15 @@ La **coque 150 × 100 mm** conserve le toit mono-pente (62/65 mm), le montant in
 Le **servo STEP complet** occupe désormais X ≈ **113,7–146,2 mm**, juste derrière le montant droit. La pièce palier gauche est **réduite à 5,0 mm de largeur** (alésage Ø3,8 mm) et commence à X ≈ **3,2 mm**, hors de la paroi extérieure X=0–2,4 mm ; sa bride compacte de 5 mm conserve un contact mécanique avec le palier et ne coupe pas le mur. Les deux retours intérieurs font encore **2,4 mm × 10 mm**.
 
 L'assemblage se génère toujours en **8 STL et 11 STEP** : pas de bandeau bleu, et références originales BREP conservées. Les fichiers STEP doivent être réimportés dans Onshape. [Détails CAO et limites](../docs/IMPLANTATION_COMPACTE_V4.md).
+
+## V5 actuelle — combles et toit accentué
+
+Le **toit arrière passe à Z=78 mm**, le bord avant restant Z=62 mm. La pente est donc **16 mm sur 100 mm (≈9,1°)**, sans élargir la coque compacte 150 × 100 mm. La porte reste décentrée, baie 100 × 42 mm.
+
+Le modèle imprime maintenant un **faux plafond de combles amovible** à la place de l'ancien plateau électronique : **144,6 × 40 × 2,4 mm**, de Y=55 à Y=95 mm, base Z=46 mm. Deux **appuis muraux** intégrés à la coque portent le plateau, avec **0,3 mm de jeu aux parois** ; de petites nervures sous le plateau limitent sa flexion. Les cartes sont sur la face supérieure, la LED blanche est fixée sous le plateau et son fil traverse un perçage de Ø2,4 mm.
+
+Le modèle référence **Wio Z≈51,9..59,54 mm et XIAO Z≈59,54..64,00 mm**, Y≈70,1..87,9 mm. À Y≈70,1 mm, l'intrados du toit est Z≈70,2 mm : la marge théorique est **≈6,2 mm**, sans antenne/câble/prise USB modélisés. Le BC547B est lui aussi dans les combles ; **le condensateur reste près du servo à l'avant**. Une fente arrière haute **16 × 9 mm** a été prévue (à adapter au câble réellement choisi).
+
+**Contrôles CAO :** 8 pièces imprimables, 11 fichiers STEP, STEP Wio/XIAO/transistor sans intersection avec le nouveau plafond ni le toit, et porte testée de 0 à 90°. Le couplage mécanique du servo, les véritables vis de PCB, la fixation du câble coaxial/USB et l'antenne ne sont toujours **pas validés physiquement**.
+
+Voir le [plan de montage V5](../docs/TOIT_COMBLES_V5.md). Les sections V3/V4 plus haut documentent l'historique, pas les hauteurs actuelles.

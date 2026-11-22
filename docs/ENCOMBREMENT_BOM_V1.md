@@ -27,7 +27,7 @@
 | Paramètre CAO | Cote (mm) | Statut |
 |---|---:|---|
 | Coque extérieure W × D | **150 × 100** | **P — CAO V4 actuelle**, ancienne V3 190 mm |
-| Hauteurs avant/arrière | **62 / 65** | **P** ; mono-pente +3 mm sur 100 mm (≈1,72°) |
+| Hauteurs avant/arrière | **62 / 78** | **P — V5 actuelle** ; mono-pente +16 mm sur 100 mm (≈9,1°) |
 | Parois structurelles | **2,4** | **P**, minimum exigé ≥2 |
 | Toit et socle | **3,0** | **P** |
 | Ouverture porte | **100 × 42** | **P — CAO V4 actuelle**, position X=11 mm |
@@ -35,7 +35,7 @@
 | Jeu d'emboîtement | **0,30 par face**, donc +0,60 sur largeur de trou | **P** ; coupon d'essai PLA nécessaire |
 | Axe / palier | **Ø3,2 / Ø3,8** | **P**, jeu radial 0,30 |
 | Corps servo, volume nominal | **22,3 × 11,8 × 26,3** | **C**, sans palonnier ni pattes |
-| Plateau électronique | **60 × 31**, compartiment arrière | **P** |
+| Faux plafond/plateau électronique | **144,6 × 40 × 2,4**, partie arrière Y=55..95 et Z=46..48,4 | **P — V5 actuelle**, plateau amovible |
 | Réserve de service pour les cartes et leurs fils | **52 × 23 × 12** | **P** ; ce n'est **pas** la taille de la carte |
 | C1 : logement cylindrique minimal de départ | **Ø10,6** pour Ø10 de corps | **P** ; à ajuster après mesure |
 | Orange façade : ouverture optique | **Ø2,0** | **P**, petit point visible, pas un trou de montage Ø5 |
@@ -45,7 +45,7 @@
 ## Implantation mécanique
 
 - **Servo à l'avant, côté droit**, axe moteur coaxial avec l'axe horizontal **supérieur de la porte**, palier côté gauche ; la porte rigide rainurée **bascule vers l'intérieur** et se range sous le toit en pente.
-- XIAO+Wio sur plateau arrière hors trajectoire ; condensateur proche du servo ; LED blanche à l'arrière sous le toit hors zone balayée ; LED orange en haut à droite de façade.
+- XIAO+Wio **dans les combles sur faux plafond arrière**, hors trajectoire ; condensateur proche du servo ; LED blanche **sous le faux plafond** hors zone balayée ; LED orange en haut à droite de façade.
 - Design esthétique V3 : **murs blancs, toit noir légèrement en pente, porte noire, aucun liseré bleu** ; toit amovible. Imprimante **Bambu Lab P1S + AMS**.
 - Les pièces de la V1 **ne sont pas prêtes pour l'assemblage final** : centre réel de l'arbre et entraxes de fixations MG90, sortie USB, antenne, aimant du SAS308 et collerette LED orange à mesurer.
 
@@ -74,7 +74,7 @@ Ces cotes sont des **boîtes englobantes mesurées dans les STEP de l'utilisateu
 
 La dimension **22,3 × 11,8 × 26,3 mm** du DMS-MG90 figurant ailleurs correspond à une cote de fiche pour le corps et **ne doit plus servir de volume hors tout de montage**. Le STEP utilisateur est nommé **MG90-A** : la correspondance exacte avec le servo DMS-MG90 reçu devra être vérifiée au pied à coulisse.
 
-**Coque CAO actuelle : 150 × 100 mm, hauteur avant/arrière 62/65 mm**, ouverture **100 × 42 mm**, panneau **99,4 × 41,4 × 2,4 mm**, jeu **0,30 mm de chaque côté**, toit/socle **3 mm** et parois **2,4 mm**. Le support MG90 est une selle imprimable avec garde de 0,30 mm autour de l'enveloppe STEP, **mais il faut encore concevoir les trous de vis et l'accouplement exact**. Pas de collision mesurée entre servo et coque/toit/support/porte ; voir [rapport V2](../cad/qa_report_v2.json).
+**Coque CAO actuelle : 150 × 100 mm, hauteur avant/arrière 62/78 mm**, ouverture **100 × 42 mm**, panneau **99,4 × 41,4 × 2,4 mm**, jeu **0,30 mm de chaque côté**, toit/socle **3 mm** et parois **2,4 mm**. Le support MG90 est une selle imprimable avec garde de 0,30 mm autour de l'enveloppe STEP, **mais il faut encore concevoir les trous de vis et l'accouplement exact**. Pas de collision mesurée entre servo et coque/toit/support/porte ; voir [rapport V2](../cad/qa_report_v2.json).
 
 L'assemblage Wio **sous** XIAO est une proposition de placement avec très faible intersection numérique entre leurs STEP (≈0,013 mm³) : les connexions mécaniques réelles n'ont pas été montées ni éprouvées. Antennes/câbles/vis non fournis dans ces STEP sont hors du contrôle d'encombrement.
 
@@ -86,4 +86,8 @@ L'assemblage Wio **sous** XIAO est une proposition de placement avec très faibl
 
 ## CAO compacte V4 (valeurs en vigueur)
 
-**Coque 150 × 100 mm**, hauteur **62/65 mm**, baie **100 × 42 mm** positionnée à **X=11 mm**, porte **99,4 × 41,4 × 2,4 mm**. Montant **gauche 11 mm / droit 39 mm**, axe de la porte au même Y/Z. Palier gauche **5 mm** de largeur, élément initial X=3,2 mm et façade intérieure démarrant à Y=2,7 mm (aucune intersection numérique avec la coque). Enveloppe servo STEP placée vers **X=113,7–146,2 mm** sans intersection mesurée avec la coque ni avec la joue droite. Jeu **0,30 mm par côté** ; murs **2,4 mm** ; toiture et socle **3 mm**. [Plan d'implantation V4](IMPLANTATION_COMPACTE_V4.md).
+**Coque 150 × 100 mm**, hauteur **62/78 mm**, baie **100 × 42 mm** positionnée à **X=11 mm**, porte **99,4 × 41,4 × 2,4 mm**. Montant **gauche 11 mm / droit 39 mm**, axe de la porte au même Y/Z. Palier gauche **5 mm** de largeur, élément initial X=3,2 mm et façade intérieure démarrant à Y=2,7 mm (aucune intersection numérique avec la coque). Enveloppe servo STEP placée vers **X=113,7–146,2 mm** sans intersection mesurée avec la coque ni avec la joue droite. Jeu **0,30 mm par côté** ; murs **2,4 mm** ; toiture et socle **3 mm**. [Plan d'implantation V4](IMPLANTATION_COMPACTE_V4.md).
+
+## Révision V5 (cotes actuellement en vigueur)
+
+**Coque 150 × 100 mm, toit avant/arrière 62/78 mm**. Le faux plafond arrière amovible occupe **X=2,7..147,3**, **Y=55..95**, **Z=46..48,4** ; les supports intégrés aux murs le soutiennent. La pile STEP Wio+XIAO est placée autour de X=63..86, Y=70..88, **Z≈51,9..64,0**, au-dessus du faux plafond, hors course de porte. **Intrados toit Z≈70,2 à l'avant du XIAO**, soit **≈6,2 mm de jeu** ; marge sans prise USB ni antenne. La LED blanche est sous le faux plafond à X=75 Y=61,5. La pente **16 mm / 100 mm** est un choix CAO pour loger l'électronique, pas une dimension produit. Pour le détail voir [implantation des combles V5](TOIT_COMBLES_V5.md).
