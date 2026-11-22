@@ -171,7 +171,50 @@
     "servo_mount_visual_estimates_drive_geometry": false,
     "servo_mount_screw_head_d_mm": null,
     "servo_mount_screw_length_under_head_mm": null,
-    "servo_horn_mounted_total_thickness_mm": null
+    "servo_horn_mounted_total_thickness_mm": null,
+    "usb_c_breakout_code": "Gotronic 49067",
+    "usb_c_breakout_vendor_lwh_mm": [
+      21,
+      15,
+      4.5
+    ],
+    "usb_c_rear_slot_wh_mm": [
+      13,
+      8
+    ],
+    "usb_c_rear_slot_z0_mm": 8.5,
+    "usb_c_carrier_integral_base": true,
+    "usb_c_carrier_min_xyz_mm": [
+      63.9,
+      72.4,
+      3
+    ],
+    "usb_c_carrier_width_depth_mm": [
+      22.2,
+      24.2
+    ],
+    "usb_c_carrier_top_z_mm": 9,
+    "usb_c_carrier_guide_width_height_mm": [
+      2.4,
+      3.4
+    ],
+    "usb_c_carrier_strap_tunnel_ys_mm": [
+      79,
+      89.5
+    ],
+    "usb_c_carrier_strap_tunnel_wh_mm": [
+      3.2,
+      2.7
+    ],
+    "usb_c_reference_board_nominal_xyz_min_mm": [
+      67.5,
+      74.4,
+      9.3
+    ],
+    "usb_c_board_mounting_holes_known": false,
+    "usb_c_socket_position_known": false,
+    "usb_c_CC1_CC2_pull_downs_verified": false,
+    "usb_c_core_power_distribution": "USB 5V -> separate power bus to servo and XIAO, GND common, 470uF near servo; NO feed from XIAO 3V3"
   },
   "qa": {
     "checked_with": "CadQuery 2.8.0, OCP 7.9.3.1, trimesh 4.11.1",
@@ -190,6 +233,7 @@
     "integral_clip_retention": "removed in V7: two screw pilot bosses instead",
     "servo_base_M2_holes": "coaxial CAD; tap depth and screw countersink must be coupon-tested",
     "actual_horn_bolt_pattern": "UNKNOWN, interface disk blank on purpose",
-    "manufacturer_axis_erratum": "official drawing 33mm ear-span maps to rotated STEP Z=33.4mm, NOT X=32.5mm. Prior 0.05 mm axial clearance claim invalid"
+    "manufacturer_axis_erratum": "official drawing 33mm ear-span maps to rotated STEP Z=33.4mm, NOT X=32.5mm. Prior 0.05 mm axial clearance claim invalid",
+    "usb_c_carrier": "integral to 02 base; underside strap tunnels and rear shell aperture modeled; physical connector protrusion/hole placement unknown"
   }
 }
