@@ -50,6 +50,16 @@ servo=next(x for x in core if x["id"]=="DMS-MG90")
 assert "servo fastening hardware" in servo["includes"]
 assert "LEFT_HINGE_PIN" in {x["id"] for x in p["existing_not_rebuy"]}
 assert next(x for x in p["hardware_candidates"] if x["id"]=="SERVO_DOOR_COUPLER")["status"]=="measure"
+ear_screws=next(x for x in p["hardware_candidates"] if x["id"]=="SERVO_EAR_MOUNTING_SCREWS")
+assert ear_screws["status"]=="measure" and ear_screws["ref"] is None
+assert ear_screws["qty_to_mount"]==2
+assert "Ø2mm" in ear_screws["note"] and "29mm" in ear_screws["note"]
+assert servo["verified_dimensioned_ear_underside_height_from_servo_base_mm"]==16
+assert [servo["ear_thickness_estimate_mm"],servo["ear_top_to_case_top_estimate_mm"],servo["ear_top_to_shaft_boss_top_estimate_mm"]]==[2.5,4,8]
+assert servo["actual_mount_screw_head_d_mm"] is None
+assert servo["actual_mount_screw_under_head_length_mm"] is None
+assert servo["actual_mounted_horn_thickness_mm"] is None
+assert b["cad"]["servo_lug_underside_from_base_confirmed_mm"]==16
 print(f"PASS BOM V5: {len(core)} articles electroniques = {total} EUR,"
       f" {len(p['hardware_candidates'])} lots/besoins montage classes,"
       " aucune dimension de vis finale pretendue validee")
