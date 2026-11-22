@@ -41,7 +41,25 @@
       "shaft_offset_mm": null,
       "horn_dims_mm": null,
       "status": "published",
-      "url": "https://www.gotronic.fr/art-servomoteur-dms-mg90-32266.htm"
+      "url": "https://www.gotronic.fr/art-servomoteur-dms-mg90-32266.htm",
+      "manufacturer_drawing_source": "https://www.gotronic.fr/pj2-dimensions-dms-mg90-36923-2320.pdf",
+      "manufacturer_drawing_mm": {
+        "overall_lug_length": 33,
+        "overall_width": 12,
+        "total_height_excluding_horn": 30,
+        "body_length_in_plan": 23,
+        "lug_center_pitch": 29,
+        "open_lug_notch_diameter": 2,
+        "shaft_axis_offset_from_body_end": 6,
+        "vertical_levels_from_bottom": [
+          16,
+          22.5,
+          26.5,
+          30
+        ]
+      },
+      "cad_step_discrepancy_note": "Original supplied MG90-A STEP bbox [33.4,32.5,12.221] (XYZ) => oriented 32.5x12.221x33.4mm (LWH). Official DMS-MG90 drawing => 33x12x30mm. The existing cradle derived from STEP length 32.5 +2x0.3=33.1 leaves just 0.05mm/side with the official nominal 33mm, below target FDM fit. Top clip also relies on 3.4mm taller variant. Physical measurement required before alteration.",
+      "actual_hardware_fit_verified": false
     },
     {
       "id": "C1",
@@ -144,7 +162,8 @@
       "collar_diameter_mm": null,
       "status": "published",
       "dimension_note": "Only nominal 5mm confirmed; linked L7113EC PDF is not this reference",
-      "url": "https://www.gotronic.fr/art-led-5-mm-l7113nc-2086.htm"
+      "url": "https://www.gotronic.fr/art-led-5-mm-l7113nc-2086.htm",
+      "datasheet_warning": "Gotronic links L7113EC 03050 PDF, not the ordered L7113NC 03051; do not reuse its dimensions."
     },
     {
       "id": "MCU",
@@ -156,7 +175,9 @@
         "thickness": null
       },
       "status": "published",
-      "url": "https://wiki.seeedstudio.com/XIAO_BLE/"
+      "url": "https://wiki.seeedstudio.com/XIAO_BLE/",
+      "manufacturer_2d_dxf_archive": "https://files.seeedstudio.com/wiki/XIAO-BLE/XIAO-nRF52840-DXF.zip",
+      "manufacturer_bottom_pad_archive": "https://files.seeedstudio.com/wiki/XIAO-BLE/Bottom-pad-positioning.zip"
     },
     {
       "id": "RF_STACK",
@@ -169,7 +190,8 @@
       ],
       "measured_stack_mm": null,
       "status": "published",
-      "url": "https://wiki.seeedstudio.com/xiao_nrf52840%26_wio_SX1262_kit_for_meshtastic/"
+      "url": "https://wiki.seeedstudio.com/xiao_nrf52840%26_wio_SX1262_kit_for_meshtastic/",
+      "envelope_axes_confirmed": false
     },
     {
       "id": "ANT",
@@ -368,7 +390,23 @@
       "horn_blank_12mm"
     ],
     "fit_coupons_hardware_verified": false,
-    "physical_mechanical_status": "prototype / needs print & actual DMS-MG90 horn, fastener, antenna, board stack validation"
+    "physical_mechanical_status": "prototype / needs print & actual DMS-MG90 horn, fastener, antenna, board stack validation",
+    "servo_official_dms_mg90_lwh_mm": [
+      33,
+      12,
+      30
+    ],
+    "servo_vendor_step_oriented_lwh_mm": [
+      32.5,
+      12.221,
+      33.4
+    ],
+    "servo_mount_cradle_nominal_step_internal_length_mm": 33.1,
+    "servo_mount_clearance_per_end_using_official_nominal_mm": 0.05,
+    "servo_horn_physical_verified": false,
+    "technical_dimension_catalog": "cad/component_dimensions_sources_v7.json",
+    "technical_dimension_document": "docs/FICHES_COTEES_COMPOSANTS_V7.md",
+    "precise_geometry_warning": "Do not treat the existing DMS-MG90 cradle or upper clip as manufacturer-fit: official dimensioned drawing differs from STEP proxy. Real servo and horn measurements are needed for printed final geometry."
   },
   "system_state": {
     "sensor_count": 1,
