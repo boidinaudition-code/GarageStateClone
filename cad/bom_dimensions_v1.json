@@ -335,7 +335,7 @@
       12.221
     ],
     "orange_led_center_x_mm": 96,
-    "orange_led_center_z_mm": 52.1,
+    "orange_led_center_z_mm": 52.8,
     "orange_holder_outer_diameter_mm": 10.8,
     "orange_holder_min_radial_wall_mm": 2.1,
     "dimensions_note": "V7: 150x100 shell retained. 4 base-to-cradle M2 pilot screws plus 2 *servo ears* Ø2 open notches at manufacturer 29mm pitch along garage Z. Clip replaced by printed screw pilot bosses. Manufacturer vs third-party STEP axis confusion corrected. Physical hardware validation pending.",
@@ -581,7 +581,7 @@
     "mailbox_reference_confidence": "same photo-based centre as V9, black face reduced by exactly 30% linearly (10->7mm), not 30% in area",
     "cad_printable_part_count": 9,
     "cad_step_export_count": 12,
-    "orange_led_lowered_from_v9_by_mm": 1.2,
+    "orange_led_lowered_from_v9_by_mm": 0.5,
     "roof_front_fascia_bac_acier_rib_count": 13,
     "roof_front_fascia_rib_height_projection_mm": 0.85,
     "roof_front_fascia_rib_bottom_top_z_approx_mm": [
