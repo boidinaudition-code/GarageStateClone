@@ -30,7 +30,7 @@ Dans l'ancienne version V9, sur le **montant blanc droit de la façade**, un **r
 
 La photo montre un **bandeau métallique descendant en façade** avec des lignes verticales. Les **13 nervures trapézoïdales du toit** se prolongent désormais sur **la façade avant descendante du toit noir amovible**, au même pas de **11,5 mm** et avec un relief extérieur de **0,85 mm**. La pente **62 / 78 mm** et le maintien intérieur du toit restent identiques.
 
-La **LED orange est abaissée de 1,2 mm** : X96 conservé, **Z52,1** au lieu de Z53,3. La **boîte aux lettres est 30 % plus petite en largeur et en hauteur** : plaque noire **7 × 7 × 0,75 mm** dans un logement **7,6 × 7,6 × 1,05 mm** ; centre inchangé à X129,8/Z29,3, jeu 0,30 mm par côté.
+La **LED orange est abaissée de 0,5 mm** : X96 conservé, **Z52,8** au lieu de Z53,3. La **boîte aux lettres est 30 % plus petite en largeur et en hauteur** : plaque noire **7 × 7 × 0,75 mm** dans un logement **7,6 × 7,6 × 1,05 mm** ; centre inchangé à X129,8/Z29,3, jeu 0,30 mm par côté.
 
 La **seule ouverture arrière extérieure** devient une découpe USB-C d'essai **10 × 4,2 mm** (Z9,45..13,65). La position du port réel de la **Gotronic 49067** n'étant pas publiée, cette découpe reste **à contrôler avec la platine et la fiche réelles avant impression finale**. L'ancien **trou haut arrière 16 × 9 mm est supprimé**. Les fils passent du bas vers le haut **à l'intérieur**, dans une **goulotte ouverte** à l'arrière, séparée du support USB-C, entre Z14 et Z43 (largeur libre 7,2 mm, trois petites lèvres de retenue). Aucun câble n'a besoin de traverser le mur arrière en hauteur.
 
