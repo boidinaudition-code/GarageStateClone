@@ -84,7 +84,7 @@ La porte est **monobloc et bascule vers l'intérieur** autour de l'axe horizonta
 - Compartiment technique arrière hors débattement ; LED blanche chaude **5 mm** sous le toit vers l'arrière, tournée vers le plancher ; orange L7113NC **5 mm cachée en retrait**, derrière un **petit point lumineux** en haut à droite de façade : le diamètre entier n'a pas à être visible. Poches et enveloppes CAO **provisoires**, à ajuster après mesure ; câbles le long de la paroi.
 - Toit démontable, servo/palonnier démontables, USB-C accessible ; antenne éloignée du métal, du servo et des fils 5 V autant que possible. Tester aussi coque fermée.
 
-**Les cotes de coque sont actuellement des propositions CAO, non validées sur les composants physiques** : **190 × 100 mm**, hauteurs avant/arrière **62/65 mm** et baie **110 × 42 mm**. Mesurer en priorité les pattes, l'arbre et le palonnier du servo, l'assemblage XIAO/Wio, l'antenne et les connecteurs avant d'imprimer les fixations définitives. Les angles logiciels 15°/55°/95° ne sont pas des mesures géométriques validées de la porte.
+**Les cotes de coque sont actuellement des propositions CAO, non validées sur les composants physiques** : **150 × 100 mm**, hauteurs avant/arrière **62/65 mm** et baie **100 × 42 mm**, décentrée de 14 mm vers la gauche. Mesurer en priorité les pattes, l'arbre et le palonnier du servo, l'assemblage XIAO/Wio, l'antenne et les connecteurs avant d'imprimer les fixations définitives. Les angles logiciels 15°/55°/95° ne sont pas des mesures géométriques validées de la porte.
 
 ## Câblage et schémas
 
@@ -271,7 +271,7 @@ Placer les appareils dans le garage réel et la maison, puis tester les quatre �
 
 - [**Tableau exhaustif des cotes connues, réserves et dimensions à mesurer**](docs/ENCOMBREMENT_BOM_V1.md).
 - [**CAO CadQuery paramétrique — source reproductible**](cad/generate_cad.py), [notice CAO](cad/README.md).
-- Dimensions de départ de la miniature **190 × 100 mm**, hauteurs avant/arrière **62/65 mm**, toit mono-pente **3 mm / 100 mm**, parois **2,4 mm**, jeu **0,30 mm par face** ; **ne pas confondre** ces choix CAO avec les dimensions fabricant.
+- Dimensions actuelles de la miniature **150 × 100 mm**, hauteurs avant/arrière **62/65 mm**, toit mono-pente **3 mm / 100 mm**, parois **2,4 mm**, jeu **0,30 mm par face** ; **ne pas confondre** ces choix CAO avec les dimensions fabricant.
 - Le **corps** du DMS-MG90 fait **22,3 × 11,8 × 26,3 mm**, mais palonnier, pattes et axe restent **à mesurer avant fabrication définitive**. Le XIAO seul fait **21 × 17,8 mm** ; l'enveloppe radio dans la CAO est une **réserve de service**, non sa taille réelle.
 
 
@@ -283,7 +283,7 @@ Placer les appareils dans le garage réel et la maison, puis tester les quatre �
 - [**Relevé géométrique et contrôles de collision**](cad/qa_report_v2.json)
 - [**Tableau des dimensions du BOM, y compris nouveaux STEP**](docs/ENCOMBREMENT_BOM_V1.md)
 
-**Gabarit décoratif V2 : 184 × 100 mm ; hauteurs 62/65 mm ; parois 2,4 mm ; jeu 0,30 mm par face.** Le montant avant droit a été élargi pour contenir les **oreilles et l'arbre du servo complet** (enveloppe STEP 33,40 × 32,50 × 12,22 mm dans le repère local), placé coaxialement à la charnière supérieure. Le Wio est placé **sous** le XIAO sur le plateau arrière, selon les STEP fournis.
+**Historique — gabarit décoratif V2 : 184 × 100 mm ; hauteurs 62/65 mm ; parois 2,4 mm ; jeu 0,30 mm par face.** Le montant avant droit a été élargi pour contenir les **oreilles et l'arbre du servo complet** (enveloppe STEP 33,40 × 32,50 × 12,22 mm dans le repère local), placé coaxialement à la charnière supérieure. Le Wio est placé **sous** le XIAO sur le plateau arrière, selon les STEP fournis.
 
 **Les quatre géométries sont maintenant versionnées dans ce dépôt** sous forme de fichiers `cad/refs/*.brep.z.b64` (**BREP compressées sans perte**, avec géométries solides et topologie). `cad/generate_cad.py` les charge automatiquement et régénère l'assemblage STEP ; les fichiers STEP d'origine avec leurs noms/metadonnées restent disponibles dans l'archive V2 jointe à la conversation. Il est également possible d'utiliser `python cad/import_vendor_archives.py chemin/vers/les-4-zips` pour travailler directement à partir des STEP. Avant toute redistribution de modèles tiers, vérifier les droits/licences des sources. Le dossier `stl/` de l'archive contient uniquement les pièces imprimables.
 
@@ -317,10 +317,18 @@ Si Onshape affiche **« REF_XIAO_NRF52840_STEP_NE_PAS_IMPRIMER — contains faul
 
 Les **11 STEP** et 8 STL sont générés par le workflow [CAD sur GitHub Actions](.github/workflows/cad-validation.yml), pas fusionnés comme fichiers sources. L'ancien modèle déjà importé dans Onshape **ne sera pas remplacé automatiquement**.
 
-## Modification V3 — joues intérieures, aucun bandeau bleu
+## Historique V3 — joues intérieures, aucun bandeau bleu (dimensions remplacées par V4)
 
 Sur la façade, les retours de tableau **gauche et droit** sont désormais intégrés à la coque, **2,4 mm d'épaisseur** et **10 mm de profondeur vers l'intérieur**, pour masquer le vide latéral derrière la porte. Ils restent **en dehors de la largeur mobile de la porte**, avec **0,30 mm de jeu de chaque côté**. Le palier gauche est légèrement décalé et traversé par l'axe avec un trou Ø3,8 mm ; l'axe du servo à droite est décalé de 1,5 mm pour préserver le retour.
 
 Pour éviter l'interférence avec le MG90 réel, la coque passe à **190 × 100 mm** (au lieu de 184 × 100), sans changement de l'ouverture **110 × 42 mm**, du toit mono-pente ni de la hauteur **62/65 mm**. L'écart provisoire entre le bout du panneau et le servo est porté à **3 mm**, nécessitant un accouplement restant à concevoir. **Le liseré bleu a été entièrement supprimé** des exports, des assemblages et de la vue de signalisation : il ne reste que **8 STL imprimables et 11 STEP générés**. [Détails et validations](docs/RETOURS_FACADE_V3.md).
 
 Les STEP importés auparavant dans Onshape ne changent pas automatiquement ; utiliser le nouvel artefact du workflow [CAD](.github/workflows/cad-validation.yml). Montage mécanique non validé physiquement.
+
+## Implantation compacte V4 — référence actuelle
+
+**Le modèle actuel est une coque de 150 × 100 mm (hauteur 62/65 mm)**, soit 40 mm de moins en largeur que la V3. La porte est **décalée de 14 mm vers la gauche** : ouverture **100 × 42 mm**, **montant gauche 11 mm** (palier compact) et **montant droit 39 mm** (servo). Panneau : **99,4 × 41,4 × 2,4 mm**. Les joues intérieures de 10 mm, le toit noir en pente, les parois de 2,4 mm et l'absence de bandeau bleu sont conservés.
+
+Le **palier gauche est réduit à 5 mm de largeur**, avec patte compacte intégrée ; il a été reculé vers l'intérieur pour éviter d'intersecter la façade. Le servo MG90 reste **en haut à droite, coaxial à l'axe de la porte**. L'accouplement palonnier/porte de 3 mm est toujours un espace provisoire, **non une pièce mécaniquement validée**. Voir le [plan coté V4](docs/IMPLANTATION_COMPACTE_V4.md) et le [générateur](cad/generate_cad.py).
+
+**Important pour Onshape :** télécharger les nouveaux STEP depuis GitHub Actions puis **réimporter le modèle**. L'ancien assemblage STEP ne sera pas automatiquement remplacé. Les contrôles CAO ne remplacent pas une impression d'essai ni une mesure des composants réels.

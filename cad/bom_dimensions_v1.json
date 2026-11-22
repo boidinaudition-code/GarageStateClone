@@ -194,7 +194,7 @@
     }
   ],
   "cad": {
-    "shell_width_mm": 190,
+    "shell_width_mm": 150,
     "shell_depth_mm": 100,
     "front_height_mm": 62,
     "back_height_mm": 65,
@@ -203,11 +203,11 @@
     "base_thickness_mm": 3,
     "fit_per_face_mm": 0.3,
     "door_opening_mm": [
-      110,
+      100,
       42
     ],
     "door_panel_mm": [
-      109.4,
+      99.4,
       41.4,
       2.4
     ],
@@ -254,12 +254,20 @@
     "orange_led_center_z_mm": 53.3,
     "orange_holder_outer_diameter_mm": 10.8,
     "orange_holder_min_radial_wall_mm": 2.1,
-    "dimensions_note": "V3: coque 190x100mm, baie 110x42, deux retours de mur 2.4mm d'épaisseur, avancés de 10mm vers l'intérieur; bandeau bleu supprimé. Accouplement servo toujours provisoire.",
+    "dimensions_note": "V4 compact 150x100mm : baie 100x42 decalee de 14mm a gauche; montants 11 et 39mm ; palier compact largeur 5mm ; servo a droite ; murs 2.4mm, retours 10mm, jeu 0.30mm/face ; accouplement non finalise.",
     "front_jamb_return_depth_mm": 10,
     "front_jamb_return_thickness_mm": 2.4,
     "left_pivot_jamb_bore_mm": 3.8,
     "servo_coupling_gap_mm": 3,
-    "blue_accent_removed": true
+    "blue_accent_removed": true,
+    "left_pier_width_mm": 11,
+    "right_pier_width_mm": 39,
+    "door_offset_from_center_mm": -14,
+    "compact_left_bearing_width_mm": 5,
+    "compact_bearing_left_edge_mm": 3.2,
+    "compact_bearing_y_front_mm": 2.7,
+    "compact_bearing_flange_width_mm": 5,
+    "compact_bearing_flange_x_start_mm": 3
   },
   "system_state": {
     "sensor_count": 1,

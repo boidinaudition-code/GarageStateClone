@@ -18,7 +18,7 @@ STEP = ROOT / "step"
 for folder in [STL,STEP]: folder.mkdir(parents=True, exist_ok=True)
 
 # ========= PARAMETERS (mm) =========
-W = 190.0                  # external shell width; expanded from concept to fit servo right pier
+W = 150.0                  # external shell width; expanded from concept to fit servo right pier
 D = 100.0                  # external shell depth
 H_FRONT = 62.0             # roof TOP at front
 H_BACK = 65.0              # roof TOP at rear (3 mm mono-pente)
@@ -28,9 +28,11 @@ BASE = 3.0                # floor solid thickness >= 2
 FIT = 0.30                # clearance PER FACE for slide-on and hinged fits
 ROOF_OVERHANG = 3.0
 ROOF_SKIRT_DROP = 4.5
-OPEN_W = 110.0
+OPEN_W = 100.0
 OPEN_H = 42.0
-OPEN_X = (W-OPEN_W)/2
+LEFT_PIER_W = 11.0        # compact LEFT pier for bearing
+OPEN_X = LEFT_PIER_W      # deliberately asymmetric: door shifted to left
+RIGHT_PIER_W = W-OPEN_X-OPEN_W # 39mm for MG90 + coupling + wall
 OPEN_Z = BASE
 PIVOT_Y = 9.5            # recess of axis; avoids front wall and servo body collision
 PIVOT_Z = BASE + OPEN_H + 0.4
@@ -157,12 +159,14 @@ pin=cyl_x(door_x0-HINGE_PIN_LEFT,PIVOT_Y,PIVOT_Z,HINGE_D,DOOR_W+HINGE_PIN_LEFT)
 door=door.fuse(pin).clean()
 
 # 5. Bearing block (LEFT) with cylindrical hole 3.8mm for 3.2mm pin
-bearing_x=OPEN_X-9.1
-bearing_width=6.5
-bearing=box(bearing_x,PIVOT_Y-7.8,PIVOT_Z-11,bearing_width,15.6,19.0)
+# Compact left bearing entirely inside the 11mm left pier; no collision with shell.
+bearing_x=OPEN_X-7.8
+bearing_width=5.0
+bearing=box(bearing_x,WALL+FIT,PIVOT_Z-11,bearing_width,14.6,19.0)
 bearing=bearing.cut(cyl_x(bearing_x-0.1,PIVOT_Y,PIVOT_Z,HINGE_SOCKET_D,bearing_width+0.2))
 # Add a small flange to permit attaching the bearing to the left masonry with adhesive or screws.
-flange=box(OPEN_X-18,WALL+0.5,PIVOT_Z-10,12.0,2.4,18.0)
+# Narrower fastening lug, left wall of bearing stays >= 0.30mm from shell.
+flange=box(OPEN_X-8.0,WALL+0.5,PIVOT_Z-10,5.0,2.4,18.0)
 bearing=bearing.fuse(flange).clean()
 
 # 6. Servo MG90 complet, dans le montant AVANT DROIT. Axe de sortie coaxial
@@ -371,6 +375,9 @@ if __name__=='__main__':
         'door_width':DOOR_W,'door_height':DOOR_H,'hinge_diameter':HINGE_D,
         'bearing_hole_diameter':HINGE_SOCKET_D,
         'pivot_y':PIVOT_Y,'pivot_z':PIVOT_Z,
+        'left_pier_width':LEFT_PIER_W,'right_pier_width':RIGHT_PIER_W,
+        'door_offset_from_center':(OPEN_X+OPEN_W/2)-W/2,
+        'compact_left_bearing_width':bearing_width,
         'led_white_y':led_white_y,'led_orange_x':orange_x,
         'servo_complete_STEP_local_bbox_xyz':list(SERVO_CASE),'servo_axis_tip_x':SERVO_SHAFT_TIP_X,'card_service_envelope_proposed':list(CARD_ENVELOPE),
         'xiao_pcb_nominal_LW':list(XIAO_BOARD_NOMINAL),

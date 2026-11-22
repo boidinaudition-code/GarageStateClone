@@ -74,7 +74,7 @@
   ],
   "design": {
     "shell_mm": [
-      190,
+      150,
       100
     ],
     "roof_z_front_back_mm": [
@@ -85,11 +85,11 @@
     "roof_base_thickness_mm": 3,
     "fit_per_face_mm": 0.3,
     "door_opening_mm": [
-      110,
+      100,
       42
     ],
     "door_panel_mm": [
-      109.4,
+      99.4,
       41.4,
       2.4
     ],
@@ -101,7 +101,11 @@
     "front_jamb_return_depth_mm": 10,
     "front_jamb_return_thickness_mm": 2.4,
     "blue_accent_removed": true,
-    "servo_coupling_gap_mm": 3
+    "servo_coupling_gap_mm": 3,
+    "left_pier_width_mm": 11,
+    "right_pier_width_mm": 39,
+    "door_offset_from_center_mm": -14,
+    "compact_left_bearing_width_mm": 5
   },
   "qa": {
     "checked_with": "CadQuery 2.8.0, OCP 7.9.3.1, trimesh 4.11.1",
@@ -114,6 +118,7 @@
     "led_orange_relocated_to_avoid_servo": true,
     "generated_step_validation": "reimport and compare individual STEP volumes; validate reference checksums and door sweep",
     "servo_jamb_intersection_mm3": 0,
-    "door_jamb_intersection_mm3": 0
+    "door_jamb_intersection_mm3": 0,
+    "compact_shell_150_collision_check": "validated by CAD CI; no hardware test"
   }
 }

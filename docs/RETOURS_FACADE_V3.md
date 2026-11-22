@@ -1,4 +1,6 @@
-# V3 — retours intérieurs de façade et suppression du liseré bleu
+# Historique V3 — retours intérieurs de façade et suppression du liseré bleu
+
+> **Version historique (190 mm). La version actuelle est la [V4 compacte 150 mm](IMPLANTATION_COMPACTE_V4.md)** ; ces cotes sont conservées pour comprendre les changements, pas pour fabriquer la dernière version.
 
 ## Demande et aspect attendu
 
