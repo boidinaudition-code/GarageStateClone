@@ -2,6 +2,8 @@
 
 **Révision : 22 novembre 2026.** Document de référence courant pour la coque **150 × 100**, toit **62 / 78**, mécanique V6. La [BOM de 2026-11-21/V5](BOM_V1_VERIFIEE.md) et le [détail historique de la quincaillerie V5](QUINCAILLERIE_MONTAGE_V5.md) sont conservés comme traces d'audit mais **ne définissent pas les fixations V6 actuelles**. La vraie compatibilité des vis servo/horn et de l'antenne demande une mesure avant montage définitif.
 
+**Sources dimensionnelles mises à jour** : voir [l'audit V7 de toutes les fiches cotées](FICHES_COTEES_COMPOSANTS_V7.md) et [son inventaire JSON](../cad/component_dimensions_sources_v7.json). Le plan constructeur **DMS-MG90** (33 × 12 × 30 mm, fixation entraxe 29 mm) diffère du STEP MG90-A de la CAO V6 : la longueur interne du berceau 33,1 mm n'offre théoriquement que 0,05 mm de jeu par bout. **Ne pas confondre la BOM validée pour les achats et un ajustement mécanique validé.**
+
 ## A. Déjà disponible — ne pas acheter deux fois
 
 | Quantité | Élément | Vérification requise |
