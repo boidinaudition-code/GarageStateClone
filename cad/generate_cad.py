@@ -42,6 +42,22 @@ DOOR_H = OPEN_H - 2*FIT
 HINGE_D = 3.2
 HINGE_SOCKET_D = HINGE_D + 2*FIT
 HINGE_PIN_LEFT = 6.0
+# V6 coupling INTERFACE: printed blank, drilled ONLY after inspecting actual horn.
+# Delivers a centered datum and a useful door-side hub, NOT a final horn pattern.
+DRIVE_DISC_R = 6.0
+DRIVE_DISC_X0 = OPEN_X+OPEN_W-FIT-2.7
+DRIVE_DISC_END_X = OPEN_X+OPEN_W+0.50 # face at x=111.5; shaft tip at x=113.7
+DRIVE_JAMB_BORE_D = 2*(DRIVE_DISC_R+FIT)
+# Actual attachment of cradle to printed base: four M2-size pilot bosses.
+SERVO_FOOT_SIZE = 6.0
+SERVO_FOOT_HEIGHT = 5.5
+SERVO_SCREW_CLEARANCE_D = 2.3 # pilot / head tested on printed coupon
+SERVO_SCREW_PILOT_D = 1.7
+SERVO_SCREW_HEAD_D = 4.2
+# Cable eyes and attic strap slots: real apertures, not marketing dimensions.
+WIRE_EYE_OD = 8.0
+WIRE_EYE_ID = 3.4
+PCB_TIE_SLOT = (3.2, 4.2)
 JAMB_RETURN_DEPTH = 10.0  # internal extension beyond front wall
 JAMB_RETURN_THICK = WALL  # 2.4mm, outside door panel width
 # V5: removable attic floor, XIAO/Wio stack ABOVE the garage, rear under roof.
@@ -52,7 +68,7 @@ ATTIC_PLATE_THICK=WALL
 ATTIC_X0=WALL+FIT
 ATTIC_W=W-2*(WALL+FIT)
 ATTIC_LED_X=W/2
-ATTIC_LED_Y=61.5
+ATTIC_LED_Y=65.0
 ATTIC_SUPPORT_WIDTH=4.0
 ATTIC_SUPPORT_HEIGHT=WALL
 LED_ORANGE_D = 3.0
@@ -119,7 +135,24 @@ left_jamb_return=left_jamb_return.cut(
         HINGE_SOCKET_D,JAMB_RETURN_THICK+0.2))
 right_jamb_return=box(OPEN_X+OPEN_W,WALL-0.05,BASE,
                       JAMB_RETURN_THICK,JAMB_RETURN_DEPTH+0.05,OPEN_H)
+# Circular relief through the right inner reveal for the door-side coupling hub.
+# Outer front fascia stays solid; the return below the axis still hides servo.
+right_jamb_return=right_jamb_return.cut(cyl_x(
+  OPEN_X+OPEN_W-0.1,PIVOT_Y,PIVOT_Z,DRIVE_JAMB_BORE_D,
+  JAMB_RETURN_THICK+0.2))
 shell=shell.fuse(left_jamb_return).fuse(right_jamb_return).clean()
+# Bearing is not left hanging: flush landing ledge against the front wall.
+BEARING_SEAT_Z=PIVOT_Z-11
+bearing_shelf=box(3.0,WALL,BEARING_SEAT_Z-2.4,5.3,15.5,2.4)
+shell=shell.fuse(bearing_shelf).clean()
+# Low cable routing eyelets on side walls, away from door sweep and electronics.
+wire_eyes=[]
+for xcenter in (WALL+3.0,W-WALL-3.0):
+ for ey in (35.0,73.0):
+  ring=cyl_y(xcenter,ey,12.0,WIRE_EYE_OD,3.0)
+  ring=ring.cut(cyl_y(xcenter,ey-0.1,12.0,WIRE_EYE_ID,3.2))
+  wire_eyes.append(ring)
+shell=union_all([shell]+wire_eyes)
 # Low-profile ledges fused to the walls to support the removable attic shelf.
 attic_left_ledge=box(WALL,ATTIC_Y0+2,ATTIC_Z0-ATTIC_SUPPORT_HEIGHT,
                      ATTIC_SUPPORT_WIDTH,ATTIC_DEPTH-4,ATTIC_SUPPORT_HEIGHT)
@@ -133,7 +166,7 @@ shell=shell.cut(box(W/2-6,D-WALL-0.2,6,12,WALL+0.5,8))
 # Clearance for actual connector/strain relief still to be measured.
 shell=shell.cut(box(W/2-8,D-WALL-0.2,ATTIC_Z0+3,16,WALL+0.5,9))
 # Recessed 5mm amber LED: provisional rear pocket and small optical aperture.
-orange_x=OPEN_X+OPEN_W-5.0  # haut droit de la baie, hors volume servo STEP
+orange_x=OPEN_X+OPEN_W-15.0 # above opening, clear of V6 drive hub
 orange_z=BASE+OPEN_H+8.3 # assez haut pour ne pas toucher la porte basculante
 orange_holder=cyl_y(orange_x,WALL-0.2,orange_z,10.8,10.2)  # paroi radial >=2.1mm
 shell=shell.fuse(orange_holder)
@@ -177,7 +210,13 @@ for i in range(1,5):
 # Rotating pin: 3.2mm diameter with 6mm projection into LEFT bearing only.
 # Cylinder fully fused along top edge of door.
 pin=cyl_x(door_x0-HINGE_PIN_LEFT,PIVOT_Y,PIVOT_Z,HINGE_D,DOOR_W+HINGE_PIN_LEFT)
-door=door.fuse(pin).clean()
+door=door.fuse(pin)
+# Printed integral Ø12mm pilot face for the supplied servo HORN.
+# No screw holes: the actual DMS-MG90 horn must be offered up and drilled
+# to its real pattern. Do NOT glue to the servo shaft or assume spline fit.
+drive_disc=cyl_x(DRIVE_DISC_X0,PIVOT_Y,PIVOT_Z,2*DRIVE_DISC_R,
+                 DRIVE_DISC_END_X-DRIVE_DISC_X0)
+door=door.fuse(drive_disc).clean()
 
 # 5. Bearing block (LEFT) with cylindrical hole 3.8mm for 3.2mm pin
 # Compact left bearing entirely inside the 11mm left pier; no collision with shell.
@@ -189,6 +228,8 @@ bearing=bearing.cut(cyl_x(bearing_x-0.1,PIVOT_Y,PIVOT_Z,HINGE_SOCKET_D,bearing_w
 # Narrower fastening lug, left wall of bearing stays >= 0.30mm from shell.
 flange=box(OPEN_X-8.0,WALL+0.5,PIVOT_Z-10,5.0,2.4,18.0)
 bearing=bearing.fuse(flange).clean()
+# The bearing rests on the printed shell shelf and can be glued after dry-fit;
+# it is NOT yet a captive screw-mounted bearing.
 
 # 6. Servo MG90 complet, dans le montant AVANT DROIT. Axe de sortie coaxial
 # avec le pivot X de la porte (modele STEP: sortie suivant +Y d'origine).
@@ -208,11 +249,34 @@ cradle=box(cradle_xmin,cradle_ymin,cradle_z_top-2.4,
            cradle_xmax-cradle_xmin,cradle_ymax-cradle_ymin,2.4)
 cradle=cradle.fuse(box(cradle_xmin,cradle_ymax,cradle_z_top-2.4,
                       cradle_xmax-cradle_xmin,2.4,6.0))
+# Four thickened M2 pilot feet on cradle, secured FROM BELOW the base.
+# Counterbores in base use flush-head screw geometry; test actual screw first.
+SERVO_MOUNT_HOLES=[]
 for xi in (cradle_xmin+4.0,cradle_xmax-7.5):
  for yi in (cradle_ymin+0.5,cradle_ymax-3.9):
   cradle=cradle.fuse(box(xi,yi,BASE,3.2,3.2,cradle_z_top-2.4-BASE+0.02))
+  cradle=cradle.fuse(box(xi-1.4,yi-1.1,BASE,SERVO_FOOT_SIZE,
+                         SERVO_FOOT_SIZE,SERVO_FOOT_HEIGHT))
+  SERVO_MOUNT_HOLES.append((xi+1.6,yi+1.9))
 cradle=cradle.clean()
-# Fixations et palonnier restent a mesurer physiquement.
+for mx,my in SERVO_MOUNT_HOLES:
+ base_plate=base_plate.cut(cq.Solid.makeCylinder(
+   SERVO_SCREW_CLEARANCE_D/2,BASE+0.2,V(mx,my,-0.1),V(0,0,1)))
+ base_plate=base_plate.cut(cq.Solid.makeCone(
+   SERVO_SCREW_HEAD_D/2,SERVO_SCREW_CLEARANCE_D/2,1.2,
+   V(mx,my,-0.01),V(0,0,1)))
+ cradle=cradle.cut(cq.Solid.makeCylinder(
+   SERVO_SCREW_PILOT_D/2,SERVO_FOOT_HEIGHT+0.01,
+   V(mx,my,BASE-0.005),V(0,0,1)))
+base_plate=base_plate.clean()
+cradle=cradle.clean()
+# Integrated slender RETENTION CLIP at back of servo, ~0.8mm lip intrusion.
+# The STEP proxy still does not certify flexural life or servo variant fit.
+servo_clip_stem=box(130.0,16.05,cradle_z_top-0.5,7.0,2.4,
+                     57.6-(cradle_z_top-0.5))
+servo_clip_lip=box(130.0,14.8,57.6,7.0,3.65,1.6)
+cradle=cradle.fuse(servo_clip_stem).fuse(servo_clip_lip).clean()
+# Horn drilling and precise case retainer strength require printed trial.
 
 # 7. Removable full-width false ceiling at REAR, with XIAO/Wio above.
 tray_x0=W/2-30
@@ -230,8 +294,19 @@ tray=tray.fuse(box(tray_x0,tray_y0+31-2.4,ATTIC_Z0+ATTIC_PLATE_THICK,
                    60,2.4,2.4))
 # Wire feedthrough to the warm-white LED below, away from radio board.
 tray=tray.cut(cq.Solid.makeCylinder(1.2,ATTIC_PLATE_THICK+0.2,
-                     V(ATTIC_LED_X,ATTIC_LED_Y,ATTIC_Z0-0.1),V(0,0,1))).clean()
-# The printed roof remains removable for service; exact PCB mounts TBD.
+                     V(ATTIC_LED_X,ATTIC_LED_Y,ATTIC_Z0-0.1),V(0,0,1)))
+# Two strap slots OUTSIDE vendor PCB envelope. Use a soft insulating pad;
+# do not tighten a tie directly onto fragile SMD components.
+PCB_STRAP_SLOTS=[(56.8,77.0),(89.7,77.0)]
+for sx,sy in PCB_STRAP_SLOTS:
+ tray=tray.cut(box(sx,sy,ATTIC_Z0-0.1,PCB_TIE_SLOT[0],
+                   PCB_TIE_SLOT[1],ATTIC_PLATE_THICK+0.2))
+# Four low printed support pads under Wio 3D footprint; 0.3mm vertical gap.
+PCB_PADS=[(64.0,70.5),(81.0,70.5),(64.0,84.0),(81.0,84.0)]
+for px,py in PCB_PADS:
+ tray=tray.fuse(box(px,py,ATTIC_Z0+ATTIC_PLATE_THICK,4.0,3.0,3.2))
+tray=tray.clean()
+# Exact USB bend/antenna and board fastening remain unvalidated.
 
 # 8. Liseré bleu supprimé : façade blanche sans pièce additionnelle.
 
@@ -242,9 +317,25 @@ led_white_x=ATTIC_LED_X
 led_white_y=ATTIC_LED_Y
 roof_under_z=H_FRONT-ROOF+(H_BACK-H_FRONT)*led_white_y/D
 holder_bottom=ATTIC_Z0-9.8
-holder=cq.Solid.makeCylinder(5.0,10.0,V(led_white_x,led_white_y,holder_bottom),V(0,0,1))
+holder=cq.Solid.makeCylinder(5.0,9.8,V(led_white_x,led_white_y,holder_bottom),V(0,0,1))
 holder=holder.cut(cq.Solid.makeCylinder(LED_POCKET_D/2,10.2,
-                   V(led_white_x,led_white_y,holder_bottom-0.1),V(0,0,1))).clean()
+                   V(led_white_x,led_white_y,holder_bottom-0.1),V(0,0,1)))
+# Actual LED assembly fit: flush annular face PLUS 2 alignment pegs
+# Ø2mm in Ø2.6mm holes, 0.30mm RADIAL clearance. No overlap with ceiling ribs.
+LED_HOLDER_PINS=[]
+for sign in (-1,1):
+ flange_x=led_white_x-9.0 if sign<0 else led_white_x+4.0
+ holder=holder.fuse(box(flange_x,led_white_y-2.0,ATTIC_Z0-2.4,
+                       5.0,4.0,2.4))
+ pin_x=led_white_x+sign*6.5
+ holder=holder.fuse(cq.Solid.makeCylinder(1.0,2.0,
+                          V(pin_x,led_white_y,ATTIC_Z0),V(0,0,1)))
+ LED_HOLDER_PINS.append((pin_x,led_white_y))
+holder=holder.clean()
+for px,py in LED_HOLDER_PINS:
+ tray=tray.cut(cq.Solid.makeCylinder(1.3,ATTIC_PLATE_THICK+0.2,
+                     V(px,py,ATTIC_Z0-0.1),V(0,0,1)))
+tray=tray.clean()
 
 PRINTABLE={
   '01_coque_blanche':shell,
@@ -411,6 +502,17 @@ if __name__=='__main__':
         'door_offset_from_center':(OPEN_X+OPEN_W/2)-W/2,
         'compact_left_bearing_width':bearing_width,
         'led_white_y':led_white_y,'led_orange_x':orange_x,
+        'door_drive_disc_outer_diameter':2*DRIVE_DISC_R,
+        'door_drive_disc_face_x':DRIVE_DISC_END_X,
+        'door_drive_gap_to_servo_shaft_nominal':SERVO_SHAFT_TIP_X-DRIVE_DISC_END_X,
+        'door_drive_jamb_bore_diameter':DRIVE_JAMB_BORE_D,
+        'servo_base_screw_centers_xy':SERVO_MOUNT_HOLES,
+        'servo_m2_pilot_diameter':SERVO_SCREW_PILOT_D,
+        'servo_m2_clearance_diameter':SERVO_SCREW_CLEARANCE_D,
+        'pcb_strap_slots_xy':PCB_STRAP_SLOTS,
+        'pcb_strap_slot_size':PCB_TIE_SLOT,
+        'pcb_support_pad_positions_xy':PCB_PADS,
+        'led_holder_pin_xy':LED_HOLDER_PINS,
         'attic_ceiling_bottom_z':ATTIC_Z0,
         'attic_ceiling_top_z':ATTIC_Z0+ATTIC_PLATE_THICK,
         'attic_y_start':ATTIC_Y0,'attic_depth':ATTIC_DEPTH,
