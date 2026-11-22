@@ -70,13 +70,13 @@ La V6 concrétise plusieurs interfaces qui étaient seulement illustrées en V5 
 
 Le vrai DMS-MG90 pourrait différer du **MG90-A** des références 3D fournies. Les modèles tiers conservent leurs géométries originales en **BREP compressées avec SHA256 contrôlé** ; le modèle XIAO simplifié en un seul solide est réservé à l’importation Onshape et aux dégagements, **pas à la conception exacte de ses trous ou composants**.
 
-**Lire avant fabrication :** [guide d’assemblage V6 avec toutes les cotes, essais et limites](docs/ASSEMBLAGE_V6.md).
+**Lire avant fabrication :** [fixations servo V7](docs/FIXATIONS_SERVO_V7.md) puis [guide d'assemblage V6](docs/ASSEMBLAGE_V6.md) pour les autres sous-ensembles (les instructions du crochet V6 sont remplacées).
 
 ## Liste de pièces et coûts
 
 Les **deux kits XIAO/Wio, l’imprimante et les filaments** sont déjà disponibles. Le **noyau électronique complémentaire indicatif** est de **23,43 € TTC** hors livraison, alimentation, vis, fils et consommables : un SAS308, un servo DMS-MG90, un condensateur 470 µF, un BC547B, quatre valeurs de résistances, une LED orange et le **lot entier de 130 LEDs WCS101** dont une blanche chaude est utilisée.
 
-**Ne pas racheter le palonnier ni ses vis** : ils sont fournis avec le DMS-MG90. **Pas d’axe métallique** à acheter pour la charnière gauche imprimée.
+**Le palonnier et des vis sont annoncés fournis avec le DMS-MG90**, mais il faut contrôler leur nombre, leur tête, leur longueur et leur aptitude aux deux pilotes Ø1,7. **Pas d’axe métallique** à acheter pour la charnière gauche imprimée.
 
 Le montage nécessite aussi selon votre stock : **2 antennes 868 MHz compatibles**, 2 câbles USB-C, **2 ou 3 alimentations 5 V selon l’architecture**, un adaptateur servo JR facultatif, petite plaque à souder, gaine isolante, fil souple pour D6/D7/D0, colliers de câbles, protection des jonctions du SAS308, et **quatre vis M2 expérimentales** pour le socle. Le besoin et les tailles définitives sont détaillés sans inventer de compatibilité :
 
@@ -121,7 +121,7 @@ python cad/test_fit_coupons.py
 Cela produit :
 - **8 STL imprimables** dans **cad/stl/** et **11 STEP** dans **cad/step/** (8 pièces + assemblage V6, structure sans références tierces, XIAO simplifié).
 - **3 STL d’éprouvettes** dans **cad/coupons/** pour jeu de charnière, pilote M2 et gabarit vierge de palonnier. Imprimer les éprouvettes avant les grandes pièces.
-- Des rapports de métriques et de vérification. Les tests mesurent les géométries et des échantillons de rotation, **pas la résistance des crochets ni la fiabilité réelle des vis**.
+- Des rapports de métriques et de vérification. Les tests mesurent les géométries et des échantillons de rotation, **pas la résistance du maintien imprimé ni la fiabilité réelle des vis**.
 
 Sur GitHub, ouvrir **[Actions — validations CAD et firmware](https://github.com/boidinaudition-code/GarageStateClone/actions/workflows/cad-validation.yml)**, choisir une exécution réussie puis télécharger l’artefact **garage-state-clone-cad-step-stl**. Pour Onshape, importer **GarageStateClone_V2_assemblage_STEP_references.step** (nom historique conservé), ou **GarageStateClone_V2_STRUCTURE_SANS_REFERENCES_ONSHAPE.step** si une référence électronique déclenche “contains faults”. **Réimporter** les STEP après chaque changement, Onshape ne les met pas à jour automatiquement.
 
@@ -146,9 +146,9 @@ Les firmware compilés et les exports CAO sont automatiquement contrôlés par [
 
 ## Tests, documentation et limites
 
-Consulter le [**rapport d’audit complet V6**](docs/AUDIT_REPO_V6.md) et surtout la [**checklist d’assemblage et de mise en service**](docs/ASSEMBLAGE_V6.md).
+Consulter d'abord le [**montage servo V7**](docs/FIXATIONS_SERVO_V7.md), puis l'[audit historique V6](docs/AUDIT_REPO_V6.md) et la [checklist d'assemblage](docs/ASSEMBLAGE_V6.md) pour les autres sous-ensembles.
 
-**Avant de considérer la miniature prête à offrir :** imprimer les coupons, mesurer le **vrai palonnier**, vérifier les quatre fixations du berceau et le crochet, assurer une retenue non conductrice de la radio, installer les antennes et l’alimentation sans conflit sous le toit, tester le capteur/aimant sur la vraie porte en toute sécurité, puis répéter plusieurs cycles et les scénarios coupure radio/secteur.
+**Avant de considérer la miniature prête à offrir :** imprimer les coupons, mesurer le **vrai palonnier**, vérifier les quatre fixations du berceau ET les deux pilotes du servo (29 mm), assurer une retenue non conductrice de la radio, installer les antennes et l’alimentation sans conflit sous le toit, tester le capteur/aimant sur la vraie porte en toute sécurité, puis répéter plusieurs cycles et les scénarios coupure radio/secteur.
 
 Autres documents utiles : [implantation des combles V5](docs/TOIT_COMBLES_V5.md) *(implantation historique du faux plafond, certaines positions LED remplacées par V6)*, [cotes V4](docs/IMPLANTATION_COMPACTE_V4.md) *(historique)*, [dimensions publiées et inconnues des composants](docs/ENCOMBREMENT_BOM_V1.md) et [dépannage STEP Onshape](docs/ONSHAPE_IMPORT_XIAO.md).
 
