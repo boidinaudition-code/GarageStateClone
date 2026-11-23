@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Small, OPTIONAL calibration STL parts; NOT part of the 8 printable garage bodies.
+"""Small, OPTIONAL calibration STL parts; NOT part of the 9 printable garage bodies.
 
 Print coupons first on the Bambu P1S at the same material, wall count and
 orientation as the actual mechanical pieces. Do not assume these demonstrate
@@ -51,3 +51,15 @@ for x,y in ((10,10),(7.0,10),(13.0,10)):
     horn=horn.cut(cylinder(3.15,x,y,.7,.45))
 horn=horn.clean()
 save(horn,"C_gabarit_face_palonnier_D12_SANS_ENTRAXE_VALIDE")
+
+# D (V13): two ear-pilot centres exactly 29mm apart from DMS-MG90 drawing,
+# centred on a simple 45mm × 10mm trial bridge. Use it only to check
+# actual ear notch pitch / M2 supplied screws before printing full cradle.
+# This is NOT a measured horn drill template.
+lug=box(0,0,0,45,10,6)
+for x in (8.0,37.0):
+    lug=lug.cut(cylinder(-0.1,x,5.0,1.7,6.2))
+    lug=lug.cut(cq.Solid.makeCone(1.15,0.85,0.45,
+                                 V(x,5,5.6),V(0,0,1)))
+lug=lug.clean()
+save(lug,"D_DMS_MG90_oreilles_entraxe29_pilotes_D1p7")
