@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""V6: cross-check firmware, CAD, BOM and canonical README.
+"""V12: cross-check firmware, CAD, BOM, source drawing and current README.
 
 This test checks repository claims and source constants, NOT actual hardware fit.
 """
@@ -23,13 +23,20 @@ assert b["cad"]["compact_left_bearing_width_mm"] == m["design"]["compact_left_be
 assert b["cad"]["roof_bac_acier_rib_count"] == m["design"]["roof_bac_acier_rib_count"] == 9
 assert b["cad"]["roof_front_fascia_bac_acier_rib_count"] == m["design"]["roof_front_fascia_standing_seams_count"] == 9
 assert b["cad"]["mailbox_opening_to_black_left_gap_mm"] == m["design"]["mailbox_visible_gap_to_opening_mm"] == 10.0
-assert b["cad"]["shell_depth_mm"] == 100
+assert b["cad"]["shell_depth_mm"] == m["design"]["shell_mm"][1] == 85
+assert b["cad"]["attic_ceiling_depth_mm"] == m["design"]["attic_false_ceiling_mm"][1] == 25
+assert b["cad"]["service_tray_mm"] == [100.2,25]
+assert b["cad"]["garage_depth_reduction_from_v11_mm"] == 15.0
+assert b["cad"]["usb_c_board_nominal_xyz_min_mm"] == m["design"]["usb_c_reference_board_nominal_xyz_min_mm"] == [45.3,59.4,9.3]
+assert b["cad"]["usb_c_carrier_nominal_xyz_min_mm"] == m["design"]["usb_c_carrier_min_xyz_mm"] == [41.7,57.4,3]
+assert b["cad"]["usb_c_strap_tunnel_ys_mm"] == m["design"]["usb_c_carrier_strap_tunnel_ys_mm"] == [64,74.5]
+assert b["cad"]["internal_cable_riser_x0_y0_z0_mm"] == m["design"]["cable_riser_wall_position_xyz_mm"] == [90,78.6,14]
 assert [b["cad"]["front_height_mm"],b["cad"]["back_height_mm"]] == m["design"]["roof_z_front_back_mm"] == [62,78]
 assert b["cad"]["door_opening_mm"] == [55.6,42]
 assert b["cad"]["door_panel_mm"] == [55,41.4,2.4]
 assert b["cad"]["fit_per_face_mm"] == 0.3
 assert b["cad"]["wall_mm"] >= 2.0
-assert b["cad"]["orange_led_center_x_mm"] == m["design"]["led_orange_center_xz_mm"][0] == 51.6
+assert b["cad"]["orange_led_center_x_mm"] == m["design"]["led_orange_center_xz_mm"][0] == 5.3
 assert b["cad"]["attic_internal_light_holder_xy_mm"] == m["design"]["attic_led_holder_xy_mm"] == [52.8,65]
 assert b["cad"]["led_holder_pin_diameter_mm"] == 2
 assert b["cad"]["led_holder_hole_diameter_mm"] == 2.6
@@ -51,19 +58,27 @@ assert b["cad"]["mailbox_pocket_width_height_depth_mm"] == m["design"]["mailbox_
 assert b["cad"]["mailbox_insert_width_height_thickness_mm"] == m["design"]["mailbox_insert_width_height_thickness_mm"] == [7,7,0.75]
 assert b["cad"]["mailbox_insert_linear_reduction_from_v9_percent"] == m["design"]["mailbox_insert_reduction_linear_percent_vs_v9"] == 30
 assert b["cad"]["roof_front_fascia_bac_acier_rib_count"] == m["design"]["roof_front_fascia_standing_seams_count"] == 9
-assert b["cad"]["orange_led_center_z_mm"] == m["design"]["led_orange_center_xz_mm"][1] == 52.8
+assert b["cad"]["orange_led_center_z_mm"] == m["design"]["led_orange_center_xz_mm"][1] == 32.0
+assert b["cad"]["orange_led_body_flange_d_mm"] == m["design"]["orange_led_drawing_body_flange_d_mm"] == [5,5.9]
+assert b["cad"]["orange_led_body_total_length_mm"] == m["design"]["orange_led_drawing_front_to_flange_back_mm"] == 8.6
+assert b["cad"]["orange_led_body_flange_socket_d_mm"] == m["design"]["orange_led_body_flange_bores_mm"] == [5.6,6.5]
+assert b["cad"]["orange_led_lead_pitch_mm"] == m["design"]["orange_led_drawing_pins_pitch_mm"] == 2.54
+assert b["cad"]["orange_led_mount_location"].startswith("front left white pier")
+assert m["design"]["orange_led_at_bearing_left"] is True
 assert b["cad"]["mailbox_separate_black_part"] is True
 assert m["design"]["mailbox_insert_separate_stl"] is True
 assert b["cad"]["mailbox_print_part"] == "10_boite_aux_lettres_noire"
 assert b["cad"]["cad_printable_part_count"] == 9
 assert b["cad"]["cad_step_export_count"] == 12
 assert "bac acier" in read and "boîte aux lettres" in read
-assert "docs/TOIT_BAC_ACIER_BOITE_LETTRES_V9.md" in read
-assert "docs/COMPACTAGE_GARAGE_V11.md" in read
-assert (root/"docs/COMPACTAGE_GARAGE_V11.md").is_file()
-assert "4 clips" in read and "aucun œillet" in read
-assert "10 mm" in read
-assert (root/"docs/TOIT_BAC_ACIER_BOITE_LETTRES_V9.md").is_file()
+assert "docs/PROFONDEUR_LED_V12.md" in read
+assert (root/"docs/PROFONDEUR_LED_V12.md").is_file()
+assert "4 clips" in read and "Aucun œillet" in read
+assert "10 mm" in read and "Ø5,9" in read
+# Single-version README: no old version sections or old garage depth.
+assert "V11" not in read and "V10" not in read and "V9" not in read
+assert "105,6 × 100" not in read
+assert "100 × 42" not in read
 assert "9 STL" in cadread and "12 STEP" in cadread
 assert b["cad"]["usb_c_breakout_published_lwh_mm"] == m["design"]["usb_c_breakout_vendor_lwh_mm"] == [21,15,4.5]
 assert b["cad"]["usb_c_carrier_integrated_into"] == "02_socle_noir"
@@ -104,20 +119,20 @@ assert "static constexpr uint8_t PIN_SERVO = D6" in firm
 assert "static constexpr uint8_t PIN_INTERIOR_LED = D7" in firm
 assert "static constexpr uint8_t PIN_AMBER_LED = D0" in firm
 assert "ANGLE_CLOSED = 15" in firm and "ANGLE_OPEN = 95" in firm
-for marker in ("V6", "105,6 × 100", "55 mm", "62 / 78", "2,4", "0,30",
-               "23,43", "Ø12", "Ø2,3", "Ø1,7", "0–90", "LoRa"):
+for marker in ("V12", "105,6 × 85", "55 mm", "62 / 78", "2,4", "0,30",
+               "Ø12", "Ø2,3", "Ø1,7", "0–90", "LoRa", "25 × 2,4",
+               "Ø5,9", "2,54", "27 mm", "49067", "SAS308"):
     assert marker in read, ("README missing",marker)
-assert "V6" in cadread and "3 coupons" in cadread
+assert "V12" in cadread and "3 coupons" in cadread
+assert "105,6 × 85" in cadread
+assert "V11" not in cadread and "V10" not in cadread and "V9" not in cadread
 assert "Ø3,2" in read and "Ø3,8" in read
-assert "docs/ASSEMBLAGE_V6.md" in read and "docs/AUDIT_REPO_V6.md" in read
-assert "BOM_V6.md" in read
-for name in ("ASSEMBLAGE_V6.md","AUDIT_REPO_V6.md","BOM_V6.md"):
-    assert (root/"docs"/name).is_file()
-assert "V6" in (root/"docs/BOM_V6.md").read_text()
-assert "V6" in (root/"docs/ASSEMBLAGE_V6.md").read_text()
+# Old docs remain archived in the repo, but README must present only V12.
+assert "docs/PROFONDEUR_LED_V12.md" in cadread
+assert (root/"docs/PROFONDEUR_LED_V12.md").is_file()
 assert len(list((root/"cad/refs").glob("*.brep.z.b64"))) == 4
 # Explicit non-certified assembly claims in canonical docs
 for token in ("palonnier", "non", "tester"):
     assert token in read.lower()
 assert "boîtier" in read.lower() and "SAS308" in read
-print("PASS cross-check V6: firmware roles/pins, CAD/BOM/LED positions, README, unknowns")
+print("PASS cross-check V12: cabinet85, attic25, LED drawing, firmware roles/pins, latest-only README")
