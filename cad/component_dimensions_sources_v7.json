@@ -380,11 +380,11 @@
   ],
   "critical_design": {
     "shell_lw": [
-      150,
+      105.6,
       100
     ],
     "servo_mount_nominal_clearance_per_face": 0.3,
-    "note": "ERRATUM: V7 predecessor compared manufacturer 33mm ear-span (Z in assembled model) to STEP 32.5mm output-axis (X); the claimed 0.05mm/side interference was INVALID. Correct matched-axis comparisons are manufacturer X30 vs STEP X32.5; Y12 vs STEP Y12.221; Z33 vs STEP Z33.4. Pitch 29mm along Z is authoritative, not necessarily face/horn screw pattern.",
+    "note": "ERRATUM: V7 predecessor compared manufacturer 33mm ear-span (Z in assembled model) to STEP 32.5mm output-axis (X); the claimed 0.05mm/side interference was INVALID. Correct matched-axis comparisons are manufacturer X30 vs STEP X32.5; Y12 vs STEP Y12.221; Z33 vs STEP Z33.4. Pitch 29mm along Z is authoritative, not necessarily face/horn screw pattern. On 2026-11-23, new outer shell W=105.6mm, true printed door W55mm, and servo retained in 39mm right pier; this does not change the manufacturer's component measurements.",
     "servo_official_oriented_xyz": [
       30,
       12,
@@ -416,8 +416,8 @@
     ],
     "usb_c_49067_board_orientation_provisional": "garage XYZ=15x21x4.5",
     "usb_c_rear_slot_wh_mm": [
-      13,
-      8
+      10,
+      4.2
     ],
     "usb_c_carrier_base_integral": true,
     "usb_c_carrier_top_z_mm": 9,
@@ -427,6 +427,8 @@
     ],
     "usb_c_socket_offsets_and_pcb_holes_unconfirmed": true,
     "usb_c_Rd_configuration_unverified": true,
-    "usb_c_wiring_document": "docs/ALIMENTATION_USB_C_V8.md"
+    "usb_c_wiring_document": "docs/ALIMENTATION_USB_C_V8.md",
+    "current_cad_revision": "V11 compact (supplier dimensions of MG90 unchanged from V7)",
+    "usb_c_port_cut_provisional": true
   }
 }
