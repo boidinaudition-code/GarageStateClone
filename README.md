@@ -84,7 +84,7 @@ La CI GitHub Actions valide la génération, les maillages et BREP, les exports 
 
 ## Documentation et fichiers
 
-- [Plan mécanique V13 : profondeur, implantation radio et fixation LED](docs/PROFONDEUR_LED_V13.md)
+- [Plan technique actuel V13 : berceau, composants et mesures restantes](docs/SERVO_DMS_MG90_PALONNIERS_V13.md)
 - [Sources CadQuery et README technique](cad/README.md)
 - [Catalogue des dimensions constructeur et du dessin LED orange](cad/component_dimensions_sources_v7.json)
 - [Nomenclature dimensionnelle courante](cad/bom_dimensions_v1.json)
