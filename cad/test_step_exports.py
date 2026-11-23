@@ -162,9 +162,9 @@ assert bom["cad"]["cad_step_export_count"] == 13
 assert manifest["design"]["cad_printable_count"] == 10
 assert manifest["design"]["cad_step_count"] == 13
 assert manifest["design"]["cable_riser_cover_part_name"] == "11_couvercle_goulotte_arriere"
-assert overlap(g.cable_riser_cover,g.shell)<1e-5, "lid must fit rail rebates"
-assert overlap(g.cable_riser_cover,g.tray)<1e-5
-assert overlap(g.cable_riser_cover,g.roof_lid)<1e-5
+assert g.cable_riser_cover.intersect(g.shell).Volume()<1e-5, "lid must fit rail rebates"
+assert g.cable_riser_cover.intersect(g.tray).Volume()<1e-5
+assert g.cable_riser_cover.intersect(g.roof_lid).Volume()<1e-5
 assert g.cable_riser_cover.isValid() and len(g.cable_riser_cover.Solids())==1
 assert (g.CABLE_RISER_RAIL_W-g.CABLE_RISER_GROOVE_DEPTH_X)>=1.2
 assert manifest["design"]["upper_rear_attic_external_hole_removed"] is True
