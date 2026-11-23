@@ -74,4 +74,4 @@ Les fichiers imprimables vont dans `cad/stl/`, les pièces et les 2 assemblages 
 
 **Tests numériques obligatoires avant merge :** formes et maillages 9/12, vérification source BREP, collisions entre composants référencés et coque/toit/porte/servomoteur, jeu de l'axe Ø3,2, porte **0–90°**, dimensions de la douille orange, dégagement du palier, emplacement XIAO/Wio dans les combles Y55..80, et cohérence des valeurs de la nomenclature.
 
-[README principal V13](../README.md) · [Cotes et justification de la profondeur/LED](../docs/PROFONDEUR_LED_V13.md) · [BOM JSON](bom_dimensions_v1.json) · [Plan d'orange fourni : dimensions consignées ici](component_dimensions_sources_v7.json).
+[README principal V13](../README.md) · [Cotes et plan d'assemblage actuels](../docs/SERVO_DMS_MG90_PALONNIERS_V13.md) · [BOM JSON](bom_dimensions_v1.json) · [Plan d'orange fourni : dimensions consignées ici](component_dimensions_sources_v7.json).
