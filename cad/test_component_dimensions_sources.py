@@ -71,9 +71,22 @@ assert bom["cad"]["servo_horn_mounted_face_to_outer_face_mm"] is None
 assert "16,00" in docs and "provisoire" in docs.lower()
 assert not bom["cad"]["servo_horn_physical_verified"]
 
-assert by_id["LED1"]["dimensions"]["flange_diameter"] is None
-assert by_id["LED2"]["dimensions"]["flange_diameter"] is None
-assert "L7113EC" in by_id["LED2"]["notes"] and "L7113NC" in by_id["LED2"]["notes"]
+assert by_id["LED1"]["dimensions"]["flange_diameter"] is None, "white LED remains unmeasured"
+orange = by_id["LED2"]
+assert orange["dimensions"]["nominal_body_diameter"] == 5.0
+assert orange["dimensions"]["flange_diameter"] == 5.9
+assert orange["dimensions"]["body_length"] == 8.6
+assert orange["dimensions"]["lead_pitch"] == 2.54
+assert orange["dimensions"]["flange_thickness_max"] == 1.0
+assert orange["dimensions"]["lead_length_min"] == 27.0
+assert orange["dimensions"]["lead_square_width_nominal"] == 0.5
+assert orange["dimensions"]["lead_square_width_tolerance"] == 0.05
+assert orange["supplemental_drawing_source"].startswith("dimensioned engineering drawing supplied by user")
+assert bom["cad"]["orange_led_body_flange_d_mm"] == [5.0,5.9]
+assert bom["cad"]["orange_led_body_total_length_mm"] == 8.6
+assert bom["cad"]["orange_led_body_flange_socket_d_mm"] == [5.6,6.5]
+assert "27mm minimum" in orange["notes"]
+assert by_id["LED1"]["dimensions"]["body_length"] is None
 assert by_id["S1"]["dimensions"]["magnet_lwh"] is None
 assert by_id["ANT"]["dimensions"]["antenna_body"] is None
 assert by_id["MCU"]["manufacturer_2d_dxf_archive"].endswith(".zip")
