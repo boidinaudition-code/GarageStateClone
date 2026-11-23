@@ -22,8 +22,12 @@ ROOT = Path(__file__).resolve().parent
 manifest = json.loads((ROOT / "vendor_models/manifest.json").read_text(encoding="utf-8"))
 bom = json.loads((ROOT / "bom_dimensions_v1.json").read_text(encoding="utf-8"))
 assert bom["system_state"]["sensor_count"] == 1
-assert manifest["design"]["shell_mm"][0] == g.W == bom["cad"]["shell_width_mm"] == 150
-assert manifest["design"]["door_opening_mm"][0] == g.OPEN_W == bom["cad"]["door_opening_mm"][0] == 100
+assert manifest["design"]["shell_mm"][0] == g.W == bom["cad"]["shell_width_mm"] == 105.6
+assert math.isclose(g.DOOR_W,55.0,abs_tol=1e-8)
+assert math.isclose(g.OPEN_W,55.6,abs_tol=1e-8)
+assert math.isclose(g.W, g.LEFT_PIER_W + g.OPEN_W + g.RIGHT_PIER_W, abs_tol=1e-8)
+assert g.W==105.6 and bom["cad"]["printed_door_exact_width_mm"] == 55.0
+assert manifest["design"]["door_opening_mm"][0] == g.OPEN_W == bom["cad"]["door_opening_mm"][0] == 55.6
 assert g.WALL >= 2 and g.ROOF >= 2 and g.BASE >= 2 and g.FIT == 0.3
 assert g.LED_ENVELOPE == (6.0, 9.0)
 assert len(g.PRINTABLE) == 9
@@ -39,25 +43,26 @@ assert manifest["design"]["roof_z_front_back_mm"] == [62,78]
 assert bom["cad"]["front_height_mm"] == 62 and bom["cad"]["back_height_mm"] == 78
 assert bom["cad"]["attic_ceiling_bottom_z_mm"] == g.ATTIC_Z0 == 46
 assert bom["cad"]["attic_ceiling_depth_mm"] == g.ATTIC_DEPTH == 40
-assert bom["cad"]["attic_ceiling_width_mm"] == g.ATTIC_W == 144.6
+assert math.isclose(bom["cad"]["attic_ceiling_width_mm"], g.ATTIC_W, abs_tol=1e-8)
+assert math.isclose(g.ATTIC_W,100.2,abs_tol=1e-8)
 assert g.ATTIC_PLATE_THICK == g.WALL == 2.4
 assert "07_faux_plafond_combles_XIAO" in g.PRINTABLE
 assert g.LEFT_PIER_W == g.OPEN_X == 11.0
-assert g.RIGHT_PIER_W == 39.0
+assert math.isclose(g.RIGHT_PIER_W,39.0,abs_tol=1e-8)
 assert g.door_x1 < g.right_jamb_return.BoundingBox().xmin
 # V9 user photo: roof standing seams on upper face; shallow glued black
 # mailbox in the white FRONT right pier; no change below the roof.
-assert g.ROOF_RIB_COUNT == 13
-assert len(g.roof_front_fascia_seams) == 13
+assert g.ROOF_RIB_COUNT == 9
+assert len(g.roof_front_fascia_seams) == 9
 assert g.ROOF_FASCIA_RIB_PROJECTION == 0.85
 assert g.ROOF_FASCIA_RIB_BOTTOM_Z > g.H_FRONT-g.ROOF-g.ROOF_SKIRT_DROP-1.0
 assert g.ROOF_FASCIA_RIB_TOP_Z > g.H_FRONT-1.0
-assert manifest["design"]["roof_front_fascia_standing_seams_count"] == 13
+assert manifest["design"]["roof_front_fascia_standing_seams_count"] == 9
 assert manifest["design"]["roof_front_fascia_seams_continuous_with_top"] is True
-assert bom["cad"]["roof_front_fascia_bac_acier_rib_count"] == 13
+assert bom["cad"]["roof_front_fascia_bac_acier_rib_count"] == 9
 assert all(seam.isValid() and len(seam.Solids())==1
            for seam in g.roof_front_fascia_seams)
-assert len(g.ROOF_RIB_XS) == len(g.roof_standing_seams) == 13
+assert len(g.ROOF_RIB_XS) == len(g.roof_standing_seams) == 9
 assert math.isclose(g.ROOF_RIB_PITCH, 11.5)
 assert math.isclose(g.ROOF_RIB_RISE, 0.95)
 assert math.isclose(g.ROOF_RIB_BASE_W, 2.5)
@@ -79,17 +84,26 @@ assert math.isclose((g.MAILBOX_POCKET_W-g.MAILBOX_INSERT_W)/2,g.FIT,abs_tol=1e-8
 assert math.isclose((g.MAILBOX_POCKET_H-g.MAILBOX_INSERT_H)/2,g.FIT,abs_tol=1e-8)
 assert g.MAILBOX_FACE_RELIEF_Y+g.MAILBOX_INSERT_THICK < g.MAILBOX_POCKET_DEPTH
 assert g.mailbox_insert.isValid() and len(g.mailbox_insert.Solids())==1
-assert bom["cad"]["roof_bac_acier_rib_count"] == manifest["design"]["roof_bac_acier_rib_count"] == 13
+assert bom["cad"]["roof_bac_acier_rib_count"] == manifest["design"]["roof_bac_acier_rib_count"] == 9
 assert bom["cad"]["mailbox_separate_black_part"] is True
 assert bom["cad"]["mailbox_pocket_width_height_depth_mm"] == [7.6,7.6,1.05]
 assert bom["cad"]["mailbox_insert_width_height_thickness_mm"] == [7,7,0.75]
 assert bom["cad"]["mailbox_insert_linear_reduction_from_v9_percent"] == 30
 assert math.isclose(g.MAILBOX_INSERT_W / 10.0, 0.7, abs_tol=1e-8)
 assert math.isclose(g.MAILBOX_INSERT_H / 10.0, 0.7, abs_tol=1e-8)
-assert math.isclose(g.MAILBOX_POCKET_X0+g.MAILBOX_POCKET_W/2,129.8,abs_tol=1e-8)
+assert math.isclose(g.MAILBOX_POCKET_X0+g.MAILBOX_POCKET_W/2,80.1,abs_tol=1e-8)
+assert math.isclose(g.MAILBOX_INSERT_X0 - (g.OPEN_X+g.OPEN_W),
+                    10.0,abs_tol=1e-8)
+assert bom["cad"]["mailbox_opening_to_black_left_gap_mm"] == 10.0
+assert manifest["design"]["mailbox_visible_gap_to_opening_mm"] == 10.0
 assert math.isclose(g.MAILBOX_POCKET_Z0+g.MAILBOX_POCKET_H/2,29.3,abs_tol=1e-8)
 assert manifest["design"]["mailbox_insert_separate_stl"] is True
-assert g.bearing_width == 5.0
+assert g.bearing_width == 4.6
+assert g.bearing_depth == 12.0 and g.bearing_height == 12.0
+assert bom["cad"]["compact_left_bearing_width_mm"] == 4.6
+assert bom["cad"]["compact_left_bearing_depth_mm"] == 12
+assert bom["cad"]["compact_left_bearing_height_mm"] == 12
+assert math.isclose(g.BEARING_SEAT_Z,g.PIVOT_Z-6,abs_tol=1e-8)
 assert bom["cad"]["left_pier_width_mm"] == 11
 assert bom["cad"]["right_pier_width_mm"] == 39
 assert bom["cad"]["door_offset_from_center_mm"] == -14.0
@@ -260,7 +274,23 @@ assert [*g.SERVO_OFFICIAL_ORIENTED_XYZ] == bom["cad"]["servo_official_oriented_x
 assert [*g.SERVO_VENDOR_ORIENTED_XYZ] == bom["cad"]["servo_vendor_step_oriented_xyz_mm"]
 assert bom["cad"]["servo_lug_screw_count"] == manifest["design"]["servo_ear_mount_count"] == 2
 assert bom["cad"]["servo_base_mount_count"] == 4
-assert len(g.wire_eyes)==4
+assert len(g.wire_eyes)==0, "old four lower wire rings still present"
+assert bom["cad"]["cable_eyes_qty"] == manifest["design"]["cable_eye_qty"] == 0
+assert len(g.servo_cable_clips)==4
+assert len(g.SERVO_CABLE_CLIP_YZ)==4
+assert (g.SERVO_CABLE_CLIP_OUTER_D-g.SERVO_CABLE_CLIP_INNER_D)/2>=2.0
+assert g.SERVO_CABLE_CLIP_ENTRY_GAP_Z==2.2
+assert bom["cad"]["servo_cable_clip_count"] == manifest["design"]["servo_cable_clips_count"] == 4
+for (cy,cz),clip in zip(g.SERVO_CABLE_CLIP_YZ,g.servo_cable_clips):
+    assert clip.isValid() and len(clip.Solids())==1
+    assert not g.shell.isInside(cq.Vector(g.SERVO_CABLE_CLIP_X,cy,cz),1e-5), "clip bore blocked"
+    assert g.shell.isInside(cq.Vector(g.SERVO_CABLE_CLIP_X,cy,cz+2.7),1e-5), "clip not fused to shell"
+    assert not g.shell.isInside(cq.Vector(g.SERVO_CABLE_CLIP_X-3.0,cy,cz),1e-5), "clip entry closed"
+    assert overlap(clip,g.cradle) < 1e-5
+    assert overlap(clip,g.tray) < 1e-5
+for x_old in (g.WALL+3.0,g.W-g.WALL-3.0):
+    for y_old in (35.0,73.0):
+        assert not g.shell.isInside(cq.Vector(x_old,y_old,12.0),1e-5), "old eyelet not removed"
 assert len(g.PCB_STRAP_SLOTS)==2
 assert len(g.PCB_PADS)==4
 assert len(g.LED_HOLDER_PINS)==2
@@ -274,10 +304,12 @@ for ey,ez in g.SERVO_LUG_CENTERS_YZ:
                               cq.Vector(g.spine_x-0.1,ey,ez), cq.Vector(1,0,0))
     assert overlap(g.cradle,hole)<1e-5, ("servo lug pilot blocked",ez)
 assert not hasattr(g,"servo_clip_lip"), "fragile unverified hook should be removed"
-assert (g.WIRE_EYE_OD-g.WIRE_EYE_ID)/2>=2
+assert g.SERVO_CABLE_CLIP_X<g.W-g.WALL
+assert math.isclose(g.SERVO_CABLE_CLIP_X,g.W-g.WALL-2.1,abs_tol=1e-8)
 assert g.DRIVE_DISC_R==6
 assert math.isclose(g.DRIVE_JAMB_BORE_D-2*g.DRIVE_DISC_R,2*g.FIT)
-assert math.isclose(g.DRIVE_DISC_END_X,111.5)
+assert math.isclose(g.DRIVE_DISC_END_X,67.1)
+assert bom["cad"]["door_drive_disc_axial_bounds_mm"]==[63.6,67.1]
 assert math.isclose(g.SERVO_SHAFT_TIP_X-g.DRIVE_DISC_END_X,2.2)
 assert g.door.distance(g.shell)>=g.FIT-0.01
 assert g.bearing.distance(g.shell)<0.01 # bearing rests on integral shelf
@@ -299,6 +331,12 @@ for cx,cy in g.SERVO_MOUNT_HOLES:
 assert math.isclose(g.ATTIC_Z0+g.ATTIC_PLATE_THICK+3.2+g.FIT,
                     g.ref_wio.BoundingBox().zmin,abs_tol=0.02)
 assert g.ATTIC_LED_Y == 65.0
+assert math.isclose(g.ATTIC_LED_X,g.W/2,abs_tol=1e-8)
+assert g.PCB_STRAP_SLOTS == [(g.W/2-18.2,77.0),(g.W/2+14.7,77.0)]
+assert g.PCB_PADS == [(g.W/2-11.0,70.5),(g.W/2+6.0,70.5),
+                       (g.W/2-11.0,84.0),(g.W/2+6.0,84.0)]
+assert bom["cad"]["pcb_strap_slot_positions_xy_mm"] == [[34.6,77],[67.5,77]]
+assert bom["cad"]["pcb_support_pads_xy_mm"] == [[41.8,70.5],[58.8,70.5],[41.8,84],[58.8,84]]
 assert g.orange_x == g.OPEN_X+g.OPEN_W-15.0
 assert math.isclose(g.orange_z,52.8,abs_tol=1e-8)
 assert bom["cad"]["orange_led_center_z_mm"] == manifest["design"]["led_orange_center_xz_mm"][1] == 52.8
@@ -398,4 +436,4 @@ for angle in range(0, 91, 5):
         "support LED blanche": g.holder,
     }.items():
         assert overlap(door, shape) < 1e-5, ("collision porte", angle, label)
-print("PASS — V10: 13 nervures sur toit ET fascia, LED Z52.8, boite 7x7, USB 10x4.2, goulotte, 12 STEP/9 STL")
+print("PASS — V11: shell 105.6mm, door 55mm, 10mm black mailbox gap, 9 roof ribs, reduced bearing, 4 servo cable clips, 0 bottom eyes, 12 STEP/9 STL")

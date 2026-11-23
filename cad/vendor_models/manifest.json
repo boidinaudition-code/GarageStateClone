@@ -74,7 +74,7 @@
   ],
   "design": {
     "shell_mm": [
-      150,
+      105.6,
       100
     ],
     "roof_z_front_back_mm": [
@@ -85,16 +85,16 @@
     "roof_base_thickness_mm": 3,
     "fit_per_face_mm": 0.3,
     "door_opening_mm": [
-      100,
+      55.6,
       42
     ],
     "door_panel_mm": [
-      99.4,
+      55,
       41.4,
       2.4
     ],
     "led_orange_center_xz_mm": [
-      96,
+      51.6,
       52.8
     ],
     "led_orange_holder_outer_diameter_mm": 10.8,
@@ -105,29 +105,26 @@
     "left_pier_width_mm": 11,
     "right_pier_width_mm": 39,
     "door_offset_from_center_mm": -14,
-    "compact_left_bearing_width_mm": 5,
+    "compact_left_bearing_width_mm": 4.6,
     "attic_false_ceiling_mm": [
-      144.6,
+      100.2,
       40,
       2.4
     ],
     "attic_floor_bottom_z_mm": 46,
     "attic_y_start_mm": 55,
     "attic_led_holder_xy_mm": [
-      75,
+      52.8,
       65
     ],
     "attic_radio_above_false_ceiling": true,
     "attic_radio_min_roof_clearance_mm_approx": 6.2,
-    "attic_power_rear_aperture_mm": [
-      16,
-      9
-    ],
+    "attic_power_rear_aperture_mm": null,
     "servo_mounting_pilot_count": 4,
     "servo_mounting_pilot_diameter_mm": 1.7,
     "servo_mounting_base_clearance_diameter_mm": 2.3,
     "door_side_horn_interface_diameter_mm": 12,
-    "door_side_horn_face_x_mm": 111.5,
+    "door_side_horn_face_x_mm": 67.1,
     "door_side_horn_to_servo_shaft_tip_nominal_gap_mm": 2.2,
     "horn_bolt_pattern_validated": false,
     "bearing_support_shelf_integral": true,
@@ -140,7 +137,7 @@
     "led_peg_bore_diameter_mm": 2.6,
     "led_peg_fit_per_face_mm": 0.3,
     "mounted_led_y_mm": 65,
-    "cable_eye_qty": 4,
+    "cable_eye_qty": 0,
     "assembly_status": "prototype, verify actual horn and servo geometry after measuring",
     "servo_ear_screws_pitch_z_mm": 29,
     "servo_ear_open_notches_d_mm": 2,
@@ -185,7 +182,7 @@
     "usb_c_rear_slot_z0_mm": 9.45,
     "usb_c_carrier_integral_base": true,
     "usb_c_carrier_min_xyz_mm": [
-      63.9,
+      41.7,
       72.4,
       3
     ],
@@ -207,7 +204,7 @@
       2.7
     ],
     "usb_c_reference_board_nominal_xyz_min_mm": [
-      67.5,
+      45.3,
       74.4,
       9.3
     ],
@@ -216,7 +213,7 @@
     "usb_c_CC1_CC2_pull_downs_verified": false,
     "usb_c_core_power_distribution": "USB 5V -> separate power bus to servo and XIAO, GND common, 470uF near servo; NO feed from XIAO 3V3",
     "roof_style": "bac acier esthétique à joints debout trapézoïdaux, nervures continues selon pente Y",
-    "roof_bac_acier_rib_count": 13,
+    "roof_bac_acier_rib_count": 9,
     "roof_bac_acier_rib_first_x_mm": 5.5,
     "roof_bac_acier_rib_pitch_mm": 11.5,
     "roof_bac_acier_rib_base_crown_width_mm": [
@@ -228,7 +225,7 @@
     "roof_bac_acier_detail_status": "artistically designed from user garage photo, NOT a measured real roof profile",
     "mailbox_reference": "user's photo: small near-square dark mailbox on white right pier, immediately right of garage door",
     "mailbox_pocket_xz_mm": [
-      126,
+      76.3,
       25.5
     ],
     "mailbox_pocket_width_height_depth_mm": [
@@ -247,7 +244,7 @@
     "mailbox_insert_color": "black",
     "mailbox_ornamental_slot": true,
     "mailbox_physical_scale_verified": false,
-    "roof_front_fascia_standing_seams_count": 13,
+    "roof_front_fascia_standing_seams_count": 9,
     "roof_front_fascia_standing_seams_pitch_mm": 11.5,
     "roof_front_fascia_seam_outward_projection_mm": 0.85,
     "roof_front_fascia_seams_continuous_with_top": true,
@@ -264,7 +261,39 @@
     "cable_riser_open_width_mm": 7.2,
     "cable_riser_length_z_mm": 29,
     "cable_riser_lip_count": 3,
-    "cable_riser_reaches_attic_without_external_hole": true
+    "cable_riser_reaches_attic_without_external_hole": true,
+    "compact_left_bearing_depth_height_mm": [
+      12,
+      12
+    ],
+    "servo_cable_clips_count": 4,
+    "servo_cable_clips_inner_outer_d_mm": [
+      3.4,
+      7.4
+    ],
+    "servo_cable_clip_gap_mm": 2.2,
+    "servo_cable_clip_yz_mm": [
+      [
+        21,
+        42
+      ],
+      [
+        31,
+        42.5
+      ],
+      [
+        41,
+        43
+      ],
+      [
+        51,
+        43.5
+      ]
+    ],
+    "servo_cable_clips_wall": "right inside wall, C slots open toward decreasing X, parallel to Y, no former lower eyelets",
+    "mailbox_black_left_x_mm": 76.6,
+    "mailbox_visible_gap_to_opening_mm": 10,
+    "compact_shell_v11": "105.6mm overall width includes left pier 11mm, opening55.6mm for actual 55mm printed door (0.3 per face), right pier39mm unchanged; servo model x and roof rib count updated; real horn and USB measurements pending"
   },
   "qa": {
     "checked_with": "CadQuery 2.8.0, OCP 7.9.3.1, trimesh 4.11.1",
@@ -285,6 +314,6 @@
     "actual_horn_bolt_pattern": "UNKNOWN, interface disk blank on purpose",
     "manufacturer_axis_erratum": "official drawing 33mm ear-span maps to rotated STEP Z=33.4mm, NOT X=32.5mm. Prior 0.05 mm axial clearance claim invalid",
     "usb_c_carrier": "integral to 02 base; underside strap tunnels and rear shell aperture modeled; physical connector protrusion/hole placement unknown",
-    "roof_mailbox_design": "V10: 13 trapezoidal ribs on roof top and 13 aligned vertical roof fascia; reduced black glue-in mailbox 7x7mm; orange LED Z52.8; minimal approximate USB opening and interior cable chase; print fit not yet checked physically"
+    "roof_mailbox_design": "V11 compact: 9 ribs top+fascia on 105.6mm width; door 55.0mm printed/55.6 opening; 10mm mailbox black-left gap; reduced bearing; 4 inside C cable clips replacing all lower eyelets; no hardware fit claimed."
   }
 }

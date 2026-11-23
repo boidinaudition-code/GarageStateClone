@@ -278,7 +278,7 @@
     }
   ],
   "cad": {
-    "shell_width_mm": 150,
+    "shell_width_mm": 105.6,
     "shell_depth_mm": 100,
     "front_height_mm": 62,
     "back_height_mm": 78,
@@ -287,11 +287,11 @@
     "base_thickness_mm": 3,
     "fit_per_face_mm": 0.3,
     "door_opening_mm": [
-      100,
+      55.6,
       42
     ],
     "door_panel_mm": [
-      99.4,
+      55,
       41.4,
       2.4
     ],
@@ -308,7 +308,7 @@
       12
     ],
     "service_tray_mm": [
-      144.6,
+      100.2,
       40
     ],
     "orange_optical_aperture_mm": 2,
@@ -334,11 +334,11 @@
       32.5,
       12.221
     ],
-    "orange_led_center_x_mm": 96,
+    "orange_led_center_x_mm": 51.6,
     "orange_led_center_z_mm": 52.8,
     "orange_holder_outer_diameter_mm": 10.8,
     "orange_holder_min_radial_wall_mm": 2.1,
-    "dimensions_note": "V7: 150x100 shell retained. 4 base-to-cradle M2 pilot screws plus 2 *servo ears* Ø2 open notches at manufacturer 29mm pitch along garage Z. Clip replaced by printed screw pilot bosses. Manufacturer vs third-party STEP axis confusion corrected. Physical hardware validation pending.",
+    "dimensions_note": "V11 compact: printable door exactly 55mm; 55.6mm opening, 105.6mm overall shell (39mm servo pier preserved). 10mm visible mailbox gap. Compact left bearing and 4 side wall cable C-clips instead of 4 lower eyes. USB port profile and servo hardware remain physically unverified.",
     "front_jamb_return_depth_mm": 10,
     "front_jamb_return_thickness_mm": 2.4,
     "left_pivot_jamb_bore_mm": 3.8,
@@ -347,19 +347,19 @@
     "left_pier_width_mm": 11,
     "right_pier_width_mm": 39,
     "door_offset_from_center_mm": -14,
-    "compact_left_bearing_width_mm": 5,
-    "compact_bearing_left_edge_mm": 3.2,
+    "compact_left_bearing_width_mm": 4.6,
+    "compact_bearing_left_edge_mm": 3.4,
     "compact_bearing_y_front_mm": 2.7,
-    "compact_bearing_flange_width_mm": 5,
-    "compact_bearing_flange_x_start_mm": 3,
-    "attic_ceiling_width_mm": 144.6,
+    "compact_bearing_flange_width_mm": 4.6,
+    "compact_bearing_flange_x_start_mm": 3.2,
+    "attic_ceiling_width_mm": 100.2,
     "attic_ceiling_depth_mm": 40,
     "attic_ceiling_y_start_mm": 55,
     "attic_ceiling_bottom_z_mm": 46,
     "attic_ceiling_top_z_mm": 48.4,
     "attic_ceiling_thickness_mm": 2.4,
     "attic_internal_light_holder_xy_mm": [
-      75,
+      52.8,
       65
     ],
     "attic_radio_reference_z_range_mm": [
@@ -367,16 +367,13 @@
       64.002
     ],
     "attic_min_xiao_clearance_to_roof_mm_approx": 6.2,
-    "attic_rear_low_voltage_cutout_mm": [
-      16,
-      9
-    ],
-    "attic_note": "Faux plafond arrière amovible pour placer XIAO/Wio dans les combles; supports latéraux sur coque; la fixation PCB/antenne/USB reste à confirmer.",
+    "attic_rear_low_voltage_cutout_mm": null,
+    "attic_note": "Removable attic floor 100.2x40 with radio/mounting references moved with W=105.6. No rear upper thru-hole. 4 right wall C clips from Y51 to21 lead to servo. Real PCB/antenna fit still unverified.",
     "door_drive_disc_face_to_shaft_tip_gap_mm": 2.2,
     "door_drive_disc_outer_diameter_mm": 12,
     "door_drive_disc_axial_bounds_mm": [
-      108,
-      111.5
+      63.6,
+      67.1
     ],
     "door_drive_jamb_bore_diameter_mm": 12.6,
     "door_drive_interface_status": "blank printed datum Ø12 without horn bolt holes; supplied genuine horn drilling mandatory",
@@ -391,13 +388,10 @@
     ],
     "servo_foot_min_radial_wall_mm": 2.15,
     "servo_retention": "two printed lug pilot bosses spaced 29mm with back-wall spine (replacing thin upper snap clip); fastening trials required",
-    "bearing_mount": "shelf supports printed bearing at z34.4, adhesive after dry-fit; not screwed",
-    "cable_eyes_qty": 4,
-    "cable_eye_diameters_mm": [
-      8,
-      3.4
-    ],
-    "cable_eye_min_wall_mm": 2.3,
+    "bearing_mount": "reduced 4.6x12x12 mm bearing; shelf on white shell at Z39.4, contact on underface, glued after dry-fit; Ø3.8 bore for Ø3.2 printed pin, not mechanically confirmed",
+    "cable_eyes_qty": 0,
+    "cable_eye_diameters_mm": null,
+    "cable_eye_min_wall_mm": null,
     "pcb_retention": "two 3.2x4.2mm strap slots + four 4x3x3.2mm stand-off pads 0.3mm below actual Wio envelope, one 2.5mm insulated strap (not modeled)",
     "pcb_strap_slot_mm": [
       3.2,
@@ -405,29 +399,29 @@
     ],
     "pcb_strap_slot_positions_xy_mm": [
       [
-        56.8,
+        34.6,
         77
       ],
       [
-        89.7,
+        67.5,
         77
       ]
     ],
     "pcb_support_pads_xy_mm": [
       [
-        64,
+        41.8,
         70.5
       ],
       [
-        81,
+        58.8,
         70.5
       ],
       [
-        64,
+        41.8,
         84
       ],
       [
-        81,
+        58.8,
         84
       ]
     ],
@@ -438,11 +432,11 @@
     "led_holder_pin_radial_clearance_mm": 0.3,
     "led_holder_pin_positions_xy_mm": [
       [
-        68.5,
+        46.3,
         65
       ],
       [
-        81.5,
+        59.3,
         65
       ]
     ],
@@ -507,13 +501,13 @@
     ],
     "usb_c_breakout_orientation_for_mockup": "X15 Y21 Z4.5, board long axis along Y facing rear +Y, unmeasured socket offset",
     "usb_c_board_nominal_xyz_min_mm": [
-      67.5,
+      45.3,
       74.4,
       9.3
     ],
     "usb_c_carrier_integrated_into": "02_socle_noir",
     "usb_c_carrier_nominal_xyz_min_mm": [
-      63.9,
+      41.7,
       72.4,
       3
     ],
@@ -548,8 +542,8 @@
     "usb_c_49067_board_mounting_holes_confirmed": false,
     "usb_c_connector_clearance_physical_verified": false,
     "usb_c_mount_status": "V10 minimal rear aperture 10.0x4.2 at Z9.45, approximate USB-C socket face only, not vendor measured; before final printing compare actual 49067 socket and real plug",
-    "roof_style_v9": "13 nervures trapézoïdales de bac acier dans l'axe de la pente, solidaires du toit noir, dimensions esthétiques du projet",
-    "roof_bac_acier_rib_count": 13,
+    "roof_style_v9": "V11 preserved V9/V10 bac acier motif scaled to 9 trapezoidal ribs across new 105.6mm cabinet, pitch11.5mm unchanged; both top and front fascia",
+    "roof_bac_acier_rib_count": 9,
     "roof_bac_acier_rib_first_x_mm": 5.5,
     "roof_bac_acier_rib_pitch_mm": 11.5,
     "roof_bac_acier_rib_base_crown_mm": [
@@ -561,7 +555,7 @@
     "mailbox_separate_black_part": true,
     "mailbox_print_part": "10_boite_aux_lettres_noire",
     "mailbox_pocket_xz_mm": [
-      126,
+      76.3,
       25.5
     ],
     "mailbox_pocket_width_height_depth_mm": [
@@ -578,11 +572,11 @@
     "mailbox_insert_recess_from_front_mm": 0.1,
     "mailbox_remaining_wall_backing_mm": 1.35,
     "mailbox_hole_or_letter_slot": "shallow decorative groove on black insert only, not a through-hole",
-    "mailbox_reference_confidence": "same photo-based centre as V9, black face reduced by exactly 30% linearly (10->7mm), not 30% in area",
+    "mailbox_reference_confidence": "V11 derived position: visible black left x76.6, exactly 10mm to right opening x66.6; 0.3mm recess fitting each side, unmeasured physical building",
     "cad_printable_part_count": 9,
     "cad_step_export_count": 12,
     "orange_led_lowered_from_v9_by_mm": 0.5,
-    "roof_front_fascia_bac_acier_rib_count": 13,
+    "roof_front_fascia_bac_acier_rib_count": 9,
     "roof_front_fascia_rib_height_projection_mm": 0.85,
     "roof_front_fascia_rib_bottom_top_z_approx_mm": [
       54.37,
@@ -601,7 +595,7 @@
       16,
       9
     ],
-    "internal_cable_riser_geometry": "open rear U-channel with two 1.8mm rails from Z14 to43, X90.0..100.8, inner width 7.2; three staggered lips; exterior upper wall remains solid",
+    "internal_cable_riser_geometry": "open rear U-channel with two 1.8mm rails from Z14 to43, X90.0..100.8, inner width 7.2; three staggered lips; exterior upper wall remains solid; check real wire bends",
     "internal_cable_riser_x0_y0_z0_mm": [
       90,
       93.6,
@@ -615,6 +609,52 @@
       19,
       29,
       39
+    ],
+    "compact_left_bearing_depth_mm": 12,
+    "compact_left_bearing_height_mm": 12,
+    "servo_cable_clip_count": 4,
+    "servo_cable_clip_yz_mm": [
+      [
+        21,
+        42
+      ],
+      [
+        31,
+        42.5
+      ],
+      [
+        41,
+        43
+      ],
+      [
+        51,
+        43.5
+      ]
+    ],
+    "servo_cable_clip_inner_outer_d_mm": [
+      3.4,
+      7.4
+    ],
+    "servo_cable_clip_radial_wall_mm": 2,
+    "servo_cable_clip_open_slot_mm": 2.2,
+    "servo_cable_clip_y_width_mm": 2.4,
+    "servo_cable_clip_location": "inner right wall, rounded C clips oriented Y open toward interior X decreasing; from ceiling front Y55 to servo near Y16, no cable eyes at Z12",
+    "mailbox_visible_black_left_x_mm": 76.6,
+    "mailbox_opening_to_black_left_gap_mm": 10,
+    "right_pier_retained_for_servo_mm": 39,
+    "printed_door_exact_width_mm": 55,
+    "printed_door_reduction_from_v10_mm": 44.4,
+    "shell_width_reduction_from_v10_mm": 44.4,
+    "roof_bac_acier_rib_centres_x_mm": [
+      5.5,
+      17,
+      28.5,
+      40,
+      51.5,
+      63,
+      74.5,
+      86,
+      97.5
     ]
   },
   "system_state": {

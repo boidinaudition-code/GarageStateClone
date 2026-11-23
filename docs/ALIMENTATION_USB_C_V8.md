@@ -1,10 +1,12 @@
-# Alimentation USB-C 5 V et platine Gotronic 49067 — V8
+# Alimentation USB-C 5 V et platine Gotronic 49067 — V8 (historique CAO)
 
 **22 novembre 2026 · GarageStateClone, version mécanique CAO V8** (socle et sortie arrière seulement ; servo V7 et firmware inchangés). **Prototype : les interfaces sont contrôlées en CAO, pas sur le composant réel.**
 
 > **Version courante V10 (22/11/2026) :** ce document conserve l'historique et la nomenclature électriques V8, qui restent valables. La **coque** a changé : **ouverture USB-C réduite et provisoire 10 × 4,2 mm à Z9,45**, suppression complète de la **sortie haute 16 × 9 mm**, ajout d'une **goulotte interne arrière** de Z14 à Z43 pour les câbles montant vers les combles. Consulter [la révision mécanique V10](EVOLUTION_FACADE_CABLAGE_V10.md) plutôt que les anciens chiffres de découpe ci-dessous. Le vrai connecteur 49067 doit toujours être mesuré.
 
 ## 1. Architecture électrique
+
+> **V11 (23/11/2026) :** le principe électrique de cette fiche reste valide. Le support USB-C Gotronic 49067 intégré au socle a été recalé à **X41,7..63,9** dans la coque de **105,6 mm**, avec une découpe extérieure provisoire **10 × 4,2 mm**. Les cotes X absolues plus bas sont les anciennes V8. Voir [les plans V11](COMPACTAGE_GARAGE_V11.md).
 
 **Une seule alimentation secteur USB 5 V régulée, 2 A minimum**, raccordée à une **platine USB-C femelle Gotronic 49067**, alimente **en parallèle** le récepteur XIAO/Wio et le servo DMS-MG90. L'émetteur LoRa placé dans le vrai garage conserve son alimentation USB indépendante.
 
