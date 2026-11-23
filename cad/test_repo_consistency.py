@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""V14: cross-check firmware, CAD, BOM, user white LED drawing and current README.
+"""V15: cross-check firmware, CAD, BOM, photo facade details and current README.
 
 This test checks repository claims and source constants, NOT actual hardware fit.
 """
@@ -77,8 +77,29 @@ assert m["design"]["orange_led_at_bearing_left"] is True
 assert b["cad"]["mailbox_separate_black_part"] is True
 assert m["design"]["mailbox_insert_separate_stl"] is True
 assert b["cad"]["mailbox_print_part"] == "10_boite_aux_lettres_noire"
-assert b["cad"]["cad_printable_part_count"] == m["design"]["cad_printable_count"] == 10
-assert b["cad"]["cad_step_export_count"] == m["design"]["cad_step_count"] == 13
+assert b["cad"]["cad_printable_part_count"] == m["design"]["cad_printable_count"] == 13
+assert b["cad"]["cad_step_export_count"] == m["design"]["cad_step_count"] == 16
+# Exact same signed-off visual-driven facade details in BOM, CAD manifest
+# and canonical README; facade is static and must not claim intercom works.
+assert b["cad"]["pedestrian_door_pocket_origin_xz_mm"] == m["design"]["pedestrian_door_pocket_xz_mm"] == [89.4,3.25]
+assert b["cad"]["pedestrian_door_pocket_wh_depth_mm"] == m["design"]["pedestrian_door_pocket_wh_depth_mm"] == [14.6,38.4,1.0]
+assert b["cad"]["pedestrian_door_black_panel_wh_t_mm"] == m["design"]["pedestrian_door_panel_wh_thickness_mm"] == [14.,37.8,0.76]
+assert b["cad"]["pedestrian_door_groove_count"] == m["design"]["pedestrian_door_grooves"] == 5
+assert b["cad"]["pedestrian_door_static_not_operable"] and m["design"]["pedestrian_door_is_non_operable_decor"]
+assert b["cad"]["intercom_mockup_pocket_origin_xz_mm"] == m["design"]["intercom_mockup_pocket_xz_mm"] == [84.8,27.9]
+assert b["cad"]["intercom_mockup_pocket_wh_depth_mm"] == m["design"]["intercom_mockup_pocket_wh_depth_mm"] == [3.6,7.2,0.95]
+assert b["cad"]["intercom_camera_button_d_mm"] == m["design"]["intercom_mockup_camera_button_diameters_mm"] == [1.12,0.9]
+assert b["cad"]["intercom_speaker_relief_count"] == m["design"]["intercom_mockup_speaker_slit_count"] == 3
+assert b["cad"]["intercom_functional"] is False
+assert m["design"]["intercom_mockup_nonfunctional"] is True
+assert b["cad"]["mailbox_white_inlay_wh_t_mm"] == m["design"]["mailbox_white_rectangle_wh_thickness_mm"] == [5.1,0.8,0.35]
+assert b["cad"]["roof_side_flashings_count"] == m["design"]["roof_side_flashing_count"] == 2
+assert b["cad"]["roof_side_flashings_rise_mm"] == m["design"]["roof_side_flashing_rise_mm"] == 0.55
+assert b["cad"]["roof_front_drip_depth_height_mm"] == m["design"]["roof_front_drip_depth_height_mm"] == [0.55,0.7]
+assert b["cad"]["mailbox_white_inlay_part"] == m["design"]["mailbox_white_rectangle_inlay_part"] == "14_insert_blanc_boite_lettres"
+assert all(k in read.lower() for k in ("interphone", "porte piétonne", "rectangle blanc", "larmier"))
+assert "docs/FACADE_REFERENCE_PORTE_INTERPHONE_V15.md" in read
+assert (root/"docs/FACADE_REFERENCE_PORTE_INTERPHONE_V15.md").is_file()
 assert b["cad"]["internal_cable_riser_lips_z_mm"] == []
 assert b["cad"]["internal_cable_riser_lips_count"] == m["design"]["cable_riser_lip_count"] == 0
 assert b["cad"]["internal_cable_riser_cap_part_name"] == m["design"]["cable_riser_cover_part_name"] == "11_couvercle_goulotte_arriere"
@@ -107,7 +128,7 @@ assert "10 mm" in read and "Ø5,9" in read
 assert "V13" not in read and "V12" not in read and "V11" not in read and "V10" not in read and "V9" not in read
 assert "105,6 × 100" not in read
 assert "100 × 42" not in read
-assert "10 STL" in cadread and "13 STEP" in cadread
+assert "13 STL" in cadread and "16 STEP" in cadread
 assert b["cad"]["usb_c_breakout_published_lwh_mm"] == m["design"]["usb_c_breakout_vendor_lwh_mm"] == [21,15,4.5]
 assert b["cad"]["usb_c_carrier_integrated_into"] == "02_socle_noir"
 assert b["cad"]["usb_c_rear_aperture_wh_mm"] == m["design"]["usb_c_rear_slot_wh_mm"] == [10,4.2]
@@ -148,17 +169,17 @@ assert "static constexpr uint8_t PIN_SERVO = D6" in firm
 assert "static constexpr uint8_t PIN_INTERIOR_LED = D7" in firm
 assert "static constexpr uint8_t PIN_AMBER_LED = D0" in firm
 assert "ANGLE_CLOSED = 15" in firm and "ANGLE_OPEN = 95" in firm
-for marker in ("V14", "105,6 × 85", "55 mm", "62 / 78", "2,4", "0,30",
+for marker in ("V15", "105,6 × 85", "55 mm", "62 / 78", "2,4", "0,30",
                "PETG", "GTG502WWC", "couvercle", "2 clips", "4 coupons",
                "goussets", "6 mm", "29 mm", "4 coupons",
                "Ø12", "Ø2,3", "Ø1,7", "0 à 90°", "LoRa", "25 × 2,4",
                "Ø5,9", "2,54", "29 ± 0,5", "49067", "SAS308"):
     assert marker in read, ("README missing",marker)
-assert "V14" in cadread and "4 coupons" in cadread
+assert "V15" in cadread and "4 coupons" in cadread
 assert "105,6 × 85" in cadread
 assert "V13" not in cadread and "V12" not in cadread and "V11" not in cadread and "V10" not in cadread and "V9" not in cadread
 assert "Ø3,2" in read and "Ø3,8" in read
-# Old docs remain archived in the repo, but README must present only V14.
+# Older docs remain archived in the repo; README presents the current V15.
 assert "docs/FIXATIONS_COMBLES_GOULOTTE_LED_V14.md" in cadread
 assert (root/"docs/PROFONDEUR_LED_V12.md").is_file()
 assert len(list((root/"cad/refs").glob("*.brep.z.b64"))) == 4
@@ -166,4 +187,4 @@ assert len(list((root/"cad/refs").glob("*.brep.z.b64"))) == 4
 for token in ("palonnier", "non", "tester"):
     assert token in read.lower()
 assert "boîtier" in read.lower() and "SAS308" in read
-print("PASS cross-check V14: PETG Wio side clips, straight slide-covered chase, user GTG502WWC LED, 10 STL/13 STEP, firmware")
+print("PASS cross-check V15: detailed pedestrian door/intercom/white letterbox inlay, 13 STL/16 STEP, original servo/radio/firmware preserved")
