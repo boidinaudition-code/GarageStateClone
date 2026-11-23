@@ -1,21 +1,33 @@
-# CAO GarageStateClone — V14
+# CAO GarageStateClone — V15, façade décorative fidèle au visuel
 
-**CAO paramétrique courante — 23/11/2026.** Développer via `cad/generate_cad.py`. Une version antérieure du dessin peut exister dans l'historique Git, mais les spécifications ci-dessous décrivent **uniquement V14**.
+**CAO paramétrique courante — 23/11/2026.** Développer via `cad/generate_cad.py`. Une version antérieure du dessin peut exister dans l'historique Git, mais les spécifications ci-dessous décrivent **uniquement V15**.
 
 | Élément | Cote V14 |
 |---|---|
 | Coque | **105,6 × 85 mm**, murs 2,4 mm |
-| Toit | **62 / 78 mm**, 9 nervures en pan et 9 en retombée, 3 mm d'épaisseur |
+| Toit | **62 / 78 mm**, 9 nervures en pan et 9 en retombée, 3 mm d'épaisseur, **2 rives et un larmier frontal** |
 | Porte | 55 × 41,4 × 2,4 mm, ouverture 55,6 × 42 mm, jeu 0,30 mm par côté |
 | Servo DMS-MG90 | Montant droit 39 mm, entraxe d'oreilles 29 mm, 2 pilotes Ø1,7 et 4 pieds indépendants, goussets |
 | Palier | 4,6 × 12 × 12 mm, axe Ø3,2 et alésage Ø3,8 |
-| Boîte aux lettres | 7 × 7 mm noire, **10 mm** du bord de l'ouverture |
+| Boîte aux lettres | 7 × 7 mm noire, **10 mm** du bord de l'ouverture ; **rectangle blanc 5,1 × 0,8 × 0,35 mm** indépendant |
+| Porte piétonne V15 | 14 × 37,8 mm, 5 rainures, poignée noire, panneau non fonctionnel dans le montant droit |
+| Interphone V15 | Face 3 × 6,6 mm, objectif Ø1,12, bouton Ø0,9, 3 traits de haut-parleur, non alimenté |
 | Combles | Faux plafond **100,2 × 25 × 2,4**, origine Y55 / Z46 ; XIAO+Wio dessus |
 | Fixation XIAO+Wio | **2 clips pression latéraux en PETG** autour du Wio ; 4 patins PCB + 2 passages de collier maintenus |
 | Goulotte | U intérieur arrière, canal droit **7,2 mm**, de Z14 à Z43, **couvercle coulissant amovible** indépendant |
 | LED blanche | GTG502WWC sur plan fourni : corps Ø5/ collerette Ø5,9/ hauteur 8,6 ; support n°09 à butée et passage fils |
 | LED orange | Ø5 avec collerette Ø5,9, sous palier gauche, trou façade Ø2 |
 | USB-C arrière | Platine Gotronic 49067, trou **10 × 4,2 mm provisoire** |
+
+## Détails décoratifs V15 : préserver l'assemblage mécanique
+
+Les trois pièces supplémentaires à imprimer et coller sont **`12_porte_pietonne_noire`** (noir : rainures verticales, traverse basse, poignée), **`13_interphone_gris`** (gris : caméra, grille et bouton) et **`14_insert_blanc_boite_lettres`** (blanc). La coque `01_coque_blanche` comporte trois encoches locales : pour le panneau fixe **14,6 × 38,4 × 1 mm** à X89,4/Z3,25, l'interphone **3,6 × 7,2 × 0,95 mm** à X84,8/Z27,9, et l'ancien logement boîte de **7,6 × 7,6 × 1,05 mm**. Le fond blanc restant sous la porte décorative est **1,4 mm**. La plaque de boîte aux lettres noire est retouchée pour recevoir un trait blanc de **5,1 × 0,8 mm** sans surépaisseur.
+
+Le toit noir amovible conserve ses 9 nervures trapézoïdales sur le pan et leur retour vertical sur bandeau. Deux **rives longitudinales +0,55 mm** et un larmier frontal de **0,70 mm** sont fusionnés au toit, en dehors du volume intérieur de la jupe. Aucun perçage ni changement de la pente **62 / 78 mm**.
+
+Ces éléments ne représentent **ni une véritable porte qui s'ouvre, ni un interphone connecté** ; ils sont adaptés au rendu image. Toutes les cotes de façade sont des **dimensions artistiques CAO**, pas des relevés constructeur. Voir [le plan de détail V15](../docs/FACADE_REFERENCE_PORTE_INTERPHONE_V15.md).
+
+**Exports : 13 STL et 16 STEP**, plus 4 coupons. Conserver la porte du garage mobile, le servo DMS-MG90 et le faux plafond V14 inchangés. Faire des essais de peinture et collage sur les sous-pièces décoratives ; le trait blanc de 0,8 mm est particulièrement petit pour la FDM.
 
 ## Clips souples de radio
 
@@ -35,7 +47,7 @@ Le schéma **Bornier SC02/2.54** donne le pas2,54, la profondeur6,5, la hauteur 
 
 ## Exports et contrôles
 
-**10 STL**, **13 STEP** (10 pièces imprimables, 2 assemblages et 1 XIAO simplifié), **4 coupons**. Les anciens noms « V2 » des assemblages STEP sont historiques et leur **contenu est V14**.
+**13 STL**, **16 STEP** (10 pièces imprimables, 2 assemblages et 1 XIAO simplifié), **4 coupons**. Les anciens noms « V2 » des assemblages STEP sont historiques et leur **contenu est V14**.
 
 ```bash
 python cad/generate_cad.py
