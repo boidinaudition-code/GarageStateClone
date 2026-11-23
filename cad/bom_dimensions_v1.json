@@ -172,14 +172,21 @@
       "qty": 1,
       "body_mm": {
         "diameter": 5,
-        "length": null
+        "length": 8.6
       },
-      "lead_pitch_mm": null,
-      "collar_diameter_mm": null,
+      "lead_pitch_mm": 2.54,
+      "collar_diameter_mm": 5.9,
       "status": "published",
-      "dimension_note": "Only nominal 5mm confirmed; linked L7113EC PDF is not this reference",
+      "dimension_note": "Drawing supplied by user: 5mm body 8.6mm lens-to-back, Ø5.9 collar max thickness1, 2.54mm pins lead length>=27. Not verified on the actual purchased orange L7113NC; Gotronic product page links a different product's PDF.",
       "url": "https://www.gotronic.fr/art-led-5-mm-l7113nc-2086.htm",
-      "datasheet_warning": "Gotronic links L7113EC 03050 PDF, not the ordered L7113NC 03051; do not reuse its dimensions."
+      "datasheet_warning": "Gotronic links L7113EC 03050 PDF, not the ordered L7113NC 03051; do not reuse its dimensions.",
+      "collar_thickness_max_mm": 1,
+      "leads_min_length_mm": 27,
+      "lead_square_width_nominal_tolerance_mm": [
+        0.5,
+        0.05
+      ],
+      "drawing_source": "dimensioned drawing supplied in chat by user on 2026-11-23; check shipped L7113NC is matching part"
     },
     {
       "id": "MCU",
@@ -279,7 +286,7 @@
   ],
   "cad": {
     "shell_width_mm": 105.6,
-    "shell_depth_mm": 100,
+    "shell_depth_mm": 85,
     "front_height_mm": 62,
     "back_height_mm": 78,
     "wall_mm": 2.4,
@@ -309,7 +316,7 @@
     ],
     "service_tray_mm": [
       100.2,
-      40
+      25
     ],
     "orange_optical_aperture_mm": 2,
     "orange_led_recess_from_front_mm": 3.4,
@@ -318,14 +325,14 @@
       6,
       9
     ],
-    "led_envelope_status": "design_not_manufacturer_dimensions_measure_before_final_print",
+    "led_envelope_status": "white WCS101 still provisional Ø6/9 envelope; ORANGE exact head dims from user-supplied drawing Ø5 body Ø5.9 flange 8.6 front-to-rear",
     "capacitor_nominal_mm": [
       10,
       13
     ],
     "roof_rise_over_depth_mm": [
       16,
-      100
+      85
     ],
     "servo_mounting": "Four separate M2 trial base-to-cradle pilot screws + two nominal M2 pilot bosses at 29mm ear pitch, printed face on manufacturer 16mm base-to-ear underside datum plus 0.30mm relief; supplied screws, horn, estimated ear thickness still physically unverified",
     "volumes_measured_on_hardware": false,
@@ -334,11 +341,11 @@
       32.5,
       12.221
     ],
-    "orange_led_center_x_mm": 51.6,
-    "orange_led_center_z_mm": 52.8,
-    "orange_holder_outer_diameter_mm": 10.8,
-    "orange_holder_min_radial_wall_mm": 2.1,
-    "dimensions_note": "V11 compact: printable door exactly 55mm; 55.6mm opening, 105.6mm overall shell (39mm servo pier preserved). 10mm visible mailbox gap. Compact left bearing and 4 side wall cable C-clips instead of 4 lower eyes. USB port profile and servo hardware remain physically unverified.",
+    "orange_led_center_x_mm": 5.3,
+    "orange_led_center_z_mm": 32,
+    "orange_holder_outer_diameter_mm": 9,
+    "orange_holder_min_radial_wall_mm": 1.25,
+    "dimensions_note": "V12: keeps 105.6mm width, 55.0mm actual door, opening55.6 with 0.3 per face, right 39mm servo pier, mailbox 10mm gap. Depth 100->85mm by cutting back 15mm and attic 40->25mm; radio and USB carrier moved toward front. Orange LED drawing from user: Ø5 body Ø5.9 flange 8.6mm length, mounted beneath left bearing without separate clip. Print qualification pending.",
     "front_jamb_return_depth_mm": 10,
     "front_jamb_return_thickness_mm": 2.4,
     "left_pivot_jamb_bore_mm": 3.8,
@@ -353,7 +360,7 @@
     "compact_bearing_flange_width_mm": 4.6,
     "compact_bearing_flange_x_start_mm": 3.2,
     "attic_ceiling_width_mm": 100.2,
-    "attic_ceiling_depth_mm": 40,
+    "attic_ceiling_depth_mm": 25,
     "attic_ceiling_y_start_mm": 55,
     "attic_ceiling_bottom_z_mm": 46,
     "attic_ceiling_top_z_mm": 48.4,
@@ -368,7 +375,7 @@
     ],
     "attic_min_xiao_clearance_to_roof_mm_approx": 6.2,
     "attic_rear_low_voltage_cutout_mm": null,
-    "attic_note": "Removable attic floor 100.2x40 with radio/mounting references moved with W=105.6. No rear upper thru-hole. 4 right wall C clips from Y51 to21 lead to servo. Real PCB/antenna fit still unverified.",
+    "attic_note": "25mm deep removable attic floor (front Y55, rear Y80) for XIAO/Wio. Original long PCB rails removed to free space; 2 strap slots and 4 pads retained shifted forward 11.5mm; real cable/antenna fit to verify.",
     "door_drive_disc_face_to_shaft_tip_gap_mm": 2.2,
     "door_drive_disc_outer_diameter_mm": 12,
     "door_drive_disc_axial_bounds_mm": [
@@ -400,29 +407,29 @@
     "pcb_strap_slot_positions_xy_mm": [
       [
         34.6,
-        77
+        65.5
       ],
       [
         67.5,
-        77
+        65.5
       ]
     ],
     "pcb_support_pads_xy_mm": [
       [
         41.8,
-        70.5
+        59
       ],
       [
         58.8,
-        70.5
+        59
       ],
       [
         41.8,
-        84
+        72.5
       ],
       [
         58.8,
-        84
+        72.5
       ]
     ],
     "pcb_support_pad_top_z_mm": 51.6,
@@ -446,7 +453,7 @@
       "horn_blank_12mm"
     ],
     "fit_coupons_hardware_verified": false,
-    "physical_mechanical_status": "V7 drawing-based base-to-ear underside datum 16mm modeled; manufacturer 29mm screw pitch modeled; three ≈ visual estimates are not design-driving. Actual servo hardware and screw/face dimensions not measured.",
+    "physical_mechanical_status": "V12 CAD tests only: real USB-C Gotronic 49067 receptacle position, physical servo horn and screws, LED electrical/bending and radio coax bend radii unverified.",
     "servo_official_dms_mg90_lwh_mm": [
       33,
       12,
@@ -502,13 +509,13 @@
     "usb_c_breakout_orientation_for_mockup": "X15 Y21 Z4.5, board long axis along Y facing rear +Y, unmeasured socket offset",
     "usb_c_board_nominal_xyz_min_mm": [
       45.3,
-      74.4,
+      59.4,
       9.3
     ],
     "usb_c_carrier_integrated_into": "02_socle_noir",
     "usb_c_carrier_nominal_xyz_min_mm": [
       41.7,
-      72.4,
+      57.4,
       3
     ],
     "usb_c_carrier_nominal_width_depth_mm": [
@@ -521,8 +528,8 @@
       3.4
     ],
     "usb_c_strap_tunnel_ys_mm": [
-      79,
-      89.5
+      64,
+      74.5
     ],
     "usb_c_strap_tunnel_width_height_mm": [
       3.2,
@@ -541,7 +548,7 @@
     "usb_c_49067_socket_face_position_confirmed": false,
     "usb_c_49067_board_mounting_holes_confirmed": false,
     "usb_c_connector_clearance_physical_verified": false,
-    "usb_c_mount_status": "V10 minimal rear aperture 10.0x4.2 at Z9.45, approximate USB-C socket face only, not vendor measured; before final printing compare actual 49067 socket and real plug",
+    "usb_c_mount_status": "V12: rear cutout still provisional 10x4.2 at Z9.45. Board moved Y-15mm with new D85; real connector face/head size to be measured.",
     "roof_style_v9": "V11 preserved V9/V10 bac acier motif scaled to 9 trapezoidal ribs across new 105.6mm cabinet, pitch11.5mm unchanged; both top and front fascia",
     "roof_bac_acier_rib_count": 9,
     "roof_bac_acier_rib_first_x_mm": 5.5,
@@ -595,10 +602,10 @@
       16,
       9
     ],
-    "internal_cable_riser_geometry": "open rear U-channel with two 1.8mm rails from Z14 to43, X90.0..100.8, inner width 7.2; three staggered lips; exterior upper wall remains solid; check real wire bends",
+    "internal_cable_riser_geometry": "rear U-channel inside 85mm shell: X90..100.8, Y78.6..82.72, Z14..43; open inner width 7.2, 3 staggered lips; not a wall hole",
     "internal_cable_riser_x0_y0_z0_mm": [
       90,
-      93.6,
+      78.6,
       14
     ],
     "internal_cable_riser_rail_width_mm": 1.8,
@@ -655,7 +662,30 @@
       74.5,
       86,
       97.5
-    ]
+    ],
+    "attic_back_edge_y_mm": 80,
+    "orange_led_mount_location": "front left white pier, directly under compact left bearing support shelf; 2mm optical opening; integral rear-loaded sleeve, silicone spot retention",
+    "orange_led_manufacturer_sized_drawing_used": true,
+    "orange_led_sizing_source": "user supplied technical drawing, 2026-11-23; physical LED identity to verify on delivery",
+    "orange_led_body_flange_d_mm": [
+      5,
+      5.9
+    ],
+    "orange_led_body_total_length_mm": 8.6,
+    "orange_led_flange_axial_thickness_max_mm": 1,
+    "orange_led_lead_pitch_mm": 2.54,
+    "orange_led_leads_min_length_mm": 27,
+    "orange_led_body_flange_socket_d_mm": [
+      5.6,
+      6.5
+    ],
+    "orange_led_collar_outer_d_mm": 9,
+    "orange_led_optical_recess_mm": 3.4,
+    "orange_led_flange_rear_step_y_mm": 10.8,
+    "orange_led_mount_retention": "no additional printed part: rear insertion into integrated socket, low-pressure drop electronics-safe neutral silicone at flange after function test; insulated leads",
+    "radio_y_reference_shift_from_v11_mm": -11.5,
+    "attic_old_pcb_y_guide_rails_removed": true,
+    "garage_depth_reduction_from_v11_mm": 15
   },
   "system_state": {
     "sensor_count": 1,

@@ -22,14 +22,28 @@ ROOT = Path(__file__).resolve().parent
 manifest = json.loads((ROOT / "vendor_models/manifest.json").read_text(encoding="utf-8"))
 bom = json.loads((ROOT / "bom_dimensions_v1.json").read_text(encoding="utf-8"))
 assert bom["system_state"]["sensor_count"] == 1
-assert manifest["design"]["shell_mm"][0] == g.W == bom["cad"]["shell_width_mm"] == 105.6
+assert manifest["design"]["shell_mm"] == [g.W,g.D] == [105.6,85.0]
+assert bom["cad"]["shell_width_mm"] == g.W
+assert bom["cad"]["shell_depth_mm"] == g.D == 85.0
+assert math.isclose(bom["cad"]["garage_depth_reduction_from_v11_mm"],15.0,abs_tol=1e-8)
 assert math.isclose(g.DOOR_W,55.0,abs_tol=1e-8)
 assert math.isclose(g.OPEN_W,55.6,abs_tol=1e-8)
 assert math.isclose(g.W, g.LEFT_PIER_W + g.OPEN_W + g.RIGHT_PIER_W, abs_tol=1e-8)
 assert g.W==105.6 and bom["cad"]["printed_door_exact_width_mm"] == 55.0
 assert manifest["design"]["door_opening_mm"][0] == g.OPEN_W == bom["cad"]["door_opening_mm"][0] == 55.6
 assert g.WALL >= 2 and g.ROOF >= 2 and g.BASE >= 2 and g.FIT == 0.3
-assert g.LED_ENVELOPE == (6.0, 9.0)
+assert g.LED_ENVELOPE == (6.0, 9.0), "WHITE LED envelope unchanged"
+assert (g.LED_ORANGE_BODY_D,g.LED_ORANGE_FLANGE_D,
+        g.LED_ORANGE_LENS_TO_FLANGE_BACK) == (5.0,5.9,8.6)
+assert g.LED_ORANGE_FLANGE_THICKNESS_MAX == 1.0
+assert (g.LED_ORANGE_PIN_PITCH,g.LED_ORANGE_LEAD_LENGTH_MIN) == (2.54,27.0)
+assert (g.LED_ORANGE_BODY_BORE_D,g.LED_ORANGE_FLANGE_BORE_D) == (5.6,6.5)
+assert g.LED_ORANGE_HOLDER_OD == 9.0
+assert g.LED_ORANGE_HOLDER_LENGTH == 10.9
+assert bom["cad"]["orange_led_manufacturer_sized_drawing_used"] is True
+assert manifest["design"]["orange_led_drawing_user_supplied_not_measurement_of_item"] is True
+assert "REF_LED_orange_ENVELOPPE_COTEE_NE_PAS_IMPRIMER" in g.REFERENCES
+assert not any("orange" in k for k in g.PRINTABLE), "orange holder must be integral to shell"
 assert len(g.PRINTABLE) == 9
 assert "10_boite_aux_lettres_noire" in g.PRINTABLE
 assert not any("liseret" in k or "bleu" in k for k in g.PRINTABLE)
@@ -42,7 +56,12 @@ assert g.H_BACK-g.H_FRONT == 16.0
 assert manifest["design"]["roof_z_front_back_mm"] == [62,78]
 assert bom["cad"]["front_height_mm"] == 62 and bom["cad"]["back_height_mm"] == 78
 assert bom["cad"]["attic_ceiling_bottom_z_mm"] == g.ATTIC_Z0 == 46
-assert bom["cad"]["attic_ceiling_depth_mm"] == g.ATTIC_DEPTH == 40
+assert bom["cad"]["attic_ceiling_depth_mm"] == g.ATTIC_DEPTH == 25
+assert bom["cad"]["attic_back_edge_y_mm"] == g.ATTIC_Y0+g.ATTIC_DEPTH == 80
+assert g.ATTIC_Y0 == 55.0
+assert math.isclose(g.D - g.ATTIC_Y0 - g.ATTIC_DEPTH,5.0,abs_tol=1e-8)
+assert bom["cad"]["radio_y_reference_shift_from_v11_mm"] == -11.5
+assert bom["cad"]["attic_old_pcb_y_guide_rails_removed"] is True
 assert math.isclose(bom["cad"]["attic_ceiling_width_mm"], g.ATTIC_W, abs_tol=1e-8)
 assert math.isclose(g.ATTIC_W,100.2,abs_tol=1e-8)
 assert g.ATTIC_PLATE_THICK == g.WALL == 2.4
@@ -123,7 +142,11 @@ assert len(g.cable_riser_lips) == 3
 assert manifest["design"]["upper_rear_attic_external_hole_removed"] is True
 assert bom["cad"]["attic_rear_upper_wall_cutout_removed"] is True
 assert g.USB_C_CARRIER_TOP_Z == 9.0
-assert g.USB_C_STRAP_TUNNEL_YS == (79.0,89.5)
+assert g.USB_C_STRAP_TUNNEL_YS == (64.0,74.5)
+assert math.isclose(g.USB_C_BOARD_Y0,59.4,abs_tol=1e-8)
+assert math.isclose(g.USB_C_CARRIER_Y0,57.4,abs_tol=1e-8)
+assert g.USB_C_BOARD_Y0+g.USB_C_BOARD_VENDOR_LWH_MM[0] < g.D-g.WALL
+assert g.USB_C_CARRIER_Y0+g.USB_C_CARRIER_D < g.D-g.WALL
 assert g.USB_C_STRAP_TUNNEL_W == 3.2
 assert g.USB_C_BOARD_ORIENTATION_STATUS.startswith("provisional")
 assert bom["cad"]["usb_c_breakout_published_lwh_mm"] == [21,15,4.5]
@@ -227,7 +250,7 @@ usb_service=cq.Workplane("XY").box(g.USB_C_REAR_APERTURE_WH[0],
         g.D-g.WALL-0.05,g.USB_C_REAR_APERTURE_Z0)).val()
 assert overlap(g.shell,usb_service)<1e-5, "rear USB opening obstructed"
 old_slot_lower=cq.Workplane("XY").box(1.0,0.4,0.8,
-    centered=(False,False,False)).translate((g.W/2,98.2,6.0)).val()
+    centered=(False,False,False)).translate((g.W/2,g.D-1.8,6.0)).val()
 assert overlap(g.shell,old_slot_lower)>0.1, "obsolete lower power slit still open"
 assert g.shell.isValid() and len(g.shell.Solids()) == 1
 assert g.left_jamb_return.Volume() > 500
@@ -332,15 +355,33 @@ assert math.isclose(g.ATTIC_Z0+g.ATTIC_PLATE_THICK+3.2+g.FIT,
                     g.ref_wio.BoundingBox().zmin,abs_tol=0.02)
 assert g.ATTIC_LED_Y == 65.0
 assert math.isclose(g.ATTIC_LED_X,g.W/2,abs_tol=1e-8)
-assert g.PCB_STRAP_SLOTS == [(g.W/2-18.2,77.0),(g.W/2+14.7,77.0)]
-assert g.PCB_PADS == [(g.W/2-11.0,70.5),(g.W/2+6.0,70.5),
-                       (g.W/2-11.0,84.0),(g.W/2+6.0,84.0)]
-assert bom["cad"]["pcb_strap_slot_positions_xy_mm"] == [[34.6,77],[67.5,77]]
-assert bom["cad"]["pcb_support_pads_xy_mm"] == [[41.8,70.5],[58.8,70.5],[41.8,84],[58.8,84]]
-assert g.orange_x == g.OPEN_X+g.OPEN_W-15.0
-assert math.isclose(g.orange_z,52.8,abs_tol=1e-8)
-assert bom["cad"]["orange_led_center_z_mm"] == manifest["design"]["led_orange_center_xz_mm"][1] == 52.8
-assert math.isclose(53.3-g.orange_z,0.5,abs_tol=1e-8)
+assert g.PCB_STRAP_SLOTS == [(g.W/2-18.2,65.5),(g.W/2+14.7,65.5)]
+assert g.PCB_PADS == [(g.W/2-11.0,59.0),(g.W/2+6.0,59.0),
+                      (g.W/2-11.0,72.5),(g.W/2+6.0,72.5)]
+assert bom["cad"]["pcb_strap_slot_positions_xy_mm"] == [[34.6,65.5],[67.5,65.5]]
+assert bom["cad"]["pcb_support_pads_xy_mm"] == [[41.8,59],[58.8,59],[41.8,72.5],[58.8,72.5]]
+# New location under left bearing (do not retain obsolete right-side LED).
+assert math.isclose(g.orange_x,5.3,abs_tol=1e-8)
+assert math.isclose(g.orange_z,32.0,abs_tol=1e-8)
+assert bom["cad"]["orange_led_center_x_mm"] == manifest["design"]["led_orange_center_xz_mm"][0] == 5.3
+assert bom["cad"]["orange_led_center_z_mm"] == manifest["design"]["led_orange_center_xz_mm"][1] == 32.0
+assert g.orange_x+g.LED_ORANGE_HOLDER_OD/2 < g.OPEN_X
+assert g.orange_x-g.LED_ORANGE_HOLDER_OD/2 > 0
+assert g.orange_holder.BoundingBox().zmax <= g.bearing_shelf.BoundingBox().zmin-0.4
+assert g.orange_holder.BoundingBox().zmax < g.bearing.BoundingBox().zmin
+assert overlap(g.orange_holder,g.bearing)<1e-5
+assert not g.shell.isInside(cq.Vector(5.3,1.2,32),1e-5), "orange optical hole blocked"
+assert g.shell.isInside(cq.Vector(51.6,1.2,52.8),1e-5), "obsolete right-side LED hole retained"
+# Both dimensioned LED cavities are free, with 0.30mm radial fit per face.
+body_bore=cq.Solid.makeCylinder(g.LED_ORANGE_BODY_BORE_D/2,
+    g.LED_ORANGE_FLANGE_SEAT_Y-g.LED_ORANGE_RECESS+0.10,
+    cq.Vector(g.orange_x,g.LED_ORANGE_RECESS,g.orange_z),cq.Vector(0,1,0))
+flange_bore=cq.Solid.makeCylinder(g.LED_ORANGE_FLANGE_BORE_D/2,
+    g.WALL-0.2+g.LED_ORANGE_HOLDER_LENGTH-g.LED_ORANGE_FLANGE_SEAT_Y+0.05,
+    cq.Vector(g.orange_x,g.LED_ORANGE_FLANGE_SEAT_Y,g.orange_z),cq.Vector(0,1,0))
+assert overlap(g.shell,body_bore)<1e-5, "LED orange body bore blocked"
+assert overlap(g.shell,flange_bore)<1e-5, "LED orange flange seat blocked"
+assert overlap(g.REFERENCES["REF_LED_orange_ENVELOPPE_COTEE_NE_PAS_IMPRIMER"],g.bearing)<1e-5
 servo = next(s for n, s in g.REFERENCES.items() if "MG90" in n)
 assert overlap(g.usb_c_carrier,servo)<1e-5, "USB rear carrier vs servo"
 assert overlap(servo,g.right_jamb_return) < 1e-5
@@ -377,11 +418,11 @@ rear_top=cq.Vector(g.W/2,g.D-g.WALL/2,g.ATTIC_Z0+8)
 assert g.shell.isInside(rear_top,1e-5), "upper rear wall cutout still present"
 # Open internal U-channel lies close to rear wall but has continuous air
 # at its centre and does NOT break the outside wall at any height.
-assert math.isclose(g.CABLE_RISER_Y0,93.6,abs_tol=1e-8)
+assert math.isclose(g.CABLE_RISER_Y0,78.6,abs_tol=1e-8)
 assert math.isclose(g.CABLE_RISER_Z0+g.CABLE_RISER_HEIGHT,43,abs_tol=1e-8)
 for z in (15.0,23.0,35.0,42.0):
     air=cq.Vector(g.CABLE_RISER_X0+g.CABLE_RISER_RAIL_W+
-                  g.CABLE_RISER_INNER_W/2,95.5,z)
+                  g.CABLE_RISER_INNER_W/2,g.CABLE_RISER_Y0+1.9,z)
     assert not g.shell.isInside(air,1e-5), ("cable chase blocked",z)
     back=cq.Vector(95.0,g.D-g.WALL/2,z)
     assert g.shell.isInside(back,1e-5), ("rear external wall perforated",z)
@@ -397,6 +438,8 @@ wio = next(s for n,s in g.REFERENCES.items() if "WIO" in n)
 bc547 = next(s for n,s in g.REFERENCES.items() if "BC547" in n)
 for refname, component in {"XIAO":xiao, "Wio":wio, "BC547":bc547}.items():
     assert component.BoundingBox().zmin > g.ATTIC_Z0+g.ATTIC_PLATE_THICK
+    assert component.BoundingBox().ymin >= g.ATTIC_Y0+1.0, ("radio too far forward",refname)
+    assert component.BoundingBox().ymax <= g.ATTIC_Y0+g.ATTIC_DEPTH-1.0, ("radio outside short attic",refname)
     for name, part in {"false_ceiling":g.tray, "roof":g.roof_lid,
                        "walls":g.shell}.items():
         assert overlap(component,part)<1e-5, ("attic part collision",refname,name)
@@ -436,4 +479,4 @@ for angle in range(0, 91, 5):
         "support LED blanche": g.holder,
     }.items():
         assert overlap(door, shape) < 1e-5, ("collision porte", angle, label)
-print("PASS — V11: shell 105.6mm, door 55mm, 10mm black mailbox gap, 9 roof ribs, reduced bearing, 4 servo cable clips, 0 bottom eyes, 12 STEP/9 STL")
+print("PASS — V12: shell105.6x85, 55mm door, attic25 Y55..80, relocated XIAO/Wio, 49067 USB, LED Ø5/Ø5.9 under left bearing; door 0–90; 12 STEP/9 STL")
