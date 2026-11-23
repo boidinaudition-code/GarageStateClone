@@ -31,7 +31,7 @@ assert white["collar_diameter_mm"] == cad["LED_WHITE_FLANGE_D"] == 5.9
 assert white["user_drawing_flange_thickness_max_mm"] == 1.0
 assert white["user_drawing_lead_length_nominal_tolerance_mm"] == [29,0.5]
 assert "GTG502WWC" in white["mechanical_dimensions_from"]
-assert "not proven" in white["mechanical_dimensions_from"], "not verified identical to original BOM WCS101"
+assert "not confirmed identical" in white["mechanical_dimensions_from"], "not verified identical to original BOM WCS101"
 assert orange["body_mm"]["length"] == cad["LED_ORANGE_LENS_TO_FLANGE_BACK"] == 8.6
 assert orange["lead_pitch_mm"] == cad["LED_ORANGE_PIN_PITCH"] == 2.54
 assert orange["collar_diameter_mm"] == cad["LED_ORANGE_FLANGE_D"] == 5.9
