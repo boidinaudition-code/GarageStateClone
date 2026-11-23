@@ -12,7 +12,7 @@
 | Montants | Gauche **11 mm**, droit servo **39 mm** |
 | Boîte aux lettres | Carré noir 7 × 7 mm collé dans niche blanche 7,6 × 7,6 mm, **10 mm** entre ouverture et plaque |
 | Palier de gauche | Bloc **4,6 × 12 × 12 mm**, tourillon Ø3,2 et alésage Ø3,8 |
-| Moteur | DFRobot DMS-MG90, 2 fixations d'oreilles Ø2/entraxe 29 mm, berceau à 2 goussets, 4 fixations au socle |
+| Moteur | DFRobot DMS-MG90, 2 fixations d'oreilles Ø2/entraxe 29 mm, berceau à 2 goussets, 4 fixations au socle (dégagement Ø2,3 mm) |
 | Faux plafond | **100,2 × 25 × 2,4 mm**, de Y55 à Y80, démontable sous les combles |
 | LED orange | Sous le palier gauche, centrée X5,3 / Z32, boîtier Ø9 intégré et trou de façade Ø2 |
 | LED blanche chaude | Sous le faux plafond, nouveau logement à collerette pour LED de type **GTG502WWC**, insertion par dessous |
