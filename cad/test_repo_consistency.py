@@ -80,7 +80,7 @@ assert b["cad"]["mailbox_print_part"] == "10_boite_aux_lettres_noire"
 assert b["cad"]["cad_printable_part_count"] == 9
 assert b["cad"]["cad_step_export_count"] == 12
 assert "bac acier" in read.lower() and "boîte aux lettres" in read.lower()
-assert "docs/PROFONDEUR_LED_V12.md" in read
+assert "docs/PROFONDEUR_LED_V12.md" not in read, "main README only current V13"
 assert "docs/SERVO_DMS_MG90_PALONNIERS_V13.md" in read
 assert (root/"docs/SERVO_DMS_MG90_PALONNIERS_V13.md").is_file()
 assert (root/"docs/PROFONDEUR_LED_V12.md").is_file()
@@ -108,7 +108,7 @@ assert b["cad"]["usb_c_49067_socket_face_position_confirmed"] is False
 assert b["cad"]["usb_c_49067_CC_populated_confirmed"] is None
 assert b["cad"]["usb_c_old_low_power_exit_replaced"] is True
 assert "49067" in read and "5,1 kΩ" in read
-assert "docs/ALIMENTATION_USB_C_V8.md" not in read, "README must only show current V12"
+assert "docs/ALIMENTATION_USB_C_V8.md" not in read, "README must only show current V13"
 assert (root/"docs/ALIMENTATION_USB_C_V8.md").is_file()
 assert "USB-C" in (root/"docs/ALIMENTATION_USB_C_V8.md").read_text(encoding="utf-8")
 assert b["cad"]["servo_mount_screw_head_diameter_mm"] is None
@@ -139,8 +139,8 @@ assert "V13" in cadread and "4 coupons" in cadread
 assert "105,6 × 85" in cadread
 assert "V12" not in cadread and "V11" not in cadread and "V10" not in cadread and "V9" not in cadread
 assert "Ø3,2" in read and "Ø3,8" in read
-# Old docs remain archived in the repo, but README must present only V12.
-assert "docs/PROFONDEUR_LED_V12.md" in cadread
+# Old docs remain archived in the repo, but README must present only V13.
+assert "docs/SERVO_DMS_MG90_PALONNIERS_V13.md" in cadread
 assert (root/"docs/PROFONDEUR_LED_V12.md").is_file()
 assert len(list((root/"cad/refs").glob("*.brep.z.b64"))) == 4
 # Explicit non-certified assembly claims in canonical docs
