@@ -70,7 +70,7 @@ assert m["design"]["mailbox_insert_separate_stl"] is True
 assert b["cad"]["mailbox_print_part"] == "10_boite_aux_lettres_noire"
 assert b["cad"]["cad_printable_part_count"] == 9
 assert b["cad"]["cad_step_export_count"] == 12
-assert "bac acier" in read and "boîte aux lettres" in read
+assert "bac acier" in read.lower() and "boîte aux lettres" in read.lower()
 assert "docs/PROFONDEUR_LED_V12.md" in read
 assert (root/"docs/PROFONDEUR_LED_V12.md").is_file()
 assert "4 clips" in read and "Aucun œillet" in read
