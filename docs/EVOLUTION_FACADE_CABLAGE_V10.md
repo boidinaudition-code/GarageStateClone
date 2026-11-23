@@ -1,4 +1,6 @@
-# Révision V10 — Fronton nervuré, LED, boîte aux lettres et raccordement USB-C
+# Révision V10 (historique) — Fronton nervuré, LED, boîte aux lettres et raccordement USB-C
+
+> **V11 courante :** largeur de coque **105,6 mm**, porte **55 mm**, boîte aux lettres repositionnée à **10 mm** du bord de l'ouverture, passage des fils vers le servo par **4 clips sur le mur droit**, anciens 4 œillets supprimés. Les cotes latérales X du présent document sont historiques. Voir [COMPACTAGE_GARAGE_V11.md](COMPACTAGE_GARAGE_V11.md).
 
 **GarageStateClone — 22 novembre 2026 — source géométrique [`cad/generate_cad.py`](../cad/generate_cad.py).**
 
