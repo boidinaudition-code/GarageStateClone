@@ -1,8 +1,8 @@
 # GarageStateClone — miniature de porte de garage connectée (LoRa)
 
-**Statut : prototype mécanique V10 (fronton bac acier / façade / câblage intérieur), novembre 2026.** Une miniature décorative posée sur une étagère suit *approximativement* l’état d’une vraie porte de garage, sans jamais commander son moteur. Deux kits **Seeed XIAO nRF52840 + Wio-SX1262**, lien LoRa 868 MHz point à point. La miniature est imprimable en plusieurs pièces sur une **Bambu Lab P1S**.
+**Statut : prototype mécanique V11 (largeur compacte et guides de câbles internes), novembre 2026.** Une miniature décorative posée sur une étagère suit *approximativement* l’état d’une vraie porte de garage, sans jamais commander son moteur. Deux kits **Seeed XIAO nRF52840 + Wio-SX1262**, lien LoRa 868 MHz point à point. La miniature est imprimable en plusieurs pièces sur une **Bambu Lab P1S**.
 
-**Version courante : V10, nervures continues du toit vers le bandeau avant, LED orange abaissée, boîte aux lettres réduite, USB-C compact et câblage interne. Le servo V7, le support USB-C V8, la cinématique et le firmware sont conservés.** Les documents V1–V6 décrivant des géométries de supports antérieures sont des archives.
+**Version courante : V11, coque 105,6 × 100 mm, vrai vantail 55 mm, boîte aux lettres noire à 10 mm du bord de l'ouverture, palier gauche réduit, 4 œillets bas supprimés et 4 clips internes vers le servo. Le mécanisme, la prise USB-C V8/V10 et le firmware restent sur leurs interfaces antérieures.** Les documents V1–V6 décrivant des géométries de supports antérieures sont des archives.
 
 > **Supports V7 :** [plan de fixation des vis du DMS-MG90](docs/FIXATIONS_SERVO_V7.md) et [fiches cotées](docs/FICHES_COTEES_COMPOSANTS_V7.md). Le servo a **deux encoches Ø2 à entraxe 29 mm (Z du garage)**, maintenant représentées par **deux pilotes imprimés** ; le berceau dispose toujours de **quatre vis indépendantes** pour son ancrage au socle. Le crochet supérieur V6 a été remplacé. L'ancienne alerte « 0,05 mm de jeu par bout » comparait deux axes différents : **elle était erronée**. Le palonnier, la longueur réelle des vis et l'antenne sont à vérifier avant montage final.
 
@@ -18,28 +18,40 @@ La miniature reçoit une **platine USB-C femelle Gotronic 49067** ([fiche fabric
 
 **Détails, repères CAO, schéma, liste d'achats et montage : [ALIMENTATION_USB_C_V8.md](docs/ALIMENTATION_USB_C_V8.md).**
 
-## Nouveauté V9 : toiture bac acier et boîte aux lettres d'après photo
+## Historique V9 : toiture bac acier et boîte aux lettres d'après photo
 
-Sur le **toit noir amovible**, **13 nervures trapézoïdales** régulièrement espacées de **11,5 mm** suivent l'axe **avant → arrière de la pente**, avec un relief de **0,95 mm** et une base de **2,5 mm** (sommet **1,1 mm**). Elles sont **solidaires du toit imprimé**. La pente reste **62 / 78 mm**, l'épaisseur structurelle sous le relief **3 mm**, la jupe et les dégagements mécaniques inchangés. C'est une **interprétation esthétique** de la couverture sur la photo, pas un profil industriel exact mesuré.
+En V9, sur le **toit noir amovible**, **13 nervures trapézoïdales** régulièrement espacées de **11,5 mm** suivent l'axe **avant → arrière de la pente**, avec un relief de **0,95 mm** et une base de **2,5 mm** (sommet **1,1 mm**). Elles sont **solidaires du toit imprimé**. La pente reste **62 / 78 mm**, l'épaisseur structurelle sous le relief **3 mm**, la jupe et les dégagements mécaniques inchangés. C'est une **interprétation esthétique** de la couverture sur la photo, pas un profil industriel exact mesuré.
 
 Dans l'ancienne version V9, sur le **montant blanc droit de la façade**, un **renfoncement de 10,6 × 10,6 × 1,05 mm** était réservé à une **plaque noire carrée 10 × 10 × 0,75 mm**, imprimer séparément comme pièce **`10_boite_aux_lettres_noire`**, à coller après peinture/essai à blanc. Plaque légèrement rentrante (0,1 mm), jeu nominal 0,30 mm par côté et une petite fente gravée décorative. L'emplacement de la boîte noire est repris **visuellement** des photos fournies, à droite de la porte ; il n'est pas une cote de relevé sur le vrai bâtiment.
 
 **Les fichiers CAO comptent désormais 9 pièces STL et 12 STEP** (9 pièces, 2 assemblages, 1 XIAO simplifié). Le support d'USB-C **49067 reste solidaire du socle**. Le dessin V9 historique est détaillé dans [le guide toiture et boîte aux lettres](docs/TOIT_BAC_ACIER_BOITE_LETTRES_V9.md).
 
-## Révision V10 : fronton nervuré, goulotte intérieure et prises discrètes
+## Historique V10 : fronton nervuré, goulotte intérieure et prises discrètes
 
-La photo montre un **bandeau métallique descendant en façade** avec des lignes verticales. Les **13 nervures trapézoïdales du toit** se prolongent désormais sur **la façade avant descendante du toit noir amovible**, au même pas de **11,5 mm** et avec un relief extérieur de **0,85 mm**. La pente **62 / 78 mm** et le maintien intérieur du toit restent identiques.
+En V10, la photo montre un **bandeau métallique descendant en façade** avec des lignes verticales. Les **13 nervures trapézoïdales du toit** se prolongent sur **la façade avant descendante du toit noir amovible**, au même pas de **11,5 mm** et avec un relief extérieur de **0,85 mm**. La pente **62 / 78 mm** et le maintien intérieur du toit restent identiques.
 
-La **LED orange est abaissée de 0,5 mm** : X96 conservé, **Z52,8** au lieu de Z53,3. La **boîte aux lettres est 30 % plus petite en largeur et en hauteur** : plaque noire **7 × 7 × 0,75 mm** dans un logement **7,6 × 7,6 × 1,05 mm** ; centre inchangé à X129,8/Z29,3, jeu 0,30 mm par côté.
+En V10, la **LED orange est abaissée de 0,5 mm** : X96 conservé, **Z52,8** au lieu de Z53,3. En V11, X devient **51,6 mm** avec la nouvelle ouverture. La **boîte aux lettres est 30 % plus petite en largeur et en hauteur** : plaque noire **7 × 7 × 0,75 mm** dans un logement **7,6 × 7,6 × 1,05 mm** ; son centre V10 était X129,8/Z29,3, et la V11 le déplace en X80,1 pour respecter l'écart demandé.
 
 La **seule ouverture arrière extérieure** devient une découpe USB-C d'essai **10 × 4,2 mm** (Z9,45..13,65). La position du port réel de la **Gotronic 49067** n'étant pas publiée, cette découpe reste **à contrôler avec la platine et la fiche réelles avant impression finale**. L'ancien **trou haut arrière 16 × 9 mm est supprimé**. Les fils passent du bas vers le haut **à l'intérieur**, dans une **goulotte ouverte** à l'arrière, séparée du support USB-C, entre Z14 et Z43 (largeur libre 7,2 mm, trois petites lèvres de retenue). Aucun câble n'a besoin de traverser le mur arrière en hauteur.
 
 Voir le [**dossier technique V10 et les réserves d'assemblage**](docs/EVOLUTION_FACADE_CABLAGE_V10.md). La CAO conserve **9 STL et 12 STEP**.
 
+## Géométrie V11 : 55 mm de porte, 105,6 mm au total
+
+La **porte noire imprimée mesure exactement 55 mm de largeur** (hauteur 41,4 mm, épaisseur 2,4 mm). Son **ouverture mesure 55,6 × 42 mm**, grâce au jeu horizontal de 0,30 mm de chaque côté. La coque et le socle font désormais **105,6 × 100 mm** : montant gauche 11 mm + ouverture 55,6 mm + **montant droit de 39 mm conservé** pour le servo DMS-MG90. Le modèle n'a pas été mis à l'échelle : les perçages, logements et supports ont été recalculés.
+
+Le **bord gauche visible de la boîte aux lettres noire** se trouve **à 10,00 mm du bord droit de l'ouverture**. La plaque noire reste **7 × 7 mm** et son renfoncement blanc **7,6 × 7,6 mm** ; nouveau centre X80,1/Z29,3. Le **palier gauche** passe de son corps principal 5 × 14,6 × 19 mm à **4,6 × 12 × 12 mm**, sans changer le jeu du tourillon **Ø3,2 / Ø3,8**. La tablette de soutien a été remontée en conséquence.
+
+Les **4 anciens œillets passe-câble en bas de la coque blanche sont supprimés** : **aucun œillet** ne subsiste à cet emplacement. Ils sont remplacés par **4 clips ouverts de guidage des fils** sur la paroi intérieure droite, qui mènent du bord du faux plafond jusqu'au voisinage du servo. Chaque clip présente un passage **Ø3,4**, une fente d'accès **2,2 mm** et une paroi radiale de **2 mm** ; un câble fragile d'antenne ne doit jamais être plié de force. L'ancienne goulotte verticale du mur arrière reste disponible pour l'alimentation.
+
+Le toit métallique réduit à la nouvelle largeur conserve la pente 62 / 78 mm et le style de couverture, avec **9 nervures** sur le pan et **9 nervures alignées** sur le bandeau descendant au même pas de 11,5 mm. L'électronique XIAO/Wio, le faux plafond de **100,2 × 40 mm** et la LED blanche sont recentrés sur X52,8. Aucun changement de firmware.
+
+**Plans, coordonnées d'impression et limites : [COMPACTAGE_GARAGE_V11.md](docs/COMPACTAGE_GARAGE_V11.md).** Les exports restent **9 STL / 12 STEP** et la prise USB-C 49067 reste provisoire tant qu'elle n'a pas été mesurée.
+
 ## Sommaire
 
 1. [Ce que fait réellement le système](#ce-que-fait-réellement-le-système)
-2. [Design et cotes V6](#design-et-cotes-v6)
+2. [Design et cotes V11](#design-et-cotes-v11)
 3. [Mécanisme, supports et fixations](#mécanisme-supports-et-fixations)
 4. [Liste de pièces et coûts](#liste-de-pièces-et-coûts)
 5. [Câblage et alimentation](#câblage-et-alimentation)
@@ -64,20 +76,20 @@ Voir le [**dossier technique V10 et les réserves d'assemblage**](docs/EVOLUTION
 
 Le récepteur commande actuellement le servo entre **15° (fermé) et 95° (ouvert estimé)**, soit **80° de déplacement servo**. Le modèle mécanique est contrôlé sur un balayage **0–90°**, mais les angles finaux devront être calibrés après montage réel du palonnier.
 
-## Design et cotes V6
+## Design et cotes V11
 
 | Élément | Valeur V6 actuelle |
 |---|---:|
-| Coque extérieure | **150 × 100 mm** au sol |
-| Toit avant / arrière | **62 / 78 mm** (pente **16/100 ≈ 9,1°**), 13 nervures bac acier +0,95 mm |
+| Coque extérieure | **105,6 × 100 mm** au sol |
+| Toit avant / arrière | **62 / 78 mm** (pente **16/100 ≈ 9,1°**), **9 nervures** sur le toit et 9 sur le bandeau avant |
 | Mur / toit / socle | **2,4 / 3 / 3 mm** ; parois structurelles ≥2 mm |
-| Ouverture de porte | **100 × 42 mm**, décentrée de **14 mm vers la gauche** |
+| Ouverture de porte | **55,6 × 42 mm**, soit vantail 55 mm avec jeux 0,30 mm ; décentrée de **14 mm à gauche** |
 | Montants gauche / droit | **11 / 39 mm** ; servo dans le montant droit |
-| Vantail | **99,4 × 41,4 × 2,4 mm**, noir avec rainures décoratives |
+| Vantail | **55 × 41,4 × 2,4 mm**, noir avec rainures décoratives |
 | Charnière haute | Axe imprimé **Ø3,2 mm**, palier **Ø3,8 mm** |
 | Jeu d’emboîtement | **0,30 mm par face** en CAO, à calibrer sur la P1S |
 | Faux plafond des combles | **144,6 × 40 × 2,4 mm**, amovible |
-| Éclairage intérieur | Une LED blanche sous le faux plafond, **X75 / Y65 mm** |
+| Éclairage intérieur | Une LED blanche sous le faux plafond, **X52,8 / Y65 mm** |
 | Façade | Blanche, porte noire, orange discret, **boîte aux lettres noire 7 × 7 mm** sur montant droit ; **aucun bandeau bleu** |
 | Bandeau V10 | Même nervurage bac acier sur toit et façade descendante |
 | Alimentation V10 | Platine **USB-C 49067** sur socle arrière intégré, sortie **10 × 4,2 mm** ; 5 V / 2 A minimum |
@@ -98,7 +110,7 @@ La V6 concrétise plusieurs interfaces qui étaient seulement illustrées en V5 
 | **XIAO/Wio** | 4 plots bas non conducteurs (3,2 mm haut), **2 fentes 3,2×4,2** pour lien nylon 2,5 mm avec protection isolante | Ne pas écraser les SMD ; contrôler USB-C, antenne et accès |
 | **LED blanche** | Support amovible à **2 ergots Ø2 dans trous Ø2,6**, fixé au-dessous du faux plafond ; LED orange en façade | Dimensions réelles des collerettes LED et retenue définitive |
 | **Entrée USB-C 49067** | Support intégré au socle noir (2 guides, 2 tunnels de collier Ø fonctionnel 3,2) et **ouverture USB-C arrière 10 × 4,2 mm (essai)** ; l'ancienne fente basse 12 × 8 est supprimée | Placer la vraie prise dans l'ouverture après mesure ; sans trou de PCB inventé, hauteur et nez USB inconnus |
-| **Câbles** | 4 œillets de guidage muraux **Ø8 extérieur / Ø3,4 intérieur** ; **goulotte intérieure sans sortie haute arrière** | Protéger fils et soudure de la 49067 contre les tractions et la porte mobile |
+| **Câbles** | **0 œillet bas** ; **4 clips ouverts Ø3,4** du faux plafond vers le servo ; goulotte arrière intérieure conservée | Protéger fils et soudure de la 49067 contre les tractions et la porte mobile |
 | **Émetteur réel** | Un seul SAS308 et son aimant | **Boîtier émetteur et supports capteur/aimant non modélisés** dans les 9 STL de la maquette ; pose sans toucher rails, ressorts, galets ou sécurités |
 
 Le vrai DMS-MG90 pourrait différer du **MG90-A** des références 3D fournies. Les modèles tiers conservent leurs géométries originales en **BREP compressées avec SHA256 contrôlé** ; le modèle XIAO simplifié en un seul solide est réservé à l’importation Onshape et aux dégagements, **pas à la conception exacte de ses trous ou composants**.
