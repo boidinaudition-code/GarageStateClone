@@ -18,7 +18,7 @@ STEP = ROOT / "step"
 for folder in [STL,STEP]: folder.mkdir(parents=True, exist_ok=True)
 
 # ========= PARAMETERS (mm) =========
-W = 150.0                  # external shell width; expanded from concept to fit servo right pier
+W = 105.6                  # V11 compact 55.0mm printed door + 0.3mm gaps + 11/39mm piers
 D = 100.0                  # external shell depth
 H_FRONT = 62.0             # roof TOP at front
 H_BACK = 78.0              # roof top rear: 16mm rise across 100mm depth (V5)
@@ -31,7 +31,7 @@ ROOF_SKIRT_DROP = 4.5
 # V9 architectural detailing: shallow trapezoidal standing seams, on the
 # TOP surface only, run in roof slope direction (garage +Y). The removable
 # lid underside, slope and skirt engagement are intentionally unchanged.
-ROOF_RIB_COUNT=13
+ROOF_RIB_COUNT=9      # compact 105.6mm width: 9 ribs, same 11.5mm period
 ROOF_RIB_FIRST_X=5.5
 ROOF_RIB_PITCH=11.5
 ROOF_RIB_BASE_W=2.5
@@ -49,28 +49,31 @@ ROOF_FASCIA_RIB_BOTTOM_MARGIN=0.35
 ROOF_FASCIA_RIB_BOTTOM_Z=H_FRONT-ROOF-ROOF_SKIRT_DROP-(
     H_BACK-H_FRONT)*ROOF_OVERHANG/D+ROOF_FASCIA_RIB_BOTTOM_MARGIN
 ROOF_FASCIA_RIB_TOP_Z=H_FRONT-(H_BACK-H_FRONT)*ROOF_OVERHANG/D+ROOF_RIB_RISE
-# Separate black postbox plaque glued into a SHALLOW cosmetic pocket in the
-# white front right pier (reference: user's photographs of real garage).
-# Wall remains 2.4 - 1.05 = 1.35mm behind recess, at local cosmetic feature.
-# Keep the V9 centre exactly X129.8/Z29.3. 30% reduction applies
-# to the visible BLACK PLAQUE LINEAR dimensions: 10 -> 7mm, not area.
+# V11 printed black door = 55mm EXACTLY; opening has 0.3mm
+# clearance each side, so the opening itself is 55.6mm wide.
+DOOR_TARGET_W=55.0
+OPEN_W = DOOR_TARGET_W+2*FIT
+OPEN_H = 42.0
+LEFT_PIER_W = 11.0       # hinge bearing side, kept to preserve clearance
+OPEN_X = LEFT_PIER_W
+RIGHT_PIER_W = W-OPEN_X-OPEN_W  # 39mm motor-side pier maintained
+OPEN_Z = BASE
+if abs(RIGHT_PIER_W-39.0)>1e-8:
+    raise ValueError("Servo-side pier must stay 39mm, not scaled with the door")
+# V11: precisely 10mm between opening RIGHT EDGE and visible BLACK
+# mailbox plaque LEFT EDGE, not between opening and the recess edge.
+MAILBOX_GAP_OPEN_TO_BLACK=10.0
 MAILBOX_POCKET_W=7.6
 MAILBOX_POCKET_H=7.6
-MAILBOX_POCKET_X0=129.8-MAILBOX_POCKET_W/2
+MAILBOX_POCKET_X0=OPEN_X+OPEN_W+MAILBOX_GAP_OPEN_TO_BLACK-FIT
 MAILBOX_POCKET_Z0=29.3-MAILBOX_POCKET_H/2
 MAILBOX_POCKET_DEPTH=1.05
-MAILBOX_FACE_RELIEF_Y=0.10  # 0.1mm recessed from the white front plane
+MAILBOX_FACE_RELIEF_Y=0.10
 MAILBOX_INSERT_W=MAILBOX_POCKET_W-2*FIT
 MAILBOX_INSERT_H=MAILBOX_POCKET_H-2*FIT
 MAILBOX_INSERT_THICK=0.75
 MAILBOX_INSERT_X0=MAILBOX_POCKET_X0+FIT
 MAILBOX_INSERT_Z0=MAILBOX_POCKET_Z0+FIT
-OPEN_W = 100.0
-OPEN_H = 42.0
-LEFT_PIER_W = 11.0        # compact LEFT pier for bearing
-OPEN_X = LEFT_PIER_W      # deliberately asymmetric: door shifted to left
-RIGHT_PIER_W = W-OPEN_X-OPEN_W # 39mm for MG90 + coupling + wall
-OPEN_Z = BASE
 PIVOT_Y = 9.5            # recess of axis; avoids front wall and servo body collision
 PIVOT_Z = BASE + OPEN_H + 0.4
 DOOR_T = 2.4
@@ -119,9 +122,15 @@ SERVO_LUG_TOP_TO_SHAFT_BOSS_TOP_EST_MM=8.0
 SERVO_HORN_MOUNTED_THICKNESS_MM=None
 SERVO_MOUNT_SCREW_HEAD_D_MM=None
 SERVO_MOUNT_SCREW_UNDER_HEAD_LENGTH_MM=None
-# Cable eyes and attic strap slots: real apertures, not marketing dimensions.
-WIRE_EYE_OD = 8.0
-WIRE_EYE_ID = 3.4
+# Lower four wire eyes removed in V11. Instead, C-shaped cable clips
+# are printed on the INNER right wall from the removable attic shelf toward
+# the servo. They follow Y and remain outside the door sweep and motor body.
+SERVO_CABLE_CLIP_OUTER_D=7.4
+SERVO_CABLE_CLIP_INNER_D=3.4
+SERVO_CABLE_CLIP_WIDTH_Y=2.4
+SERVO_CABLE_CLIP_ENTRY_GAP_Z=2.2
+SERVO_CABLE_CLIP_YZ=((21.0,42.0),(31.0,42.5),(41.0,43.0),(51.0,43.5))
+SERVO_CABLE_CLIP_X=W-WALL-2.1
 PCB_TIE_SLOT = (3.2, 4.2)
 JAMB_RETURN_DEPTH = 10.0  # internal extension beyond front wall
 JAMB_RETURN_THICK = WALL  # 2.4mm, outside door panel width
@@ -184,7 +193,7 @@ USB_C_BOARD_ORIENTATION_STATUS="provisional: exact 49067 socket xy/z offset and 
 # V10 internal ONLY cable chase from rear USB/power distro up to attic,
 # against the inner rear wall, shifted to X~95 to clear USB carrier X64..86.
 # Open U guide + alternating small lips, no new hole through the shell.
-CABLE_RISER_X0=90.0
+CABLE_RISER_X0=W-15.6  # V10 x90.0 in V11, kept against rear-right interior
 CABLE_RISER_INNER_W=7.2
 CABLE_RISER_RAIL_W=1.8
 CABLE_RISER_Y0=D-WALL-4.0
@@ -287,17 +296,29 @@ right_jamb_return=right_jamb_return.cut(cyl_x(
   JAMB_RETURN_THICK+0.2))
 shell=shell.fuse(left_jamb_return).fuse(right_jamb_return).clean()
 # Bearing is not left hanging: flush landing ledge against the front wall.
-BEARING_SEAT_Z=PIVOT_Z-11
-bearing_shelf=box(3.0,WALL,BEARING_SEAT_Z-2.4,5.3,15.5,2.4)
+BEARING_SEAT_Z=PIVOT_Z-6.0
+bearing_shelf=box(3.1,WALL,BEARING_SEAT_Z-2.4,5.0,12.0,2.4)
 shell=shell.fuse(bearing_shelf).clean()
-# Low cable routing eyelets on side walls, away from door sweep and electronics.
+# The four former bottom Ø8 cable eyes are now absent altogether.
 wire_eyes=[]
-for xcenter in (WALL+3.0,W-WALL-3.0):
- for ey in (35.0,73.0):
-  ring=cyl_y(xcenter,ey,12.0,WIRE_EYE_OD,3.0)
-  ring=ring.cut(cyl_y(xcenter,ey-0.1,12.0,WIRE_EYE_ID,3.2))
-  wire_eyes.append(ring)
-shell=union_all([shell]+wire_eyes)
+# V11: four C-shaped clips running along the right inside wall between
+# the attic front edge (Y55) and the servo (Y<16). Each profile has an
+# accessible 2.2mm opening facing inward (toward lower X), and a Ø3.4
+# round cable passage aligned with Y. Ring wall is 2mm radially.
+servo_cable_clips=[]
+for cy,cz in SERVO_CABLE_CLIP_YZ:
+    c=cyl_y(SERVO_CABLE_CLIP_X,cy-SERVO_CABLE_CLIP_WIDTH_Y/2,cz,
+            SERVO_CABLE_CLIP_OUTER_D,SERVO_CABLE_CLIP_WIDTH_Y)
+    c=c.cut(cyl_y(SERVO_CABLE_CLIP_X,cy-SERVO_CABLE_CLIP_WIDTH_Y/2-0.1,cz,
+                  SERVO_CABLE_CLIP_INNER_D,SERVO_CABLE_CLIP_WIDTH_Y+0.2))
+    c=c.cut(box(SERVO_CABLE_CLIP_X-SERVO_CABLE_CLIP_OUTER_D/2-0.15,
+                cy-SERVO_CABLE_CLIP_WIDTH_Y/2-0.1,
+                cz-SERVO_CABLE_CLIP_ENTRY_GAP_Z/2,
+                (SERVO_CABLE_CLIP_OUTER_D-SERVO_CABLE_CLIP_INNER_D)/2+0.35,
+                SERVO_CABLE_CLIP_WIDTH_Y+0.2,
+                SERVO_CABLE_CLIP_ENTRY_GAP_Z))
+    servo_cable_clips.append(c.clean())
+shell=union_all([shell]+servo_cable_clips)
 # Low-profile ledges fused to the walls to support the removable attic shelf.
 attic_left_ledge=box(WALL,ATTIC_Y0+2,ATTIC_Z0-ATTIC_SUPPORT_HEIGHT,
                      ATTIC_SUPPORT_WIDTH,ATTIC_DEPTH-4,ATTIC_SUPPORT_HEIGHT)
@@ -436,13 +457,16 @@ door=door.fuse(drive_disc).clean()
 
 # 5. Bearing block (LEFT) with cylindrical hole 3.8mm for 3.2mm pin
 # Compact left bearing entirely inside the 11mm left pier; no collision with shell.
-bearing_x=OPEN_X-7.8
-bearing_width=5.0
-bearing=box(bearing_x,WALL+FIT,PIVOT_Z-11,bearing_width,14.6,19.0)
-bearing=bearing.cut(cyl_x(bearing_x-0.1,PIVOT_Y,PIVOT_Z,HINGE_SOCKET_D,bearing_width+0.2))
-# Add a small flange to permit attaching the bearing to the left masonry with adhesive or screws.
-# Narrower fastening lug, left wall of bearing stays >= 0.30mm from shell.
-flange=box(OPEN_X-8.0,WALL+0.5,PIVOT_Z-10,5.0,2.4,18.0)
+bearing_x=OPEN_X-7.6
+bearing_width=4.6
+bearing_depth=12.0
+bearing_height=12.0
+bearing=box(bearing_x,WALL+FIT,PIVOT_Z-bearing_height/2,
+            bearing_width,bearing_depth,bearing_height)
+bearing=bearing.cut(cyl_x(bearing_x-0.1,PIVOT_Y,PIVOT_Z,
+                          HINGE_SOCKET_D,bearing_width+0.2))
+# Small glue flange matching the new 12mm tall bearing, no invented screw.
+flange=box(OPEN_X-7.8,WALL+0.5,PIVOT_Z-5.8,4.6,2.4,11.6)
 bearing=bearing.fuse(flange).clean()
 # The bearing rests on the printed shell shelf and can be glued after dry-fit;
 # it is NOT yet a captive screw-mounted bearing.
@@ -543,12 +567,16 @@ tray=tray.cut(cq.Solid.makeCylinder(1.2,ATTIC_PLATE_THICK+0.2,
                      V(ATTIC_LED_X,ATTIC_LED_Y,ATTIC_Z0-0.1),V(0,0,1)))
 # Two strap slots OUTSIDE vendor PCB envelope. Use a soft insulating pad;
 # do not tighten a tie directly onto fragile SMD components.
-PCB_STRAP_SLOTS=[(56.8,77.0),(89.7,77.0)]
+# The two strap slots and four pads must MOVE with the smaller cabinet.
+# Old V10 values were anchored to global X and would miss the radio if not
+# moved by the 22.2mm change in X centre; keep offsets from W/2 instead.
+PCB_STRAP_SLOTS=[(W/2-18.2,77.0),(W/2+14.7,77.0)]
 for sx,sy in PCB_STRAP_SLOTS:
  tray=tray.cut(box(sx,sy,ATTIC_Z0-0.1,PCB_TIE_SLOT[0],
                    PCB_TIE_SLOT[1],ATTIC_PLATE_THICK+0.2))
 # Four low printed support pads under Wio 3D footprint; 0.3mm vertical gap.
-PCB_PADS=[(64.0,70.5),(81.0,70.5),(64.0,84.0),(81.0,84.0)]
+PCB_PADS=[(W/2-11.0,70.5),(W/2+6.0,70.5),
+          (W/2-11.0,84.0),(W/2+6.0,84.0)]
 for px,py in PCB_PADS:
  tray=tray.fuse(box(px,py,ATTIC_Z0+ATTIC_PLATE_THICK,4.0,3.0,3.2))
 tray=tray.clean()
@@ -750,6 +778,12 @@ if __name__=='__main__':
         'width':W,'depth':D,'front_height':H_FRONT,'rear_height':H_BACK,
         'roof_slope_rise':H_BACK-H_FRONT,'wall':WALL,'roof':ROOF,'base':BASE,
         'roof_bac_acier_rib_count':ROOF_RIB_COUNT,
+        'bottom_cable_eyelets_removed':len(wire_eyes)==0,
+        'servo_cable_clip_count':len(servo_cable_clips),
+        'servo_cable_clip_yz_mm':SERVO_CABLE_CLIP_YZ,
+        'servo_cable_clip_axis':'Y, open toward decreasing X',
+        'servo_cable_clip_inner_outer_diameters_mm':[SERVO_CABLE_CLIP_INNER_D,SERVO_CABLE_CLIP_OUTER_D],
+        'servo_cable_clip_entry_gap_mm':SERVO_CABLE_CLIP_ENTRY_GAP_Z,
         'roof_front_fascia_rib_count':len(roof_front_fascia_seams),
         'roof_front_fascia_rib_projection_y_mm':ROOF_FASCIA_RIB_PROJECTION,
         'roof_front_fascia_rib_bottom_top_z_mm':[ROOF_FASCIA_RIB_BOTTOM_Z,ROOF_FASCIA_RIB_TOP_Z],
@@ -760,6 +794,8 @@ if __name__=='__main__':
         'roof_bac_acier_rise_above_original_top_mm':ROOF_RIB_RISE,
         'roof_bac_acier_ribs_parallel_to':'Y, roof slope front to rear',
         'mailbox_pocket_xz_mm':[MAILBOX_POCKET_X0,MAILBOX_POCKET_Z0],
+        'mailbox_visible_left_edge_x_mm':MAILBOX_INSERT_X0,
+        'mailbox_gap_open_right_to_black_left_mm':MAILBOX_INSERT_X0-(OPEN_X+OPEN_W),
         'mailbox_insert_linear_reduction_from_v9_percent':30,
         'mailbox_insert_old_width_height_mm':[10.0,10.0],
         'mailbox_pocket_width_height_depth_mm':[MAILBOX_POCKET_W,MAILBOX_POCKET_H,MAILBOX_POCKET_DEPTH],
@@ -768,12 +804,14 @@ if __name__=='__main__':
         'mailbox_insert_surface_recession_y_mm':MAILBOX_FACE_RELIEF_Y,
         'mailbox_part_name':'10_boite_aux_lettres_noire',
         'fit_per_face':FIT,'opening_width':OPEN_W,'opening_height':OPEN_H,
+        'exact_printed_door_target_width_mm':DOOR_TARGET_W,
         'door_width':DOOR_W,'door_height':DOOR_H,'hinge_diameter':HINGE_D,
         'bearing_hole_diameter':HINGE_SOCKET_D,
         'pivot_y':PIVOT_Y,'pivot_z':PIVOT_Z,
         'left_pier_width':LEFT_PIER_W,'right_pier_width':RIGHT_PIER_W,
         'door_offset_from_center':(OPEN_X+OPEN_W/2)-W/2,
         'compact_left_bearing_width':bearing_width,
+        'compact_left_bearing_xyz_size_mm':[bearing_width,bearing_depth,bearing_height],
         'led_white_y':led_white_y,'led_orange_x':orange_x,
         'led_orange_z':orange_z,
         'led_orange_lowering_vs_v9_mm':0.5,
