@@ -22,13 +22,23 @@ assert components["S1"]["qty"] == 1
 for key, ref in (("LED1", "03989"), ("LED2", "03051")):
     led = components[key]
     assert led["manufacturer_ref"] == "Gotronic " + ref
-    assert led["body_mm"] == {"diameter": 5, "length": None}
-    assert led["lead_pitch_mm"] is None and led["collar_diameter_mm"] is None
+    assert led["body_mm"]["diameter"] == 5
+white = components["LED1"]
+orange = components["LED2"]
+assert white["body_mm"]["length"] is None
+assert white["lead_pitch_mm"] is None and white["collar_diameter_mm"] is None
+assert orange["body_mm"]["length"] == cad["LED_ORANGE_LENS_TO_FLANGE_BACK"] == 8.6
+assert orange["lead_pitch_mm"] == cad["LED_ORANGE_PIN_PITCH"] == 2.54
+assert orange["collar_diameter_mm"] == cad["LED_ORANGE_FLANGE_D"] == 5.9
+assert orange["collar_thickness_max_mm"] == cad["LED_ORANGE_FLANGE_THICKNESS_MAX"] == 1.0
+assert orange["leads_min_length_mm"] == cad["LED_ORANGE_LEAD_LENGTH_MIN"] == 27.0
+assert "supplied in chat by user" in orange["drawing_source"]
+assert orange["datasheet_warning"].startswith("Gotronic links L7113EC")
 assert bom["cad"]["led_pocket_provisional_diameter_mm"] == cad["LED_POCKET_D"]
 assert bom["cad"]["orange_optical_aperture_mm"] == cad["LED_ORANGE_APERTURE_D"]
 assert bom["cad"]["orange_led_recess_from_front_mm"] == cad["LED_ORANGE_RECESS"]
 assert bom["cad"]["led_service_envelope_provisional_diameter_length_mm"] == list(cad["LED_ENVELOPE"])
-print("JSON / generator: single sensor, 5mm LEDs, unknown dimensions, pockets consistent")
+print("JSON / generator: white LED provisional; orange LED user-drawing-cote, rear mounted under bearing; wiring source intact")
 
 links = 0
 for path in sorted(ROOT.rglob("*.md")):
@@ -60,7 +70,10 @@ print("9 STL watertight/positive volumes; 9 valid single solids; 12 STEP files p
 refs = {name: solid for name, solid in cad["REFERENCES"].items() if "LED_" in name}
 assert len(refs) == 2
 for name, solid in refs.items():
-    assert "ENVELOPPE_PROVISOIRE" in name
+    if "blanche" in name:
+        assert "ENVELOPPE_PROVISOIRE" in name, "white dimensions still unknown"
+    else:
+        assert "ENVELOPPE_COTEE" in name, "orange envelope follows supplied drawing"
     assert solid.intersect(cad["shell"]).Volume() < 1e-6, name
     assert solid.intersect(cad["servo_reference"]).Volume() < 1e-6, name
     assert solid.intersect(cad["holder"]).Volume() < 1e-6, name
