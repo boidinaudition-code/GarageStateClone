@@ -25,8 +25,13 @@ for key, ref in (("LED1", "03989"), ("LED2", "03051")):
     assert led["body_mm"]["diameter"] == 5
 white = components["LED1"]
 orange = components["LED2"]
-assert white["body_mm"]["length"] is None
-assert white["lead_pitch_mm"] is None and white["collar_diameter_mm"] is None
+assert white["body_mm"]["length"] == cad["LED_WHITE_HEAD_LENGTH"] == 8.6
+assert white["lead_pitch_mm"] == cad["LED_WHITE_LEAD_PITCH"] == 2.54
+assert white["collar_diameter_mm"] == cad["LED_WHITE_FLANGE_D"] == 5.9
+assert white["user_drawing_flange_thickness_max_mm"] == 1.0
+assert white["user_drawing_lead_length_nominal_tolerance_mm"] == [29,0.5]
+assert "GTG502WWC" in white["mechanical_dimensions_from"]
+assert "not proven" in white["mechanical_dimensions_from"], "not verified identical to original BOM WCS101"
 assert orange["body_mm"]["length"] == cad["LED_ORANGE_LENS_TO_FLANGE_BACK"] == 8.6
 assert orange["lead_pitch_mm"] == cad["LED_ORANGE_PIN_PITCH"] == 2.54
 assert orange["collar_diameter_mm"] == cad["LED_ORANGE_FLANGE_D"] == 5.9
@@ -38,7 +43,7 @@ assert bom["cad"]["led_pocket_provisional_diameter_mm"] == cad["LED_POCKET_D"]
 assert bom["cad"]["orange_optical_aperture_mm"] == cad["LED_ORANGE_APERTURE_D"]
 assert bom["cad"]["orange_led_recess_from_front_mm"] == cad["LED_ORANGE_RECESS"]
 assert bom["cad"]["led_service_envelope_provisional_diameter_length_mm"] == list(cad["LED_ENVELOPE"])
-print("JSON / generator: white LED provisional; orange LED user-drawing-cote, rear mounted under bearing; wiring source intact")
+print("JSON / generator: white GTG502WWC dimensioned reference; Whadda WCS101 identity not confirmed; orange LED independent")
 
 links = 0
 for path in sorted(ROOT.rglob("*.md")):
@@ -56,22 +61,23 @@ ast.parse((ROOT / "cad/generate_cad.py").read_text())
 print(f"Local Markdown link paths: {links} OK; SVG XML and Python AST: OK")
 
 stls = sorted((ROOT / "cad/stl").glob("*.stl"))
-assert len(stls) == len(cad["PRINTABLE"]) == 9
+assert len(stls) == len(cad["PRINTABLE"]) == 10
 for path in stls:
     mesh = trimesh.load_mesh(path)
     assert mesh.is_watertight and mesh.is_volume, path
     solid = cad["PRINTABLE"][path.stem]
     assert solid.isValid() and len(solid.Solids()) == 1, path
 steps = sorted((ROOT / "cad/step").glob("*.step"))
-assert len(steps) == 12
+assert len(steps) == 13
 assert all(path.stat().st_size > 0 for path in steps)
-print("9 STL watertight/positive volumes; 9 valid single solids; 12 STEP files present")
+print("10 STL watertight/positive volumes; 10 valid single solids; 13 STEP files present")
 
 refs = {name: solid for name, solid in cad["REFERENCES"].items() if "LED_" in name}
 assert len(refs) == 2
 for name, solid in refs.items():
     if "blanche" in name:
-        assert "ENVELOPPE_PROVISOIRE" in name, "white dimensions still unknown"
+        assert "GTG502WWC_COTEE" in name, "white dimensions must use user supplied PDF"
+        assert cad["LED_WHITE_HEAD_LENGTH"] == 8.6
     else:
         assert "ENVELOPPE_COTEE" in name, "orange envelope follows supplied drawing"
     assert solid.intersect(cad["shell"]).Volume() < 1e-6, name
@@ -93,7 +99,11 @@ assert cad["ATTIC_LED_Y"]==65.0
 assert len(cad["SERVO_MOUNT_HOLES"])==4
 assert len(cad["PCB_STRAP_SLOTS"])==2
 assert len(cad["LED_HOLDER_PINS"])==2
-print("V6 attic and assembly: modules above ceiling; LED locating pegs and M2 mount features")
+assert len(cad["pcb_side_clips"]) == 2
+assert cad["CABLE_RISER_COVER_W"] == 7.9
+assert len(cad["cable_riser_lips"]) == 0
+assert "11_couvercle_goulotte_arriere" in cad["PRINTABLE"]
+print("V14 attic: two snap fingers; two locating LED pegs; straight capped chase; no unmeasured horns")
 orange_ref = next(s for n, s in refs.items() if "orange" in n)
 assert orange_ref.BoundingBox().ymin > cad["WALL"]
 for angle in range(0, 91, 5):
