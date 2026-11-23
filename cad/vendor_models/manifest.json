@@ -1,7 +1,7 @@
 {
-  "version": "2.0",
+  "version": "V15",
   "unit": "mm",
-  "date": "2026-11-21",
+  "date": "2026-11-23",
   "source": "quatre archives ZIP fournies par utilisateur (modeles tiers ; verifier licences avant diffusion)",
   "note": "Les originaux STEP sont dans l'archive de livraison. Le dépôt GitHub inclut les quatre géométries lossless sous cad/refs/*.brep.z.b64, automatiquement décompressées en solides CadQuery. Conserver les conditions de licence des modèles tiers.",
   "components": [
@@ -358,8 +358,8 @@
     "servo_horn_preferred_for_door": "round from supplied photo; exact OD holes and thickness unknown; no hole patterns on door Ø12",
     "calibration_coupons_count": 4,
     "cad_revision": "V14",
-    "cad_printable_count": 10,
-    "cad_step_count": 13,
+    "cad_printable_count": 13,
+    "cad_step_count": 16,
     "attic_wio_side_clip_count": 2,
     "attic_wio_side_clip_x_posts_mm": [
       38.45,
@@ -405,7 +405,59 @@
     "white_led_loaded_from_below": true,
     "white_led_pin_retainer": "small electronics-safe neutral silicone at lower aperture, no press on lens",
     "terminal_sc02_254_screenshot_source": "dimensioned screen image from user 2026-11-23; two poles; not a CAD printable fixture",
-    "terminal_sc02_254_two_pole_body_width_mm": 5.48
+    "terminal_sc02_254_two_pole_body_width_mm": 5.48,
+    "visual_reference_v15": "2026-11-23 user supplied photorealistic garage image, cosmetic not manufacturer dimensions",
+    "pedestrian_door_part": "12_porte_pietonne_noire",
+    "pedestrian_door_pocket_xz_mm": [
+      89.4,
+      3.25
+    ],
+    "pedestrian_door_pocket_wh_depth_mm": [
+      14.6,
+      38.4,
+      1
+    ],
+    "pedestrian_door_panel_wh_thickness_mm": [
+      14,
+      37.8,
+      0.76
+    ],
+    "pedestrian_door_grooves": 5,
+    "pedestrian_door_is_non_operable_decor": true,
+    "pedestrian_door_handle_fused": true,
+    "intercom_mockup_part": "13_interphone_gris",
+    "intercom_mockup_pocket_xz_mm": [
+      84.8,
+      27.9
+    ],
+    "intercom_mockup_pocket_wh_depth_mm": [
+      3.6,
+      7.2,
+      0.95
+    ],
+    "intercom_mockup_face_wh_thickness_mm": [
+      3,
+      6.6,
+      0.73
+    ],
+    "intercom_mockup_camera_button_diameters_mm": [
+      1.12,
+      0.9
+    ],
+    "intercom_mockup_speaker_slit_count": 3,
+    "intercom_mockup_nonfunctional": true,
+    "mailbox_white_rectangle_inlay_part": "14_insert_blanc_boite_lettres",
+    "mailbox_white_rectangle_wh_thickness_mm": [
+      5.1,
+      0.8,
+      0.35
+    ],
+    "roof_side_flashing_count": 2,
+    "roof_side_flashing_rise_mm": 0.55,
+    "roof_front_drip_depth_height_mm": [
+      0.55,
+      0.7
+    ]
   },
   "qa": {
     "checked_with": "CadQuery 2.8.0, OCP 7.9.3.1, trimesh 4.11.1",
@@ -426,6 +478,7 @@
     "actual_horn_bolt_pattern": "UNKNOWN, interface disk blank on purpose",
     "manufacturer_axis_erratum": "official drawing 33mm ear-span maps to rotated STEP Z=33.4mm, NOT X=32.5mm. Prior 0.05 mm axial clearance claim invalid",
     "usb_c_carrier": "integral to 02 base; underside strap tunnels and rear shell aperture modeled; physical connector protrusion/hole placement unknown",
-    "roof_mailbox_design": "V14: retains V11 55mm door, mailbox gap10 and 9+9 roof ribs. Cabinet depth 85 and removable attic 25. Orange Ø5/5.9 drawing-based LED socket positioned below left bearing. No physical hardware trials."
+    "roof_mailbox_design": "V14: retains V11 55mm door, mailbox gap10 and 9+9 roof ribs. Cabinet depth 85 and removable attic 25. Orange Ø5/5.9 drawing-based LED socket positioned below left bearing. No physical hardware trials.",
+    "v15_photo_fidelity": "Cosmetic 13 STL, 16 STEP; single-piece recessed black door with vertical flutes/lever, gray intercom camera-button grille, independently printed white mailbox inlay, roof side flashings and front drip; still an approximated mockup, not a build/measured fit"
   }
 }
