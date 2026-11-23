@@ -1,62 +1,54 @@
-# Façade V15 — porte piétonne, interphone et boîte aux lettres du rendu
+# Façade V15 révisée — porte piétonne 17 mm, boîte aux lettres, sans interphone
 
-**Référence visuelle :** image photoréaliste fournie par l'utilisateur le 23 novembre 2026, présentant une miniature de garage blanc à toit noir nervuré, porte sectionnelle centrale noire, petite boîte noire à rectangle blanc, interphone gris, porte piétonne noire à rainures verticales et poignée. Le rendu n'est pas un dessin industriel coté. Toutes les nouvelles dimensions sont des **choix de maquettisme**, à différencier des cotes attestées du servo et des cartes.
+**Version de la branche `cad/v15-facade-porte-interphone-rendu-reference` — 24 novembre 2026.**
+Le nom historique du présent fichier mentionne encore l'interphone, mais celui-ci a été **entièrement supprimé** de la géométrie CAO et des exports imprimables. Ces dimensions sont issues des instructions utilisateur pour une maquette esthétique, pas d'un relevé réel.
 
-## 1. Contraintes conservées
+## Implantation en façade (X depuis la gauche, millimètres)
 
-- Modèle mécanique **105,6 × 85 mm** au sol, toit **Z62 / Z78**, murs **2,4 mm**.
-- Porte **motorisée de garage** de **55 × 41,4 mm**, ouverture 55,6 mm et débattement de 0 à 90°, gauche X11, droite X66,6.
-- Montant droit de **39 mm**, avec support servo, palonnier non finalisé, câble et interphone **décoratif seulement**.
-- Boîte aux lettres actuelle **7 × 7 mm**, exactement **10 mm de décalage visuel** à droite de l'ouverture de la porte de garage.
-- Toit noir amovible, **9 nervures bac acier sur le pan supérieur et 9 nervures alignées sur la retombée frontale**, sans réduire l'épaisseur de 3 mm du pan ou modifier la jupe démontable.
-- LED orange réelle sur le montant gauche (X5,3/Z32), USB-C à l'arrière, XIAO/Wio dans les combles et goulotte intérieure V14, sans modifications fonctionnelles.
+L'ensemble de la coque garde sa largeur de **105,6 mm**. La porte de garage motorisée reste à **X11..66,6** (ouverture de **55,6 mm**, panneau noir de 55 mm). Le montant droit conserve **39 mm**, de X66,6 à 105,6.
 
-## 2. Nouvelle porte piétonne noire, fixe
+| Élément visible noir | Bord gauche | Bord droit | Largeur |
+|---|---:|---:|---:|
+| Fin de l'ouverture de garage | — | **66,6** | 55,6 pour l'ouverture entière |
+| **Espace blanc après garage** | **66,6** | **71,6** | **5,0** |
+| **Boîte aux lettres noire** | **71,6** | **78,6** | **7,0** |
+| **Espace blanc avant porte piétonne** | **78,6** | **83,6** | **5,0** |
+| **Porte piétonne noire fixe** | **83,6** | **100,6** | **17,0** |
+| **Bord blanc droit** | **100,6** | **105,6** | **5,0** |
 
-| Caractéristique | Géométrie V15 |
-|---|---|
-| Niche dans le mur blanc | X **89,4..104,0**, Z **3,25..41,65** ; profondeur **1 mm** |
-| Panneau noir indépendant | **14 × 37,8 × 0,76 mm**, X **89,7..103,7**, Z **3,55..41,35** |
-| Face de l'insert | Y **0,12..0,88**, noyé dans le mur, encadrement blanc très fin |
-| Détails de panneau | Rebord noir, panneau intérieur en léger creux, **5 rainures verticales** de 0,42 mm, traverse basse à Z ≈14,75 |
-| Poignée | Écusson/support noir d'environ **0,95 × 2,25 mm** et levier **2,85 × 0,55 mm**, fusionnés à la pièce, en saillie sur la face |
-| Mur blanc derrière la niche | **1,4 mm** minimum |
+Les cotes de **5 mm** sont mesurées entre les faces visibles, **et non entre les niches**. Avec un jeu FDM nominal de **0,30 mm de chaque côté**, les découpes sont légèrement plus grandes.
 
-**Ne fonctionne pas comme une vraie porte** : pas de charnières, de fermeture ou d'ouverture traversante. L'emplacement et la largeur sont contraints par le moteur dans le montant droit : c'est une approximation de la porte du rendu, plus étroite qu'une porte à l'échelle 1.
+## Boîte aux lettres et rectangle blanc
 
-## 3. Interphone gris, également décoratif
+- Logement blanc peu profond : **7,6 × 7,6 × 1,05 mm**, origine **X71,3 / Z25,5**.
+- Pièce noire : **7 × 7 × 0,75 mm**, face extérieure très légèrement en retrait ; centre X75,1/Z29,3.
+- Pièce blanche séparée : `14_insert_blanc_boite_lettres`, rectangle **5,1 × 0,8 × 0,35 mm** dans un logement local **5,5 × 1,2 mm** du carré noir.
+- Jeu nominal **0,30 mm** par côté dans la façade, et environ 0,20 mm autour de la pièce blanche. Essai à blanc et collage léger.
 
-- Niche blanche : X **84,8..88,4**, Z **27,9..35,1**, profondeur **0,95 mm**.
-- Corps extérieur imprimé gris : **3 × 6,6 × 0,73 mm** avec jeu de 0,3 mm par côté.
-- En haut : trou de caméra **Ø1,12 mm** en léger creux, pouvant être peint en noir. En bas : bouton **Ø0,90 mm** en creux. Trois reliefs horizontaux de grille **1,5 × 0,28 mm** à mi-hauteur.
-- Ne pas percer le fond : le mur porteur reste fermé ; **pas de fil, buzzer, caméra, moteur ni carte électronique**. Les gravures fines peuvent s'atténuer à la buse FDM 0,4 mm ; un point de peinture noire améliore les contrastes.
+## Porte piétonne noire de 17 mm
 
-## 4. Boîte noire et rectangle blanc
+- Logement blanc : origine **X83,3 / Z3,25**, **17,6 × 38,4 × 1,0 mm**.
+- Pièce `12_porte_pietonne_noire` : panneau visible de **17,0 × 37,8 × 0,76 mm**, origine **X83,6 / Z3,55**.
+- La partie visible présente **5 rainures verticales en creux**, un panneau central encadré, une traverse basse et **une poignée noire en relief** fusionnée à la porte.
+- Le fond de mur blanc reste **1,4 mm d'épaisseur** au minimum derrière le logement. La porte est décorative, **non ouvrante**.
+- Il subsiste **5 mm** entre son bord droit et le bord extérieur du bâtiment.
 
-La pièce **`10_boite_aux_lettres_noire`** reste un carré **7 × 7 mm** encastré sur le montant droit. Sa rainure supérieure V14 a été transformée en un petit logement de **5,5 × 1,2 mm**, d'une profondeur de **0,43 mm**.
+## Interphone supprimé
 
-La nouvelle pièce **`14_insert_blanc_boite_lettres`** mesure **5,1 × 0,8 × 0,35 mm**, avec un jeu d'environ 0,2 mm autour. À imprimer en filament blanc, ou à remplacer au besoin par une petite découpe de vinyle blanc. **Coller seulement après un essai à blanc**. Le liseré n'a pas vocation à recevoir une lettre réelle.
+La précédente V15 avait un interphone gris entre la boîte et la porte. Cette proposition est **abandonnée** : ni `13_interphone_gris`, ni cavité de fixation, ni perçage, ni composant associé ne figurent dans la CAO révisée. Le mur blanc est continu entre le carré noir et la porte, avec le jeu visible de 5 mm demandé.
 
-## 5. Finition du toit
+Le numéro de pièce 13 est volontairement laissé inoccupé pour éviter de réaffecter le nom historique à une pièce différente. Les nouvelles pièces imprimables restent numérotées **12** (porte piétonne) et **14** (rectangle blanc).
 
-- Neuf bandes noires en relief **0,95 mm** sur la pente et neuf profils correspondants sur le bandeau vertical descendant (**0,85 mm vers l'avant**).
-- **Deux rives latérales** fusionnées au toit, largeur **1,2 mm**, surélévation **0,55 mm** ; elles suivent la même pente et restent dans les débords existants.
-- **Petit larmier frontal** noir continu, hauteur **0,70 mm**, profondeur **0,55 mm**, fusionné au rebord supérieur du bandeau.
-- Ne jamais modifier la partie intérieure de la jupe / de l'emboîtement pour réaliser ces détails purement extérieurs.
+## Toit et parties non modifiées
 
-## 6. Impression et couleur
+Le toit noir amovible conserve **9 nervures trapézoïdales** sur le dessus et **9 retours nervurés** en façade, ainsi que les deux rives latérales de **0,55 mm** et le larmier frontal de **0,70 mm**. La pente **62/78 mm**, le socle, les supports du DMS-MG90, la porte de garage, les clips XIAO/Wio, les LED, la goulotte couverte et l'USB-C restent inchangés.
 
-| Pièce | Couleur recommandée | Assemblage |
-|---|---|---|
-| `01_coque_blanche` | Blanc mat | Poches moulées dans la façade |
-| `03_toit_noir_pente` | Noir / anthracite mat | Toit amovible, **nervures et larmier intégrés** |
-| `10_boite_aux_lettres_noire` | Noir | Collage dans le logement de façade |
-| `12_porte_pietonne_noire` | Noir | Collage léger dans la niche, poignée sur la face extérieure |
-| `13_interphone_gris` | Gris argenté / gris | Collage ; peinture noire dans caméra et bouton si désiré |
-| `14_insert_blanc_boite_lettres` | Blanc | Collage du trait blanc dans la boîte noire |
+## Export et validation
 
-**Architecture des fichiers : 13 pièces imprimables et 16 STEP** (13 pièces, assemblage avec références tierces, assemblage structure Onshape et proxy XIAO). La génération doit être contrôlée par l'Action GitHub CAO, la stabilité des BREP, les maillages watertight, les jeux et la rotation de porte 0–90°. La mécanique et le firmware demeurent ceux de V14.
+La branche révisée doit livrer **12 fichiers STL** imprimables, **15 fichiers STEP** (12 pièces, un assemblage avec références, un assemblage structure seule pour Onshape, un XIAO simplifié) et **4 coupons de contrôle**.
 
-**Réserve d'atelier :** les dimensions de l'USB-C Gotronic et du palonnier réel ne sont toujours pas définitivement connues ; la porte et l'interphone de façade ne changent pas ce statut. Une validation des trois petits collages, en particulier du rectangle blanc de 0,8 mm de haut, reste indispensable sur impression réelle.
+Les contrôles CI vérifient l'intervalle exact entre les faces noires et leurs positions X, l'absence de solide d'interphone et de niche correspondante, l'intégrité de la coque, les intersections des inserts, la structure mécanique, le débattement motorisé 0–90°, les maillages et la cohérence BOM/manifeste/README.
 
-[README du projet](../README.md) · [README CAO](../cad/README.md) · [générateur CadQuery](../cad/generate_cad.py).
+**Limites physiques :** la porte piétonne reste une pièce de décoration à coller, non une vraie ouverture ; les jeux de collage et la finition du rectangle blanc demandent un essai d'impression. Le palonnier du servo et la géométrie exacte du port USB-C Gotronic 49067 doivent encore être validés sur les pièces reçues.
+
+[README général](../README.md) · [README CAO](../cad/README.md) · [générateur paramétrique](../cad/generate_cad.py).
