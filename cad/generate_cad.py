@@ -174,9 +174,26 @@ XIAO_BOARD_NOMINAL = (21.0, 17.8) # Seeed published PCB L x W, height unspecifie
 WIO_STACK_NOMINAL = (23.0, 22.0, 8.0) # Seeed marketing assembled approx; must measure physical stack
 CAP_C1_BODY = (10.0, 13.0) # Gotronic 04947: diameter x height; lead pitch 5mm
 RESISTOR_BODY = (6.5, 2.5) # all 0.5W specified Gotronic: axial length x diameter
-LED_NOMINAL_D = 5.0 # white WCS101 nominal; exact warm-white profile unknown
-LED_ENVELOPE = (6.0, 9.0) # conservative WHITE LED envelope; not published as exact
-LED_POCKET_D = 6.6 # WHITE LED pocket Ø6 + 0.30mm radial per side
+# User-supplied warm-white LED drawing dated 2026-11-23:
+# GTG502WWC (NOT a proven identification of the Whadda WCS101 BOM item).
+# Body Ø5, flange Ø5.9, overall optical head 8.6, flange max1.0,
+# legs 2.54mm apart, 29±0.5mm long; Vf3.0..3.4 @20mA, 30mA max.
+LED_NOMINAL_D = 5.0
+LED_WHITE_DRAWING_PART = "GTG502WWC"
+LED_WHITE_BODY_D = 5.0
+LED_WHITE_FLANGE_D = 5.9
+LED_WHITE_HEAD_LENGTH = 8.6
+LED_WHITE_FLANGE_THICKNESS_MAX = 1.0
+LED_WHITE_LEAD_PITCH = 2.54
+LED_WHITE_LEAD_LENGTH_NOMINAL = 29.0
+LED_WHITE_LEAD_LENGTH_TOL = 0.5
+LED_WHITE_BODY_BORE_D = LED_WHITE_BODY_D + 2*FIT
+LED_WHITE_FLANGE_BORE_D = LED_WHITE_FLANGE_D + 2*FIT # Ø6.5
+LED_WHITE_LEAD_EXIT_D = 4.4
+LED_WHITE_RETENTION_SHOULDER_Z = ATTIC_Z0-0.8  # Z45.2
+LED_WHITE_TIP_Z = LED_WHITE_RETENTION_SHOULDER_Z-LED_WHITE_HEAD_LENGTH
+LED_ENVELOPE = (LED_WHITE_FLANGE_D,LED_WHITE_HEAD_LENGTH)
+LED_POCKET_D = LED_WHITE_FLANGE_BORE_D
 # V12 orange LED dimensions transcribed from the USER-SUPPLIED drawing.
 # Body Ø5.0, retaining shoulder Ø5.9, overall front lens to rear shoulder
 # 8.6mm, flange max 1mm, 2.54mm lead pitch, leads at least 27mm.
@@ -234,10 +251,42 @@ CABLE_RISER_Y0=D-WALL-4.0
 CABLE_RISER_DEPTH=4.12 # overlaps rear wall 0.12 to fuse solidly
 CABLE_RISER_Z0=14.0
 CABLE_RISER_HEIGHT=29.0 # ends Z43, below ceiling Z46
-CABLE_RISER_LIP_ZS=(19.0,29.0,39.0)
-CABLE_RISER_LIP_INSET=1.8
-CABLE_RISER_LIP_DEPTH=1.2
-CABLE_RISER_LIP_HEIGHT=2.0
+# V14: straight, NO zigzag lips. Sliding captive flat cover is inserted
+# vertically from the top after the wires have been laid straight.
+# Two 0.55mm inward rail rebates retain a separate removable cover.
+CABLE_RISER_GROOVE_DEPTH_X=0.55
+CABLE_RISER_GROOVE_Y0=CABLE_RISER_Y0+0.65
+CABLE_RISER_GROOVE_DEPTH_Y=1.50
+CABLE_RISER_GROOVE_Z0=CABLE_RISER_Z0+1.0
+CABLE_RISER_GROOVE_HEIGHT=CABLE_RISER_HEIGHT-0.95
+CABLE_RISER_COVER_X0=CABLE_RISER_X0+CABLE_RISER_RAIL_W-CABLE_RISER_GROOVE_DEPTH_X+0.20
+CABLE_RISER_COVER_W=CABLE_RISER_INNER_W+2*(CABLE_RISER_GROOVE_DEPTH_X-0.20)
+CABLE_RISER_COVER_Y0=CABLE_RISER_GROOVE_Y0+0.20
+CABLE_RISER_COVER_T=1.10
+CABLE_RISER_COVER_Z0=CABLE_RISER_GROOVE_Z0+0.10
+CABLE_RISER_COVER_H=CABLE_RISER_HEIGHT-1.20
+# Small accessible finger pull tab, not a turn in the cable trough.
+CABLE_RISER_COVER_PULL_W=3.4
+CABLE_RISER_COVER_PULL_PROJECTION_Y=0.6
+
+# Two compliant vertical side fingers on the attic tray. Measured from
+# the *actual imported* Wio/XIAO STEP envelopes used in V13, at Y~66:
+# WIO bbox X40.56..62.87, Y58.61..76.39, Z53.43..58.31
+# XIAO bbox X41.56..64.04, Y58.61..76.39, Z59.54..64.00.
+# Lip rests above Wio top (0.34mm free) and below XIAO bottom (0.49mm).
+# Press-in deflection ~0.3mm per side in PETG only; do NOT clamp antenna.
+PCB_SIDE_CLIP_Y0=64.2
+PCB_SIDE_CLIP_Y_LENGTH=3.8
+PCB_SIDE_CLIP_LEFT_X=38.45
+PCB_SIDE_CLIP_RIGHT_X=63.75
+PCB_SIDE_CLIP_POST_W=1.4
+PCB_SIDE_CLIP_LIP_Z0=58.65
+PCB_SIDE_CLIP_LIP_H=0.40
+PCB_SIDE_CLIP_POST_Z_TOP=59.20
+PCB_SIDE_CLIP_LIP_LEFT_X=(39.75,40.85)
+PCB_SIDE_CLIP_LIP_RIGHT_X=(62.55,63.85)
+PCB_SIDE_CLIP_ENGAGEMENT_EST=0.30
+PCB_SIDE_CLIP_PRINT_MATERIAL="PETG preferred; PLA snap life not guaranteed"
 
 # Modeles STEP source fournis par l'utilisateur; emplacement des archives CAD.
 VENDOR_REF_DIR=ROOT/'refs'
@@ -408,23 +457,39 @@ mailbox_insert=mailbox_insert.cut(box(
     MAILBOX_SLOT_X0,MAILBOX_FACE_RELIEF_Y-0.02,MAILBOX_SLOT_Z0,
     MAILBOX_INSERT_W-1.7,0.22,0.40)).clean()
 
-# Routed cable rise: two printed rear-side ribs and alternating partial lips
-# form a NON-closed channel. Wires can be pushed in from the open interior.
-# The external rear wall stays completely smooth, except the small USB-C port.
+# V14 straight chase. Rebates are machined into the INSIDE faces
+# of each rail, leaving >=1.25mm material in the rail. The cover slides
+# from the open TOP, captive in X/Y, with a hard stop at Z15.0.
+# No alternate partial lips, so the cables run straight along Z.
 cable_riser_left=box(CABLE_RISER_X0,CABLE_RISER_Y0,CABLE_RISER_Z0,
     CABLE_RISER_RAIL_W,CABLE_RISER_DEPTH,CABLE_RISER_HEIGHT)
 cable_riser_right=box(CABLE_RISER_X0+CABLE_RISER_RAIL_W+CABLE_RISER_INNER_W,
     CABLE_RISER_Y0,CABLE_RISER_Z0,CABLE_RISER_RAIL_W,
     CABLE_RISER_DEPTH,CABLE_RISER_HEIGHT)
+cable_riser_left=cable_riser_left.cut(box(
+    CABLE_RISER_X0+CABLE_RISER_RAIL_W-CABLE_RISER_GROOVE_DEPTH_X,
+    CABLE_RISER_GROOVE_Y0,CABLE_RISER_GROOVE_Z0,
+    CABLE_RISER_GROOVE_DEPTH_X+0.05,CABLE_RISER_GROOVE_DEPTH_Y,
+    CABLE_RISER_GROOVE_HEIGHT))
+cable_riser_right=cable_riser_right.cut(box(
+    CABLE_RISER_X0+CABLE_RISER_RAIL_W+CABLE_RISER_INNER_W-0.05,
+    CABLE_RISER_GROOVE_Y0,CABLE_RISER_GROOVE_Z0,
+    CABLE_RISER_GROOVE_DEPTH_X+0.05,CABLE_RISER_GROOVE_DEPTH_Y,
+    CABLE_RISER_GROOVE_HEIGHT))
 cable_riser_lips=[]
-for i,zc in enumerate(CABLE_RISER_LIP_ZS):
-    xlip=(CABLE_RISER_X0+CABLE_RISER_RAIL_W-0.1
-          if i%2==0 else CABLE_RISER_X0+CABLE_RISER_RAIL_W+
-          CABLE_RISER_INNER_W-CABLE_RISER_LIP_INSET+0.1)
-    lip=box(xlip,CABLE_RISER_Y0,zc,CABLE_RISER_LIP_INSET,
-            CABLE_RISER_LIP_DEPTH,CABLE_RISER_LIP_HEIGHT)
-    cable_riser_lips.append(lip)
-shell=union_all([shell,cable_riser_left,cable_riser_right]+cable_riser_lips)
+shell=union_all([shell,cable_riser_left,cable_riser_right])
+# Tolerance 0.20mm around the top-loaded cover in the rail rebates.
+# A small grip at the top makes removal possible without prying walls.
+cable_riser_cover=box(
+    CABLE_RISER_COVER_X0,CABLE_RISER_COVER_Y0,CABLE_RISER_COVER_Z0,
+    CABLE_RISER_COVER_W,CABLE_RISER_COVER_T,CABLE_RISER_COVER_H)
+cable_riser_cover=cable_riser_cover.fuse(box(
+    CABLE_RISER_X0+CABLE_RISER_RAIL_W+CABLE_RISER_INNER_W/2
+        -CABLE_RISER_COVER_PULL_W/2,
+    CABLE_RISER_COVER_Y0-CABLE_RISER_COVER_PULL_PROJECTION_Y,
+    CABLE_RISER_COVER_Z0+CABLE_RISER_COVER_H-0.9,
+    CABLE_RISER_COVER_PULL_W,
+    CABLE_RISER_COVER_PULL_PROJECTION_Y+0.10,0.9)).clean()
 
 # 2. Base: floor 3mm and internal locating L rails with 0.30mm side gap
 base_plate=box(0,0,0,W,D,BASE)
@@ -651,8 +716,9 @@ for y in (ATTIC_Y0+2.0,ATTIC_Y0+ATTIC_DEPTH-4.4):
 # without trapping the 49067 cable or shorting vendor PCB components.
 # Keep 4 insulating pads and the 2 outboard cable tie slots instead.
 # Wire feedthrough to the warm-white LED below, away from radio board.
-tray=tray.cut(cq.Solid.makeCylinder(1.2,ATTIC_PLATE_THICK+0.2,
-                     V(ATTIC_LED_X,ATTIC_LED_Y,ATTIC_Z0-0.1),V(0,0,1)))
+tray=tray.cut(cq.Solid.makeCylinder(LED_WHITE_LEAD_EXIT_D/2,
+                    ATTIC_PLATE_THICK+0.2,
+                    V(ATTIC_LED_X,ATTIC_LED_Y,ATTIC_Z0-0.1),V(0,0,1)))
 # Two strap slots OUTSIDE vendor PCB envelope. Use a soft insulating pad;
 # do not tighten a tie directly onto fragile SMD components.
 # The two strap slots and four pads must MOVE with the smaller cabinet.
@@ -667,6 +733,24 @@ PCB_PADS=[(W/2-11.0,ATTIC_Y0+4.0),(W/2+6.0,ATTIC_Y0+4.0),
           (W/2-11.0,ATTIC_Y0+17.5),(W/2+6.0,ATTIC_Y0+17.5)]
 for px,py in PCB_PADS:
  tray=tray.fuse(box(px,py,ATTIC_Z0+ATTIC_PLATE_THICK,4.0,3.0,3.2))
+# Compliant PETG lateral clip posts: only in X-sideboard strip, never
+# across the Wio radio PCB or the antenna connector. Upper retaining lips
+# catch the Wio TOP without touching the XIAO body above. Slots and pads
+# remain as optional backup if user prints in brittle material.
+pcb_side_clips=[]
+for side,px in (("left",PCB_SIDE_CLIP_LEFT_X),
+                ("right",PCB_SIDE_CLIP_RIGHT_X)):
+    post=box(px,PCB_SIDE_CLIP_Y0,ATTIC_Z0+ATTIC_PLATE_THICK,
+             PCB_SIDE_CLIP_POST_W,PCB_SIDE_CLIP_Y_LENGTH,
+             PCB_SIDE_CLIP_POST_Z_TOP-(ATTIC_Z0+ATTIC_PLATE_THICK))
+    lx0,lx1=(PCB_SIDE_CLIP_LIP_LEFT_X if side=="left"
+             else PCB_SIDE_CLIP_LIP_RIGHT_X)
+    lip=box(lx0,PCB_SIDE_CLIP_Y0+0.4,PCB_SIDE_CLIP_LIP_Z0,
+            lx1-lx0,PCB_SIDE_CLIP_Y_LENGTH-0.8,
+            PCB_SIDE_CLIP_LIP_H)
+    clip=post.fuse(lip).clean()
+    pcb_side_clips.append(clip)
+tray=union_all([tray]+pcb_side_clips)
 tray=tray.clean()
 # Exact USB bend/antenna and board fastening remain unvalidated.
 
@@ -680,8 +764,20 @@ led_white_y=ATTIC_LED_Y
 roof_under_z=H_FRONT-ROOF+(H_BACK-H_FRONT)*led_white_y/D
 holder_bottom=ATTIC_Z0-9.8
 holder=cq.Solid.makeCylinder(5.0,9.8,V(led_white_x,led_white_y,holder_bottom),V(0,0,1))
-holder=holder.cut(cq.Solid.makeCylinder(LED_POCKET_D/2,10.2,
-                   V(led_white_x,led_white_y,holder_bottom-0.1),V(0,0,1)))
+# White LED GTG502WWC drawing: insert bulb FROM BELOW into Ø6.5
+# opening. Flange Ø5.9 stops against top shoulder at Z45.2. Leads
+# exit through Ø4.4 to the XIAO board via the tray's Ø4.4 passage.
+# Small drop of removable electronics-safe neutral silicone at lower
+# lip retains the LED after testing; no brittle snap teeth.
+holder=holder.cut(cq.Solid.makeCylinder(
+    LED_WHITE_FLANGE_BORE_D/2,
+    LED_WHITE_RETENTION_SHOULDER_Z-holder_bottom+0.06,
+    V(led_white_x,led_white_y,holder_bottom-0.06),V(0,0,1)))
+holder=holder.cut(cq.Solid.makeCylinder(
+    LED_WHITE_LEAD_EXIT_D/2,
+    ATTIC_Z0-LED_WHITE_RETENTION_SHOULDER_Z+0.15,
+    V(led_white_x,led_white_y,LED_WHITE_RETENTION_SHOULDER_Z-0.01),
+    V(0,0,1)))
 # Actual LED assembly fit: flush annular face PLUS 2 alignment pegs
 # Ø2mm in Ø2.6mm holes, 0.30mm RADIAL clearance. No overlap with ceiling ribs.
 LED_HOLDER_PINS=[]
@@ -709,6 +805,7 @@ PRINTABLE={
   '07_faux_plafond_combles_XIAO':tray,
   '09_support_led_blanche':holder,
   '10_boite_aux_lettres_noire':mailbox_insert,
+  '11_couvercle_goulotte_arriere':cable_riser_cover,
 }
 
 # 10. Import des quatre vrais STEP. Pas de substitution silencieuse.
@@ -824,8 +921,16 @@ REFERENCES['REF_LED_orange_ENVELOPPE_COTEE_NE_PAS_IMPRIMER']=(
          LED_ORANGE_FLANGE_THICKNESS_MAX,
          orange_z,LED_ORANGE_FLANGE_D,LED_ORANGE_FLANGE_THICKNESS_MAX)).clean()
 )
-REFERENCES['REF_LED_blanche_ENVELOPPE_PROVISOIRE_NE_PAS_IMPRIMER']=cq.Solid.makeCylinder(
- LED_ENVELOPE[0]/2,LED_ENVELOPE[1],V(led_white_x,led_white_y,holder_bottom+0.4),V(0,0,1))
+REFERENCES['REF_LED_blanche_GTG502WWC_COTEE_NE_PAS_IMPRIMER']=(
+    cq.Solid.makeCylinder(
+        LED_WHITE_BODY_D/2,LED_WHITE_HEAD_LENGTH,
+        V(led_white_x,led_white_y,LED_WHITE_TIP_Z),V(0,0,1))
+    .fuse(cq.Solid.makeCylinder(
+        LED_WHITE_FLANGE_D/2,LED_WHITE_FLANGE_THICKNESS_MAX,
+        V(led_white_x,led_white_y,
+          LED_WHITE_RETENTION_SHOULDER_Z-LED_WHITE_FLANGE_THICKNESS_MAX),
+        V(0,0,1))).clean()
+)
 servo_reference=ref_servo # volume de reference a verifier contre les LED et supports
 
 if __name__=='__main__':
@@ -856,6 +961,7 @@ if __name__=='__main__':
        '07_faux_plafond_combles_XIAO':cq.Color(0.96,0.96,0.95),
        '09_support_led_blanche':cq.Color(0.96,0.96,0.95),
        '10_boite_aux_lettres_noire':cq.Color(0.06,0.07,0.08),
+       '11_couvercle_goulotte_arriere':cq.Color(0.96,0.96,0.95),
     }
     for name,s in PRINTABLE.items():
         assy.add(s,name=name,color=colors[name])
@@ -961,6 +1067,18 @@ if __name__=='__main__':
         'servo_m2_pilot_diameter':SERVO_SCREW_PILOT_D,
         'servo_m2_clearance_diameter':SERVO_SCREW_CLEARANCE_D,
         'pcb_strap_slots_xy':PCB_STRAP_SLOTS,
+        'pcb_side_clip_count':len(pcb_side_clips),
+        'pcb_side_clip_post_x_mm':[PCB_SIDE_CLIP_LEFT_X,PCB_SIDE_CLIP_RIGHT_X],
+        'pcb_side_clip_y0_length_mm':[PCB_SIDE_CLIP_Y0,PCB_SIDE_CLIP_Y_LENGTH],
+        'pcb_side_clip_lip_z0_top_mm':[PCB_SIDE_CLIP_LIP_Z0,PCB_SIDE_CLIP_LIP_Z0+PCB_SIDE_CLIP_LIP_H],
+        'pcb_side_clip_engagement_each_side_mm':PCB_SIDE_CLIP_ENGAGEMENT_EST,
+        'pcb_side_clip_material':PCB_SIDE_CLIP_PRINT_MATERIAL,
+        'white_led_drawing_part':LED_WHITE_DRAWING_PART,
+        'white_led_body_flange_d_mm':[LED_WHITE_BODY_D,LED_WHITE_FLANGE_D],
+        'white_led_length_lead_pitch_lead_length_mm':[LED_WHITE_HEAD_LENGTH,
+            LED_WHITE_LEAD_PITCH,LED_WHITE_LEAD_LENGTH_NOMINAL],
+        'white_led_flange_bore_stop_z_mm':[LED_WHITE_FLANGE_BORE_D,LED_WHITE_RETENTION_SHOULDER_Z],
+        'white_led_lead_exit_d_mm':LED_WHITE_LEAD_EXIT_D,
         'pcb_strap_slot_size':PCB_TIE_SLOT,
         'pcb_support_pad_positions_xy':PCB_PADS,
         'led_holder_pin_xy':LED_HOLDER_PINS,
@@ -991,6 +1109,10 @@ if __name__=='__main__':
         'cable_riser_x0_y0_z0_mm':[CABLE_RISER_X0,CABLE_RISER_Y0,CABLE_RISER_Z0],
         'cable_riser_inner_width_depth_height_mm':[CABLE_RISER_INNER_W,CABLE_RISER_DEPTH,CABLE_RISER_HEIGHT],
         'cable_riser_retaining_lip_count':len(cable_riser_lips),
+        'cable_riser_sliding_cover_printed':True,
+        'cable_riser_cover_rail_clearance_each_side_mm':0.20,
+        'cable_riser_cover_xyz_size_mm':[CABLE_RISER_COVER_W,CABLE_RISER_COVER_T,CABLE_RISER_COVER_H],
+        'cable_riser_groove_y0_depth_mm':[CABLE_RISER_GROOVE_Y0,CABLE_RISER_GROOVE_DEPTH_Y],
         'usb_c_rear_service_slot_z0_mm':USB_C_REAR_APERTURE_Z0,
         'usb_c_carrier_xyz_min_mm':[USB_C_CARRIER_X0,USB_C_CARRIER_Y0,BASE],
         'usb_c_carrier_xy_width_depth_mm':[USB_C_CARRIER_W,USB_C_CARRIER_D],

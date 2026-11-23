@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_on": "2026-11-22",
+  "updated_on": "2026-11-23",
   "units": "mm",
   "dimension_status": {
     "published": "manufacturer_or_identified_vendor_value",
@@ -157,13 +157,24 @@
       "qty": 1,
       "body_mm": {
         "diameter": 5,
-        "length": null
+        "length": 8.6
       },
-      "collar_diameter_mm": null,
-      "lead_pitch_mm": null,
+      "collar_diameter_mm": 5.9,
+      "lead_pitch_mm": 2.54,
       "status": "published",
-      "dimension_note": "Only nominal 5mm published; length, collar, leads and electrical ratings require confirmation",
-      "url": "https://www.gotronic.fr/art-assortiment-de-130-leds-wcs101-39775.htm"
+      "dimension_note": "Reference CAD sized to user's GTG502WWC dimensioned PDF (Ø5/Ø5.9/8.6/2.54/29±0.5), NOT proof WCS101 from Gotronic03989 is GTG502WWC; verify selected actual bulb before printing.",
+      "url": "https://www.gotronic.fr/art-assortiment-de-130-leds-wcs101-39775.htm",
+      "mechanical_dimensions_from": "User-uploaded GTG502WWC PDF (2026-11-23); not confirmed identical to Whadda WCS101 from original kit",
+      "user_drawing_flange_thickness_max_mm": 1,
+      "user_drawing_lead_length_nominal_tolerance_mm": [
+        29,
+        0.5
+      ],
+      "user_drawing_voltage_range_v_at_20ma": [
+        3,
+        3.4
+      ],
+      "user_drawing_max_continuous_ma": 30
     },
     {
       "id": "LED2",
@@ -320,12 +331,12 @@
     ],
     "orange_optical_aperture_mm": 2,
     "orange_led_recess_from_front_mm": 3.4,
-    "led_pocket_provisional_diameter_mm": 6.6,
+    "led_pocket_provisional_diameter_mm": 6.5,
     "led_service_envelope_provisional_diameter_length_mm": [
-      6,
-      9
+      5.9,
+      8.6
     ],
-    "led_envelope_status": "white WCS101 still provisional Ø6/9 envelope; ORANGE exact head dims from user-supplied drawing Ø5 body Ø5.9 flange 8.6 front-to-rear",
+    "led_envelope_status": "V14: white GTG502WWC user PDF: flange Ø5.9/head8.6, source reference not proven identical to WCS101 in original BOM; amber LED from supplied drawing remains separately modeled.",
     "capacitor_nominal_mm": [
       10,
       13
@@ -345,7 +356,7 @@
     "orange_led_center_z_mm": 32,
     "orange_holder_outer_diameter_mm": 9,
     "orange_holder_min_radial_wall_mm": 1.25,
-    "dimensions_note": "V13: base105.6x85, 55mm door; DMS-MG90 plan: case23, ears33, transverse12, shaft offset6 from case end (11 from near ear end), 29 pitch. Revised servo cradle + coupon D for ears. Horn pattern remains unknown, even though photo shows a round horn; real measurement is required.",
+    "dimensions_note": "V14 keeps garage 105.6x85/55mm door, adds PETG side board clips, straight enclosed rear channel with removable slide lid, and warm-white GTG502WWC drawing-based stepped socket on current LED holder. All real part fit/USB/horn remains unverified.",
     "front_jamb_return_depth_mm": 10,
     "front_jamb_return_thickness_mm": 2.4,
     "left_pivot_jamb_bore_mm": 3.8,
@@ -375,7 +386,7 @@
     ],
     "attic_min_xiao_clearance_to_roof_mm_approx": 6.2,
     "attic_rear_low_voltage_cutout_mm": null,
-    "attic_note": "25mm deep removable attic floor (front Y55, rear Y80) for XIAO/Wio. Original long PCB rails removed to free space; 2 strap slots and 4 pads retained shifted forward 11.5mm; real cable/antenna fit to verify.",
+    "attic_note": "V14: short 25mm attic tray retains four Wio pads/two backup tie slots and adds 2 PETG side pressure clip tongues; Wio exact source STEP envelopes used, real part still require dry fit. White GTG502WWC LED socket loaded from below; leads pass via Ø4.4.",
     "door_drive_disc_face_to_shaft_tip_gap_mm": 2.2,
     "door_drive_disc_outer_diameter_mm": 12,
     "door_drive_disc_axial_bounds_mm": [
@@ -399,7 +410,7 @@
     "cable_eyes_qty": 0,
     "cable_eye_diameters_mm": null,
     "cable_eye_min_wall_mm": null,
-    "pcb_retention": "two 3.2x4.2mm strap slots + four 4x3x3.2mm stand-off pads 0.3mm below actual Wio envelope, one 2.5mm insulated strap (not modeled)",
+    "pcb_retention": "V14: two lateral PETG spring finger posts on removable attic tray, catch Wio board edge with 0.3mm nominal side engagement and 0.34mm vertical lip clearance, without touching XIAO top; 4 existing stand-off pads + 2 original strap slots retained as fallback; physical fit not certified",
     "pcb_strap_slot_mm": [
       3.2,
       4.2
@@ -433,7 +444,7 @@
       ]
     ],
     "pcb_support_pad_top_z_mm": 51.6,
-    "led_holder_mount": "two Ø2 pins into Ø2.6 through-holes in attic shelf, no solid intersection; optional glue on flanges",
+    "led_holder_mount": "two Ø2 pegs in Ø2.6 attic tray holes; GTG502WWC bulb inserted upward from below into Ø6.5 cavity with shoulder at Z45.2, 4.4mm rear lead passage; removable neutral-cure electronics silicone dab near lower rim",
     "led_holder_pin_diameter_mm": 2,
     "led_holder_hole_diameter_mm": 2.6,
     "led_holder_pin_radial_clearance_mm": 0.3,
@@ -580,8 +591,8 @@
     "mailbox_remaining_wall_backing_mm": 1.35,
     "mailbox_hole_or_letter_slot": "shallow decorative groove on black insert only, not a through-hole",
     "mailbox_reference_confidence": "V11 derived position: visible black left x76.6, exactly 10mm to right opening x66.6; 0.3mm recess fitting each side, unmeasured physical building",
-    "cad_printable_part_count": 9,
-    "cad_step_export_count": 12,
+    "cad_printable_part_count": 10,
+    "cad_step_export_count": 13,
     "orange_led_lowered_from_v9_by_mm": 0.5,
     "roof_front_fascia_bac_acier_rib_count": 9,
     "roof_front_fascia_rib_height_projection_mm": 0.85,
@@ -602,7 +613,7 @@
       16,
       9
     ],
-    "internal_cable_riser_geometry": "rear U-channel inside 85mm shell: X90..100.8, Y78.6..82.72, Z14..43; open inner width 7.2, 3 staggered lips; not a wall hole",
+    "internal_cable_riser_geometry": "V14: rear wall X90..100.8, Y78.6..82.72, Z14..43, straight 7.2mm wide U trough; no staggered turns/lips. Separate vertical captive slide-in lid 7.9x1.1x27.8mm from roof, held by continuous 0.55mm side rail rebates; 0.2mm fit gaps; drain/open both cable ends.",
     "internal_cable_riser_x0_y0_z0_mm": [
       90,
       78.6,
@@ -612,11 +623,7 @@
     "internal_cable_riser_inner_width_mm": 7.2,
     "internal_cable_riser_depth_mm": 4.12,
     "internal_cable_riser_height_mm": 29,
-    "internal_cable_riser_lips_z_mm": [
-      19,
-      29,
-      39
-    ],
+    "internal_cable_riser_lips_z_mm": [],
     "compact_left_bearing_depth_mm": 12,
     "compact_left_bearing_height_mm": 12,
     "servo_cable_clip_count": 4,
@@ -728,7 +735,87 @@
     "servo_actual_horn_center_screw_diameter_measured_mm": null,
     "servo_actual_horn_thickness_measured_mm": null,
     "servo_cradle_current_design": "V13 two M2 ear pilot bosses 29mm pitch anchored via rear spine and two triangular reinforcing gussets. Shallow Ø2.3 ×0.45 pilot entrances; rear fence cable service notch; four independent base M2 feet unchanged. Screws not measured.",
-    "optional_print_calibration_coupons_count": 4
+    "optional_print_calibration_coupons_count": 4,
+    "white_led_source_reference": "GTG502WWC warm white LED datasheet uploaded by user 2026-11-23, not independently confirmed as BOM Whadda WCS101 item",
+    "white_led_source_match_actual_BOM_part_confirmed": false,
+    "white_led_drawing_body_flange_d_mm": [
+      5,
+      5.9
+    ],
+    "white_led_drawing_head_length_mm": 8.6,
+    "white_led_drawing_flange_max_thickness_mm": 1,
+    "white_led_drawing_lead_pitch_mm": 2.54,
+    "white_led_drawing_lead_length_nominal_tolerance_mm": [
+      29,
+      0.5
+    ],
+    "white_led_drawing_forward_voltage_v_at_20ma": [
+      3,
+      3.2,
+      3.4
+    ],
+    "white_led_drawing_max_continuous_current_ma": 30,
+    "white_led_lower_insertion_flange_cavity_d_mm": 6.5,
+    "white_led_upper_lead_exit_d_mm": 4.4,
+    "white_led_retention_stop_z_mm": 45.2,
+    "white_led_tip_z_mm": 36.6,
+    "pcb_side_clip_count": 2,
+    "pcb_side_clip_post_x_mm": [
+      38.45,
+      63.75
+    ],
+    "pcb_side_clip_y_range_mm": [
+      64.2,
+      68
+    ],
+    "pcb_side_clip_post_width_mm": 1.4,
+    "pcb_side_clip_top_z_mm": 59.2,
+    "pcb_side_clip_lip_z_mm": [
+      58.65,
+      59.05
+    ],
+    "pcb_side_clip_nominal_engagement_each_side_mm": 0.3,
+    "pcb_side_clip_nominal_wio_reference_bbox_xyz_mm": [
+      [
+        40.56,
+        62.87
+      ],
+      [
+        58.61,
+        76.39
+      ],
+      [
+        53.43,
+        58.31
+      ]
+    ],
+    "pcb_side_clip_nominal_xiao_reference_bbox_xyz_mm": [
+      [
+        41.56,
+        64.04
+      ],
+      [
+        58.61,
+        76.39
+      ],
+      [
+        59.54,
+        64.002
+      ]
+    ],
+    "pcb_side_clip_material_recommendation": "PETG printed at right orientation, initial dry-fit with original Wio STEP/real device. Avoid repeated PLA flex; do not force battery, RF antenna or USB plug.",
+    "internal_cable_riser_lips_count": 0,
+    "internal_cable_riser_cap_part_name": "11_couvercle_goulotte_arriere",
+    "internal_cable_riser_cover_nominal_xyz_mm": [
+      7.9,
+      1.1,
+      27.8
+    ],
+    "internal_cable_riser_cover_top_insertion": true,
+    "internal_cable_riser_cover_rail_groove_depth_x_mm": 0.55,
+    "internal_cable_riser_cover_fit_each_side_mm": 0.2,
+    "internal_cable_riser_cover_clear_channel_depth_after_cover_mm": 2.05,
+    "internal_cable_riser_cover_printing_note": "print upright or flat depending machine; slide after wiring with roof off; stop at Z15; grip at top; try fit before gluing (no glue required)"
   },
   "system_state": {
     "sensor_count": 1,

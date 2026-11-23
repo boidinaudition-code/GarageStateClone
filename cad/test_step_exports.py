@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Régression CAO : BREP source, 12 STEP, 9 STL et assemblage V13.
+"""Régression CAO : BREP source, 13 STEP, 10 STL et assemblage V14.
 
 Lancer après: python cad/generate_cad.py
 Ne prétend pas remplacer un essai d'impression ou un montage mécanique.
@@ -32,7 +32,17 @@ assert math.isclose(g.W, g.LEFT_PIER_W + g.OPEN_W + g.RIGHT_PIER_W, abs_tol=1e-8
 assert g.W==105.6 and bom["cad"]["printed_door_exact_width_mm"] == 55.0
 assert manifest["design"]["door_opening_mm"][0] == g.OPEN_W == bom["cad"]["door_opening_mm"][0] == 55.6
 assert g.WALL >= 2 and g.ROOF >= 2 and g.BASE >= 2 and g.FIT == 0.3
-assert g.LED_ENVELOPE == (6.0, 9.0), "WHITE LED envelope unchanged"
+assert g.LED_ENVELOPE == (5.9, 8.6), "WHITE GTG502WWC drawing envelope"
+assert g.LED_WHITE_DRAWING_PART == "GTG502WWC"
+assert (g.LED_WHITE_BODY_D,g.LED_WHITE_FLANGE_D,g.LED_WHITE_HEAD_LENGTH) == (5.,5.9,8.6)
+assert (g.LED_WHITE_LEAD_PITCH,g.LED_WHITE_LEAD_LENGTH_NOMINAL,
+        g.LED_WHITE_LEAD_LENGTH_TOL) == (2.54,29.,0.5)
+assert g.LED_WHITE_FLANGE_BORE_D == g.LED_POCKET_D == 6.5
+assert g.LED_WHITE_LEAD_EXIT_D == 4.4
+assert math.isclose(g.LED_WHITE_RETENTION_SHOULDER_Z,45.2)
+assert math.isclose(g.LED_WHITE_TIP_Z,36.6)
+assert bom["cad"]["white_led_source_match_actual_BOM_part_confirmed"] is False
+assert manifest["design"]["white_led_drawing_not_guaranteed_same_as_WCS101"] is True
 assert (g.LED_ORANGE_BODY_D,g.LED_ORANGE_FLANGE_D,
         g.LED_ORANGE_LENS_TO_FLANGE_BACK) == (5.0,5.9,8.6)
 assert g.LED_ORANGE_FLANGE_THICKNESS_MAX == 1.0
@@ -44,7 +54,9 @@ assert bom["cad"]["orange_led_manufacturer_sized_drawing_used"] is True
 assert manifest["design"]["orange_led_drawing_user_supplied_not_measurement_of_item"] is True
 assert "REF_LED_orange_ENVELOPPE_COTEE_NE_PAS_IMPRIMER" in g.REFERENCES
 assert not any("orange" in k for k in g.PRINTABLE), "orange holder must be integral to shell"
-assert len(g.PRINTABLE) == 9
+assert len(g.PRINTABLE) == 10
+assert "11_couvercle_goulotte_arriere" in g.PRINTABLE
+assert g.cable_riser_cover == g.PRINTABLE["11_couvercle_goulotte_arriere"]
 assert "10_boite_aux_lettres_noire" in g.PRINTABLE
 assert not any("liseret" in k or "bleu" in k for k in g.PRINTABLE)
 assert g.JAMB_RETURN_DEPTH == 10.0
@@ -127,7 +139,7 @@ assert bom["cad"]["left_pier_width_mm"] == 11
 assert bom["cad"]["right_pier_width_mm"] == 39
 assert bom["cad"]["door_offset_from_center_mm"] == -14.0
 # USB-C 49067 manufacturer published outer envelope is NOT a connector STEP.
-# Carrier is part of the black base, so printable count stays eight.
+# Carrier is integral to black base; 10th printable piece is the slide-on chase lid.
 assert g.USB_C_BOARD_VENDOR_LWH_MM == (21.0,15.0,4.5)
 assert g.USB_C_REAR_APERTURE_WH == (10.0,4.2)
 assert g.USB_C_REAR_APERTURE_Z0 == 9.45
@@ -138,7 +150,23 @@ assert manifest["design"]["usb_c_port_only_provisional_cut"] is True
 assert manifest["design"]["usb_c_socket_position_known"] is False
 assert g.CABLE_RISER_X0 > g.USB_C_CARRIER_X0+g.USB_C_CARRIER_W
 assert g.CABLE_RISER_HEIGHT == 29
-assert len(g.cable_riser_lips) == 3
+assert len(g.cable_riser_lips) == 0
+assert bom["cad"]["internal_cable_riser_lips_z_mm"] == []
+assert manifest["design"]["cable_riser_lip_count"] == 0
+assert g.CABLE_RISER_GROOVE_DEPTH_X == 0.55
+assert g.CABLE_RISER_COVER_W == 7.9
+assert g.CABLE_RISER_COVER_T == 1.10
+assert math.isclose(g.CABLE_RISER_COVER_H,27.8)
+assert bom["cad"]["cad_printable_part_count"] == 10
+assert bom["cad"]["cad_step_export_count"] == 13
+assert manifest["design"]["cad_printable_count"] == 10
+assert manifest["design"]["cad_step_count"] == 13
+assert manifest["design"]["cable_riser_cover_part_name"] == "11_couvercle_goulotte_arriere"
+assert g.cable_riser_cover.intersect(g.shell).Volume()<1e-5, "lid must fit rail rebates"
+assert g.cable_riser_cover.intersect(g.tray).Volume()<1e-5
+assert g.cable_riser_cover.intersect(g.roof_lid).Volume()<1e-5
+assert g.cable_riser_cover.isValid() and len(g.cable_riser_cover.Solids())==1
+assert (g.CABLE_RISER_RAIL_W-g.CABLE_RISER_GROOVE_DEPTH_X)>=1.2
 assert manifest["design"]["upper_rear_attic_external_hole_removed"] is True
 assert bom["cad"]["attic_rear_upper_wall_cutout_removed"] is True
 assert g.USB_C_CARRIER_TOP_Z == 9.0
@@ -208,9 +236,9 @@ for k in ("xmin","xmax","ymin","ymax","zmin","zmax"):
 structure_path = ROOT / "step/GarageStateClone_V2_STRUCTURE_SANS_REFERENCES_ONSHAPE.step"
 assert structure_path.stat().st_size > 1000
 structure = cq.importers.importStep(str(structure_path)).val()
-assert structure.isValid() and len(structure.Solids()) == 9
-assert len(list((ROOT / "step").glob("*.step"))) == 12
-assert len(list((ROOT / "stl").glob("*.stl"))) == 9
+assert structure.isValid() and len(structure.Solids()) == 10
+assert len(list((ROOT / "step").glob("*.step"))) == 13
+assert len(list((ROOT / "stl").glob("*.stl"))) == 10
 
 def overlap(a, b):
     aa, bb = a.BoundingBox(), b.BoundingBox()
@@ -346,6 +374,20 @@ for (cy,cz),clip in zip(g.SERVO_CABLE_CLIP_YZ,g.servo_cable_clips):
 for x_old in (g.WALL+3.0,g.W-g.WALL-3.0):
     for y_old in (35.0,73.0):
         assert not g.shell.isInside(cq.Vector(x_old,y_old,12.0),1e-5), "old eyelet not removed"
+# Two actual lateral board spring fingers + fallback tie slots/pads.
+assert len(g.pcb_side_clips)==2
+assert bom["cad"]["pcb_side_clip_count"] == manifest["design"]["attic_wio_side_clip_count"] == 2
+assert [g.PCB_SIDE_CLIP_LEFT_X,g.PCB_SIDE_CLIP_RIGHT_X] == [38.45,63.75]
+assert (g.PCB_SIDE_CLIP_LIP_Z0,
+        g.PCB_SIDE_CLIP_LIP_Z0+g.PCB_SIDE_CLIP_LIP_H) == (58.65,59.05)
+assert g.PCB_SIDE_CLIP_PRINT_MATERIAL.startswith("PETG")
+assert (g.PCB_SIDE_CLIP_POST_W,g.PCB_SIDE_CLIP_Y_LENGTH) == (1.4,3.8)
+assert g.PCB_SIDE_CLIP_LIP_Z0 - 58.31 >= 0.30, "Wio upper face must clear lip"
+assert 59.54 - (g.PCB_SIDE_CLIP_LIP_Z0+g.PCB_SIDE_CLIP_LIP_H) >= 0.4, "XIAO lower face must clear lip"
+for clip in g.pcb_side_clips:
+    assert clip.isValid() and len(clip.Solids())==1
+    assert overlap(clip,g.roof_lid)<1e-5
+    assert overlap(clip,g.shell)<1e-5
 assert len(g.PCB_STRAP_SLOTS)==2
 assert len(g.PCB_PADS)==4
 assert len(g.LED_HOLDER_PINS)==2
@@ -432,6 +474,17 @@ for led_name, shape in {"orange": orange, "blanche": white}.items():
 assert overlap(white, g.roof_lid) < 1e-5
 assert overlap(white, g.holder) < 1e-5
 assert overlap(g.holder, g.roof_lid) < 1e-5  # roof remains removable
+# Socket must be empty for the measured Ø5/Ø5.9 LED envelope.
+white_body_bore = cq.Solid.makeCylinder(g.LED_WHITE_FLANGE_BORE_D/2,
+    g.LED_WHITE_RETENTION_SHOULDER_Z-g.holder_bottom-0.04,
+    cq.Vector(g.led_white_x,g.led_white_y,g.holder_bottom-0.02),
+    cq.Vector(0,0,1))
+assert overlap(white_body_bore,g.holder)<1e-5
+white_lead_hole = cq.Solid.makeCylinder(g.LED_WHITE_LEAD_EXIT_D/2,
+    g.ATTIC_Z0-g.LED_WHITE_RETENTION_SHOULDER_Z+0.03,
+    cq.Vector(g.led_white_x,g.led_white_y,g.LED_WHITE_RETENTION_SHOULDER_Z),
+    cq.Vector(0,0,1))
+assert overlap(white_lead_hole,g.holder)<1e-5
 # Mailbox insert occupies its local shallow cut without embedding in shell.
 assert overlap(g.mailbox_insert, g.shell)<1e-5
 assert g.mailbox_insert.distance(g.shell)<g.FIT+0.03
@@ -454,7 +507,8 @@ assert math.isclose(g.CABLE_RISER_Y0,78.6,abs_tol=1e-8)
 assert math.isclose(g.CABLE_RISER_Z0+g.CABLE_RISER_HEIGHT,43,abs_tol=1e-8)
 for z in (15.0,23.0,35.0,42.0):
     air=cq.Vector(g.CABLE_RISER_X0+g.CABLE_RISER_RAIL_W+
-                  g.CABLE_RISER_INNER_W/2,g.CABLE_RISER_Y0+1.9,z)
+                  g.CABLE_RISER_INNER_W/2,g.CABLE_RISER_Y0+2.7,z)
+    assert not g.cable_riser_cover.isInside(air,1e-5), "closed trough wire channel blocked"
     assert not g.shell.isInside(air,1e-5), ("cable chase blocked",z)
     back=cq.Vector(95.0,g.D-g.WALL/2,z)
     assert g.shell.isInside(back,1e-5), ("rear external wall perforated",z)
@@ -476,6 +530,10 @@ for refname, component in {"XIAO":xiao, "Wio":wio, "BC547":bc547}.items():
                        "walls":g.shell}.items():
         assert overlap(component,part)<1e-5, ("attic part collision",refname,name)
 assert overlap(g.tray,g.shell) < 1e-5
+assert overlap(wio,g.pcb_side_clips[0]) < 1e-5
+assert overlap(wio,g.pcb_side_clips[1]) < 1e-5
+assert overlap(xiao,g.pcb_side_clips[0]) < 1e-5
+assert overlap(xiao,g.pcb_side_clips[1]) < 1e-5
 assert overlap(g.tray,g.roof_lid) < 1e-5
 assert overlap(g.tray,g.cradle) < 1e-5
 assert overlap(g.tray,servo) < 1e-5
@@ -511,4 +569,4 @@ for angle in range(0, 91, 5):
         "support LED blanche": g.holder,
     }.items():
         assert overlap(door, shape) < 1e-5, ("collision porte", angle, label)
-print("PASS — V13: manufacturer 6mm shaft offset, 29mm ears pitch, 2 gussets, cable exit, four coupons; shell105.6x85 door55; 12 STEP/9 STL")
+print("PASS — V14: Wio 2 PETG clips clear XIAO/LoRa, straight closed rear chase with sliding lid, GTG502WWC LED shoulder; 13 STEP/10 STL")

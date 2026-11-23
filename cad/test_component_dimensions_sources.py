@@ -88,7 +88,18 @@ assert bom["cad"]["servo_horn_mounted_face_to_outer_face_mm"] is None
 assert "16,00" in docs and "provisoire" in docs.lower()
 assert not bom["cad"]["servo_horn_physical_verified"]
 
-assert by_id["LED1"]["dimensions"]["flange_diameter"] is None, "white LED remains unmeasured"
+white = by_id["LED1"]
+assert white["dimensions"]["flange_diameter"] == 5.9
+assert white["dimensions"]["body_length"] == 8.6
+assert white["dimensions"]["lead_pitch"] == 2.54
+assert white["dimensions"]["lead_length_nominal"] == 29
+assert white["dimensions"]["lead_length_tolerance"] == 0.5
+assert white["supplemental_drawing_source"].startswith("user-uploaded Warm white LED.pdf")
+assert white["supplemental_drawing_identical_to_bom_product_confirmed"] is False
+assert "GTG502WWC" in white["notes"] and "Whadda WCS101" in white["notes"]
+assert bom["cad"]["white_led_source_match_actual_BOM_part_confirmed"] is False
+assert bom["cad"]["white_led_drawing_body_flange_d_mm"] == [5,5.9]
+assert bom["cad"]["white_led_drawing_head_length_mm"] == 8.6
 orange = by_id["LED2"]
 assert orange["dimensions"]["nominal_body_diameter"] == 5.0
 assert orange["dimensions"]["flange_diameter"] == 5.9
@@ -103,7 +114,7 @@ assert bom["cad"]["orange_led_body_flange_d_mm"] == [5.0,5.9]
 assert bom["cad"]["orange_led_body_total_length_mm"] == 8.6
 assert bom["cad"]["orange_led_body_flange_socket_d_mm"] == [5.6,6.5]
 assert "27mm minimum" in orange["notes"]
-assert by_id["LED1"]["dimensions"]["body_length"] is None
+assert by_id["LED1"]["dimensions"]["body_length"] == 8.6
 assert by_id["S1"]["dimensions"]["magnet_lwh"] is None
 assert by_id["ANT"]["dimensions"]["antenna_body"] is None
 assert by_id["MCU"]["manufacturer_2d_dxf_archive"].endswith(".zip")
@@ -116,7 +127,14 @@ assert usb["dimensions"]["exact_socket_position"] is None
 assert usb["dimensions"]["mounting_hole_centres"] is None
 assert usb["dimensions"]["cc1_cc2_rds_factory_fitted"] is None
 assert bom["cad"]["usb_c_breakout_published_lwh_mm"] == [21,15,4.5]
-assert by_id["SC02_254"]["dimensions"]["pin_pitch"] == 2.54
+sc = by_id["SC02_254"]
+assert sc["dimensions"]["pin_pitch"] == 2.54
+assert sc["dimensions"]["pin_count"] == 2
+assert sc["dimensions"]["housing_depth"] == 6.5
+assert sc["dimensions"]["housing_height_above_pcb"] == 8.5
+assert sc["dimensions"]["pin_projection_below_pcb"] == 3.5
+assert sc["dimensions"]["body_width_n_2_mm"] == 5.48
+assert sc["supplemental_drawing_source"].startswith("user screenshot")
 assert by_id["USB_C_CC_RDS"]["dimensions"]["resistance_ohms"] == 5100
 assert "49067" in docs
 print(f"PASS: {len(parts)} composants catalogués, plans sourcés, dimensions absentes explicites.")
