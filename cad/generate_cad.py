@@ -19,7 +19,7 @@ for folder in [STL,STEP]: folder.mkdir(parents=True, exist_ok=True)
 
 # ========= PARAMETERS (mm) =========
 W = 105.6                  # V11 compact 55.0mm printed door + 0.3mm gaps + 11/39mm piers
-D = 100.0                  # external shell depth
+D = 85.0                   # V12 compact: depth reduced 15mm, door/shell WIDTH stays V11
 H_FRONT = 62.0             # roof TOP at front
 H_BACK = 78.0              # roof top rear: 16mm rise across 100mm depth (V5)
 WALL = 2.4                # minimum structural wall thickness >= 2
@@ -136,7 +136,7 @@ JAMB_RETURN_DEPTH = 10.0  # internal extension beyond front wall
 JAMB_RETURN_THICK = WALL  # 2.4mm, outside door panel width
 # V5: removable attic floor, XIAO/Wio stack ABOVE the garage, rear under roof.
 ATTIC_Y0=55.0
-ATTIC_DEPTH=40.0
+ATTIC_DEPTH=25.0  # V12 attic front edge Y55 unchanged; back edge moves 95 -> 80
 ATTIC_Z0=46.0
 ATTIC_PLATE_THICK=WALL
 ATTIC_X0=WALL+FIT
@@ -157,11 +157,28 @@ XIAO_BOARD_NOMINAL = (21.0, 17.8) # Seeed published PCB L x W, height unspecifie
 WIO_STACK_NOMINAL = (23.0, 22.0, 8.0) # Seeed marketing assembled approx; must measure physical stack
 CAP_C1_BODY = (10.0, 13.0) # Gotronic 04947: diameter x height; lead pitch 5mm
 RESISTOR_BODY = (6.5, 2.5) # all 0.5W specified Gotronic: axial length x diameter
-LED_NOMINAL_D = 5.0 # WCS101 warm white et L7113NC orange : Ø nominal uniquement
-LED_ENVELOPE = (6.0, 9.0) # enveloppe de service provisoire, pas une cote constructeur
-LED_POCKET_D = 6.6 # envelope Ø6 + 0.30 mm radial par face
-LED_ORANGE_APERTURE_D = 2.0 # ouverture optique discrete en facade
-LED_ORANGE_RECESS = 3.4 # recul de l'optique dans le montant avant
+LED_NOMINAL_D = 5.0 # white WCS101 nominal; exact warm-white profile unknown
+LED_ENVELOPE = (6.0, 9.0) # conservative WHITE LED envelope; not published as exact
+LED_POCKET_D = 6.6 # WHITE LED pocket Ø6 + 0.30mm radial per side
+# V12 orange LED dimensions transcribed from the USER-SUPPLIED drawing.
+# Body Ø5.0, retaining shoulder Ø5.9, overall front lens to rear shoulder
+# 8.6mm, flange max 1mm, 2.54mm lead pitch, leads at least 27mm.
+# Do not mistake 27mm exposed leads for the 8.6mm optical body length.
+LED_ORANGE_BODY_D = 5.0
+LED_ORANGE_FLANGE_D = 5.9
+LED_ORANGE_LENS_TO_FLANGE_BACK = 8.6
+LED_ORANGE_FLANGE_THICKNESS_MAX = 1.0
+LED_ORANGE_PIN_PITCH = 2.54
+LED_ORANGE_LEAD_LENGTH_MIN = 27.0
+LED_ORANGE_BODY_BORE_D = LED_ORANGE_BODY_D + 2*FIT    # 5.6mm
+LED_ORANGE_FLANGE_BORE_D = LED_ORANGE_FLANGE_D + 2*FIT  # 6.5mm
+LED_ORANGE_HOLDER_OD = 9.0      # small integral socket (1.25mm ring at flange)
+LED_ORANGE_HOLDER_LENGTH = 10.9
+LED_ORANGE_FLANGE_SEAT_Y = 10.8
+LED_ORANGE_APERTURE_D = 2.0    # discreet front pinhole, white wall remains solid
+LED_ORANGE_RECESS = 3.4        # lens front face recessed 3.4mm from facade
+LED_ORANGE_X = 5.3             # within 11mm left pier, below bearing, not by servo
+LED_ORANGE_Z = 32.0            # holder top 36.5, left bearing shelf bottom Z37.0
 
 # Gotronic 49067 USB-C 2.0 breakout; only 21x15x4.5 overall dimensions
 # and 2.54mm pad pitch are published. Neither socket offset, board holes nor
@@ -169,7 +186,7 @@ LED_ORANGE_RECESS = 3.4 # recul de l'optique dans le montant avant
 # Board long direction placed along garage Y, USB receptacle toward rear (+Y).
 USB_C_BOARD_VENDOR_LWH_MM=(21.0,15.0,4.5)
 USB_C_BOARD_X0=W/2-USB_C_BOARD_VENDOR_LWH_MM[1]/2 # 67.5
-USB_C_BOARD_Y0=74.4
+USB_C_BOARD_Y0=D-25.6  # V12:59.4; shifts 49067 rear to new shell wall
 USB_C_BOARD_Z0=9.3
 # V10 USB shell-only aperture is intentionally as small as practical:
 # ~10 x 4.2mm, nominal USB-C metal receptacle face + printer clearance.
@@ -185,7 +202,7 @@ USB_C_CARRIER_D=USB_C_BOARD_VENDOR_LWH_MM[0]+3.2
 USB_C_CARRIER_TOP_Z=USB_C_BOARD_Z0-FIT
 USB_C_GUIDE_WIDTH=2.4
 USB_C_GUIDE_HEIGHT=3.4
-USB_C_STRAP_TUNNEL_YS=(79.0,89.5)
+USB_C_STRAP_TUNNEL_YS=(D-21.0,D-10.5)  # V12 (64.0,74.5), two ties
 USB_C_STRAP_TUNNEL_W=3.2 # for up-to-2.5mm nylon zip ties
 USB_C_STRAP_TUNNEL_Z0=BASE+1.1
 USB_C_STRAP_TUNNEL_H=2.7
@@ -335,13 +352,28 @@ shell=shell.cut(box(W/2-USB_C_REAR_APERTURE_WH[0]/2,D-WALL-0.2,
 # The V8 upper rear 16x9 through-hole is REMOVED.
 # All low-voltage wires now rise INSIDE along an open rear cable chase.
 # No upper cutout is made in the shell.
-# Recessed 5mm amber LED: provisional rear pocket and small optical aperture.
-orange_x=OPEN_X+OPEN_W-15.0 # above opening, clear of V6 drive hub
-orange_z=BASE+OPEN_H+7.8 # V10 lowered 0.5mm (53.3 -> 52.8); keep hinge pin clearance
-orange_holder=cyl_y(orange_x,WALL-0.2,orange_z,10.8,10.2)  # paroi radial >=2.1mm
+# V12 orange LED relocation: just UNDER the compact LEFT bearing shelf.
+# Small integral through-back socket: Ø5.6 body passage + Ø6.5 flange
+# recess, no separate printable part or false 'snap-fit' assumptions.
+# 3.4mm front optical recess leaves a discreet Ø2mm amber pinhole.
+orange_x=LED_ORANGE_X
+orange_z=LED_ORANGE_Z
+orange_holder=cyl_y(orange_x,WALL-0.2,orange_z,
+                    LED_ORANGE_HOLDER_OD,LED_ORANGE_HOLDER_LENGTH)
 shell=shell.fuse(orange_holder)
-shell=shell.cut(cyl_y(orange_x,-0.1,orange_z,LED_ORANGE_APERTURE_D,LED_ORANGE_RECESS+0.2))
-shell=shell.cut(cyl_y(orange_x,LED_ORANGE_RECESS,orange_z,LED_POCKET_D,10.0))
+shell=shell.cut(cyl_y(orange_x,-0.1,orange_z,
+                      LED_ORANGE_APERTURE_D,LED_ORANGE_RECESS+0.2))
+shell=shell.cut(cyl_y(orange_x,LED_ORANGE_RECESS,orange_z,
+                      LED_ORANGE_BODY_BORE_D,
+                      LED_ORANGE_FLANGE_SEAT_Y-LED_ORANGE_RECESS+0.15))
+shell=shell.cut(cyl_y(orange_x,LED_ORANGE_FLANGE_SEAT_Y,orange_z,
+                      LED_ORANGE_FLANGE_BORE_D,
+                      WALL-0.2+LED_ORANGE_HOLDER_LENGTH-
+                      LED_ORANGE_FLANGE_SEAT_Y+0.1))
+# Insert from interior, optical tip rests against 2mm aperture shoulder.
+# After checking light and polarity, fix flange with a small drop of
+# NEUTRAL-CURE electronics-safe silicone; accessible rear for repair.
+shell=shell.clean()
 # Real garage: small black mailbox immediately RIGHT of the garage opening.
 # Pocket cut only through 1.05mm of the 2.4mm front wall, NOT into the
 # servo service envelope behind it. Black plaque printed as separate part.
@@ -550,18 +582,20 @@ cradle=cradle.clean()
 
 # 7. Removable full-width false ceiling at REAR, with XIAO/Wio above.
 tray_x0=W/2-30
-tray_y0=63.5
+# V12 radio stack center moves Y79 -> Y67.5 to fit 25mm deep attic.
+# Vendor XIAO/Wio assembly Y envelope was ~70.1..87.9 in V11;
+# shifting -11.5 puts it at ~58.6..76.4 inside [55,80].
+tray_y0=ATTIC_Y0+ATTIC_DEPTH/2-15.5
 tray_z0=ATTIC_Z0
 tray=box(ATTIC_X0,ATTIC_Y0,ATTIC_Z0,ATTIC_W,ATTIC_DEPTH,ATTIC_PLATE_THICK)
 # Two underside ribs for stiffness, spaced clear of wall support ledges.
 for y in (ATTIC_Y0+2.0,ATTIC_Y0+ATTIC_DEPTH-4.4):
     tray=tray.fuse(box(ATTIC_X0+5.2,y,ATTIC_Z0-2.4,
                        ATTIC_W-10.4,2.4,2.4))
-# Rear PCB guides (no unverified exact holes/bolt positions).
-tray=tray.fuse(box(tray_x0,tray_y0,ATTIC_Z0+ATTIC_PLATE_THICK,
-                   60,2.4,2.4))
-tray=tray.fuse(box(tray_x0,tray_y0+31-2.4,ATTIC_Z0+ATTIC_PLATE_THICK,
-                   60,2.4,2.4))
+# V12: omit the two old full-width Y guide rails. A 25mm shelf has
+# too little depth to keep both rails and the actual ~17.8mm Y board
+# without trapping the 49067 cable or shorting vendor PCB components.
+# Keep 4 insulating pads and the 2 outboard cable tie slots instead.
 # Wire feedthrough to the warm-white LED below, away from radio board.
 tray=tray.cut(cq.Solid.makeCylinder(1.2,ATTIC_PLATE_THICK+0.2,
                      V(ATTIC_LED_X,ATTIC_LED_Y,ATTIC_Z0-0.1),V(0,0,1)))
@@ -570,13 +604,13 @@ tray=tray.cut(cq.Solid.makeCylinder(1.2,ATTIC_PLATE_THICK+0.2,
 # The two strap slots and four pads must MOVE with the smaller cabinet.
 # Old V10 values were anchored to global X and would miss the radio if not
 # moved by the 22.2mm change in X centre; keep offsets from W/2 instead.
-PCB_STRAP_SLOTS=[(W/2-18.2,77.0),(W/2+14.7,77.0)]
+PCB_STRAP_SLOTS=[(W/2-18.2,ATTIC_Y0+10.5),(W/2+14.7,ATTIC_Y0+10.5)]
 for sx,sy in PCB_STRAP_SLOTS:
  tray=tray.cut(box(sx,sy,ATTIC_Z0-0.1,PCB_TIE_SLOT[0],
                    PCB_TIE_SLOT[1],ATTIC_PLATE_THICK+0.2))
 # Four low printed support pads under Wio 3D footprint; 0.3mm vertical gap.
-PCB_PADS=[(W/2-11.0,70.5),(W/2+6.0,70.5),
-          (W/2-11.0,84.0),(W/2+6.0,84.0)]
+PCB_PADS=[(W/2-11.0,ATTIC_Y0+4.0),(W/2+6.0,ATTIC_Y0+4.0),
+          (W/2-11.0,ATTIC_Y0+17.5),(W/2+6.0,ATTIC_Y0+17.5)]
 for px,py in PCB_PADS:
  tray=tray.fuse(box(px,py,ATTIC_Z0+ATTIC_PLATE_THICK,4.0,3.0,3.2))
 tray=tray.clean()
@@ -725,8 +759,17 @@ REFERENCES['REF_USB_C_49067_GABARIT_NON_CONTRACTUEL_NE_PAS_IMPRIMER']=usb_c_boar
 REFERENCES['REF_C1_470uF_16V_NE_PAS_IMPRIMER']=cq.Solid.makeCylinder(
  CAP_C1_BODY[0]/2,CAP_C1_BODY[1],V(W-14,35,BASE+5),V(0,0,1))
 # Enveloppes de service des LED 5 mm : non destinees a l'impression.
-REFERENCES['REF_LED_orange_ENVELOPPE_PROVISOIRE_NE_PAS_IMPRIMER']=cq.Solid.makeCylinder(
- LED_ENVELOPE[0]/2,LED_ENVELOPE[1],V(orange_x,LED_ORANGE_RECESS,orange_z),V(0,1,0))
+# Actual LED head geometry from drawing (still no 27mm pin leads modelled).
+# The 1mm shoulder thickness is the MAXIMUM drawing value, not a guaranteed
+# precise measurement. This envelope must clear the body/flange recess.
+REFERENCES['REF_LED_orange_ENVELOPPE_COTEE_NE_PAS_IMPRIMER']=(
+    cyl_y(orange_x,LED_ORANGE_RECESS,orange_z,
+          LED_ORANGE_BODY_D,LED_ORANGE_LENS_TO_FLANGE_BACK)
+    .fuse(cyl_y(orange_x,
+         LED_ORANGE_RECESS+LED_ORANGE_LENS_TO_FLANGE_BACK-
+         LED_ORANGE_FLANGE_THICKNESS_MAX,
+         orange_z,LED_ORANGE_FLANGE_D,LED_ORANGE_FLANGE_THICKNESS_MAX)).clean()
+)
 REFERENCES['REF_LED_blanche_ENVELOPPE_PROVISOIRE_NE_PAS_IMPRIMER']=cq.Solid.makeCylinder(
  LED_ENVELOPE[0]/2,LED_ENVELOPE[1],V(led_white_x,led_white_y,holder_bottom+0.4),V(0,0,1))
 servo_reference=ref_servo # volume de reference a verifier contre les LED et supports
@@ -814,7 +857,15 @@ if __name__=='__main__':
         'compact_left_bearing_xyz_size_mm':[bearing_width,bearing_depth,bearing_height],
         'led_white_y':led_white_y,'led_orange_x':orange_x,
         'led_orange_z':orange_z,
-        'led_orange_lowering_vs_v9_mm':0.5,
+        'orange_led_mount_under_left_bearing':True,
+        'orange_led_housing_integral_shell':True,
+        'orange_led_drawing_body_flange_d_mm':[LED_ORANGE_BODY_D,LED_ORANGE_FLANGE_D],
+        'orange_led_drawing_length_flange_max_pitch_leads_mm':[
+            LED_ORANGE_LENS_TO_FLANGE_BACK,LED_ORANGE_FLANGE_THICKNESS_MAX,
+            LED_ORANGE_PIN_PITCH,LED_ORANGE_LEAD_LENGTH_MIN],
+        'orange_led_body_flange_bore_d_mm':[LED_ORANGE_BODY_BORE_D,LED_ORANGE_FLANGE_BORE_D],
+        'orange_led_holder_outer_d_length_mm':[LED_ORANGE_HOLDER_OD,LED_ORANGE_HOLDER_LENGTH],
+        'orange_led_flange_seat_y_mm':LED_ORANGE_FLANGE_SEAT_Y,
         'door_drive_disc_outer_diameter':2*DRIVE_DISC_R,
         'door_drive_disc_face_x':DRIVE_DISC_END_X,
         'door_drive_gap_to_servo_shaft_nominal':SERVO_SHAFT_TIP_X-DRIVE_DISC_END_X,
@@ -847,6 +898,9 @@ if __name__=='__main__':
         'attic_ceiling_bottom_z':ATTIC_Z0,
         'attic_ceiling_top_z':ATTIC_Z0+ATTIC_PLATE_THICK,
         'attic_y_start':ATTIC_Y0,'attic_depth':ATTIC_DEPTH,
+        'attic_back_edge_y_mm':ATTIC_Y0+ATTIC_DEPTH,
+        'radio_y_shift_from_v11_mm':-11.5,
+        'radio_old_xy_guides_removed':True,
         'attic_width':ATTIC_W,
         'attic_xiao_top_z':XIAO_DETAILED_REFERENCE.BoundingBox().zmax,
         'attic_roof_inner_z_above_xiao_front':H_FRONT-ROOF+(H_BACK-H_FRONT)*XIAO_DETAILED_REFERENCE.BoundingBox().ymin/D,
