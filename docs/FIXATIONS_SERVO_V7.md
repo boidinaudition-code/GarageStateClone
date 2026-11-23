@@ -33,6 +33,8 @@ L'épaisseur des oreilles, les cotes estimées du haut du boîtier et le type ex
 
 ## 3. Mise à jour du repère d'oreille — 22 novembre 2026
 
+> **Repère CAO V11 actualisé (23/11/2026) :** la largeur de la maquette est désormais **105,6 mm** et le vantail imprimé **55 mm**. Le dessin de fixation reste valable (**16,00 mm** depuis le fond du servo, **29,00 mm** d'entraxe d'oreilles), mais **les valeurs absolues de X ci-dessous sont historiques V7**. En V11, le bout d'arbre est à **X69,30**, le fond nominal **X99,30**, le plan du dessous des oreilles **X83,30**, et la face imprimée des bossages **X83,60**. Voir [les cotes de la miniature compacte](COMPACTAGE_GARAGE_V11.md).
+
 **Cote constructeur utilisée en CAO / Onshape :** **16,00 mm** du **fond du servo** au **dessous de l'oreille de fixation**, sur l'axe longitudinal du boîtier. Il s'agit d'une cote du plan, **pas** d'une mesure de l'exemplaire réel.
 
 Le servo est orienté selon l'axe **X** de la miniature, arbre vers les X décroissants. Le plan constructeur indique une distance nominale de **30,00 mm du fond du servo au bout de l'arbre**. Le plan de référence du dessous des oreilles dans la maquette est donc :
