@@ -61,16 +61,16 @@ ast.parse((ROOT / "cad/generate_cad.py").read_text())
 print(f"Local Markdown link paths: {links} OK; SVG XML and Python AST: OK")
 
 stls = sorted((ROOT / "cad/stl").glob("*.stl"))
-assert len(stls) == len(cad["PRINTABLE"]) == 13
+assert len(stls) == len(cad["PRINTABLE"]) == 12
 for path in stls:
     mesh = trimesh.load_mesh(path)
     assert mesh.is_watertight and mesh.is_volume, path
     solid = cad["PRINTABLE"][path.stem]
     assert solid.isValid() and len(solid.Solids()) == 1, path
 steps = sorted((ROOT / "cad/step").glob("*.step"))
-assert len(steps) == 16
+assert len(steps) == 15
 assert all(path.stat().st_size > 0 for path in steps)
-print("13 STL watertight/positive volumes; 13 valid single solids; 16 STEP files present")
+print("12 STL watertight/positive volumes; 12 valid single solids; 15 STEP files present")
 
 refs = {name: solid for name, solid in cad["REFERENCES"].items() if "LED_" in name}
 assert len(refs) == 2
@@ -103,7 +103,7 @@ assert len(cad["pcb_side_clips"]) == 2
 assert cad["CABLE_RISER_COVER_W"] == 7.9
 assert len(cad["cable_riser_lips"]) == 0
 assert "11_couvercle_goulotte_arriere" in cad["PRINTABLE"]
-print("V15 attic: V14 internals preserved; decorative front door/intercom/mailbox stripe external only")
+print("V15 revised attic: V14 internals preserved; door and mailbox white stripe, intercom removed")
 orange_ref = next(s for n, s in refs.items() if "orange" in n)
 assert orange_ref.BoundingBox().ymin > cad["WALL"]
 for angle in range(0, 91, 5):
