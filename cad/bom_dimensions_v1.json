@@ -591,8 +591,8 @@
     "mailbox_remaining_wall_backing_mm": 1.35,
     "mailbox_hole_or_letter_slot": "shallow decorative groove on black insert only, not a through-hole",
     "mailbox_reference_confidence": "V11 derived position: visible black left x76.6, exactly 10mm to right opening x66.6; 0.3mm recess fitting each side, unmeasured physical building",
-    "cad_printable_part_count": 10,
-    "cad_step_export_count": 13,
+    "cad_printable_part_count": 13,
+    "cad_step_export_count": 16,
     "orange_led_lowered_from_v9_by_mm": 0.5,
     "roof_front_fascia_bac_acier_rib_count": 9,
     "roof_front_fascia_rib_height_projection_mm": 0.85,
@@ -815,7 +815,64 @@
     "internal_cable_riser_cover_rail_groove_depth_x_mm": 0.55,
     "internal_cable_riser_cover_fit_each_side_mm": 0.2,
     "internal_cable_riser_cover_clear_channel_depth_after_cover_mm": 2.05,
-    "internal_cable_riser_cover_printing_note": "print upright or flat depending machine; slide after wiring with roof off; stop at Z15; grip at top; try fit before gluing (no glue required)"
+    "internal_cable_riser_cover_printing_note": "print upright or flat depending machine; slide after wiring with roof off; stop at Z15; grip at top; try fit before gluing (no glue required)",
+    "visual_reference_v15": "user-provided photorealistic miniature garage render (2026-11-23): black grooved pedestrian door and handle on right pier, intercom between mailbox and door, white letter-slot rectangle, reinforced roof seam edging",
+    "pedestrian_door_static_not_operable": true,
+    "pedestrian_door_pocket_origin_xz_mm": [
+      89.4,
+      3.25
+    ],
+    "pedestrian_door_pocket_wh_depth_mm": [
+      14.6,
+      38.4,
+      1
+    ],
+    "pedestrian_door_black_panel_wh_t_mm": [
+      14,
+      37.8,
+      0.76
+    ],
+    "pedestrian_door_groove_count": 5,
+    "pedestrian_door_handle_integral": true,
+    "pedestrian_door_min_white_wall_backing_mm": 1.4,
+    "intercom_mockup_pocket_origin_xz_mm": [
+      84.8,
+      27.9
+    ],
+    "intercom_mockup_pocket_wh_depth_mm": [
+      3.6,
+      7.2,
+      0.95
+    ],
+    "intercom_face_wh_t_mm": [
+      3,
+      6.6,
+      0.73
+    ],
+    "intercom_camera_button_d_mm": [
+      1.12,
+      0.9
+    ],
+    "intercom_speaker_relief_count": 3,
+    "intercom_functional": false,
+    "mailbox_white_inlay_wh_t_mm": [
+      5.1,
+      0.8,
+      0.35
+    ],
+    "mailbox_white_pocket_wh_depth_mm": [
+      5.5,
+      1.2,
+      0.43
+    ],
+    "mailbox_white_inlay_part": "14_insert_blanc_boite_lettres",
+    "roof_side_flashings_count": 2,
+    "roof_side_flashings_rise_mm": 0.55,
+    "roof_front_drip_depth_height_mm": [
+      0.55,
+      0.7
+    ],
+    "cosmetic_details_print_check": "separate three parts printed in black (door), grey (intercom), white (mailbox stripe), shallow adhesive pockets retain original 2.4mm structural wall except local 1mm recess; fine camera/button details are paintable, not live electronics"
   },
   "system_state": {
     "sensor_count": 1,
