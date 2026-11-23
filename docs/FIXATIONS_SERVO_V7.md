@@ -1,3 +1,5 @@
+> **Historique :** cette fiche est antérieure au support renforcé V13. Les dimensions fabricant 16mm et 29mm restent valables, mais **les deux pilotes sont maintenant dérivés du décalage d'axe de 6mm** et la colonne comporte deux renforts et une fenêtre pour câble. Voir [la géométrie actuelle V13](SERVO_DMS_MG90_PALONNIERS_V13.md).
+
 # Fixations et interface servo — V7 (22 novembre 2026)
 
 **Statut : CAO prototype documentée, pas montage physique qualifié.** Cotes en millimètres.
