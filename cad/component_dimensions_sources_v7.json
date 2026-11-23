@@ -51,7 +51,21 @@
         "upper_step_level_from_base": 22.5,
         "lug_level_from_base": 16,
         "lug_underside_height_from_base": 16,
-        "lug_underside_height_from_base_provenance": "manufacturer-dimensioned drawing, user-supplied confirmed 2026-11-22"
+        "lug_underside_height_from_base_provenance": "manufacturer-dimensioned drawing, user-supplied confirmed 2026-11-22",
+        "case_width_on_plan": 12,
+        "lug_span_with_open_notches": 33,
+        "shaft_offset_from_near_case_end_in_lug_span": 6,
+        "shaft_offset_from_near_lug_end_derived": 11,
+        "shaft_feature_circular_diameters": [
+          3,
+          5
+        ],
+        "upper_shoulder_levels_from_base": [
+          22.5,
+          26.5,
+          30
+        ],
+        "lug_notch_end_margin_each_side": 2
       },
       "source": "https://www.gotronic.fr/pj2-dimensions-dms-mg90-36923-2320.pdf",
       "secondary_source": "https://www.gotronic.fr/art-servomoteur-dms-mg90-32266.htm",
@@ -71,7 +85,7 @@
         "shaft spline/central screw interface",
         "actual production tolerance"
       ],
-      "notes": "Cotes lues sur plan officiel Gotronic (3 vues), contrairement au MG90-A STEP tiers. Le dessin cote des lumières ouvertes Ø2; ne pas supposer des trous fermes. La cotation Ø3/Ø5 est celle des fonctions circulaires du dessin, pas des cannelures documentees. Additional documentation supplied 2026-11-22: lug underside is dimensioned 16.00 mm above servo base. 2.5 / 4 / 8 mm are APPROXIMATIONS only, not hard CAD constraints; horn and mounting screw measurements unknown.",
+      "notes": "Cotes lues sur plan officiel Gotronic (3 vues), contrairement au MG90-A STEP tiers. Le dessin cote des lumières ouvertes Ø2; ne pas supposer des trous fermes. La cotation Ø3/Ø5 est celle des fonctions circulaires du dessin, pas des cannelures documentees. Additional documentation supplied 2026-11-22: lug underside is dimensioned 16.00 mm above servo base. 2.5 / 4 / 8 mm are APPROXIMATIONS only, not hard CAD constraints; horn and mounting screw measurements unknown. V13 cradle ear Z pilots now derived from shaft offset 6mm from 23mm case near end + centered 5mm ear margin=11mm near ear offset, ear 33mm notch pitch29 -> pivot-20 and pivot+9. 2 rear spine gussets, service notch, conical pilot starts. Photograph does not supply exact round-horn hole spacing or screws.",
       "visual_estimates_from_drawing_mm": {
         "lug_thickness": 2.5,
         "lug_top_to_flat_case_top": 4,
@@ -82,7 +96,9 @@
         "mounted_horn_support_face_to_outer_face_excluding_head": null,
         "servo_mount_screw_head_diameter": null,
         "servo_mount_screw_under_head_length": null
-      }
+      },
+      "secondary_confirmed_source": "User uploaded 1-page DMS-MG90 Servo Dimension.pdf on 2026-11-23, confirms official drawing dimensions 6,23,29,33,12,16,22.5,26.5,30, Ø2, Ø3, Ø5.",
+      "horn_photo_observation": "User supplied photo 2026-11-23 with round, four-armed, double-arm, single-arm horns and three screws. Size, pitch, thickness and actual screw dimensions cannot be extracted to engineering precision without a scale."
     },
     {
       "id": "C1",
@@ -433,7 +449,7 @@
     "usb_c_socket_offsets_and_pcb_holes_unconfirmed": true,
     "usb_c_Rd_configuration_unverified": true,
     "usb_c_wiring_document": "docs/ALIMENTATION_USB_C_V8.md",
-    "current_cad_revision": "V12 cabinet depth85, attic25, orange drawing-specified LED below left bearing",
+    "current_cad_revision": "V13 reworked DMS-MG90 printed cradle from actual uploaded PDF and photo; overall 105.6x85 unchanged",
     "usb_c_port_cut_provisional": true,
     "orange_led_published_drawing_transcribed_mm": {
       "body_d": 5,
@@ -443,6 +459,14 @@
       "leads_pitch": 2.54,
       "leads_min": 27
     },
-    "orange_led_mount_location": "front left pier X5.3/Z32.0, below left bearing, rear service sleeve OD9 and 5.6/6.5mm stepped cavity, no separate print"
+    "orange_led_mount_location": "front left pier X5.3/Z32.0, below left bearing, rear service sleeve OD9 and 5.6/6.5mm stepped cavity, no separate print",
+    "servo_shaft_offset_from_case_end_mm": 6,
+    "servo_shaft_offset_from_near_ear_end_mm": 11,
+    "servo_ear_z_centres_mm": [
+      25.4,
+      54.4
+    ],
+    "servo_cradle_gussets_count": 2,
+    "servo_mount_trial_coupons_count": 4
   }
 }
