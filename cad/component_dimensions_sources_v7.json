@@ -180,12 +180,17 @@
       "status": "manufacturer_published",
       "dimensions": {
         "nominal_body_diameter": 5,
-        "body_length": null,
-        "flange_diameter": null,
-        "lead_pitch": null
+        "body_length": 8.6,
+        "flange_diameter": 5.9,
+        "lead_pitch": 2.54,
+        "flange_thickness_max": 1,
+        "lead_length_min": 27,
+        "lead_square_width_nominal": 0.5,
+        "lead_square_width_tolerance": 0.05
       },
       "source": "https://www.gotronic.fr/art-led-5-mm-l7113nc-2086.htm",
-      "notes": "La fiche PDF L7113EC (ref 03050) liee par erreur sur la page Gotronic n'est PAS celle de L7113NC (03051); ne pas propager ses cotes."
+      "notes": "Orange LED dimensions provided by user on 2026-11-23: 5.0mm body, Ø5.9 flange, 8.6mm dome-front-to-rear flange, maximum flange thickness 1.0mm, leads pitch 2.54mm, leads length 27mm minimum and square0.5±0.05. Applied to orange LED V12, not to unmeasured WHITE WCS101. Confirm actual delivered orange part corresponds to supplied drawing.",
+      "supplemental_drawing_source": "dimensioned engineering drawing supplied by user in chat 2026-11-23"
     },
     {
       "id": "MCU",
@@ -381,7 +386,7 @@
   "critical_design": {
     "shell_lw": [
       105.6,
-      100
+      85
     ],
     "servo_mount_nominal_clearance_per_face": 0.3,
     "note": "ERRATUM: V7 predecessor compared manufacturer 33mm ear-span (Z in assembled model) to STEP 32.5mm output-axis (X); the claimed 0.05mm/side interference was INVALID. Correct matched-axis comparisons are manufacturer X30 vs STEP X32.5; Y12 vs STEP Y12.221; Z33 vs STEP Z33.4. Pitch 29mm along Z is authoritative, not necessarily face/horn screw pattern. On 2026-11-23, new outer shell W=105.6mm, true printed door W55mm, and servo retained in 39mm right pier; this does not change the manufacturer's component measurements.",
@@ -428,7 +433,16 @@
     "usb_c_socket_offsets_and_pcb_holes_unconfirmed": true,
     "usb_c_Rd_configuration_unverified": true,
     "usb_c_wiring_document": "docs/ALIMENTATION_USB_C_V8.md",
-    "current_cad_revision": "V11 compact (supplier dimensions of MG90 unchanged from V7)",
-    "usb_c_port_cut_provisional": true
+    "current_cad_revision": "V12 cabinet depth85, attic25, orange drawing-specified LED below left bearing",
+    "usb_c_port_cut_provisional": true,
+    "orange_led_published_drawing_transcribed_mm": {
+      "body_d": 5,
+      "flange_d": 5.9,
+      "head_length": 8.6,
+      "flange_max": 1,
+      "leads_pitch": 2.54,
+      "leads_min": 27
+    },
+    "orange_led_mount_location": "front left pier X5.3/Z32.0, below left bearing, rear service sleeve OD9 and 5.6/6.5mm stepped cavity, no separate print"
   }
 }
