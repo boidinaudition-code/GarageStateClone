@@ -252,7 +252,7 @@
     "mailbox_insert_reduction_linear_percent_vs_v9": 30,
     "usb_c_port_only_provisional_cut": true,
     "upper_rear_attic_external_hole_removed": true,
-    "cable_riser_internal_rear_open_channel": true,
+    "cable_riser_internal_rear_open_channel": false,
     "cable_riser_wall_position_xyz_mm": [
       90,
       78.6,
@@ -260,7 +260,7 @@
     ],
     "cable_riser_open_width_mm": 7.2,
     "cable_riser_length_z_mm": 29,
-    "cable_riser_lip_count": 3,
+    "cable_riser_lip_count": 0,
     "cable_riser_reaches_attic_without_external_hole": true,
     "compact_left_bearing_depth_height_mm": [
       12,
@@ -356,7 +356,56 @@
       "single-arm"
     ],
     "servo_horn_preferred_for_door": "round from supplied photo; exact OD holes and thickness unknown; no hole patterns on door Ø12",
-    "calibration_coupons_count": 4
+    "calibration_coupons_count": 4,
+    "cad_revision": "V14",
+    "cad_printable_count": 10,
+    "cad_step_count": 13,
+    "attic_wio_side_clip_count": 2,
+    "attic_wio_side_clip_x_posts_mm": [
+      38.45,
+      63.75
+    ],
+    "attic_wio_side_clip_y_range_mm": [
+      64.2,
+      68
+    ],
+    "attic_wio_side_clip_lip_z_range_mm": [
+      58.65,
+      59.05
+    ],
+    "attic_wio_side_clip_nominal_side_engagement_mm": 0.3,
+    "attic_wio_side_clip_requires_petg_test": true,
+    "attic_wio_fallback_strap_slots_retained": true,
+    "cable_riser_internal_rear_covered_straight_channel": true,
+    "cable_riser_has_no_staggered_lips": true,
+    "cable_riser_cover_part_name": "11_couvercle_goulotte_arriere",
+    "cable_riser_cover_nominal_xyz_mm": [
+      7.9,
+      1.1,
+      27.8
+    ],
+    "cable_riser_rail_rebate_depth_mm": 0.55,
+    "cable_riser_cover_slide_top_down": true,
+    "cable_riser_cover_fit_per_edge_mm": 0.2,
+    "white_led_drawing_part": "GTG502WWC",
+    "white_led_drawing_not_guaranteed_same_as_WCS101": true,
+    "white_led_drawing_body_flange_d_mm": [
+      5,
+      5.9
+    ],
+    "white_led_drawing_head_length_mm": 8.6,
+    "white_led_drawing_pin_pitch_mm": 2.54,
+    "white_led_drawing_lead_length_nominal_tolerance_mm": [
+      29,
+      0.5
+    ],
+    "white_led_holder_bore_d_mm": 6.5,
+    "white_led_holder_stop_z_mm": 45.2,
+    "white_led_lead_exit_hole_d_mm": 4.4,
+    "white_led_loaded_from_below": true,
+    "white_led_pin_retainer": "small electronics-safe neutral silicone at lower aperture, no press on lens",
+    "terminal_sc02_254_screenshot_source": "dimensioned screen image from user 2026-11-23; two poles; not a CAD printable fixture",
+    "terminal_sc02_254_two_pole_body_width_mm": 5.48
   },
   "qa": {
     "checked_with": "CadQuery 2.8.0, OCP 7.9.3.1, trimesh 4.11.1",
@@ -377,6 +426,6 @@
     "actual_horn_bolt_pattern": "UNKNOWN, interface disk blank on purpose",
     "manufacturer_axis_erratum": "official drawing 33mm ear-span maps to rotated STEP Z=33.4mm, NOT X=32.5mm. Prior 0.05 mm axial clearance claim invalid",
     "usb_c_carrier": "integral to 02 base; underside strap tunnels and rear shell aperture modeled; physical connector protrusion/hole placement unknown",
-    "roof_mailbox_design": "V13: retains V11 55mm door, mailbox gap10 and 9+9 roof ribs. Cabinet depth 85 and removable attic 25. Orange Ø5/5.9 drawing-based LED socket positioned below left bearing. No physical hardware trials."
+    "roof_mailbox_design": "V14: retains V11 55mm door, mailbox gap10 and 9+9 roof ribs. Cabinet depth 85 and removable attic 25. Orange Ø5/5.9 drawing-based LED socket positioned below left bearing. No physical hardware trials."
   }
 }
