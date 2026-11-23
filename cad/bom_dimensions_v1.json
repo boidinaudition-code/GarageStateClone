@@ -172,14 +172,21 @@
       "qty": 1,
       "body_mm": {
         "diameter": 5,
-        "length": null
+        "length": 8.6
       },
-      "lead_pitch_mm": null,
-      "collar_diameter_mm": null,
+      "lead_pitch_mm": 2.54,
+      "collar_diameter_mm": 5.9,
       "status": "published",
-      "dimension_note": "Only nominal 5mm confirmed; linked L7113EC PDF is not this reference",
+      "dimension_note": "Drawing supplied by user: 5mm body 8.6mm lens-to-back, Ø5.9 collar max thickness1, 2.54mm pins lead length>=27. Not verified on the actual purchased orange L7113NC; Gotronic product page links a different product's PDF.",
       "url": "https://www.gotronic.fr/art-led-5-mm-l7113nc-2086.htm",
-      "datasheet_warning": "Gotronic links L7113EC 03050 PDF, not the ordered L7113NC 03051; do not reuse its dimensions."
+      "datasheet_warning": "Gotronic links L7113EC 03050 PDF, not the ordered L7113NC 03051; do not reuse its dimensions.",
+      "collar_thickness_max_mm": 1,
+      "leads_min_length_mm": 27,
+      "lead_square_width_nominal_tolerance_mm": [
+        0.5,
+        0.05
+      ],
+      "drawing_source": "dimensioned drawing supplied in chat by user on 2026-11-23; check shipped L7113NC is matching part"
     },
     {
       "id": "MCU",
