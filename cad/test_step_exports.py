@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Régression CAO : BREP source, 9 STEP, 9 STL et assemblage V9.
+"""Régression CAO : BREP source, 12 STEP, 9 STL et assemblage V13.
 
 Lancer après: python cad/generate_cad.py
 Ne prétend pas remplacer un essai d'impression ou un montage mécanique.
@@ -263,6 +263,20 @@ assert overlap(g.cradle,g.right_jamb_return) < 1e-5
 # V6 mechanical features: real mounting features, NOT merely reference boxes.
 assert len(g.SERVO_MOUNT_HOLES)==4
 assert g.SERVO_LUG_PITCH == 29.0
+# Real DMS-MG90 three-view PDF: 6mm shaft from case end, 23mm case
+# centered within 33mm ear span => 11mm shaft from near ear end.
+assert (g.SERVO_DRAWING_EAR_SPAN_Z,g.SERVO_DRAWING_CASE_SPAN_Z,
+        g.SERVO_DRAWING_CASE_WIDTH_Y) == (33.,23.,12.)
+assert g.SERVO_DRAWING_SHAFT_OFFSET_FROM_CASE_END_Z == 6.
+assert g.SERVO_DRAWING_SHAFT_OFFSET_FROM_NEAR_EAR_END_Z == 11.
+assert g.SERVO_DRAWING_SHAFT_FEATURE_DIAMETERS == (3.,5.)
+assert g.SERVO_DRAWING_UPPER_LEVELS_FROM_BASE_X == (22.5,26.5,30.)
+assert g.SERVO_DRAWING_LUG_END_MARGIN_Z == 2.0
+assert [round(z,3) for z in g.SERVO_LUG_CENTERS_Z] == [25.4,54.4]
+assert [round(z,3) for z in bom["cad"]["servo_lug_centres_z_from_drawing_mm"]] == [25.4,54.4]
+assert [round(z,3) for z in manifest["design"]["servo_ear_centres_z_from_drawing_mm"]] == [25.4,54.4]
+assert bom["cad"]["servo_dms_mg90_drawing_output_axis_case_end_offset_mm"] == 6
+assert manifest["design"]["servo_dms_mg90_shaft_from_near_ear_end_mm"] == 11
 assert g.SERVO_LUG_NOTCH_D == 2.0
 assert g.SERVO_LUG_PILOT_D == 1.7
 # The dimensioned manufacturer datum from base to UNDER the mounting ear.
@@ -290,6 +304,24 @@ assert bom["cad"]["servo_mount_screw_head_diameter_mm"] is None
 assert bom["cad"]["servo_mount_screw_under_head_length_mm"] is None
 assert bom["cad"]["servo_horn_mounted_face_to_outer_face_mm"] is None
 assert (g.SERVO_LUG_BOSS_D - g.SERVO_LUG_PILOT_D)/2 >= 2.0, "lug pilot boss wall too thin"
+assert g.SERVO_LUG_PILOT_LEADIN_D == 2.3
+assert g.SERVO_LUG_PILOT_LEADIN_DEPTH == 0.45
+assert bom["cad"]["servo_pilot_entrance_d_depth_mm"] == [2.3,0.45]
+assert manifest["design"]["servo_ear_pilot_leadin_d_depth_mm"] == [2.3,0.45]
+assert len(g.servo_spine_gussets) == bom["cad"]["servo_spine_gussets_count"] == manifest["design"]["servo_rear_spine_gussets_count"] == 2
+assert all(web.isValid() and len(web.Solids())==1
+           for web in g.servo_spine_gussets)
+for web in g.servo_spine_gussets:
+    assert overlap(web,g.cradle)>0.0
+    assert overlap(web,g.servo_reference) < 1e-5
+    assert overlap(web,g.roof_lid) < 1e-5
+    assert overlap(web,g.shell) < 1e-5
+assert g.SERVO_CABLE_WINDOW_WIDTH_X == 5.0
+assert g.SERVO_CABLE_WINDOW_Z0 == g.cradle_z_top
+assert g.SERVO_CABLE_WINDOW_X0+5.0 < g.cradle_xmax
+assert math.isclose(g.SERVO_CABLE_WINDOW_Y0,g.cradle_ymax-0.2,abs_tol=1e-8)
+assert bom["cad"]["servo_cable_exit_notch_leaves_sill_mm"] == 2.4
+assert bom["cad"]["optional_print_calibration_coupons_count"] == 4
 assert len(g.SERVO_LUG_CENTERS_YZ) == 2
 assert len(g.SERVO_LUG_CENTERS_Z) == 2
 assert math.isclose(g.SERVO_LUG_CENTERS_Z[1] - g.SERVO_LUG_CENTERS_Z[0], 29, abs_tol=1e-6)
@@ -479,4 +511,4 @@ for angle in range(0, 91, 5):
         "support LED blanche": g.holder,
     }.items():
         assert overlap(door, shape) < 1e-5, ("collision porte", angle, label)
-print("PASS — V12: shell105.6x85, 55mm door, attic25 Y55..80, relocated XIAO/Wio, 49067 USB, LED Ø5/Ø5.9 under left bearing; door 0–90; 12 STEP/9 STL")
+print("PASS — V13: manufacturer 6mm shaft offset, 29mm ears pitch, 2 gussets, cable exit, four coupons; shell105.6x85 door55; 12 STEP/9 STL")
