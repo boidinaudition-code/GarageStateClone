@@ -23,7 +23,10 @@ assert "23,43 €" in docs and "3,90 €" in docs
 assert "25,48" not in docs and "5,95" not in docs
 assert b["system_state"]["sensor_count"]==1
 assert {r["id"]:r["quantity_mounted"] for r in core}["SAS308"]==1
-assert b["cad"]["shell_width_mm"]==150
+assert b["cad"]["shell_width_mm"]==105.6
+assert b["cad"]["door_panel_mm"][0]==55.0
+assert b["cad"]["cable_eyes_qty"]==0
+assert b["cad"]["servo_cable_clip_count"]==4
 assert b["cad"]["back_height_mm"]==78
 assert b["cad"]["attic_ceiling_thickness_mm"]==2.4
 assert b["cad"]["hinge_pin_diameter_mm"]==3.2
