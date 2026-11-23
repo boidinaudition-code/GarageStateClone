@@ -14,9 +14,9 @@ L'alimentation 5 V du XIAO et du servo est réalisée **en parallèle depuis la 
 
 **Boîte aux lettres V11 :** niche **X=76,3..83,9 mm, Z=25,5..33,1 mm, Y=0..1,05 mm** dans le **montant blanc droit** de `01_coque_blanche`. L'épaisseur locale résiduelle de façade est toujours **1,35 mm**. Pièce séparée `10_boite_aux_lettres_noire` : carré **7 × 7 × 0,75 mm** (30 % de réduction linéaire par rapport aux 10 × 10 de V9), à coller en léger retrait avec **0,30 mm de jeu sur chaque côté**. Fente superficielle imprimée (non fonctionnelle) ; finition cosmétique, photo non relevée au pied à coulisse. Voir [les cotes V11 et le positionnement de 10 mm](../docs/COMPACTAGE_GARAGE_V11.md).
 
-**Bandeau de toiture métallique V10 :** `roof_front_fascia_seams` ajoute **13 nervures trapézoïdales verticales** sur la partie **descendante en façade** du toit noir, exactement aux mêmes X que les nervures supérieures, espacement 11,5 mm, relief de **0,85 mm en direction −Y**. Environ Z54,37..62,47. La jupe interne, la pente et le système de toit amovible restent intacts.
+**Bandeau de toiture métallique V11 :** `roof_front_fascia_seams` ajoute **9 nervures trapézoïdales verticales** sur la partie **descendante en façade** du toit noir, exactement aux mêmes X que les nervures supérieures, espacement 11,5 mm, relief de **0,85 mm en direction −Y**. Environ Z54,37..62,47. La jupe interne, la pente et le système de toit amovible restent intacts.
 
-**LED orange :** X96 inchangé et Z **53,3 → 52,1 mm**. Le boîtier de LED, le conduit optique et la référence STEP suivent cette descente de 0,5 mm.
+**LED orange :** X51,6 en V11 après rétrécissement et Z **53,3 → 52,8 mm**. Le boîtier de LED, le conduit optique et la référence STEP suivent cette descente de 0,5 mm.
 
 **Goulotte intérieure V10 :** le **trou extérieur arrière haut 16 × 9 est supprimé**. Deux rails de **1,8 mm** et trois petites lèvres alternées constituent un guide de fils **ouvert** contre le mur arrière, **X90..100,8 / Y93,6..97,72 / Z14..43**, laissant **7,2 mm de largeur** entre les deux rails. Le câble part de la distribution 5 V en bas et monte sous le faux plafond ; aucun nouveau trou de façade n'est nécessaire. Ce passage est un prototype pour fils souples, pas un conduit garanti pour tout connecteur/coaxial.
 
@@ -43,7 +43,7 @@ L'alimentation 5 V du XIAO et du servo est réalisée **en parallèle depuis la 
 | Disque de liaison côté droit | **Ø12 mm** vierge, passage **Ø12,6 mm** ; face en **X67,1**, jeu radial 0,30 mm |
 | Écart disque / pointe d’axe servo STEP | **2,2 mm nominal**, **hors vrai palonnier** |
 | Faux plafond | **144,6 × 40 × 2,4 mm**, Y55..95 et Z46..48,4 |
-| Support de LED blanche | X75 / Y65, **2 ergots Ø2 dans Ø2,6** |
+| Support de LED blanche | X52,8 / Y65, **2 ergots Ø2 dans Ø2,6** |
 | LED orange façade | X51,6 / Z52,8 |
 | Emboîtements | **0,30 mm par face**, cible CAO à calibrer en FDM |
 
