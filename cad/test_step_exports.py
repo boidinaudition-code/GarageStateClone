@@ -476,7 +476,7 @@ assert overlap(white, g.holder) < 1e-5
 assert overlap(g.holder, g.roof_lid) < 1e-5  # roof remains removable
 # Socket must be empty for the measured Ø5/Ø5.9 LED envelope.
 white_body_bore = cq.Solid.makeCylinder(g.LED_WHITE_FLANGE_BORE_D/2,
-    g.LED_WHITE_RETENTION_SHOULDER_Z-g.holder_bottom+0.03,
+    g.LED_WHITE_RETENTION_SHOULDER_Z-g.holder_bottom-0.04,
     cq.Vector(g.led_white_x,g.led_white_y,g.holder_bottom-0.02),
     cq.Vector(0,0,1))
 assert overlap(white_body_bore,g.holder)<1e-5
