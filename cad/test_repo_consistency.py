@@ -15,15 +15,22 @@ firm=(root/"src/main.cpp").read_text(encoding="utf-8")
 b=json.loads((root/"cad/bom_dimensions_v1.json").read_text(encoding="utf-8"))
 m=json.loads((root/"cad/vendor_models/manifest.json").read_text(encoding="utf-8"))
 hardware=json.loads((root/"cad/hardware_bom_v5.json").read_text(encoding="utf-8"))
-assert b["cad"]["shell_width_mm"] == m["design"]["shell_mm"][0] == 150
+assert b["cad"]["shell_width_mm"] == m["design"]["shell_mm"][0] == 105.6
+assert b["cad"]["printed_door_exact_width_mm"] == m["design"]["door_panel_mm"][0] == 55.0
+assert b["cad"]["servo_cable_clip_count"] == m["design"]["servo_cable_clips_count"] == 4
+assert b["cad"]["cable_eyes_qty"] == m["design"]["cable_eye_qty"] == 0
+assert b["cad"]["compact_left_bearing_width_mm"] == m["design"]["compact_left_bearing_width_mm"] == 4.6
+assert b["cad"]["roof_bac_acier_rib_count"] == m["design"]["roof_bac_acier_rib_count"] == 9
+assert b["cad"]["roof_front_fascia_bac_acier_rib_count"] == m["design"]["roof_front_fascia_standing_seams_count"] == 9
+assert b["cad"]["mailbox_opening_to_black_left_gap_mm"] == m["design"]["mailbox_visible_gap_to_opening_mm"] == 10.0
 assert b["cad"]["shell_depth_mm"] == 100
 assert [b["cad"]["front_height_mm"],b["cad"]["back_height_mm"]] == m["design"]["roof_z_front_back_mm"] == [62,78]
-assert b["cad"]["door_opening_mm"] == [100,42]
-assert b["cad"]["door_panel_mm"] == [99.4,41.4,2.4]
+assert b["cad"]["door_opening_mm"] == [55.6,42]
+assert b["cad"]["door_panel_mm"] == [55,41.4,2.4]
 assert b["cad"]["fit_per_face_mm"] == 0.3
 assert b["cad"]["wall_mm"] >= 2.0
-assert b["cad"]["orange_led_center_x_mm"] == m["design"]["led_orange_center_xz_mm"][0] == 96
-assert b["cad"]["attic_internal_light_holder_xy_mm"] == m["design"]["attic_led_holder_xy_mm"] == [75,65]
+assert b["cad"]["orange_led_center_x_mm"] == m["design"]["led_orange_center_xz_mm"][0] == 51.6
+assert b["cad"]["attic_internal_light_holder_xy_mm"] == m["design"]["attic_led_holder_xy_mm"] == [52.8,65]
 assert b["cad"]["led_holder_pin_diameter_mm"] == 2
 assert b["cad"]["led_holder_hole_diameter_mm"] == 2.6
 assert b["cad"]["servo_base_mount_count"] == m["design"]["servo_mounting_pilot_count"] == 4
@@ -37,13 +44,13 @@ assert m["design"]["servo_mount_visual_estimates_drive_geometry"] is False
 assert b["cad"]["servo_lug_boss_d_mm"] == 5.8
 assert b["cad"]["usb_c_breakout_vendor_code"] == m["design"]["usb_c_breakout_code"] == "Gotronic 49067"
 # V9 photo-derived roof/letterbox geometry: no electrical or hardware change.
-assert b["cad"]["roof_bac_acier_rib_count"] == m["design"]["roof_bac_acier_rib_count"] == 13
+assert b["cad"]["roof_bac_acier_rib_count"] == m["design"]["roof_bac_acier_rib_count"] == 9
 assert b["cad"]["roof_bac_acier_rib_pitch_mm"] == m["design"]["roof_bac_acier_rib_pitch_mm"] == 11.5
 assert b["cad"]["roof_bac_acier_rib_rise_above_original_surface_mm"] == m["design"]["roof_bac_acier_rib_rise_mm"] == 0.95
 assert b["cad"]["mailbox_pocket_width_height_depth_mm"] == m["design"]["mailbox_pocket_width_height_depth_mm"] == [7.6,7.6,1.05]
 assert b["cad"]["mailbox_insert_width_height_thickness_mm"] == m["design"]["mailbox_insert_width_height_thickness_mm"] == [7,7,0.75]
 assert b["cad"]["mailbox_insert_linear_reduction_from_v9_percent"] == m["design"]["mailbox_insert_reduction_linear_percent_vs_v9"] == 30
-assert b["cad"]["roof_front_fascia_bac_acier_rib_count"] == m["design"]["roof_front_fascia_standing_seams_count"] == 13
+assert b["cad"]["roof_front_fascia_bac_acier_rib_count"] == m["design"]["roof_front_fascia_standing_seams_count"] == 9
 assert b["cad"]["orange_led_center_z_mm"] == m["design"]["led_orange_center_xz_mm"][1] == 52.8
 assert b["cad"]["mailbox_separate_black_part"] is True
 assert m["design"]["mailbox_insert_separate_stl"] is True
@@ -52,6 +59,10 @@ assert b["cad"]["cad_printable_part_count"] == 9
 assert b["cad"]["cad_step_export_count"] == 12
 assert "bac acier" in read and "boîte aux lettres" in read
 assert "docs/TOIT_BAC_ACIER_BOITE_LETTRES_V9.md" in read
+assert "docs/COMPACTAGE_GARAGE_V11.md" in read
+assert (root/"docs/COMPACTAGE_GARAGE_V11.md").is_file()
+assert "4 clips" in read and "aucun œillet" in read
+assert "10 mm" in read
 assert (root/"docs/TOIT_BAC_ACIER_BOITE_LETTRES_V9.md").is_file()
 assert "9 STL" in cadread and "12 STEP" in cadread
 assert b["cad"]["usb_c_breakout_published_lwh_mm"] == m["design"]["usb_c_breakout_vendor_lwh_mm"] == [21,15,4.5]
@@ -93,7 +104,7 @@ assert "static constexpr uint8_t PIN_SERVO = D6" in firm
 assert "static constexpr uint8_t PIN_INTERIOR_LED = D7" in firm
 assert "static constexpr uint8_t PIN_AMBER_LED = D0" in firm
 assert "ANGLE_CLOSED = 15" in firm and "ANGLE_OPEN = 95" in firm
-for marker in ("V6", "150 × 100", "62 / 78", "2,4", "0,30",
+for marker in ("V6", "105,6 × 100", "55 mm", "62 / 78", "2,4", "0,30",
                "23,43", "Ø12", "Ø2,3", "Ø1,7", "0–90", "LoRa"):
     assert marker in read, ("README missing",marker)
 assert "V6" in cadread and "3 coupons" in cadread
