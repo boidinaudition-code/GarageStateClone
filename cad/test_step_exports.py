@@ -139,7 +139,7 @@ assert bom["cad"]["left_pier_width_mm"] == 11
 assert bom["cad"]["right_pier_width_mm"] == 39
 assert bom["cad"]["door_offset_from_center_mm"] == -14.0
 # USB-C 49067 manufacturer published outer envelope is NOT a connector STEP.
-# Carrier is part of the black base, so printable count stays eight.
+# Carrier is integral to black base; 10th printable piece is the slide-on chase lid.
 assert g.USB_C_BOARD_VENDOR_LWH_MM == (21.0,15.0,4.5)
 assert g.USB_C_REAR_APERTURE_WH == (10.0,4.2)
 assert g.USB_C_REAR_APERTURE_Z0 == 9.45
@@ -236,9 +236,9 @@ for k in ("xmin","xmax","ymin","ymax","zmin","zmax"):
 structure_path = ROOT / "step/GarageStateClone_V2_STRUCTURE_SANS_REFERENCES_ONSHAPE.step"
 assert structure_path.stat().st_size > 1000
 structure = cq.importers.importStep(str(structure_path)).val()
-assert structure.isValid() and len(structure.Solids()) == 9
-assert len(list((ROOT / "step").glob("*.step"))) == 12
-assert len(list((ROOT / "stl").glob("*.stl"))) == 9
+assert structure.isValid() and len(structure.Solids()) == 10
+assert len(list((ROOT / "step").glob("*.step"))) == 13
+assert len(list((ROOT / "stl").glob("*.stl"))) == 10
 
 def overlap(a, b):
     aa, bb = a.BoundingBox(), b.BoundingBox()
