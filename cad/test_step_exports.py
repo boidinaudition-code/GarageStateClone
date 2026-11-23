@@ -48,7 +48,7 @@ assert math.isclose(g.ATTIC_W,100.2,abs_tol=1e-8)
 assert g.ATTIC_PLATE_THICK == g.WALL == 2.4
 assert "07_faux_plafond_combles_XIAO" in g.PRINTABLE
 assert g.LEFT_PIER_W == g.OPEN_X == 11.0
-assert g.RIGHT_PIER_W == 39.0
+assert math.isclose(g.RIGHT_PIER_W,39.0,abs_tol=1e-8)
 assert g.door_x1 < g.right_jamb_return.BoundingBox().xmin
 # V9 user photo: roof standing seams on upper face; shallow glued black
 # mailbox in the white FRONT right pier; no change below the roof.
