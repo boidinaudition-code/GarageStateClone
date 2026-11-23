@@ -1,16 +1,18 @@
-# GarageStateClone — V14, fixation XIAO/Wio et câblage dissimulé
+# GarageStateClone — V15, façade fidèle au rendu et mécanique V14 préservée
 
 **Révision 23 novembre 2026.** Miniature de garage imprimée en 3D, **105,6 × 85 mm**, porte basculante noire **55 mm**, affichage d'état LoRa du garage réel sans commande du moteur réel. Le projet ne constitue pas un dispositif de sécurité.
 
 ## Géométrie actuelle et fonctionnalités
 
-| Élément | Conception V14 |
+| Élément | Conception V15 |
 |---|---|
 | Coque/socle | **105,6 × 85 mm**, blanche/noire, murs **2,4 mm** |
-| Toit | Noir amovible, hauteur **62 / 78 mm**, pente de 16 mm, **9 nervures bac acier sur pan et bandeau avant** |
+| Toit | Noir amovible, **62 / 78 mm**, 9 nervures bac acier sur pan et bandeau avant ; **2 rives surélevées et larmier frontal** |
 | Porte | Ouverture **55,6 × 42 mm**, vantail imprimé **55 × 41,4 × 2,4 mm**, jeu **0,30 mm** de chaque côté |
 | Montants | Gauche **11 mm**, droit servo **39 mm** |
-| Boîte aux lettres | Carré noir 7 × 7 mm collé dans niche blanche 7,6 × 7,6 mm, **10 mm** entre ouverture et plaque |
+| Boîte aux lettres | Carré noir **7 × 7 mm**, niche **7,6 × 7,6 mm**, **10 mm** après la baie ; **rectangle blanc de 5,1 × 0,8 mm** imprimé séparément et collé |
+| Porte piétonne décorative | À droite, **14 × 37,8 mm**, plaquée dans un logement **14,6 × 38,4 × 1 mm** ; **5 rainures**, cadre, traverse basse et poignée noire intégrée ; **fixe, non fonctionnelle** |
+| Interphone décoratif | Entre boîte et porte, façade gris métal **3 × 6,6 mm**, **objectif Ø1,12**, bouton Ø0,9 et **3 reliefs de grille** ; ni câblage ni électronique |
 | Palier de gauche | Bloc **4,6 × 12 × 12 mm**, tourillon Ø3,2 et alésage Ø3,8 |
 | Moteur | DFRobot DMS-MG90, 2 fixations d'oreilles Ø2/entraxe 29 mm, berceau à 2 goussets, 4 fixations au socle (dégagement Ø2,3 mm) |
 | Faux plafond | **100,2 × 25 × 2,4 mm**, de Y55 à Y80, démontable sous les combles |
@@ -19,6 +21,14 @@
 | Réception radio | XIAO nRF52840 + Wio-SX1262, **2 clips latéraux imprimés** sur le plateau, plus 4 plots et 2 fentes de collier de secours |
 | Câbles | **4 clips** le long du mur droit pour les fils du servo ; **goulotte arrière droite et fermée par couvercle coulissant**, aucun œillet bas |
 | Alimentation | Platine USB-C Gotronic 49067 sur socle noir, trou arrière **10 × 4,2 mm provisoire** |
+
+### Finition V15 correspondant au rendu approuvé
+
+Le visuel de référence présente, sur le montant droit du garage, une **porte piétonne noire à rainures verticales**, une **poignée horizontale**, un **interphone gris** avec objectif et bouton, et une **boîte aux lettres à trait blanc**. La version V15 modélise ces éléments en **trois nouvelles pièces STL/STEP à coller**, sans agrandir la coque **105,6 × 85 mm** : `12_porte_pietonne_noire`, `13_interphone_gris` et `14_insert_blanc_boite_lettres`. Le panneau droit conserve un **fond de mur blanc de 1,4 mm minimum** derrière ces inserts cosmétiques ; la porte piétonne et l'interphone sont **des trompe-l'œil, sans ouverture ni électricité**.
+
+Les deux nervures de rive et le larmier frontal sont désormais **fusionnés au toit noir amovible**, en plus des **9 profils du pan et de leur descente sur le bandeau**. La porte basculante de 55 mm, la LED orange à gauche, le servo DMS-MG90, la radio et la distribution USB-C sont inchangés. Les détails inférieurs au millimètre de l'interphone et la bande blanche peuvent demander une buse fine, de la peinture ou un collage à la pince selon le résultat de l'impression.
+
+Les cotes, les couleurs, l'ordre de collage et les limites du rapprochement visuel sont dans [**Façade décorative V15 : porte, interphone et boîte aux lettres**](docs/FACADE_REFERENCE_PORTE_INTERPHONE_V15.md). **Il s'agit d'un rendu esthétique, pas d'un relevé de la porte réelle.**
 
 ### Maintien du XIAO + LoRa par deux clips latéraux
 
@@ -58,7 +68,7 @@ Le nez de prise de la carte Gotronic 49067 et son câble mâle n'étant pas corr
 
 ## Impression, fichiers et validations
 
-La CAO paramétrique `cad/generate_cad.py` génère **10 STL imprimables**, **13 STEP** (10 pièces + deux assemblages + un XIAO simplifié) et **4 coupons de contrôle**. La nouvelle pièce s'appelle `11_couvercle_goulotte_arriere`. Les noms historiques « V2 » des STEP d'assemblage restent les mêmes, mais leur **contenu est V14**.
+La CAO paramétrique `cad/generate_cad.py` génère **13 STL imprimables**, **16 STEP** (13 pièces + deux assemblages + un XIAO simplifié) et **4 coupons de contrôle**. La V15 ajoute les pièces **12** (porte), **13** (interphone) et **14** (rectangle blanc) ; le couvercle `11_couvercle_goulotte_arriere` est conservé. Les noms historiques « V2 » des STEP d'assemblage restent les mêmes, mais leur **contenu est V15**.
 
 ```bash
 python cad/generate_cad.py
@@ -68,8 +78,8 @@ python cad/test_component_dimensions_sources.py
 python cad/test_hardware_bom.py
 ```
 
-Tests prévus : intégrité BREP, 10 STL étanches, 13 STEP, clips Wio vs référence Wio et XIAO, rails/couvercle sans intersections, LED Ø5/Ø5,9, couverture/toit et porte de 0 à 90°, compilation des deux firmwares. **Ces tests numériques ne prouvent pas l'ajustement mécanique réel**. **Tester** le montage à blanc du module XIAO/Wio, du couvercle et de la LED avant de finaliser l'impression. Faire un montage à blanc en PETG du faux plafond et de la goulotte.
+Tests prévus : intégrité BREP, 13 STL étanches, 16 STEP, clips Wio vs référence Wio et XIAO, rails/couvercle sans intersections, LED Ø5/Ø5,9, couverture/toit avec rives, façade et porte basculante de 0 à 90°, compilation des deux firmwares. **Ces tests numériques ne prouvent pas l'ajustement mécanique réel**. **Tester** le montage à blanc du module XIAO/Wio, du couvercle et de la LED avant de finaliser l'impression. Faire un montage à blanc en PETG du faux plafond et de la goulotte.
 
-[Conception et tolérances V14](docs/FIXATIONS_COMBLES_GOULOTTE_LED_V14.md) · [README CAO V14](cad/README.md) · [Sources des cotes](cad/component_dimensions_sources_v7.json) · [Nomenclature dimensionnelle](cad/bom_dimensions_v1.json) · [BOM composants](cad/hardware_bom_v5.json) · [GitHub Actions](.github/workflows/cad-validation.yml).
+[Conception mécanique héritée de V14](docs/FIXATIONS_COMBLES_GOULOTTE_LED_V14.md) · [README CAO V15](cad/README.md) · [Sources des cotes](cad/component_dimensions_sources_v7.json) · [Nomenclature dimensionnelle](cad/bom_dimensions_v1.json) · [BOM composants](cad/hardware_bom_v5.json) · [GitHub Actions](.github/workflows/cad-validation.yml).
 
 **Ne pas connecter cette maquette au secteur 230 V, aux commandes du moteur de garage ou à un circuit de sécurité.**
