@@ -1,94 +1,75 @@
-# GarageStateClone — Miniature de garage connectée (V13)
+# GarageStateClone — V14, fixation XIAO/Wio et câblage dissimulé
 
-**Version en cours : V13 — 23 novembre 2026.** Miniature imprimable de porte de garage, sur une base **105,6 × 85 mm**, dont la porte noire **55 mm** bascule vers l'intérieur. L'objet reflète approximativement l'état d'une vraie porte à travers une liaison **LoRa 868 MHz** entre deux kits Seeed XIAO nRF52840 / Wio-SX1262. **Il ne commande pas le moteur réel** et ne doit pas être utilisé comme dispositif de sécurité.
+**Révision 23 novembre 2026.** Miniature de garage imprimée en 3D, **105,6 × 85 mm**, porte basculante noire **55 mm**, affichage d'état LoRa du garage réel sans commande du moteur réel. Le projet ne constitue pas un dispositif de sécurité.
 
-## Géométrie actuelle
+## Géométrie actuelle et fonctionnalités
 
-| Élément | Cote ou principe V13 |
+| Élément | Conception V14 |
 |---|---|
-| Encombrement de la coque / du socle | **105,6 × 85 mm** |
-| Toit avant / arrière | **62 / 78 mm** de hauteur totale, 16 mm de montée sur 85 mm de profondeur |
-| Toit noir bac acier amovible | **9 nervures trapézoïdales** sur le pan et 9 alignées sur le bandeau descendant, pas de 11,5 mm |
-| Coque / toit / fond | Épaisseurs **2,4 / 3 / 3 mm** |
-| Ouverture en façade | **55,6 × 42 mm** |
-| **Porte noire imprimée** | **55 × 41,4 × 2,4 mm**, rainures décoratives, bascule rigide 0–90° en CAO |
-| Montants gauche / droit | **11 / 39 mm** ; servo placé dans le montant droit |
-| Boîte aux lettres | Pièce noire indépendante **7 × 7 mm**, dans une niche 7,6 × 7,6 mm ; **10 mm** entre le bord droit de l'ouverture et le bord noir visible |
-| Palier gauche | Bloc compact **4,6 × 12 × 12 mm**, tourillon **Ø3,2** dans alésage **Ø3,8** |
-| Faux plafond arrière amovible | **100,2 × 25 × 2,4 mm**, de Y55 à Y80 et à Z46 |
-| LED blanche | Sous le faux plafond, centrée en X52,8 / Y65, support indépendant à deux ergots |
-| LED orange | **Sous le palier gauche**, centre X5,3 / Z32,0, logement intégré au mur blanc |
-| USB-C arrière | Platine Gotronic **49067**, support intégré au socle, ouverture provisoire **10 × 4,2 mm** |
-| Câbles | **Aucun œillet bas** ; 4 clips en C sur mur droit vers le servo, plus goulotte verticale interne arrière |
+| Coque/socle | **105,6 × 85 mm**, blanche/noire, murs **2,4 mm** |
+| Toit | Noir amovible, hauteur **62 / 78 mm**, pente de 16 mm, **9 nervures bac acier sur pan et bandeau avant** |
+| Porte | Ouverture **55,6 × 42 mm**, vantail imprimé **55 × 41,4 × 2,4 mm**, jeu **0,30 mm** de chaque côté |
+| Montants | Gauche **11 mm**, droit servo **39 mm** |
+| Boîte aux lettres | Carré noir 7 × 7 mm collé dans niche blanche 7,6 × 7,6 mm, **10 mm** entre ouverture et plaque |
+| Palier de gauche | Bloc **4,6 × 12 × 12 mm**, tourillon Ø3,2 et alésage Ø3,8 |
+| Moteur | DFRobot DMS-MG90, 2 fixations d'oreilles Ø2/entraxe 29 mm, berceau à 2 goussets, 4 fixations au socle |
+| Faux plafond | **100,2 × 25 × 2,4 mm**, de Y55 à Y80, démontable sous les combles |
+| LED orange | Sous le palier gauche, centrée X5,3 / Z32, boîtier Ø9 intégré et trou de façade Ø2 |
+| LED blanche chaude | Sous le faux plafond, nouveau logement à collerette pour LED de type **GTG502WWC**, insertion par dessous |
+| Réception radio | XIAO nRF52840 + Wio-SX1262, **2 clips latéraux imprimés** sur le plateau, plus 4 plots et 2 fentes de collier de secours |
+| Câbles | **4 clips** le long du mur droit pour les fils du servo ; **goulotte arrière droite et fermée par couvercle coulissant**, aucun œillet bas |
+| Alimentation | Platine USB-C Gotronic 49067 sur socle noir, trou arrière **10 × 4,2 mm provisoire** |
 
-Le **boîtier** blanc conserve **0,30 mm de jeu de conception par face** aux emboîtements concernés. Les mesures de l'imprimante doivent confirmer ce jeu après les coupons.
+### Maintien du XIAO + LoRa par deux clips latéraux
 
-### LED orange : montage compact basé sur le plan fourni
+La pile des deux cartes repose au-dessus du faux plafond. Deux languettes verticales souples sont **imprimées sur le plateau**, de part et d'autre de la carte **Wio-SX1262**, au niveau Y64,2–68 mm. Les lèvres, à Z58,65–59,05, retiennent délicatement la carte du bas sans appuyer sur les composants du XIAO au-dessus. Les points d'appui sont calculés à partir des volumes des **STEP de référence** et prévoient une retenue latérale nominale d'environ **0,30 mm de chaque côté**.
 
-Le dessin de la LED orange transmis le 23/11/2026 indique : **corps Ø5 mm**, **collerette Ø5,9 mm**, **longueur optique jusqu'à l'arrière de la collerette 8,6 mm**, épaisseur de collerette **1,0 mm maximum**, pas des deux pattes **2,54 mm**, et pattes **27 mm minimum**.
+**Imprimer le faux plafond en PETG** pour la souplesse des languettes et engager le module sans forcer. La géométrie reste un **prototype : les contours réels, les composants saillants, l'antenne et la résistance à la fatigue doivent être vérifiés à blanc**. Les deux trous de sangle originaux sont conservés comme fixation alternative sans serrer les composants.
 
-La coque comporte un **petit fourreau imprimé d'un seul tenant, Ø9 mm extérieur**, placé **juste sous la tablette du palier gauche**. L'arrière est accessible : passage **Ø5,6 mm** pour le corps et lamage **Ø6,5 mm** pour la collerette (jeu radial nominal de 0,30 mm). Un **orifice optique discret Ø2 mm** subsiste côté façade, avec une LED reculée de 3,4 mm. La LED s'insère **par l'intérieur** et se retient, après essai, par une **petite goutte de silicone neutre compatible électronique** sur la collerette. **Aucun clip fragile ni pièce supplémentaire à imprimer**. Éviter la colle sur le dôme et isoler les pattes soudées ; ne pas confondre la longueur du corps avec les pattes de 27 mm, à adapter au câblage.
+### Goulotte fermée, fils droits
 
-Ce plan fourni par l'utilisateur est la référence dimensionnelle de la LED **orange** ; la géométrie de la LED **blanche WCS101** demeure une enveloppe provisoire distincte. La correspondance du plan avec le composant livré est à vérifier avant montage.
+La **goulotte intérieure du mur arrière** va de **Z14 à Z43**, avec un canal de **7,2 mm de largeur**. Ses trois retenues précédentes disposées en quinconce sont supprimées : plus besoin de contourner des obstacles. Les fils montent **verticalement** derrière un **couvercle indépendant de 7,9 × 1,1 × 27,8 mm**, glissé depuis le haut dans deux petites rainures latérales, **toit retiré**. Une prise en haut permet de retirer le couvercle ; les extrémités du canal restent libres pour faire entrer et sortir les fils. Le mur extérieur arrière reste plein, sauf le port USB-C.
 
-### Fixation du servo DMS-MG90 : plan constructeur et palonniers reçus
+La paroi n'est pas percée pour accéder aux combles. **Aucun collage du couvercle** : monter les fils, présenter la pièce, coulisser sans forcer. Vérifier que l'épaisseur cumulée des fils reste compatible avec la profondeur utile d'environ **2 mm derrière le couvercle**.
 
-Le fichier de cotes fabricant et la photo des **quatre formes de palonniers** (rond, croix, bras double, bras simple) ont été analysés. Le support imprimé du **DMS-MG90** intègre maintenant la position réelle de l'axe **6 mm depuis le bord du corps de 23 mm**, une envergure d'oreilles de **33 mm**, une largeur de **12 mm** et les deux encoches **Ø2 mm / entraxe 29 mm**. Dans la miniature, les pilotes sont à **Z25,4 et Z54,4**, calculés à partir du dessin constructeur plutôt que de la STEP générique.
+### LED blanche chaude : dimensions du PDF fourni
 
-Le **berceau du servo est renforcé par deux goussets triangulaires**, conserve quatre fixations indépendantes au socle et deux bosses Ø5,8 avec pilotes **Ø1,7 mm** pour les oreilles. Des **entrées coniques Ø2,3 × 0,45 mm** facilitent le départ des vis. Une fenêtre ouverte de **5 mm** permet de faire sortir proprement les trois fils, sans coincer leur gaine. Un **4ᵉ coupon** permet de tester l'entraxe et les vis du vrai servo avant l'impression complète.
+La fiche jointe porte la référence **GTG502WWC** et indique un **corps Ø5,0 mm**, une **collerette Ø5,9 mm**, une **tête de 8,6 mm**, une collerette d'épaisseur **1 mm maximum**, des pattes espacées de **2,54 mm**, de **29 ± 0,5 mm**. Électriquement, la fiche donne **3,0–3,4 V (3,2 V typique) à 20 mA** et **30 mA maximum en continu**.
 
-Pour entraîner le disque Ø12 vierge de la porte, **le palonnier circulaire photographié est le candidat privilégié**, mais son diamètre, son entraxe de trous, l'épaisseur du moyeu et les vis restent **non mesurés**. Aucun trou de palonnier n'a été inventé. La géométrie, les essais et les dernières mesures requises figurent dans le [**plan servo et palonniers V13**](docs/SERVO_DMS_MG90_PALONNIERS_V13.md).
+L'ancien support LED sous plafond, toujours indépendant avec **2 ergots Ø2 / logements Ø2,6**, reçoit maintenant un **alésage Ø6,5 mm par dessous**. On insère la LED dôme vers le garage, **collerette contre une butée à Z45,2**, avec la pointe de la lentille vers Z36,6 ; les deux pattes traversent un **passage Ø4,4 mm** jusqu'au faux plafond. Une goutte de **silicone neutre compatible électronique au bord inférieur** immobilise la LED après essai, sans second élément imprimé ni appui sur la lentille.
 
-### Électronique et servo
+**Attention à la référence :** la LED blanche initialement listée dans la nomenclature provient d'un assortiment **Whadda WCS101**. Le document fourni cote une **GTG502WWC** ; il n'est pas établi que les deux références soient strictement identiques. **Confirmer les cotes de la LED effectivement montée** avant d'imprimer le support définitif. Utiliser une résistance de limitation de courant adaptée au branchement réel, jamais la LED directement sur 5 V.
 
-Le DFRobot **DMS-MG90** est placé derrière le montant droit : deux encoches de fixation **Ø2 à entraxe 29 mm** (selon Z) et **2 pilotes de retenue Ø1,7 mm** sur le berceau ; le berceau se fixe au socle par **4 autres pilotes Ø1,7 / dégagements Ø2,3 mm**, indépendants. Le plan du fabricant situe le dessous des oreilles à **16,00 mm du fond du servo** et le support imprimé prévoit **0,30 mm de jeu axial**. La pièce côté porte porte un **disque Ø12 mm sans perçage de palonnier**, car l'entraxe réel des vis et la longueur sous tête ne sont pas connus.
+### Bornier SC02/2.54
 
-L'assemblage XIAO + Wio-SX1262 est dans les combles, sur quatre patins et deux emplacements de sangles, recentrés pour le faux plafond de **25 mm**. Le câblage monte de la prise USB-C par la **goulotte intérieure arrière** et rejoint le servo par les **quatre clips du mur droit**. Les deux anciennes longues glissières de PCB ont été retirées pour préserver la place autour du module de 22 mm environ. Les câbles d'antenne et USB-C doivent être présentés avec leurs rayons de courbure réels.
+Le schéma fourni donne un pas **2,54 mm**, une emprise de **6,5 mm en profondeur**, une hauteur de boîtier **8,5 mm**, des broches dépassant de **3,5 mm** et, pour la version **2 contacts**, une largeur calculée **5,48 mm** (formule `B = 2 × 2,54 + 0,4`). Il sera fixé au **petit circuit de distribution**, dont l'emplacement réel n'est pas défini : **aucun support de bornier fictif n'a été créé**.
 
-## Alimentation et branchements
+## Servo et porte
 
-Une **alimentation USB-C 5 V / 2 A minimum** arrive sur la platine femelle Gotronic 49067. Distribuer **5 V et GND en parallèle** vers le XIAO récepteur et le servo ; ajouter **470 µF / 16 V** entre +5 V et GND près du servo. **Ne pas alimenter le servo depuis la broche 3V3 du XIAO**. La commande du servo utilise **D6**, la LED blanche **D7** et la LED orange **D0** (pilotage actif à l'état bas selon le firmware).
+L'entraxe des deux encoches d'oreilles du DMS-MG90 est **29 mm**, avec des pilotes Ø1,7 à **Z25,4 et Z54,4** ; la sortie se situe à 6 mm du bord de son boîtier. Le berceau conserve ses **deux goussets**, son dégagement de câble de 5 mm et ses **quatre** points de fixation à la base. Pour la porte, **le palonnier circulaire** est à privilégier, mais son diamètre, son entraxe et son épaisseur réelle restent inconnus : le disque de liaison **Ø12** est conservé **sans perçages présumés**.
 
-Vérifier si la platine 49067 intègre déjà les deux résistances USB-C **5,1 kΩ entre CC1/GND et CC2/GND** ; les ajouter uniquement si absentes. Ne pas relier CC1 et CC2 ensemble. **Débrancher l'alimentation externe 5 V avant de relier le XIAO à un ordinateur pour le programmer**, sauf montage avec isolation validée.
+## Électricité et fonctionnement
 
-Le contour **10 × 4,2 mm** et la position du nez USB-C sont **provisoires** : Gotronic donne l'encombrement de carte **21 × 15 × 4,5 mm**, mais pas la position exacte du connecteur. Tester la carte et une fiche USB-C avant l'impression définitive de la coque.
+Un seul capteur magnétique **SAS308** indique la fermeture complète du garage réel. Contact ouvert : la position intermédiaire puis ouverte est **estimée**, et non mesurée. Sans nouvelles trames pendant 150 s, la liaison est considérée périmée.
 
-## Comportement du système
+Alimentation : **USB-C 5 V / 2 A minimum** vers un **bus 5 V et GND commun en parallèle**, XIAO et servo ; condensateur **470 µF / 16 V** près du servo. Ne jamais alimenter le servo par la broche **3V3 du XIAO**. Firmware : **D6 servo, D7 LED blanche, D0 LED orange** ; angles configurés 15° fermé et 95° ouvert. Vérifier les résistances **5,1 kΩ CC1/GND et CC2/GND** de la platine USB-C avant assemblage.
 
-Un **SAS308** à contact magnétique au garage réel confirme uniquement l'état **complètement fermé**. Le récepteur fait évoluer l'affichage de la miniature :
+Le nez de prise de la carte Gotronic 49067 et son câble mâle n'étant pas correctement cotés, l'ouverture de coque **10 × 4,2 mm reste provisoire**. Débrancher l'alimentation externe avant de connecter le XIAO à un ordinateur, à moins d'utiliser une isolation contrôlée. La miniature ne pilote pas la motorisation réelle.
 
-| Contact / communication | Interprétation | Miniature |
-|---|---|---|
-| Contact fermé | Porte réellement fermée (détection du capteur) | Fermée |
-| Contact ouvert, délai inférieur à 40 s | Non fermée | Position intermédiaire estimée, LED orange clignotante |
-| Contact ouvert au-delà de 40 s | Ouverte **présumée** | Ouverte estimée, LED blanche allumée |
-| Trames radio absentes depuis plus de 150 s | Liaison périmée | Dernière consigne retenue, signal LED de défaut |
+## Impression, fichiers et validations
 
-Les angles servo configurés restent **15° fermé / 95° ouvert** ; la CAO vérifie un mouvement de porte **0–90°**, mais le montage réel nécessitera un réglage mécanique du palonnier. Une vraie porte bloquée à mi-course peut être annoncée ouverte : il s'agit d'un **affichage décoratif d'état estimé, pas d'une alarme**.
-
-## Fabriquer, tester, importer dans Onshape
-
-Le script `cad/generate_cad.py` produit dans `cad/stl/` **9 STL imprimables**, dans `cad/step/` **12 STEP** (9 pièces, 1 assemblage avec références électroniques, 1 structure sans références tierces, 1 XIAO simplifié), et **4 coupons** pour l'axe Ø3,2, les pilotes M2 et le disque de palonnier. Le fichier d'assemblage conserve un nom historique contenant « V2 » : **la géométrie générée est V13**.
+La CAO paramétrique `cad/generate_cad.py` génère **10 STL imprimables**, **13 STEP** (10 pièces + deux assemblages + un XIAO simplifié) et **4 coupons de contrôle**. La nouvelle pièce s'appelle `11_couvercle_goulotte_arriere`. Les noms historiques « V2 » des STEP d'assemblage restent les mêmes, mais leur **contenu est V14**.
 
 ```bash
 python cad/generate_cad.py
 python cad/test_step_exports.py
 python cad/test_repo_consistency.py
-python cad/test_hardware_bom.py
 python cad/test_component_dimensions_sources.py
+python cad/test_hardware_bom.py
 ```
 
-La CI GitHub Actions valide la génération, les maillages et BREP, les exports STEP, la cohérence JSON/README, la compilation des firmwares, les jeux et la porte en rotation. Cela **ne remplace pas un essai mécanique imprimé**.
+Tests prévus : intégrité BREP, 10 STL étanches, 13 STEP, clips Wio vs référence Wio et XIAO, rails/couvercle sans intersections, LED Ø5/Ø5,9, couverture/toit et porte de 0 à 90°, compilation des deux firmwares. **Ces tests numériques ne prouvent pas l'ajustement mécanique réel**. Faire un montage à blanc en PETG du faux plafond et de la goulotte.
 
-**À contrôler à réception :** gabarit du vrai palonnier et vis DMS-MG90, position réelle du connecteur USB-C de la 49067, dégagement du câble d'antenne, et présentation de la LED orange dans son siège. Pour la première impression, faire les coupons, présenter les composants sans collage puis seulement finaliser la coque.
+[Conception et tolérances V14](docs/FIXATIONS_COMBLES_GOULOTTE_LED_V14.md) · [README CAO V14](cad/README.md) · [Sources des cotes](cad/component_dimensions_sources_v7.json) · [Nomenclature dimensionnelle](cad/bom_dimensions_v1.json) · [BOM composants](cad/hardware_bom_v5.json) · [GitHub Actions](.github/workflows/cad-validation.yml).
 
-## Documentation et fichiers
-
-- [Plan technique actuel V13 : berceau, composants et mesures restantes](docs/SERVO_DMS_MG90_PALONNIERS_V13.md)
-- [Sources CadQuery et README technique](cad/README.md)
-- [Catalogue des dimensions constructeur et du dessin LED orange](cad/component_dimensions_sources_v7.json)
-- [Nomenclature dimensionnelle courante](cad/bom_dimensions_v1.json)
-- [Nomenclature d'approvisionnement](cad/hardware_bom_v5.json)
-- [Actions CI / fichiers STEP et STL générés](.github/workflows/cad-validation.yml)
-
-**Ne jamais raccorder ce dispositif au secteur 230 V, à la commande du moteur de garage ni à une entrée de sécurité du portail.**
+**Ne pas connecter cette maquette au secteur 230 V, aux commandes du moteur de garage ou à un circuit de sécurité.**
