@@ -68,7 +68,7 @@ python cad/test_component_dimensions_sources.py
 python cad/test_hardware_bom.py
 ```
 
-Tests prévus : intégrité BREP, 10 STL étanches, 13 STEP, clips Wio vs référence Wio et XIAO, rails/couvercle sans intersections, LED Ø5/Ø5,9, couverture/toit et porte de 0 à 90°, compilation des deux firmwares. **Ces tests numériques ne prouvent pas l'ajustement mécanique réel**. Faire un montage à blanc en PETG du faux plafond et de la goulotte.
+Tests prévus : intégrité BREP, 10 STL étanches, 13 STEP, clips Wio vs référence Wio et XIAO, rails/couvercle sans intersections, LED Ø5/Ø5,9, couverture/toit et porte de 0 à 90°, compilation des deux firmwares. **Ces tests numériques ne prouvent pas l'ajustement mécanique réel**. **Tester** le montage à blanc du module XIAO/Wio, du couvercle et de la LED avant de finaliser l'impression. Faire un montage à blanc en PETG du faux plafond et de la goulotte.
 
 [Conception et tolérances V14](docs/FIXATIONS_COMBLES_GOULOTTE_LED_V14.md) · [README CAO V14](cad/README.md) · [Sources des cotes](cad/component_dimensions_sources_v7.json) · [Nomenclature dimensionnelle](cad/bom_dimensions_v1.json) · [BOM composants](cad/hardware_bom_v5.json) · [GitHub Actions](.github/workflows/cad-validation.yml).
 
