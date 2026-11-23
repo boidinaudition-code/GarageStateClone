@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""V13: cross-check firmware, CAD, BOM, supplied servo drawing and README.
+"""V14: cross-check firmware, CAD, BOM, user white LED drawing and current README.
 
 This test checks repository claims and source constants, NOT actual hardware fit.
 """
@@ -77,20 +77,37 @@ assert m["design"]["orange_led_at_bearing_left"] is True
 assert b["cad"]["mailbox_separate_black_part"] is True
 assert m["design"]["mailbox_insert_separate_stl"] is True
 assert b["cad"]["mailbox_print_part"] == "10_boite_aux_lettres_noire"
-assert b["cad"]["cad_printable_part_count"] == 9
-assert b["cad"]["cad_step_export_count"] == 12
+assert b["cad"]["cad_printable_part_count"] == m["design"]["cad_printable_count"] == 10
+assert b["cad"]["cad_step_export_count"] == m["design"]["cad_step_count"] == 13
+assert b["cad"]["internal_cable_riser_lips_z_mm"] == []
+assert b["cad"]["internal_cable_riser_lips_count"] == m["design"]["cable_riser_lip_count"] == 0
+assert b["cad"]["internal_cable_riser_cap_part_name"] == m["design"]["cable_riser_cover_part_name"] == "11_couvercle_goulotte_arriere"
+assert b["cad"]["internal_cable_riser_cover_nominal_xyz_mm"] == m["design"]["cable_riser_cover_nominal_xyz_mm"] == [7.9,1.1,27.8]
+assert b["cad"]["internal_cable_riser_cover_fit_each_side_mm"] == m["design"]["cable_riser_cover_fit_per_edge_mm"] == 0.2
+assert b["cad"]["pcb_side_clip_count"] == m["design"]["attic_wio_side_clip_count"] == 2
+assert b["cad"]["pcb_side_clip_post_x_mm"] == m["design"]["attic_wio_side_clip_x_posts_mm"] == [38.45,63.75]
+assert b["cad"]["white_led_drawing_body_flange_d_mm"] == m["design"]["white_led_drawing_body_flange_d_mm"] == [5,5.9]
+assert b["cad"]["white_led_drawing_head_length_mm"] == m["design"]["white_led_drawing_head_length_mm"] == 8.6
+assert b["cad"]["white_led_drawing_lead_length_nominal_tolerance_mm"] == m["design"]["white_led_drawing_lead_length_nominal_tolerance_mm"] == [29,0.5]
+assert b["cad"]["white_led_lower_insertion_flange_cavity_d_mm"] == m["design"]["white_led_holder_bore_d_mm"] == 6.5
+assert b["cad"]["white_led_upper_lead_exit_d_mm"] == m["design"]["white_led_lead_exit_hole_d_mm"] == 4.4
+assert b["cad"]["white_led_retention_stop_z_mm"] == m["design"]["white_led_holder_stop_z_mm"] == 45.2
+assert b["cad"]["white_led_source_match_actual_BOM_part_confirmed"] is False
+assert m["design"]["white_led_drawing_not_guaranteed_same_as_WCS101"] is True
 assert "bac acier" in read.lower() and "boîte aux lettres" in read.lower()
-assert "docs/PROFONDEUR_LED_V12.md" not in read, "main README only current V13"
-assert "docs/SERVO_DMS_MG90_PALONNIERS_V13.md" in read
+assert "docs/PROFONDEUR_LED_V12.md" not in read, "main README only current V14"
+assert "docs/FIXATIONS_COMBLES_GOULOTTE_LED_V14.md" in read
+assert (root/"docs/FIXATIONS_COMBLES_GOULOTTE_LED_V14.md").is_file()
 assert (root/"docs/SERVO_DMS_MG90_PALONNIERS_V13.md").is_file()
 assert (root/"docs/PROFONDEUR_LED_V12.md").is_file()
 assert "4 clips" in read and "Aucun œillet" in read
+assert "2 clips" in read and "PETG" in read and "couvercle" in read
 assert "10 mm" in read and "Ø5,9" in read
 # Single-version README: no old version sections or old garage depth.
-assert "V12" not in read and "V11" not in read and "V10" not in read and "V9" not in read
+assert "V13" not in read and "V12" not in read and "V11" not in read and "V10" not in read and "V9" not in read
 assert "105,6 × 100" not in read
 assert "100 × 42" not in read
-assert "9 STL" in cadread and "12 STEP" in cadread
+assert "10 STL" in cadread and "13 STEP" in cadread
 assert b["cad"]["usb_c_breakout_published_lwh_mm"] == m["design"]["usb_c_breakout_vendor_lwh_mm"] == [21,15,4.5]
 assert b["cad"]["usb_c_carrier_integrated_into"] == "02_socle_noir"
 assert b["cad"]["usb_c_rear_aperture_wh_mm"] == m["design"]["usb_c_rear_slot_wh_mm"] == [10,4.2]
@@ -99,8 +116,9 @@ assert b["cad"]["usb_c_port_only_reduced_aperture_provisional"] is True
 assert m["design"]["usb_c_port_only_provisional_cut"] is True
 assert b["cad"]["attic_rear_upper_wall_cutout_removed"] is True
 assert m["design"]["upper_rear_attic_external_hole_removed"] is True
-assert b["cad"]["internal_cable_riser_lips_z_mm"] == [19,29,39]
-assert m["design"]["cable_riser_lip_count"] == 3
+assert b["cad"]["internal_cable_riser_lips_z_mm"] == []
+assert m["design"]["cable_riser_lip_count"] == 0
+assert m["design"]["cable_riser_internal_rear_covered_straight_channel"] is True
 assert "bandeau" in read.lower() and "goulotte" in read.lower()
 assert "10 × 4,2" in read
 assert "7 × 7" in read
@@ -108,7 +126,7 @@ assert b["cad"]["usb_c_49067_socket_face_position_confirmed"] is False
 assert b["cad"]["usb_c_49067_CC_populated_confirmed"] is None
 assert b["cad"]["usb_c_old_low_power_exit_replaced"] is True
 assert "49067" in read and "5,1 kΩ" in read
-assert "docs/ALIMENTATION_USB_C_V8.md" not in read, "README must only show current V13"
+assert "docs/ALIMENTATION_USB_C_V8.md" not in read, "README must only show current V14"
 assert (root/"docs/ALIMENTATION_USB_C_V8.md").is_file()
 assert "USB-C" in (root/"docs/ALIMENTATION_USB_C_V8.md").read_text(encoding="utf-8")
 assert b["cad"]["servo_mount_screw_head_diameter_mm"] is None
@@ -130,21 +148,22 @@ assert "static constexpr uint8_t PIN_SERVO = D6" in firm
 assert "static constexpr uint8_t PIN_INTERIOR_LED = D7" in firm
 assert "static constexpr uint8_t PIN_AMBER_LED = D0" in firm
 assert "ANGLE_CLOSED = 15" in firm and "ANGLE_OPEN = 95" in firm
-for marker in ("V13", "105,6 × 85", "55 mm", "62 / 78", "2,4", "0,30",
+for marker in ("V14", "105,6 × 85", "55 mm", "62 / 78", "2,4", "0,30",
+               "PETG", "GTG502WWC", "couvercle", "2 clips", "4 coupons",
                "goussets", "6 mm", "29 mm", "4 coupons",
                "Ø12", "Ø2,3", "Ø1,7", "0–90", "LoRa", "25 × 2,4",
                "Ø5,9", "2,54", "27 mm", "49067", "SAS308"):
     assert marker in read, ("README missing",marker)
-assert "V13" in cadread and "4 coupons" in cadread
+assert "V14" in cadread and "4 coupons" in cadread
 assert "105,6 × 85" in cadread
-assert "V12" not in cadread and "V11" not in cadread and "V10" not in cadread and "V9" not in cadread
+assert "V13" not in cadread and "V12" not in cadread and "V11" not in cadread and "V10" not in cadread and "V9" not in cadread
 assert "Ø3,2" in read and "Ø3,8" in read
 # Old docs remain archived in the repo, but README must present only V13.
-assert "docs/SERVO_DMS_MG90_PALONNIERS_V13.md" in cadread
+assert "docs/FIXATIONS_COMBLES_GOULOTTE_LED_V14.md" in cadread
 assert (root/"docs/PROFONDEUR_LED_V12.md").is_file()
 assert len(list((root/"cad/refs").glob("*.brep.z.b64"))) == 4
 # Explicit non-certified assembly claims in canonical docs
 for token in ("palonnier", "non", "tester"):
     assert token in read.lower()
 assert "boîtier" in read.lower() and "SAS308" in read
-print("PASS cross-check V13: DMS-MG90 official shaft and ears, stiffened cradle, four coupons, firmware, latest-only README")
+print("PASS cross-check V14: PETG Wio side clips, straight slide-covered chase, user GTG502WWC LED, 10 STL/13 STEP, firmware")
