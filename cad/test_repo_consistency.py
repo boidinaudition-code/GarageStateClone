@@ -22,7 +22,7 @@ assert b["cad"]["cable_eyes_qty"] == m["design"]["cable_eye_qty"] == 0
 assert b["cad"]["compact_left_bearing_width_mm"] == m["design"]["compact_left_bearing_width_mm"] == 4.6
 assert b["cad"]["roof_bac_acier_rib_count"] == m["design"]["roof_bac_acier_rib_count"] == 9
 assert b["cad"]["roof_front_fascia_bac_acier_rib_count"] == m["design"]["roof_front_fascia_standing_seams_count"] == 9
-assert b["cad"]["mailbox_opening_to_black_left_gap_mm"] == m["design"]["mailbox_visible_gap_to_opening_mm"] == 10.0
+assert b["cad"]["mailbox_opening_to_black_left_gap_mm"] == m["design"]["mailbox_visible_gap_to_opening_mm"] == 5.0
 assert b["cad"]["shell_depth_mm"] == m["design"]["shell_mm"][1] == 85
 assert b["cad"]["attic_ceiling_depth_mm"] == m["design"]["attic_false_ceiling_mm"][1] == 25
 assert b["cad"]["service_tray_mm"] == [100.2,25]
@@ -77,27 +77,32 @@ assert m["design"]["orange_led_at_bearing_left"] is True
 assert b["cad"]["mailbox_separate_black_part"] is True
 assert m["design"]["mailbox_insert_separate_stl"] is True
 assert b["cad"]["mailbox_print_part"] == "10_boite_aux_lettres_noire"
-assert b["cad"]["cad_printable_part_count"] == m["design"]["cad_printable_count"] == 13
-assert b["cad"]["cad_step_export_count"] == m["design"]["cad_step_count"] == 16
+assert b["cad"]["cad_printable_part_count"] == m["design"]["cad_printable_count"] == 12
+assert b["cad"]["cad_step_export_count"] == m["design"]["cad_step_count"] == 15
 # Exact same signed-off visual-driven facade details in BOM, CAD manifest
 # and canonical README; facade is static and must not claim intercom works.
-assert b["cad"]["pedestrian_door_pocket_origin_xz_mm"] == m["design"]["pedestrian_door_pocket_xz_mm"] == [89.4,3.25]
-assert b["cad"]["pedestrian_door_pocket_wh_depth_mm"] == m["design"]["pedestrian_door_pocket_wh_depth_mm"] == [14.6,38.4,1.0]
-assert b["cad"]["pedestrian_door_black_panel_wh_t_mm"] == m["design"]["pedestrian_door_panel_wh_thickness_mm"] == [14.,37.8,0.76]
+assert b["cad"]["pedestrian_door_pocket_origin_xz_mm"] == m["design"]["pedestrian_door_pocket_xz_mm"] == [83.3,3.25]
+assert b["cad"]["pedestrian_door_pocket_wh_depth_mm"] == m["design"]["pedestrian_door_pocket_wh_depth_mm"] == [17.6,38.4,1.0]
+assert b["cad"]["pedestrian_door_black_panel_wh_t_mm"] == m["design"]["pedestrian_door_panel_wh_thickness_mm"] == [17.,37.8,0.76]
+assert b["cad"]["pedestrian_mailbox_black_face_gap_mm"] == m["design"]["pedestrian_mailbox_gap_mm"] == 5.0
+assert b["cad"]["pedestrian_black_left_x_mm"] == m["design"]["pedestrian_black_left_x_mm"] == 83.6
+assert b["cad"]["pedestrian_black_right_x_mm"] == m["design"]["pedestrian_black_right_x_mm"] == 100.6
+assert b["cad"]["mailbox_visible_black_left_x_mm"] == m["design"]["mailbox_black_left_x_mm"] == 71.6
+assert b["cad"]["mailbox_black_right_x_mm"] == m["design"]["mailbox_black_right_x_mm"] == 78.6
+assert b["cad"]["mailbox_pocket_xz_mm"] == m["design"]["mailbox_pocket_xz_mm"] == [71.3,25.5]
+assert b["cad"]["intercom_removed"] is True
+assert m["design"]["intercom_removed"] is True
+assert not any(k.startswith("intercom_") and k!="intercom_removed" for k in b["cad"])
+assert not any(k.startswith("intercom_") and k!="intercom_removed" for k in m["design"])
 assert b["cad"]["pedestrian_door_groove_count"] == m["design"]["pedestrian_door_grooves"] == 5
 assert b["cad"]["pedestrian_door_static_not_operable"] and m["design"]["pedestrian_door_is_non_operable_decor"]
-assert b["cad"]["intercom_mockup_pocket_origin_xz_mm"] == m["design"]["intercom_mockup_pocket_xz_mm"] == [84.8,27.9]
-assert b["cad"]["intercom_mockup_pocket_wh_depth_mm"] == m["design"]["intercom_mockup_pocket_wh_depth_mm"] == [3.6,7.2,0.95]
-assert b["cad"]["intercom_camera_button_d_mm"] == m["design"]["intercom_mockup_camera_button_diameters_mm"] == [1.12,0.9]
-assert b["cad"]["intercom_speaker_relief_count"] == m["design"]["intercom_mockup_speaker_slit_count"] == 3
-assert b["cad"]["intercom_functional"] is False
-assert m["design"]["intercom_mockup_nonfunctional"] is True
 assert b["cad"]["mailbox_white_inlay_wh_t_mm"] == m["design"]["mailbox_white_rectangle_wh_thickness_mm"] == [5.1,0.8,0.35]
 assert b["cad"]["roof_side_flashings_count"] == m["design"]["roof_side_flashing_count"] == 2
 assert b["cad"]["roof_side_flashings_rise_mm"] == m["design"]["roof_side_flashing_rise_mm"] == 0.55
 assert b["cad"]["roof_front_drip_depth_height_mm"] == m["design"]["roof_front_drip_depth_height_mm"] == [0.55,0.7]
 assert b["cad"]["mailbox_white_inlay_part"] == m["design"]["mailbox_white_rectangle_inlay_part"] == "14_insert_blanc_boite_lettres"
-assert all(k in read.lower() for k in ("interphone", "porte piétonne", "rectangle blanc", "larmier"))
+assert all(k in read.lower() for k in ("interphone supprimé", "porte piétonne", "rectangle blanc", "larmier"))
+assert "17 mm" in read and "5 mm" in read
 assert "docs/FACADE_REFERENCE_PORTE_INTERPHONE_V15.md" in read
 assert (root/"docs/FACADE_REFERENCE_PORTE_INTERPHONE_V15.md").is_file()
 assert b["cad"]["internal_cable_riser_lips_z_mm"] == []
@@ -123,12 +128,12 @@ assert (root/"docs/SERVO_DMS_MG90_PALONNIERS_V13.md").is_file()
 assert (root/"docs/PROFONDEUR_LED_V12.md").is_file()
 assert "4 clips" in read and "aucun œillet" in read.lower()
 assert "2 clips" in read and "PETG" in read and "couvercle" in read
-assert "10 mm" in read and "Ø5,9" in read
+assert "5 mm" in read and "Ø5,9" in read
 # Single-version README: no old version sections or old garage depth.
 assert "V13" not in read and "V12" not in read and "V11" not in read and "V10" not in read and "V9" not in read
 assert "105,6 × 100" not in read
 assert "100 × 42" not in read
-assert "13 STL" in cadread and "16 STEP" in cadread
+assert "12 STL" in cadread and "15 STEP" in cadread
 assert b["cad"]["usb_c_breakout_published_lwh_mm"] == m["design"]["usb_c_breakout_vendor_lwh_mm"] == [21,15,4.5]
 assert b["cad"]["usb_c_carrier_integrated_into"] == "02_socle_noir"
 assert b["cad"]["usb_c_rear_aperture_wh_mm"] == m["design"]["usb_c_rear_slot_wh_mm"] == [10,4.2]
@@ -187,4 +192,4 @@ assert len(list((root/"cad/refs").glob("*.brep.z.b64"))) == 4
 for token in ("palonnier", "non", "tester"):
     assert token in read.lower()
 assert "boîtier" in read.lower() and "SAS308" in read
-print("PASS cross-check V15: detailed pedestrian door/intercom/white letterbox inlay, 13 STL/16 STEP, original servo/radio/firmware preserved")
+print("PASS cross-check V15 revision: 5mm mailbox gaps and 17mm pedestrian door, intercom absent, 12 STL/15 STEP, firmware preserved")
