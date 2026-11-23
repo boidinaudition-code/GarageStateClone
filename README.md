@@ -1,10 +1,10 @@
-# GarageStateClone — Miniature de garage connectée (V12)
+# GarageStateClone — Miniature de garage connectée (V13)
 
-**Version en cours : V12 — 23 novembre 2026.** Miniature imprimable de porte de garage, sur une base **105,6 × 85 mm**, dont la porte noire **55 mm** bascule vers l'intérieur. L'objet reflète approximativement l'état d'une vraie porte à travers une liaison **LoRa 868 MHz** entre deux kits Seeed XIAO nRF52840 / Wio-SX1262. **Il ne commande pas le moteur réel** et ne doit pas être utilisé comme dispositif de sécurité.
+**Version en cours : V13 — 23 novembre 2026.** Miniature imprimable de porte de garage, sur une base **105,6 × 85 mm**, dont la porte noire **55 mm** bascule vers l'intérieur. L'objet reflète approximativement l'état d'une vraie porte à travers une liaison **LoRa 868 MHz** entre deux kits Seeed XIAO nRF52840 / Wio-SX1262. **Il ne commande pas le moteur réel** et ne doit pas être utilisé comme dispositif de sécurité.
 
 ## Géométrie actuelle
 
-| Élément | Cote ou principe V12 |
+| Élément | Cote ou principe V13 |
 |---|---|
 | Encombrement de la coque / du socle | **105,6 × 85 mm** |
 | Toit avant / arrière | **62 / 78 mm** de hauteur totale, 16 mm de montée sur 85 mm de profondeur |
@@ -30,6 +30,14 @@ Le dessin de la LED orange transmis le 23/11/2026 indique : **corps Ø5 mm**, **
 La coque comporte un **petit fourreau imprimé d'un seul tenant, Ø9 mm extérieur**, placé **juste sous la tablette du palier gauche**. L'arrière est accessible : passage **Ø5,6 mm** pour le corps et lamage **Ø6,5 mm** pour la collerette (jeu radial nominal de 0,30 mm). Un **orifice optique discret Ø2 mm** subsiste côté façade, avec une LED reculée de 3,4 mm. La LED s'insère **par l'intérieur** et se retient, après essai, par une **petite goutte de silicone neutre compatible électronique** sur la collerette. **Aucun clip fragile ni pièce supplémentaire à imprimer**. Éviter la colle sur le dôme et isoler les pattes soudées ; ne pas confondre la longueur du corps avec les pattes de 27 mm, à adapter au câblage.
 
 Ce plan fourni par l'utilisateur est la référence dimensionnelle de la LED **orange** ; la géométrie de la LED **blanche WCS101** demeure une enveloppe provisoire distincte. La correspondance du plan avec le composant livré est à vérifier avant montage.
+
+### Fixation du servo DMS-MG90 : plan constructeur et palonniers reçus
+
+Le fichier de cotes fabricant et la photo des **quatre formes de palonniers** (rond, croix, bras double, bras simple) ont été analysés. Le support imprimé du **DMS-MG90** intègre maintenant la position réelle de l'axe **6 mm depuis le bord du corps de 23 mm**, une envergure d'oreilles de **33 mm**, une largeur de **12 mm** et les deux encoches **Ø2 mm / entraxe 29 mm**. Dans la miniature, les pilotes sont à **Z25,4 et Z54,4**, calculés à partir du dessin constructeur plutôt que de la STEP générique.
+
+Le **berceau du servo est renforcé par deux goussets triangulaires**, conserve quatre fixations indépendantes au socle et deux bosses Ø5,8 avec pilotes **Ø1,7 mm** pour les oreilles. Des **entrées coniques Ø2,3 × 0,45 mm** facilitent le départ des vis. Une fenêtre ouverte de **5 mm** permet de faire sortir proprement les trois fils, sans coincer leur gaine. Un **4ᵉ coupon** permet de tester l'entraxe et les vis du vrai servo avant l'impression complète.
+
+Pour entraîner le disque Ø12 vierge de la porte, **le palonnier circulaire photographié est le candidat privilégié**, mais son diamètre, son entraxe de trous, l'épaisseur du moyeu et les vis restent **non mesurés**. Aucun trou de palonnier n'a été inventé. La géométrie, les essais et les dernières mesures requises figurent dans le [**plan servo et palonniers V13**](docs/SERVO_DMS_MG90_PALONNIERS_V13.md).
 
 ### Électronique et servo
 
@@ -60,7 +68,7 @@ Les angles servo configurés restent **15° fermé / 95° ouvert** ; la CAO vér
 
 ## Fabriquer, tester, importer dans Onshape
 
-Le script `cad/generate_cad.py` produit dans `cad/stl/` **9 STL imprimables**, dans `cad/step/` **12 STEP** (9 pièces, 1 assemblage avec références électroniques, 1 structure sans références tierces, 1 XIAO simplifié), et **3 coupons** pour l'axe Ø3,2, les pilotes M2 et le disque de palonnier. Le fichier d'assemblage conserve un nom historique contenant « V2 » : **la géométrie générée est V12**.
+Le script `cad/generate_cad.py` produit dans `cad/stl/` **9 STL imprimables**, dans `cad/step/` **12 STEP** (9 pièces, 1 assemblage avec références électroniques, 1 structure sans références tierces, 1 XIAO simplifié), et **4 coupons** pour l'axe Ø3,2, les pilotes M2 et le disque de palonnier. Le fichier d'assemblage conserve un nom historique contenant « V2 » : **la géométrie générée est V13**.
 
 ```bash
 python cad/generate_cad.py
@@ -76,7 +84,7 @@ La CI GitHub Actions valide la génération, les maillages et BREP, les exports 
 
 ## Documentation et fichiers
 
-- [Plan mécanique V12 : profondeur, implantation radio et fixation LED](docs/PROFONDEUR_LED_V12.md)
+- [Plan mécanique V13 : profondeur, implantation radio et fixation LED](docs/PROFONDEUR_LED_V13.md)
 - [Sources CadQuery et README technique](cad/README.md)
 - [Catalogue des dimensions constructeur et du dessin LED orange](cad/component_dimensions_sources_v7.json)
 - [Nomenclature dimensionnelle courante](cad/bom_dimensions_v1.json)
