@@ -60,9 +60,10 @@ RIGHT_PIER_W = W-OPEN_X-OPEN_W  # 39mm motor-side pier maintained
 OPEN_Z = BASE
 if abs(RIGHT_PIER_W-39.0)>1e-8:
     raise ValueError("Servo-side pier must stay 39mm, not scaled with the door")
-# V11: precisely 10mm between opening RIGHT EDGE and visible BLACK
-# mailbox plaque LEFT EDGE, not between opening and the recess edge.
-MAILBOX_GAP_OPEN_TO_BLACK=10.0
+# Current V15: 5.00mm nominal BETWEEN FINISHED BLACK FACES, not
+# between pockets: garage opening right->mailbox left and mailbox right->
+# pedestrian door left. Cosmetic inserts retain FIT=0.30mm each edge.
+MAILBOX_GAP_OPEN_TO_BLACK=5.0
 MAILBOX_POCKET_W=7.6
 MAILBOX_POCKET_H=7.6
 MAILBOX_POCKET_X0=OPEN_X+OPEN_W+MAILBOX_GAP_OPEN_TO_BLACK-FIT
@@ -74,14 +75,15 @@ MAILBOX_INSERT_H=MAILBOX_POCKET_H-2*FIT
 MAILBOX_INSERT_THICK=0.75
 MAILBOX_INSERT_X0=MAILBOX_POCKET_X0+FIT
 MAILBOX_INSERT_Z0=MAILBOX_POCKET_Z0+FIT
-# V15 cosmetic realism from user-approved render (reference, NOT a measured
-# building or a working pedestrian entrance). The compact 39mm servo-side
-# pier must still contain a 7mm mailbox at 10mm from the garage opening.
-# These extra parts are glue-in panels recessed no deeper than 1.0mm,
-# retaining >=1.4mm of the original 2.4mm white front wall.
-PEDESTRIAN_POCKET_X0=89.4
+# V15 updated face layout: 5 mm opening | 7 mm black mailbox | 5 mm |
+# 17 mm black pedestrian door. Combined =34mm within 39mm right pier.
+# Keep actual servo enclosure untouched: decorative front pockets only.
+PEDESTRIAN_MAILBOX_GAP_MM=5.0
+PEDESTRIAN_PANEL_TARGET_W=17.0
+PEDESTRIAN_POCKET_W=PEDESTRIAN_PANEL_TARGET_W+2*FIT
+PEDESTRIAN_POCKET_X0=(MAILBOX_INSERT_X0+MAILBOX_INSERT_W+
+                     PEDESTRIAN_MAILBOX_GAP_MM-FIT)
 PEDESTRIAN_POCKET_Z0=3.25
-PEDESTRIAN_POCKET_W=14.6
 PEDESTRIAN_POCKET_H=38.4
 PEDESTRIAN_POCKET_DEPTH=1.0
 PEDESTRIAN_PANEL_X0=PEDESTRIAN_POCKET_X0+FIT
@@ -95,21 +97,6 @@ PEDESTRIAN_GROOVE_W=0.42
 PEDESTRIAN_GROOVE_COUNT=5
 PEDESTRIAN_HANDLE_BASE_X=PEDESTRIAN_PANEL_X0+1.05
 PEDESTRIAN_HANDLE_Z=23.1
-# Intercom right of mailbox, left of pedestrian door. Camera/button
-# recesses on a single gray printable plate, black paint optional.
-INTERCOM_POCKET_X0=84.8
-INTERCOM_POCKET_Z0=27.9
-INTERCOM_POCKET_W=3.6
-INTERCOM_POCKET_H=7.2
-INTERCOM_POCKET_DEPTH=0.95
-INTERCOM_X0=INTERCOM_POCKET_X0+FIT
-INTERCOM_Z0=INTERCOM_POCKET_Z0+FIT
-INTERCOM_W=INTERCOM_POCKET_W-2*FIT
-INTERCOM_H=INTERCOM_POCKET_H-2*FIT
-INTERCOM_Y0=0.08
-INTERCOM_T=0.73
-INTERCOM_CAMERA_D=1.12
-INTERCOM_BUTTON_D=0.90
 # Separate white inlay above the black mailbox body, printed flat. A 0.8mm
 # high stripe is much more FDM-feasible than a 0.2mm letter-slot sliver.
 MAILBOX_WHITE_RECESS_W=5.5
@@ -563,31 +550,6 @@ pedestrian_handle_lever=box(PEDESTRIAN_HANDLE_BASE_X,
     2.85,0.65,0.55)
 pedestrian_door=pedestrian_door.fuse(
     pedestrian_handle_post).fuse(pedestrian_handle_lever).clean()
-# V15 intercom: camera Ø1.12, speaker relief and Ø0.9 button, one part.
-intercom_pocket=box(INTERCOM_POCKET_X0,-0.05,INTERCOM_POCKET_Z0,
-    INTERCOM_POCKET_W,INTERCOM_POCKET_DEPTH+0.05,INTERCOM_POCKET_H)
-shell=shell.cut(intercom_pocket).clean()
-intercom_face=box(INTERCOM_X0,INTERCOM_Y0,INTERCOM_Z0,
-    INTERCOM_W,INTERCOM_T,INTERCOM_H)
-INTERCOM_CENTER_X=INTERCOM_X0+INTERCOM_W/2
-INTERCOM_CAMERA_Z=INTERCOM_Z0+INTERCOM_H-1.25
-INTERCOM_BUTTON_Z=INTERCOM_Z0+1.25
-# Deeply engraved lens/buttons; dark paint fill gives reference appearance.
-intercom_face=intercom_face.cut(cyl_y(
-    INTERCOM_CENTER_X,INTERCOM_Y0-0.02,INTERCOM_CAMERA_Z,
-    INTERCOM_CAMERA_D,0.37))
-intercom_face=intercom_face.cut(cyl_y(
-    INTERCOM_CENTER_X,INTERCOM_Y0-0.02,INTERCOM_BUTTON_Z,
-    INTERCOM_BUTTON_D,0.34))
-# Speaker grille above the button. All engraving stays non-through.
-INTERCOM_SPEAKER_ZS=[INTERCOM_Z0+2.75,INTERCOM_Z0+3.30,
-                      INTERCOM_Z0+3.85]
-for sz in INTERCOM_SPEAKER_ZS:
-    intercom_face=intercom_face.cut(box(
-        INTERCOM_CENTER_X-0.75,INTERCOM_Y0-0.02,sz,
-        1.5,0.30,0.28))
-intercom_face=intercom_face.clean()
-
 # V14 straight chase. Rebates are machined into the INSIDE faces
 # of each rail, leaving >=1.25mm material in the rail. The cover slides
 # from the open TOP, captive in X/Y, with a hard stop at Z15.0.
@@ -952,7 +914,6 @@ PRINTABLE={
   '10_boite_aux_lettres_noire':mailbox_insert,
   '11_couvercle_goulotte_arriere':cable_riser_cover,
   '12_porte_pietonne_noire':pedestrian_door,
-  '13_interphone_gris':intercom_face,
   '14_insert_blanc_boite_lettres':mailbox_white_inlay,
 }
 
@@ -1111,7 +1072,6 @@ if __name__=='__main__':
        '10_boite_aux_lettres_noire':cq.Color(0.06,0.07,0.08),
        '11_couvercle_goulotte_arriere':cq.Color(0.96,0.96,0.95),
        '12_porte_pietonne_noire':cq.Color(0.08,0.09,0.10),
-       '13_interphone_gris':cq.Color(0.55,0.56,0.58),
        '14_insert_blanc_boite_lettres':cq.Color(0.98,0.98,0.96),
     }
     for name,s in PRINTABLE.items():
@@ -1140,11 +1100,9 @@ if __name__=='__main__':
         'decorative_pedestrian_panel_wh_thickness_mm':[PEDESTRIAN_PANEL_W,PEDESTRIAN_PANEL_H,PEDESTRIAN_PANEL_T],
         'pedestrian_door_groove_count':PEDESTRIAN_GROOVE_COUNT,
         'pedestrian_door_static_no_hardware':True,
-        'intercom_pocket_xz_mm':[INTERCOM_POCKET_X0,INTERCOM_POCKET_Z0],
-        'intercom_pocket_wh_depth_mm':[INTERCOM_POCKET_W,INTERCOM_POCKET_H,INTERCOM_POCKET_DEPTH],
-        'intercom_camera_button_d_mm':[INTERCOM_CAMERA_D,INTERCOM_BUTTON_D],
-        'intercom_speaker_grille_count':len(INTERCOM_SPEAKER_ZS),
-        'intercom_decorative_nonfunctional':True,
+        'pedestrian_mailbox_finished_face_gap_mm':PEDESTRIAN_MAILBOX_GAP_MM,
+        'pedestrian_black_panel_target_width_mm':PEDESTRIAN_PANEL_TARGET_W,
+        'pedestrian_black_left_x_mm':PEDESTRIAN_PANEL_X0,
         'mailbox_white_inlay_wh_thickness_mm':[MAILBOX_WHITE_INLAY_W,MAILBOX_WHITE_INLAY_H,MAILBOX_WHITE_INLAY_T],
         'bottom_cable_eyelets_removed':len(wire_eyes)==0,
         'servo_cable_clip_count':len(servo_cable_clips),
