@@ -158,7 +158,7 @@ assert "V14" in cadread and "4 coupons" in cadread
 assert "105,6 × 85" in cadread
 assert "V13" not in cadread and "V12" not in cadread and "V11" not in cadread and "V10" not in cadread and "V9" not in cadread
 assert "Ø3,2" in read and "Ø3,8" in read
-# Old docs remain archived in the repo, but README must present only V13.
+# Old docs remain archived in the repo, but README must present only V14.
 assert "docs/FIXATIONS_COMBLES_GOULOTTE_LED_V14.md" in cadread
 assert (root/"docs/PROFONDEUR_LED_V12.md").is_file()
 assert len(list((root/"cad/refs").glob("*.brep.z.b64"))) == 4
