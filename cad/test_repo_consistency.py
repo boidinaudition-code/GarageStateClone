@@ -100,7 +100,7 @@ assert "docs/FIXATIONS_COMBLES_GOULOTTE_LED_V14.md" in read
 assert (root/"docs/FIXATIONS_COMBLES_GOULOTTE_LED_V14.md").is_file()
 assert (root/"docs/SERVO_DMS_MG90_PALONNIERS_V13.md").is_file()
 assert (root/"docs/PROFONDEUR_LED_V12.md").is_file()
-assert "4 clips" in read and "Aucun œillet" in read
+assert "4 clips" in read and "aucun œillet" in read.lower()
 assert "2 clips" in read and "PETG" in read and "couvercle" in read
 assert "10 mm" in read and "Ø5,9" in read
 # Single-version README: no old version sections or old garage depth.
@@ -151,8 +151,8 @@ assert "ANGLE_CLOSED = 15" in firm and "ANGLE_OPEN = 95" in firm
 for marker in ("V14", "105,6 × 85", "55 mm", "62 / 78", "2,4", "0,30",
                "PETG", "GTG502WWC", "couvercle", "2 clips", "4 coupons",
                "goussets", "6 mm", "29 mm", "4 coupons",
-               "Ø12", "Ø2,3", "Ø1,7", "0–90", "LoRa", "25 × 2,4",
-               "Ø5,9", "2,54", "27 mm", "49067", "SAS308"):
+               "Ø12", "Ø2,3", "Ø1,7", "0 à 90°", "LoRa", "25 × 2,4",
+               "Ø5,9", "2,54", "29 ± 0,5", "49067", "SAS308"):
     assert marker in read, ("README missing",marker)
 assert "V14" in cadread and "4 coupons" in cadread
 assert "105,6 × 85" in cadread
