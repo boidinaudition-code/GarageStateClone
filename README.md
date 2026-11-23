@@ -8,12 +8,12 @@
 |---|---|
 | Encombrement de la coque / du socle | **105,6 × 85 mm** |
 | Toit avant / arrière | **62 / 78 mm** de hauteur totale, 16 mm de montée sur 85 mm de profondeur |
-| Toit noir amovible | **9 nervures trapézoïdales** sur le pan et 9 alignées sur le bandeau descendant, pas de 11,5 mm |
+| Toit noir bac acier amovible | **9 nervures trapézoïdales** sur le pan et 9 alignées sur le bandeau descendant, pas de 11,5 mm |
 | Coque / toit / fond | Épaisseurs **2,4 / 3 / 3 mm** |
 | Ouverture en façade | **55,6 × 42 mm** |
 | **Porte noire imprimée** | **55 × 41,4 × 2,4 mm**, rainures décoratives, bascule rigide 0–90° en CAO |
 | Montants gauche / droit | **11 / 39 mm** ; servo placé dans le montant droit |
-| Mailbox | Pièce noire indépendante **7 × 7 mm**, dans une niche 7,6 × 7,6 mm ; **10 mm** entre le bord droit de l'ouverture et le bord noir visible |
+| Boîte aux lettres | Pièce noire indépendante **7 × 7 mm**, dans une niche 7,6 × 7,6 mm ; **10 mm** entre le bord droit de l'ouverture et le bord noir visible |
 | Palier gauche | Bloc compact **4,6 × 12 × 12 mm**, tourillon **Ø3,2** dans alésage **Ø3,8** |
 | Faux plafond arrière amovible | **100,2 × 25 × 2,4 mm**, de Y55 à Y80 et à Z46 |
 | LED blanche | Sous le faux plafond, centrée en X52,8 / Y65, support indépendant à deux ergots |
@@ -21,7 +21,7 @@
 | USB-C arrière | Platine Gotronic **49067**, support intégré au socle, ouverture provisoire **10 × 4,2 mm** |
 | Câbles | **Aucun œillet bas** ; 4 clips en C sur mur droit vers le servo, plus goulotte verticale interne arrière |
 
-Le modèle conserve **0,30 mm de jeu de conception par face** aux emboîtements concernés. Les mesures de l'imprimante doivent confirmer ce jeu après les coupons.
+Le **boîtier** blanc conserve **0,30 mm de jeu de conception par face** aux emboîtements concernés. Les mesures de l'imprimante doivent confirmer ce jeu après les coupons.
 
 ### LED orange : montage compact basé sur le plan fourni
 
