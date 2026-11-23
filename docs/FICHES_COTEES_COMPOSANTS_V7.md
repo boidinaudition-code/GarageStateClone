@@ -1,3 +1,5 @@
+> **Actualisation limitée à la LED orange — plan fourni le 23/11/2026 :** les dimensions auparavant non documentées de la LED **orange** ont été communiquées par l'utilisateur : corps **Ø5,0 mm**, collerette **Ø5,9 mm**, longueur lentille–arrière de collerette **8,6 mm**, épaisseur de collerette **1,0 mm MAX**, entraxe des pattes **2,54 mm**, longueur des pattes **27 mm MIN**. Seule la fixation de la **LED orange** utilise ces cotes dans la **CAO V12** (douille arrière Ø5,6/Ø6,5 sous le palier gauche). **Les cotes de LED blanche WCS101 restent inconnues**. Le profil de la LED achetée doit correspondre au dessin reçu. Les cotes globales de ce document sont historiques : pour la géométrie courante **105,6 × 85 mm**, voir [le plan V12](PROFONDEUR_LED_V12.md).
+
 # Fiches techniques et plans cotés des composants — audit mécanique V7
 
 **22 novembre 2026 · Unités mm · cible CAD V6 : coque 150 × 100 mm, toit 62/78 mm.**
