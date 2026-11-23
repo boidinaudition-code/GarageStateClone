@@ -44,6 +44,18 @@ assert servo["visual_estimates_from_drawing_mm"]["lug_top_to_flat_case_top"] == 
 assert servo["visual_estimates_from_drawing_mm"]["lug_top_to_shaft_boss_top_excluding_shaft"] == 8.0
 assert all(v is None for v in servo["pending_physical_measurements_mm"].values())
 assert actual_drawing["lug_open_notch_diameter"] == 2
+assert actual_drawing["shaft_offset_from_near_case_end_in_lug_span"] == 6
+assert actual_drawing["case_length_on_drawing"] == 23
+assert actual_drawing["lug_span_with_open_notches"] == 33
+assert actual_drawing["shaft_offset_from_near_lug_end_derived"] == 11
+assert actual_drawing["shaft_feature_circular_diameters"] == [3,5]
+assert actual_drawing["upper_shoulder_levels_from_base"] == [22.5,26.5,30]
+assert actual_drawing["lug_notch_end_margin_each_side"] == 2
+assert "2026-11-23" in servo["secondary_confirmed_source"]
+assert "round" in servo["horn_photo_observation"]
+assert bom["cad"]["servo_actual_horn_hole_pitch_measured_mm"] is None
+assert bom["cad"]["servo_actual_horn_thickness_measured_mm"] is None
+assert not bom["cad"]["servo_horn_physical_verified"]
 assert servo["source"].lower().endswith(".pdf")
 assert servo["dimensions"]["lug_centres_pitch"] == bom["components"][1]["manufacturer_drawing_mm"]["lug_center_pitch"]
 
@@ -54,6 +66,11 @@ assert design["servo_vendor_step_oriented_xyz"] == [32.5, 12.221, 33.4]
 assert design["servo_official_oriented_xyz"] == [30, 12, 33]
 assert all(a>b for a,b in zip(design["servo_vendor_step_oriented_xyz"], design["servo_official_oriented_xyz"]))
 assert design["servo_ear_pitch_z"] == actual_drawing["lug_centres_pitch"] == bom["cad"]["servo_lug_pitch_mm"] == 29
+assert design["servo_shaft_offset_from_case_end_mm"] == 6
+assert design["servo_shaft_offset_from_near_ear_end_mm"] == 11
+assert design["servo_ear_z_centres_mm"] == [25.4,54.4]
+assert design["servo_cradle_gussets_count"] == 2
+assert design["servo_mount_trial_coupons_count"] == 4
 assert design["servo_ear_notch_nominal_d"] == 2
 assert design["servo_ear_3d_printed_pilot_d"] == 1.7
 assert design["servo_mounting_screw_count"] == 2

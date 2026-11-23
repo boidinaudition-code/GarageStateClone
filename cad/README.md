@@ -1,10 +1,10 @@
-# CAO paramétrique — GarageStateClone V12
+# CAO paramétrique — GarageStateClone V13
 
 **Dimensions courantes en millimètres.** Le script `generate_cad.py` exporte **9 STL imprimables et 12 STEP** à partir des paramètres ci-dessous. Les quatre références BREP fournisseurs sont importées sans les modifier. Les anciennes cotes de construction ne sont pas applicables à cette version.
 
 ## Géométrie, implantation et matériaux
 
-| Sous-ensemble | Paramètre V12 |
+| Sous-ensemble | Paramètre V13 |
 |---|---|
 | Coque et socle | **105,6 × 85 mm**, blanc / noir |
 | Haut de la toiture | **62 / 78 mm** avant / arrière |
@@ -42,6 +42,16 @@ La platine USB-C (enveloppe constructeur **21 × 15 × 4,5 mm**) est translatée
 
 La goulotte verticale reste sur le mur arrière intérieur, à X90..100,8, Y78,6..82,72, Z14..43. Les 4 clips C latéraux droit (passage Ø3,4, fente de 2,2 mm) guident les fils depuis l'entrée du faux plafond jusqu'au servo. L'extérieur arrière est plein sauf **l'ouverture USB-C basse de 10 × 4,2 mm**.
 
+## Berceau moteur renforcé et palonniers photographiés (V13)
+
+Le plan coté exact du **DFRobot DMS-MG90** apporte des cotes supplémentaires : corps **23 × 12 mm**, oreilles **33 mm**, sortie **6 mm depuis le bord proche du boîtier**, deux encoches **Ø2 / entraxe 29 mm**, niveaux du capot **16 / 22,5 / 26,5 / 30 mm**, fonctions circulaires Ø3 et Ø5. Le servo reste orienté selon X et logé dans le montant droit de 39 mm.
+
+Les axes des deux pilotes sont désormais calculés sans dépendre de la bbox du STEP tiers : un corps centré entre oreilles donne 5 mm de marge par côté, donc la sortie est à 11 mm de l'oreille proche ; pilotes **Z25,4 / Z54,4** pour la porte à Z45,4. Le plan de serrage reste à **+14,3 mm derrière le bout d'arbre** (cote constructeur 16 mm depuis le fond et 0,30 mm de jeu).
+
+Le support `06_support_servo_step_0p3mm_PROTOTYPE` possède maintenant **2 goussets triangulaires** (épaisseur X1,8 mm), **2 pilotes Ø1,7** avec amorce conique **Ø2,3 sur 0,45**, et une **fenêtre de sortie du câble de 5 mm** dans sa bordure arrière. Les **4 vis au socle sont conservées**. Un **4ᵉ coupon** `D_DMS_MG90_oreilles_entraxe29_pilotes_D1p7` permet de vérifier les oreilles et les vis sur le véritable moteur.
+
+Sur la photo des accessoires, le **palonnier circulaire** est le candidat logique pour entraîner le disque Ø12 de la porte, mais aucune échelle du diamètre, des trous ou des vis n'est fournie. **Le disque reste vierge** et la connexion ne sera pas qualifiée tant que le palonnier ne sera pas mesuré. Voir [les cotes et l'essai V13](../docs/SERVO_DMS_MG90_PALONNIERS_V13.md).
+
 ## Servo et limites physiques
 
 Le DMS-MG90 a deux encoches **Ø2 mm, entraxe 29 mm**, représentées par 2 perçages pilotes **Ø1,7**, ainsi que **4 pilotes** du berceau vers le socle (**Ø1,7**, trous de dégagement **Ø2,3**). La position des bossages utilise la cote constructeur **16,00 mm du dessous des oreilles au fond**, avec **0,30 mm de jeu**.
@@ -60,8 +70,8 @@ python cad/test_component_dimensions_sources.py
 python cad/test_hardware_bom.py
 ```
 
-Les fichiers imprimables vont dans `cad/stl/`, les pièces et les 2 assemblages STEP plus la représentation XIAO simplifiée dans `cad/step/`, les **3 coupons** dans `cad/coupons/`. Les STEP d'assemblage gardent un **nom historique avec « V2 »**, mais sont recalculés en V12. Pour **Onshape**, importer de préférence `GarageStateClone_V2_STRUCTURE_SANS_REFERENCES_ONSHAPE.step`, puis les références si nécessaires.
+Les fichiers imprimables vont dans `cad/stl/`, les pièces et les 2 assemblages STEP plus la représentation XIAO simplifiée dans `cad/step/`, les **4 coupons** dans `cad/coupons/`. Les STEP d'assemblage gardent un **nom historique avec « V2 »**, mais sont recalculés en V13. Pour **Onshape**, importer de préférence `GarageStateClone_V2_STRUCTURE_SANS_REFERENCES_ONSHAPE.step`, puis les références si nécessaires.
 
 **Tests numériques obligatoires avant merge :** formes et maillages 9/12, vérification source BREP, collisions entre composants référencés et coque/toit/porte/servomoteur, jeu de l'axe Ø3,2, porte **0–90°**, dimensions de la douille orange, dégagement du palier, emplacement XIAO/Wio dans les combles Y55..80, et cohérence des valeurs de la nomenclature.
 
-[README principal V12](../README.md) · [Cotes et justification de la profondeur/LED](../docs/PROFONDEUR_LED_V12.md) · [BOM JSON](bom_dimensions_v1.json) · [Plan d'orange fourni : dimensions consignées ici](component_dimensions_sources_v7.json).
+[README principal V13](../README.md) · [Cotes et plan d'assemblage actuels](../docs/SERVO_DMS_MG90_PALONNIERS_V13.md) · [BOM JSON](bom_dimensions_v1.json) · [Plan d'orange fourni : dimensions consignées ici](component_dimensions_sources_v7.json).

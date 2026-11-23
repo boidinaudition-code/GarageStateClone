@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""V12: cross-check firmware, CAD, BOM, source drawing and current README.
+"""V13: cross-check firmware, CAD, BOM, supplied servo drawing and README.
 
 This test checks repository claims and source constants, NOT actual hardware fit.
 """
@@ -49,6 +49,15 @@ assert b["cad"]["servo_lug_support_face_from_shaft_tip_nominal_mm"] == m["design
 assert b["cad"]["servo_lug_mount_axial_clearance_mm"] == m["design"]["servo_lug_printed_boss_axial_fit_mm"] == 0.3
 assert m["design"]["servo_mount_visual_estimates_drive_geometry"] is False
 assert b["cad"]["servo_lug_boss_d_mm"] == 5.8
+assert b["cad"]["servo_dms_mg90_drawing_exact_ear_case_y_width_mm"] == m["design"]["servo_dms_mg90_drawing_exact_ear_case_width_mm"] == [33,23,12]
+assert b["cad"]["servo_dms_mg90_drawing_output_axis_case_end_offset_mm"] == m["design"]["servo_dms_mg90_shaft_from_case_end_mm"] == 6
+assert b["cad"]["servo_dms_mg90_drawing_output_axis_near_ear_end_offset_mm"] == m["design"]["servo_dms_mg90_shaft_from_near_ear_end_mm"] == 11
+assert b["cad"]["servo_lug_centres_z_from_drawing_mm"] == m["design"]["servo_ear_centres_z_from_drawing_mm"] == [25.4,54.4]
+assert b["cad"]["servo_pilot_entrance_d_depth_mm"] == m["design"]["servo_ear_pilot_leadin_d_depth_mm"] == [2.3,0.45]
+assert b["cad"]["servo_spine_gussets_count"] == m["design"]["servo_rear_spine_gussets_count"] == 2
+assert b["cad"]["servo_cable_exit_notch_upper_width_x_mm"] == m["design"]["servo_cable_exit_notch_x_width_mm"] == 5
+assert b["cad"]["optional_print_calibration_coupons_count"] == m["design"]["calibration_coupons_count"] == 4
+assert "D_DMS_MG90_oreilles_entraxe29" in (root/"cad/generate_fit_coupons.py").read_text()
 assert b["cad"]["usb_c_breakout_vendor_code"] == m["design"]["usb_c_breakout_code"] == "Gotronic 49067"
 # V9 photo-derived roof/letterbox geometry: no electrical or hardware change.
 assert b["cad"]["roof_bac_acier_rib_count"] == m["design"]["roof_bac_acier_rib_count"] == 9
@@ -71,12 +80,14 @@ assert b["cad"]["mailbox_print_part"] == "10_boite_aux_lettres_noire"
 assert b["cad"]["cad_printable_part_count"] == 9
 assert b["cad"]["cad_step_export_count"] == 12
 assert "bac acier" in read.lower() and "boîte aux lettres" in read.lower()
-assert "docs/PROFONDEUR_LED_V12.md" in read
+assert "docs/PROFONDEUR_LED_V12.md" not in read, "main README only current V13"
+assert "docs/SERVO_DMS_MG90_PALONNIERS_V13.md" in read
+assert (root/"docs/SERVO_DMS_MG90_PALONNIERS_V13.md").is_file()
 assert (root/"docs/PROFONDEUR_LED_V12.md").is_file()
 assert "4 clips" in read and "Aucun œillet" in read
 assert "10 mm" in read and "Ø5,9" in read
 # Single-version README: no old version sections or old garage depth.
-assert "V11" not in read and "V10" not in read and "V9" not in read
+assert "V12" not in read and "V11" not in read and "V10" not in read and "V9" not in read
 assert "105,6 × 100" not in read
 assert "100 × 42" not in read
 assert "9 STL" in cadread and "12 STEP" in cadread
@@ -97,7 +108,7 @@ assert b["cad"]["usb_c_49067_socket_face_position_confirmed"] is False
 assert b["cad"]["usb_c_49067_CC_populated_confirmed"] is None
 assert b["cad"]["usb_c_old_low_power_exit_replaced"] is True
 assert "49067" in read and "5,1 kΩ" in read
-assert "docs/ALIMENTATION_USB_C_V8.md" not in read, "README must only show current V12"
+assert "docs/ALIMENTATION_USB_C_V8.md" not in read, "README must only show current V13"
 assert (root/"docs/ALIMENTATION_USB_C_V8.md").is_file()
 assert "USB-C" in (root/"docs/ALIMENTATION_USB_C_V8.md").read_text(encoding="utf-8")
 assert b["cad"]["servo_mount_screw_head_diameter_mm"] is None
@@ -119,20 +130,21 @@ assert "static constexpr uint8_t PIN_SERVO = D6" in firm
 assert "static constexpr uint8_t PIN_INTERIOR_LED = D7" in firm
 assert "static constexpr uint8_t PIN_AMBER_LED = D0" in firm
 assert "ANGLE_CLOSED = 15" in firm and "ANGLE_OPEN = 95" in firm
-for marker in ("V12", "105,6 × 85", "55 mm", "62 / 78", "2,4", "0,30",
+for marker in ("V13", "105,6 × 85", "55 mm", "62 / 78", "2,4", "0,30",
+               "goussets", "6 mm", "29 mm", "4 coupons",
                "Ø12", "Ø2,3", "Ø1,7", "0–90", "LoRa", "25 × 2,4",
                "Ø5,9", "2,54", "27 mm", "49067", "SAS308"):
     assert marker in read, ("README missing",marker)
-assert "V12" in cadread and "3 coupons" in cadread
+assert "V13" in cadread and "4 coupons" in cadread
 assert "105,6 × 85" in cadread
-assert "V11" not in cadread and "V10" not in cadread and "V9" not in cadread
+assert "V12" not in cadread and "V11" not in cadread and "V10" not in cadread and "V9" not in cadread
 assert "Ø3,2" in read and "Ø3,8" in read
-# Old docs remain archived in the repo, but README must present only V12.
-assert "docs/PROFONDEUR_LED_V12.md" in cadread
+# Old docs remain archived in the repo, but README must present only V13.
+assert "docs/SERVO_DMS_MG90_PALONNIERS_V13.md" in cadread
 assert (root/"docs/PROFONDEUR_LED_V12.md").is_file()
 assert len(list((root/"cad/refs").glob("*.brep.z.b64"))) == 4
 # Explicit non-certified assembly claims in canonical docs
 for token in ("palonnier", "non", "tester"):
     assert token in read.lower()
 assert "boîtier" in read.lower() and "SAS308" in read
-print("PASS cross-check V12: cabinet85, attic25, LED drawing, firmware roles/pins, latest-only README")
+print("PASS cross-check V13: DMS-MG90 official shaft and ears, stiffened cradle, four coupons, firmware, latest-only README")

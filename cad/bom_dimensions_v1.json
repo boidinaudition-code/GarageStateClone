@@ -345,7 +345,7 @@
     "orange_led_center_z_mm": 32,
     "orange_holder_outer_diameter_mm": 9,
     "orange_holder_min_radial_wall_mm": 1.25,
-    "dimensions_note": "V12: keeps 105.6mm width, 55.0mm actual door, opening55.6 with 0.3 per face, right 39mm servo pier, mailbox 10mm gap. Depth 100->85mm by cutting back 15mm and attic 40->25mm; radio and USB carrier moved toward front. Orange LED drawing from user: Ø5 body Ø5.9 flange 8.6mm length, mounted beneath left bearing without separate clip. Print qualification pending.",
+    "dimensions_note": "V13: base105.6x85, 55mm door; DMS-MG90 plan: case23, ears33, transverse12, shaft offset6 from case end (11 from near ear end), 29 pitch. Revised servo cradle + coupon D for ears. Horn pattern remains unknown, even though photo shows a round horn; real measurement is required.",
     "front_jamb_return_depth_mm": 10,
     "front_jamb_return_thickness_mm": 2.4,
     "left_pivot_jamb_bore_mm": 3.8,
@@ -394,7 +394,7 @@
       5.5
     ],
     "servo_foot_min_radial_wall_mm": 2.15,
-    "servo_retention": "two printed lug pilot bosses spaced 29mm with back-wall spine (replacing thin upper snap clip); fastening trials required",
+    "servo_retention": "two manufacturer-positioned M2 pilots 29mm apart; stiffened outer spine with two triangular gussets; service window in rear saddle fence; full hole pilot depth retained 6.8mm. Must verify assembled actual servo and horn",
     "bearing_mount": "reduced 4.6x12x12 mm bearing; shelf on white shell at Z39.4, contact on underface, glued after dry-fit; Ø3.8 bore for Ø3.2 printed pin, not mechanically confirmed",
     "cable_eyes_qty": 0,
     "cable_eye_diameters_mm": null,
@@ -453,7 +453,7 @@
       "horn_blank_12mm"
     ],
     "fit_coupons_hardware_verified": false,
-    "physical_mechanical_status": "V12 CAD tests only: real USB-C Gotronic 49067 receptacle position, physical servo horn and screws, LED electrical/bending and radio coax bend radii unverified.",
+    "physical_mechanical_status": "V13 CAO prototype: two ear holes positioned from manufacturer dimensioned plan, generic STEP remains non-identical. Horn dimensions, actual screws, electrical/USB and print fit not yet measured.",
     "servo_official_dms_mg90_lwh_mm": [
       33,
       12,
@@ -685,7 +685,50 @@
     "orange_led_mount_retention": "no additional printed part: rear insertion into integrated socket, low-pressure drop electronics-safe neutral silicone at flange after function test; insulated leads",
     "radio_y_reference_shift_from_v11_mm": -11.5,
     "attic_old_pcb_y_guide_rails_removed": true,
-    "garage_depth_reduction_from_v11_mm": 15
+    "garage_depth_reduction_from_v11_mm": 15,
+    "servo_dms_mg90_drawing_exact_ear_case_y_width_mm": [
+      33,
+      23,
+      12
+    ],
+    "servo_dms_mg90_drawing_circular_feature_d_mm": [
+      3,
+      5
+    ],
+    "servo_dms_mg90_drawing_case_levels_x_from_base_mm": [
+      16,
+      22.5,
+      26.5,
+      30
+    ],
+    "servo_dms_mg90_drawing_output_axis_case_end_offset_mm": 6,
+    "servo_dms_mg90_drawing_output_axis_near_ear_end_offset_mm": 11,
+    "servo_lug_centres_z_from_drawing_mm": [
+      25.4,
+      54.4
+    ],
+    "servo_lug_pilots_origin": "directly from dimensioned drawing: ear span33, body span23, shaft from near case end6, screw pitch29, ear margin2; NOT centred on generic MG90-A bounding box",
+    "servo_pilot_entrance_d_depth_mm": [
+      2.3,
+      0.45
+    ],
+    "servo_spine_gussets_count": 2,
+    "servo_spine_gussets_x_thickness_mm": 1.8,
+    "servo_spine_gussets_y_reach_mm": 5.4,
+    "servo_cable_exit_notch_upper_width_x_mm": 5,
+    "servo_cable_exit_notch_leaves_sill_mm": 2.4,
+    "servo_actual_horn_styles_from_photo": [
+      "round disk",
+      "cross 4-arm",
+      "double straight arm",
+      "single arm"
+    ],
+    "servo_preferred_horn_for_door": "round disk, to be measured and matched to Ø12 blank drive before drilling; no horn screw holes generated",
+    "servo_actual_horn_hole_pitch_measured_mm": null,
+    "servo_actual_horn_center_screw_diameter_measured_mm": null,
+    "servo_actual_horn_thickness_measured_mm": null,
+    "servo_cradle_current_design": "V13 two M2 ear pilot bosses 29mm pitch anchored via rear spine and two triangular reinforcing gussets. Shallow Ø2.3 ×0.45 pilot entrances; rear fence cable service notch; four independent base M2 feet unchanged. Screws not measured.",
+    "optional_print_calibration_coupons_count": 4
   },
   "system_state": {
     "sensor_count": 1,

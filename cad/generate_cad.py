@@ -98,6 +98,18 @@ SERVO_SCREW_HEAD_D = 4.2
 # 30 mm along output axis = garage X, 12 mm transverse = garage Y.
 # Supplied generic MG90-A STEP bounds (garage X,Y,Z)=(32.5,12.221,33.4).
 # Earlier claim of 0.05mm end clearance mistakenly compared different axes.
+# Actual DMS-MG90 dimensioned drawing supplied 23/11/2026.
+# Garage axes: output shaft X, width Y, ear span Z.
+# The 23mm case is centered in the 33mm ear span (5mm end margins).
+# Shaft is 6mm from the NEAR case end => 11mm from near ear end.
+SERVO_DRAWING_EAR_SPAN_Z=33.0
+SERVO_DRAWING_CASE_SPAN_Z=23.0
+SERVO_DRAWING_CASE_WIDTH_Y=12.0
+SERVO_DRAWING_SHAFT_OFFSET_FROM_CASE_END_Z=6.0
+SERVO_DRAWING_SHAFT_OFFSET_FROM_NEAR_EAR_END_Z=(SERVO_DRAWING_EAR_SPAN_Z-SERVO_DRAWING_CASE_SPAN_Z)/2+SERVO_DRAWING_SHAFT_OFFSET_FROM_CASE_END_Z
+SERVO_DRAWING_SHAFT_FEATURE_DIAMETERS=(3.0,5.0)
+SERVO_DRAWING_UPPER_LEVELS_FROM_BASE_X=(22.5,26.5,30.0)
+SERVO_DRAWING_LUG_END_MARGIN_Z=(33.0-29.0)/2
 SERVO_OFFICIAL_ORIENTED_XYZ=(30.0,12.0,33.0)
 SERVO_VENDOR_ORIENTED_XYZ=(32.5,12.221,33.4)
 SERVO_LUG_PITCH=29.0   # manufacturer drawing, two open-ended Ø2 notches
@@ -113,6 +125,11 @@ SERVO_LUG_BOSS_X_FROM_SHAFT_TIP = (
     SERVO_OFFICIAL_ORIENTED_XYZ[0] - SERVO_LUG_UNDERSIDE_FROM_BASE + FIT
 )  # 14.30 mm: 0.30 mm printed clearance, not a tight press-fit
 SERVO_LUG_BOSS_LENGTH=6.8
+SERVO_LUG_PILOT_LEADIN_D=2.3
+SERVO_LUG_PILOT_LEADIN_DEPTH=0.45
+SERVO_SPINE_GUSSET_X_THICK=1.8
+SERVO_SPINE_GUSSET_Y_REACH=5.4
+SERVO_CABLE_WINDOW_WIDTH_X=5.0
 # Provisional visual estimates supplied 2026-11-22, NOT machining datums.
 # Do not use these to drive any tight feature or hole / fastener fit.
 SERVO_LUG_THICKNESS_EST_MM=2.5
@@ -521,6 +538,15 @@ cradle=box(cradle_xmin,cradle_ymin,cradle_z_top-2.4,
            cradle_xmax-cradle_xmin,cradle_ymax-cradle_ymin,2.4)
 cradle=cradle.fuse(box(cradle_xmin,cradle_ymax,cradle_z_top-2.4,
                       cradle_xmax-cradle_xmin,2.4,6.0))
+# Upper cable exit notch in the rear saddle wall (far end of servo).
+# Leaves a continuous 2.4mm-high sill. The actual cable exit direction
+# has not been manufacturer-dimensioned: this is open service clearance.
+SERVO_CABLE_WINDOW_X0=cradle_xmax-8.5
+SERVO_CABLE_WINDOW_Y0=cradle_ymax-0.2
+SERVO_CABLE_WINDOW_Z0=cradle_z_top
+cradle=cradle.cut(box(SERVO_CABLE_WINDOW_X0,SERVO_CABLE_WINDOW_Y0,
+                      SERVO_CABLE_WINDOW_Z0,SERVO_CABLE_WINDOW_WIDTH_X,
+                      2.8,4.0)).clean()
 # Four M2 pilot feet attach the PRINTED cradle to the base from below.
 # These 4 screws are distinct from the 2 manufacturer servo lug fasteners.
 # Counterbores in base use flush-head screw geometry; test actual screw first.
@@ -549,9 +575,16 @@ cradle=cradle.clean()
 # along its outboard side. X position derives ONLY from manufacturer datum
 # base-to-ear underside 16mm, with FIT=0.30mm intentional relief.
 # Supplied screw head/length and ear thickness must be trial-fitted.
+# Dimensioned DMS-MG90 case-end shaft offset and ear span replace
+# arbitrary centring on the third-party MG90-A STEP bounding box.
+# Near ear end lies +Z, 11mm from shaft axis; notch centres 2mm
+# from each ear end, giving pilot centres Z=(pivot-20, pivot+9).
 SERVO_LUG_CENTERS_Z=(
- (servo_zmin+servo_zmax-SERVO_LUG_PITCH)/2,
- (servo_zmin+servo_zmax+SERVO_LUG_PITCH)/2,
+ PIVOT_Z-(SERVO_DRAWING_EAR_SPAN_Z
+          -SERVO_DRAWING_SHAFT_OFFSET_FROM_NEAR_EAR_END_Z
+          -SERVO_DRAWING_LUG_END_MARGIN_Z),
+ PIVOT_Z+(SERVO_DRAWING_SHAFT_OFFSET_FROM_NEAR_EAR_END_Z
+          -SERVO_DRAWING_LUG_END_MARGIN_Z),
 )
 SERVO_LUG_CENTERS_YZ=[]
 # Reference-only manufacturer datum for Onshape / dimensioning; computed
@@ -568,6 +601,19 @@ spine_top=SERVO_LUG_CENTERS_Z[1]+2.5
 spine=box(spine_x,spine_y,cradle_z_top-2.4,
           SERVO_LUG_BOSS_LENGTH,2.4,spine_top-(cradle_z_top-2.4))
 cradle=cradle.fuse(spine)
+# Add 2 tapered gussets behind the screw spine. No geometry intrudes
+# into the servo case or the front screw-driver approach.
+servo_spine_gussets=[]
+for xg in (spine_x+0.3,spine_x+SERVO_LUG_BOSS_LENGTH
+           -SERVO_SPINE_GUSSET_X_THICK-0.3):
+    web=(cq.Workplane("YZ").polyline([
+         (spine_y+1.2,cradle_z_top-2.2),
+         (spine_y+SERVO_SPINE_GUSSET_Y_REACH,cradle_z_top-2.2),
+         (spine_y+1.2,spine_top-2.0),
+         ]).close().extrude(SERVO_SPINE_GUSSET_X_THICK)
+         .translate((xg,0,0)).val())
+    servo_spine_gussets.append(web)
+cradle=union_all([cradle]+servo_spine_gussets)
 for zc in SERVO_LUG_CENTERS_Z:
  boss=cyl_x(spine_x,PIVOT_Y,zc,SERVO_LUG_BOSS_D,SERVO_LUG_BOSS_LENGTH)
  rib=box(spine_x,PIVOT_Y+1.9,zc-1.15,
@@ -575,10 +621,18 @@ for zc in SERVO_LUG_CENTERS_Z:
  cradle=cradle.fuse(boss).fuse(rib)
  cradle=cradle.cut(cyl_x(spine_x-0.1,PIVOT_Y,zc,
                           SERVO_LUG_PILOT_D,SERVO_LUG_BOSS_LENGTH+0.2))
+ # Shallow conical lead-in only; preserve full-length pilot Ø1.7.
+ cradle=cradle.cut(cq.Solid.makeCone(
+     SERVO_LUG_PILOT_LEADIN_D/2,SERVO_LUG_PILOT_D/2,
+     SERVO_LUG_PILOT_LEADIN_DEPTH,
+     V(spine_x-0.01,PIVOT_Y,zc),V(1,0,0)))
  SERVO_LUG_CENTERS_YZ.append((PIVOT_Y,zc))
 cradle=cradle.clean()
-# Servo horn drill pattern still unknown: blank Ø12 disk intentionally kept.
-# Horn drilling and precise case retainer strength require printed trial.
+# Actual photo: round, cross, 2-arm and single-arm plastic horns are supplied.
+# Round horn is the preferred option for torque transfer. The image does
+# not provide a scale for horn holes, spline, hub thickness or screw length.
+# Keep the door Ø12 interface blank, never pretend to know hole pitch.
+# Dedicated mounting-ear coupon checks the genuine lug placement first.
 
 # 7. Removable full-width false ceiling at REAR, with XIAO/Wio above.
 tray_x0=W/2-30
@@ -872,6 +926,21 @@ if __name__=='__main__':
         'door_drive_jamb_bore_diameter':DRIVE_JAMB_BORE_D,
         'servo_base_screw_centers_xy':SERVO_MOUNT_HOLES,
         'servo_lug_pitch_manufacturer_mm':SERVO_LUG_PITCH,
+        'servo_dms_mg90_drawing_ear_case_width_mm':[
+            SERVO_DRAWING_EAR_SPAN_Z,SERVO_DRAWING_CASE_SPAN_Z,
+            SERVO_DRAWING_CASE_WIDTH_Y],
+        'servo_dms_mg90_drawing_output_circular_d_mm':SERVO_DRAWING_SHAFT_FEATURE_DIAMETERS,
+        'servo_dms_mg90_drawing_top_steps_from_base_mm':SERVO_DRAWING_UPPER_LEVELS_FROM_BASE_X,
+        'servo_dms_mg90_drawing_shaft_from_case_end_mm':SERVO_DRAWING_SHAFT_OFFSET_FROM_CASE_END_Z,
+        'servo_dms_mg90_drawing_shaft_from_near_ear_edge_mm':SERVO_DRAWING_SHAFT_OFFSET_FROM_NEAR_EAR_END_Z,
+        'servo_dms_mg90_drawing_ear_notch_centres_z_mm':SERVO_LUG_CENTERS_Z,
+        'servo_spine_gusset_count':len(servo_spine_gussets),
+        'servo_cable_service_window_xyz_mm':[SERVO_CABLE_WINDOW_X0,
+              SERVO_CABLE_WINDOW_Y0,SERVO_CABLE_WINDOW_Z0],
+        'servo_cable_service_window_width_x_mm':SERVO_CABLE_WINDOW_WIDTH_X,
+        'servo_lug_pilot_entry_d_depth_mm':[
+            SERVO_LUG_PILOT_LEADIN_D,SERVO_LUG_PILOT_LEADIN_DEPTH],
+        'servo_horn_preferred_shape':'round horn from supplied photo; dimensions NOT yet measured',
         'servo_lug_notch_diameter_manufacturer_mm':SERVO_LUG_NOTCH_D,
         'servo_lug_pilot_diameter_print_mm':SERVO_LUG_PILOT_D,
         'servo_lug_screw_centers_yz':SERVO_LUG_CENTERS_YZ,

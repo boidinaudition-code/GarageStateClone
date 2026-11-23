@@ -317,7 +317,46 @@
     "attic_rear_end_y_mm": 80,
     "attic_depth_reduced_from_v11_mm": 15,
     "attic_electronics_y_shift_from_v11_mm": -11.5,
-    "attic_old_long_pcb_guides_removed": true
+    "attic_old_long_pcb_guides_removed": true,
+    "servo_dms_mg90_drawing_exact_ear_case_width_mm": [
+      33,
+      23,
+      12
+    ],
+    "servo_dms_mg90_drawing_upper_levels_x_from_base_mm": [
+      16,
+      22.5,
+      26.5,
+      30
+    ],
+    "servo_dms_mg90_drawing_output_features_d_mm": [
+      3,
+      5
+    ],
+    "servo_dms_mg90_shaft_from_case_end_mm": 6,
+    "servo_dms_mg90_shaft_from_near_ear_end_mm": 11,
+    "servo_ear_centres_z_from_drawing_mm": [
+      25.4,
+      54.4
+    ],
+    "servo_ear_pilots_position_source": "manufacturer top and side views 23/11/2026: body span23 ear span33 shaft offset6 case, notch pitch29 => Z = pivot-20 and pivot+9",
+    "servo_ear_pilot_leadin_d_depth_mm": [
+      2.3,
+      0.45
+    ],
+    "servo_rear_spine_gussets_count": 2,
+    "servo_rear_spine_gusset_x_thickness_mm": 1.8,
+    "servo_rear_spine_gusset_y_reach_mm": 5.4,
+    "servo_cable_exit_notch_x_width_mm": 5,
+    "servo_cable_exit_notch_sill_height_mm": 2.4,
+    "servo_horn_shapes_visible_in_user_photo": [
+      "round",
+      "cross",
+      "double-arm",
+      "single-arm"
+    ],
+    "servo_horn_preferred_for_door": "round from supplied photo; exact OD holes and thickness unknown; no hole patterns on door Ø12",
+    "calibration_coupons_count": 4
   },
   "qa": {
     "checked_with": "CadQuery 2.8.0, OCP 7.9.3.1, trimesh 4.11.1",
@@ -338,6 +377,6 @@
     "actual_horn_bolt_pattern": "UNKNOWN, interface disk blank on purpose",
     "manufacturer_axis_erratum": "official drawing 33mm ear-span maps to rotated STEP Z=33.4mm, NOT X=32.5mm. Prior 0.05 mm axial clearance claim invalid",
     "usb_c_carrier": "integral to 02 base; underside strap tunnels and rear shell aperture modeled; physical connector protrusion/hole placement unknown",
-    "roof_mailbox_design": "V12: retains V11 55mm door, mailbox gap10 and 9+9 roof ribs. Cabinet depth 85 and removable attic 25. Orange Ø5/5.9 drawing-based LED socket positioned below left bearing. No physical hardware trials."
+    "roof_mailbox_design": "V13: retains V11 55mm door, mailbox gap10 and 9+9 roof ribs. Cabinet depth 85 and removable attic 25. Orange Ø5/5.9 drawing-based LED socket positioned below left bearing. No physical hardware trials."
   }
 }
