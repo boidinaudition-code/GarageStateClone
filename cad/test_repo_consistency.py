@@ -97,7 +97,7 @@ assert b["cad"]["usb_c_49067_socket_face_position_confirmed"] is False
 assert b["cad"]["usb_c_49067_CC_populated_confirmed"] is None
 assert b["cad"]["usb_c_old_low_power_exit_replaced"] is True
 assert "49067" in read and "5,1 kΩ" in read
-assert "docs/ALIMENTATION_USB_C_V8.md" in read
+assert "docs/ALIMENTATION_USB_C_V8.md" not in read, "README must only show current V12"
 assert (root/"docs/ALIMENTATION_USB_C_V8.md").is_file()
 assert "USB-C" in (root/"docs/ALIMENTATION_USB_C_V8.md").read_text(encoding="utf-8")
 assert b["cad"]["servo_mount_screw_head_diameter_mm"] is None
