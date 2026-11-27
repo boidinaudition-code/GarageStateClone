@@ -5,7 +5,7 @@ Use: python generate_cad.py
 Dependencies: cadquery 2.8+, trimesh, numpy, matplotlib (for QA/preview).
 
 This is a measurable starting model, NOT a production-ready fit verified on the
-physical DMS-MG90 or XIAO/Wio PCBs. Servo horn coupling remains a blank.
+physical DMS-MG90 or XIAO/Wio PCBs. Custom round servo horn is a printable prototype; spline fit not validated.
 """
 from __future__ import annotations
 import math
@@ -133,6 +133,14 @@ DRIVE_DISC_R = 6.0
 DRIVE_DISC_X0 = OPEN_X+OPEN_W-FIT-2.7
 DRIVE_DISC_END_X = OPEN_X+OPEN_W+0.50 # face at x=111.5; shaft tip at x=113.7
 DRIVE_JAMB_BORE_D = 2*(DRIVE_DISC_R+FIT)
+# User supplied bore and engagement; other dimensions are design choices.
+HORN_DISC_D = 10.0
+HORN_HUB_D = 7.0
+HORN_SOCKET_D = 4.0
+HORN_SOCKET_DEPTH = 3.0
+HORN_SCREW_CLEARANCE_D = 2.2  # provisional
+HORN_SCREW_HEAD_D = 4.5
+HORN_SCREW_HEAD_DEPTH = 1.0
 # Actual attachment of cradle to printed base: four M2-size pilot bosses.
 SERVO_FOOT_SIZE = 6.0
 SERVO_FOOT_HEIGHT = 5.5
@@ -669,9 +677,8 @@ for i in range(1,5):
 # Cylinder fully fused along top edge of door.
 pin=cyl_x(door_x0-HINGE_PIN_LEFT,PIVOT_Y,PIVOT_Z,HINGE_D,DOOR_W+HINGE_PIN_LEFT)
 door=door.fuse(pin)
-# Printed integral Ø12mm pilot face for the supplied servo HORN.
-# No screw holes: the actual DMS-MG90 horn must be offered up and drilled
-# to its real pattern. Do NOT glue to the servo shaft or assume spline fit.
+# Integral Ø12mm blank door face for the custom horn. Check central screw
+# and torque fit before mating flat faces. Never glue to servo shaft.
 drive_disc=cyl_x(DRIVE_DISC_X0,PIVOT_Y,PIVOT_Z,2*DRIVE_DISC_R,
                  DRIVE_DISC_END_X-DRIVE_DISC_X0)
 door=door.fuse(drive_disc).clean()
@@ -695,7 +702,16 @@ bearing=bearing.fuse(flange).clean()
 # 6. Servo MG90 complet, dans le montant AVANT DROIT. Axe de sortie coaxial
 # avec le pivot X de la porte (modele STEP: sortie suivant +Y d'origine).
 # Rotations Z(+90) puis X(-90) : arbre dirigé selon -X du garage.
-SERVO_SHAFT_TIP_X=door_x1+3.0  # provisional horn gap 3mm, 0.30mm clearance beside return
+SERVO_SHAFT_TIP_X=door_x1+3.0  # nominal shaft-tip position
+HORN_DISC_T = round(SERVO_SHAFT_TIP_X-DRIVE_DISC_END_X,6)
+HORN_TOTAL_T = HORN_DISC_T + HORN_SOCKET_DEPTH
+horn = cyl_x(DRIVE_DISC_END_X,PIVOT_Y,PIVOT_Z,HORN_DISC_D,HORN_DISC_T)
+horn = horn.fuse(cyl_x(SERVO_SHAFT_TIP_X,PIVOT_Y,PIVOT_Z,HORN_HUB_D,HORN_SOCKET_DEPTH))
+horn = horn.cut(cyl_x(SERVO_SHAFT_TIP_X,PIVOT_Y,PIVOT_Z,HORN_SOCKET_D,HORN_SOCKET_DEPTH+0.1))
+horn = horn.cut(cyl_x(DRIVE_DISC_END_X-0.1,PIVOT_Y,PIVOT_Z,HORN_SCREW_CLEARANCE_D,HORN_DISC_T+0.2))
+horn = horn.cut(cyl_x(DRIVE_DISC_END_X-0.1,PIVOT_Y,PIVOT_Z,HORN_SCREW_HEAD_D,HORN_SCREW_HEAD_DEPTH+0.1)).clean()
+# Print flange flat, preserve the assembly placement in STEP.
+horn_print = horn.translate(V(-DRIVE_DISC_END_X,-PIVOT_Y,-PIVOT_Z)).rotate((0,0,0),(0,1,0),-90)
 SERVO_ORIGIN=(SERVO_SHAFT_TIP_X+32.5,PIVOT_Y-6.1,PIVOT_Z+6.05)
 SERVO_BBOX=(SERVO_SHAFT_TIP_X,SERVO_SHAFT_TIP_X+32.5,
             PIVOT_Y-6.1,PIVOT_Y+6.12,
@@ -800,10 +816,7 @@ for zc in SERVO_LUG_CENTERS_Z:
      V(spine_x-0.01,PIVOT_Y,zc),V(1,0,0)))
  SERVO_LUG_CENTERS_YZ.append((PIVOT_Y,zc))
 cradle=cradle.clean()
-# Actual photo: round, cross, 2-arm and single-arm plastic horns are supplied.
-# Round horn is the preferred option for torque transfer. The image does
-# not provide a scale for horn holes, spline, hub thickness or screw length.
-# Keep the door Ø12 interface blank, never pretend to know hole pitch.
+# Custom round horn defined above; screw and spline fit physically unverified.
 # Dedicated mounting-ear coupon checks the genuine lug placement first.
 
 # 7. Removable full-width false ceiling at REAR, with XIAO/Wio above.
@@ -915,6 +928,7 @@ PRINTABLE={
   '11_couvercle_goulotte_arriere':cable_riser_cover,
   '12_porte_pietonne_noire':pedestrian_door,
   '14_insert_blanc_boite_lettres':mailbox_white_inlay,
+  '15_palonnier_rond_D10_hub_D4_P3':horn,
 }
 
 # 10. Import des quatre vrais STEP. Pas de substitution silencieuse.
@@ -1054,7 +1068,10 @@ if __name__=='__main__':
             raise RuntimeError(f'Unexpected count for {name}: {len(solids)}')
         bb=s.BoundingBox()
         exporters.export(s,str(STEP / (name+'.step')))
-        exporters.export(s,str(STL / (name+'.stl')),tolerance=0.08,angularTolerance=0.15)
+        if name == '15_palonnier_rond_D10_hub_D4_P3':
+            exporters.export(horn_print,str(STL / (name+'.stl')),tolerance=0.01,angularTolerance=0.08)
+        else:
+            exporters.export(s,str(STL / (name+'.stl')),tolerance=0.08,angularTolerance=0.15)
         details[name]={'volume_mm3':round(s.Volume(),1),
                        'bounds_mm':{c:round(getattr(bb,c),2) for c in ['xmin','xmax','ymin','ymax','zmin','zmax']},
                        'solids':len(solids),'valid':s.isValid()}
@@ -1073,6 +1090,7 @@ if __name__=='__main__':
        '11_couvercle_goulotte_arriere':cq.Color(0.96,0.96,0.95),
        '12_porte_pietonne_noire':cq.Color(0.08,0.09,0.10),
        '14_insert_blanc_boite_lettres':cq.Color(0.98,0.98,0.96),
+       '15_palonnier_rond_D10_hub_D4_P3':cq.Color(0.22,0.24,0.27),
     }
     for name,s in PRINTABLE.items():
         assy.add(s,name=name,color=colors[name])
@@ -1080,7 +1098,7 @@ if __name__=='__main__':
         assy.add(s,name=name,color=cq.Color(0.7,0.35,0.3,0.55))
     assy.save(str(STEP/'GarageStateClone_V2_assemblage_STEP_references.step'))
     # Fallback if any third-party STEP causes Onshape import issues:
-    # all nine printable parts only, without manufacturer references.
+    # all printable parts only, without manufacturer references.
     clean_structure=cq.Assembly(name='GarageStateClone_V2_structure_seule_Onshape')
     for name,solid in PRINTABLE.items():
         clean_structure.add(solid,name=name,color=colors[name])
@@ -1169,7 +1187,12 @@ if __name__=='__main__':
         'servo_cable_service_window_width_x_mm':SERVO_CABLE_WINDOW_WIDTH_X,
         'servo_lug_pilot_entry_d_depth_mm':[
             SERVO_LUG_PILOT_LEADIN_D,SERVO_LUG_PILOT_LEADIN_DEPTH],
-        'servo_horn_preferred_shape':'round horn from supplied photo; dimensions NOT yet measured',
+        'servo_horn_preferred_shape':'custom round prototype; user bore/depth; spline and screw unverified',
+        'custom_horn_disc_d_mm':HORN_DISC_D,
+        'custom_horn_hub_d_mm':HORN_HUB_D,
+        'custom_horn_socket_d_depth_mm':[HORN_SOCKET_D,HORN_SOCKET_DEPTH],
+        'custom_horn_disc_total_t_mm':[HORN_DISC_T,HORN_TOTAL_T],
+        'custom_horn_screw_clearance_head_depth_mm':[HORN_SCREW_CLEARANCE_D,HORN_SCREW_HEAD_D,HORN_SCREW_HEAD_DEPTH],
         'servo_lug_notch_diameter_manufacturer_mm':SERVO_LUG_NOTCH_D,
         'servo_lug_pilot_diameter_print_mm':SERVO_LUG_PILOT_D,
         'servo_lug_screw_centers_yz':SERVO_LUG_CENTERS_YZ,

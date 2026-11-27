@@ -27,7 +27,7 @@ Depuis le bord de l'ouverture de garage X66,6, la boîte noire visible va de **X
 
 Le toit noir amovible conserve **9 nervures trapézoïdales** et leurs retours verticaux. Deux rives **+0,55 mm** et un larmier frontal de **0,70 mm** restent fusionnés au toit, sans modifier l'emboîtement intérieur ni la pente **62 / 78 mm**.
 
-**Exports : 12 STL et 15 STEP**, plus **4 coupons** ; conserver l'ensemble des composants internes de V14, la porte de garage mobile et le firmware. L'insert blanc de 0,8 mm reste délicat à manipuler en FDM. Voir [plan de façade V15](../docs/FACADE_REFERENCE_PORTE_INTERPHONE_V15.md).
+**Exports : 13 STL et 16 STEP**, plus **4 coupons** ; conserver l'ensemble des composants internes de V14, la porte de garage mobile et le firmware. L'insert blanc de 0,8 mm reste délicat à manipuler en FDM. Voir [plan de façade V15](../docs/FACADE_REFERENCE_PORTE_INTERPHONE_V15.md).
 
 ## Clips souples de radio
 
@@ -47,7 +47,7 @@ Le schéma **Bornier SC02/2.54** donne le pas2,54, la profondeur6,5, la hauteur 
 
 ## Exports et contrôles
 
-**12 STL**, **15 STEP** (12 pièces imprimables, 2 assemblages et 1 XIAO simplifié), **4 coupons**. Les anciens noms « V2 » des assemblages STEP sont historiques et leur **contenu est V15 révisée**.
+**13 STL**, **16 STEP** (13 pièces imprimables, 2 assemblages et 1 XIAO simplifié), **4 coupons**. Les anciens noms « V2 » des assemblages STEP sont historiques et leur **contenu est V15 révisée**.
 
 ```bash
 python cad/generate_cad.py
@@ -62,3 +62,8 @@ python cad/test_repo_consistency.py
 Le contrôle STEP/maillages, les vérifications BREP source, le dégagement toit/porte/servo, les clips Wio et l'absence de collision du couvercle dans les glissières sont vérifiés par CI. Les **câbles, connecteurs, l'antenne et les composants réels** restent à présenter physiquement.
 
 [README V14](../README.md) · [Plan d'assemblage V14](../docs/FIXATIONS_COMBLES_GOULOTTE_LED_V14.md) · [Nomenclature](bom_dimensions_v1.json).
+
+
+### Palonnier circulaire sur mesure
+
+`15_palonnier_rond_D10_hub_D4_P3` : disque Ø10 × 2,2 mm, moyeu Ø7, alésage Ø4 profond de 3 mm (mesures utilisateur), épaisseur totale 5,2 mm. STL orienté à plat ; STEP et assemblages dans le repère de la porte. Vis et denture non vérifiées. Voir [fiche de montage](../docs/PALONNIER_SUR_MESURE.md).

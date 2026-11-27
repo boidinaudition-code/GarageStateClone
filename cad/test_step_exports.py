@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Régression CAO : BREP source, 15 STEP, 12 STL et assemblage V15 révisée.
+"""Régression CAO : BREP source, 16 STEP, 13 STL et assemblage V15 révisée.
 
 Lancer après: python cad/generate_cad.py
 Ne prétend pas remplacer un essai d'impression ou un montage mécanique.
@@ -54,7 +54,7 @@ assert bom["cad"]["orange_led_manufacturer_sized_drawing_used"] is True
 assert manifest["design"]["orange_led_drawing_user_supplied_not_measurement_of_item"] is True
 assert "REF_LED_orange_ENVELOPPE_COTEE_NE_PAS_IMPRIMER" in g.REFERENCES
 assert not any("orange" in k for k in g.PRINTABLE), "orange holder must be integral to shell"
-assert len(g.PRINTABLE) == 12
+assert len(g.PRINTABLE) == 13
 assert "11_couvercle_goulotte_arriere" in g.PRINTABLE
 assert g.cable_riser_cover == g.PRINTABLE["11_couvercle_goulotte_arriere"]
 assert "10_boite_aux_lettres_noire" in g.PRINTABLE
@@ -192,10 +192,10 @@ assert g.CABLE_RISER_GROOVE_DEPTH_X == 0.55
 assert g.CABLE_RISER_COVER_W == 7.9
 assert g.CABLE_RISER_COVER_T == 1.10
 assert math.isclose(g.CABLE_RISER_COVER_H,27.8)
-assert bom["cad"]["cad_printable_part_count"] == 12
-assert bom["cad"]["cad_step_export_count"] == 15
-assert manifest["design"]["cad_printable_count"] == 12
-assert manifest["design"]["cad_step_count"] == 15
+assert bom["cad"]["cad_printable_part_count"] == 13
+assert bom["cad"]["cad_step_export_count"] == 16
+assert manifest["design"]["cad_printable_count"] == 13
+assert manifest["design"]["cad_step_count"] == 16
 assert manifest["design"]["cable_riser_cover_part_name"] == "11_couvercle_goulotte_arriere"
 assert g.cable_riser_cover.intersect(g.shell).Volume()<1e-5, "lid must fit rail rebates"
 assert g.cable_riser_cover.intersect(g.tray).Volume()<1e-5
@@ -271,9 +271,9 @@ for k in ("xmin","xmax","ymin","ymax","zmin","zmax"):
 structure_path = ROOT / "step/GarageStateClone_V2_STRUCTURE_SANS_REFERENCES_ONSHAPE.step"
 assert structure_path.stat().st_size > 1000
 structure = cq.importers.importStep(str(structure_path)).val()
-assert structure.isValid() and len(structure.Solids()) == 12
-assert len(list((ROOT / "step").glob("*.step"))) == 15
-assert len(list((ROOT / "stl").glob("*.stl"))) == 12
+assert structure.isValid() and len(structure.Solids()) == 13
+assert len(list((ROOT / "step").glob("*.step"))) == 16
+assert len(list((ROOT / "stl").glob("*.stl"))) == 13
 
 def overlap(a, b):
     aa, bb = a.BoundingBox(), b.BoundingBox()
@@ -443,6 +443,22 @@ assert math.isclose(g.DRIVE_JAMB_BORE_D-2*g.DRIVE_DISC_R,2*g.FIT)
 assert math.isclose(g.DRIVE_DISC_END_X,67.1)
 assert bom["cad"]["door_drive_disc_axial_bounds_mm"]==[63.6,67.1]
 assert math.isclose(g.SERVO_SHAFT_TIP_X-g.DRIVE_DISC_END_X,2.2)
+assert g.PRINTABLE["15_palonnier_rond_D10_hub_D4_P3"] == g.horn
+assert (g.HORN_DISC_D,g.HORN_HUB_D,g.HORN_SOCKET_D,g.HORN_SOCKET_DEPTH) == (10.,7.,4.,3.)
+assert math.isclose(g.HORN_DISC_T,2.2) and math.isclose(g.HORN_TOTAL_T,5.2)
+assert g.horn.isValid() and len(g.horn.Solids()) == 1
+assert math.isclose(g.horn.BoundingBox().xmax,g.SERVO_SHAFT_TIP_X+3)
+assert math.isclose(g.horn.BoundingBox().xmin,g.DRIVE_DISC_END_X)
+assert math.isclose(g.horn_print.BoundingBox().zmin,0,abs_tol=1e-6)
+assert math.isclose(g.horn_print.BoundingBox().zmax,5.2,abs_tol=1e-6)
+socket = g.cyl_x(g.SERVO_SHAFT_TIP_X,g.PIVOT_Y,g.PIVOT_Z,4.,3.)
+assert overlap(g.horn,socket) < 1e-5
+assert overlap(g.horn,g.door) < 1e-5
+assert overlap(g.horn,g.shell) < 1e-5
+assert overlap(g.horn,g.cradle) < 1e-5
+assert g.DRIVE_JAMB_BORE_D-g.HORN_DISC_D >= 2.6-1e-8
+assert bom["cad"]["custom_horn_socket_d_depth_mm"] == manifest["design"]["custom_horn_socket_d_depth_mm"] == [4.,3.]
+assert not bom["cad"]["servo_horn_physical_verified"]
 assert g.door.distance(g.shell)>=g.FIT-0.01
 assert g.bearing.distance(g.shell)<0.01 # bearing rests on integral shelf
 assert g.cradle.distance(g.base_plate)<0.01 # M2 feet rest on 3mm base
@@ -625,4 +641,4 @@ for angle in range(0, 91, 5):
         "support LED blanche": g.holder,
     }.items():
         assert overlap(door, shape) < 1e-5, ("collision porte", angle, label)
-print("PASS — V15 révision: porte pietonne 17 mm, 5mm / 5mm autour boîte, interphone retiré; 15 STEP / 12 STL")
+print("PASS — V15 révision: porte pietonne 17 mm, 5mm / 5mm autour boîte, interphone retiré; 16 STEP / 13 STL")

@@ -355,11 +355,11 @@
       "double-arm",
       "single-arm"
     ],
-    "servo_horn_preferred_for_door": "round from supplied photo; exact OD holes and thickness unknown; no hole patterns on door Ø12",
+    "servo_horn_preferred_for_door": "custom round Ø10 with Ø4 x 3 socket, no verified spline or screw dimensions",
     "calibration_coupons_count": 4,
     "cad_revision": "V14",
-    "cad_printable_count": 12,
-    "cad_step_count": 15,
+    "cad_printable_count": 13,
+    "cad_step_count": 16,
     "attic_wio_side_clip_count": 2,
     "attic_wio_side_clip_x_posts_mm": [
       38.45,
@@ -441,7 +441,24 @@
     "pedestrian_black_left_x_mm": 83.6,
     "pedestrian_black_right_x_mm": 100.6,
     "pedestrian_mailbox_gap_mm": 5,
-    "intercom_removed": true
+    "intercom_removed": true,
+    "custom_horn_part_name": "15_palonnier_rond_D10_hub_D4_P3",
+    "custom_horn_disc_d_mm": 10,
+    "custom_horn_hub_d_mm": 7,
+    "custom_horn_socket_d_depth_mm": [
+      4,
+      3
+    ],
+    "custom_horn_disc_total_t_mm": [
+      2.2,
+      5.2
+    ],
+    "custom_horn_screw_clearance_head_depth_mm": [
+      2.2,
+      4.5,
+      1
+    ],
+    "custom_horn_source": "User measured socket diameter and engagement depth; other dimensions CAD design, screw provisional, smooth bore without verified splines"
   },
   "qa": {
     "checked_with": "CadQuery 2.8.0, OCP 7.9.3.1, trimesh 4.11.1",
@@ -463,6 +480,6 @@
     "manufacturer_axis_erratum": "official drawing 33mm ear-span maps to rotated STEP Z=33.4mm, NOT X=32.5mm. Prior 0.05 mm axial clearance claim invalid",
     "usb_c_carrier": "integral to 02 base; underside strap tunnels and rear shell aperture modeled; physical connector protrusion/hole placement unknown",
     "roof_mailbox_design": "V14: retains V11 55mm door, mailbox gap10 and 9+9 roof ribs. Cabinet depth 85 and removable attic 25. Orange Ø5/5.9 drawing-based LED socket positioned below left bearing. No physical hardware trials.",
-    "v15_photo_fidelity": "V15 revised: black door 17mm with 5 vertical grooves/handle, 5mm black-to-black spaces either side of 7mm mailbox with separate white inlay; former intercom and wall recess REMOVED; roof standing-seam edging retained; 12 STLs, 15 STEP"
+    "v15_photo_fidelity": "V15 revised: black door 17mm with 5 vertical grooves/handle, 5mm black-to-black spaces either side of 7mm mailbox with separate white inlay; former intercom and wall recess REMOVED; roof standing-seam edging retained; 13 STLs, 16 STEP"
   }
 }

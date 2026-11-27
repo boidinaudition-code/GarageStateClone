@@ -43,7 +43,7 @@ jobs:
           python cad/test_fit_coupons.py
           python cad/test_repo_consistency.py
 
-      - name: Archiver les 11 STEP, 8 STL, 3 coupons et rapports
+      - name: Archiver les 16 STEP, 13 STL, 4 coupons et rapports
         if: always()
         uses: actions/upload-artifact@v4
         with:

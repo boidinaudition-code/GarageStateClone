@@ -58,7 +58,7 @@ Le schéma fourni donne un pas **2,54 mm**, une emprise de **6,5 mm en profondeu
 
 ## Servo et porte
 
-L'entraxe des deux encoches d'oreilles du DMS-MG90 est **29 mm**, avec des pilotes Ø1,7 à **Z25,4 et Z54,4** ; la sortie se situe à 6 mm du bord de son boîtier. Le berceau conserve ses **deux goussets**, son dégagement de câble de 5 mm et ses **quatre** points de fixation à la base. Pour la porte, **le palonnier circulaire** est à privilégier, mais son diamètre, son entraxe et son épaisseur réelle restent inconnus : le disque de liaison **Ø12** est conservé **sans perçages présumés**.
+L'entraxe des deux encoches d'oreilles du DMS-MG90 est **29 mm**, avec des pilotes Ø1,7 à **Z25,4 et Z54,4** ; la sortie se situe à 6 mm du bord de son boîtier. Le berceau conserve ses **deux goussets**, son dégagement de câble de 5 mm et ses **quatre** points de fixation à la base. Pour la porte, le nouveau **`15_palonnier_rond_D10_hub_D4_P3`** remplace le palonnier fourni trop large : disque Ø10 × 2,2 mm, moyeu Ø7, logement lisse **Ø4 × 3 mm** (cotes utilisateur), épaisseur totale 5,2 mm. Passage de vis provisoire Ø2,2 et lamage Ø4,5 × 1 mm côté porte. Le disque de liaison Ø12 de la porte reste vierge. Monter la vis centrale et vérifier les cannelures, la tenue en couple et l'encombrement avant d'accoupler les faces planes ; ne jamais coller sur l'arbre. [Fiche du palonnier](docs/PALONNIER_SUR_MESURE.md).
 
 ## Électricité et fonctionnement
 
@@ -70,7 +70,7 @@ Le nez de prise de la carte Gotronic 49067 et son câble mâle n'étant pas corr
 
 ## Impression, fichiers et validations
 
-La CAO paramétrique `cad/generate_cad.py` génère **12 STL imprimables**, **15 STEP** (12 pièces + deux assemblages + un XIAO simplifié) et **4 coupons de contrôle**. La V15 révisée conserve les pièces **12** (porte) et **14** (rectangle blanc), la pièce **13** (interphone) étant supprimée ; le couvercle `11_couvercle_goulotte_arriere` est conservé. Les noms historiques « V2 » des STEP d'assemblage restent les mêmes, mais leur **contenu est V15**.
+La CAO paramétrique `cad/generate_cad.py` génère **13 STL imprimables**, **16 STEP** (13 pièces + deux assemblages + un XIAO simplifié) et **4 coupons de contrôle**. La V15 révisée conserve les pièces **12** (porte) et **14** (rectangle blanc), la pièce **13** (interphone) étant supprimée ; le couvercle `11_couvercle_goulotte_arriere` est conservé. Les noms historiques « V2 » des STEP d'assemblage restent les mêmes, mais leur **contenu est V15**.
 
 ```bash
 python cad/generate_cad.py
@@ -80,7 +80,7 @@ python cad/test_component_dimensions_sources.py
 python cad/test_hardware_bom.py
 ```
 
-Tests prévus : intégrité BREP, 12 STL étanches, 15 STEP, clips Wio vs référence Wio et XIAO, rails/couvercle sans intersections, LED Ø5/Ø5,9, couverture/toit avec rives, façade et porte basculante de 0 à 90°, compilation des deux firmwares. **Ces tests numériques ne prouvent pas l'ajustement mécanique réel**. **Tester** le montage à blanc du module XIAO/Wio, du couvercle et de la LED avant de finaliser l'impression. Faire un montage à blanc en PETG du faux plafond et de la goulotte.
+Tests prévus : intégrité BREP, 13 STL étanches, 16 STEP, clips Wio vs référence Wio et XIAO, rails/couvercle sans intersections, LED Ø5/Ø5,9, couverture/toit avec rives, façade et porte basculante de 0 à 90°, compilation des deux firmwares. **Ces tests numériques ne prouvent pas l'ajustement mécanique réel**. **Tester** le montage à blanc du module XIAO/Wio, du couvercle et de la LED avant de finaliser l'impression. Faire un montage à blanc en PETG du faux plafond et de la goulotte.
 
 [Conception mécanique héritée de V14](docs/FIXATIONS_COMBLES_GOULOTTE_LED_V14.md) · [README CAO V15](cad/README.md) · [Sources des cotes](cad/component_dimensions_sources_v7.json) · [Nomenclature dimensionnelle](cad/bom_dimensions_v1.json) · [BOM composants](cad/hardware_bom_v5.json) · [GitHub Actions](.github/workflows/cad-validation.yml).
 

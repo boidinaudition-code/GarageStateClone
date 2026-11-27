@@ -77,8 +77,8 @@ assert m["design"]["orange_led_at_bearing_left"] is True
 assert b["cad"]["mailbox_separate_black_part"] is True
 assert m["design"]["mailbox_insert_separate_stl"] is True
 assert b["cad"]["mailbox_print_part"] == "10_boite_aux_lettres_noire"
-assert b["cad"]["cad_printable_part_count"] == m["design"]["cad_printable_count"] == 12
-assert b["cad"]["cad_step_export_count"] == m["design"]["cad_step_count"] == 15
+assert b["cad"]["cad_printable_part_count"] == m["design"]["cad_printable_count"] == 13
+assert b["cad"]["cad_step_export_count"] == m["design"]["cad_step_count"] == 16
 # Exact same signed-off visual-driven facade details in BOM, CAD manifest
 # and canonical README; facade is static and must not claim intercom works.
 assert b["cad"]["pedestrian_door_pocket_origin_xz_mm"] == m["design"]["pedestrian_door_pocket_xz_mm"] == [83.3,3.25]
@@ -133,7 +133,7 @@ assert "5 mm" in read and "Ø5,9" in read
 assert "V13" not in read and "V12" not in read and "V11" not in read and "V10" not in read and "V9" not in read
 assert "105,6 × 100" not in read
 assert "100 × 42" not in read
-assert "12 STL" in cadread and "15 STEP" in cadread
+assert "13 STL" in cadread and "16 STEP" in cadread
 assert b["cad"]["usb_c_breakout_published_lwh_mm"] == m["design"]["usb_c_breakout_vendor_lwh_mm"] == [21,15,4.5]
 assert b["cad"]["usb_c_carrier_integrated_into"] == "02_socle_noir"
 assert b["cad"]["usb_c_rear_aperture_wh_mm"] == m["design"]["usb_c_rear_slot_wh_mm"] == [10,4.2]
@@ -164,6 +164,11 @@ assert b["cad"]["servo_base_clearance_hole_mm"] == 2.3
 assert b["cad"]["door_drive_disc_outer_diameter_mm"] == 12
 assert b["cad"]["door_drive_disc_face_to_shaft_tip_gap_mm"] == 2.2
 assert not m["design"]["horn_bolt_pattern_validated"]
+assert b["cad"]["custom_horn_socket_d_depth_mm"] == m["design"]["custom_horn_socket_d_depth_mm"] == [4.,3.]
+assert b["cad"]["custom_horn_disc_d_mm"] == m["design"]["custom_horn_disc_d_mm"] == 10.
+assert b["cad"]["custom_horn_hub_d_mm"] == m["design"]["custom_horn_hub_d_mm"] == 7.
+assert b["cad"]["custom_horn_disc_total_t_mm"] == m["design"]["custom_horn_disc_total_t_mm"] == [2.2,5.2]
+assert "15_palonnier_rond_D10_hub_D4_P3" in s and "15_palonnier_rond_D10_hub_D4_P3" in read
 assert hardware["core_total_eur"] == "23.43"
 assert b["system_state"]["sensor_count"] == 1
 assert "OPEN_SENSOR_PRESENT=0" in platform
@@ -214,4 +219,4 @@ assert len(list((root/"cad/refs").glob("*.brep.z.b64"))) == 4
 for token in ("palonnier", "non", "tester"):
     assert token in read.lower()
 assert "boîtier" in read.lower() and "SAS308" in read
-print("PASS cross-check V15 revision: 5mm mailbox gaps and 17mm pedestrian door, intercom absent, 12 STL/15 STEP, inverted 90-degree servo stroke, 5s each way")
+print("PASS cross-check V15 revision: 5mm mailbox gaps and 17mm pedestrian door, intercom absent, 13 STL/16 STEP, inverted 90-degree servo stroke, 5s each way")

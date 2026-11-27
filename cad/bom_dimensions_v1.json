@@ -394,7 +394,7 @@
       67.1
     ],
     "door_drive_jamb_bore_diameter_mm": 12.6,
-    "door_drive_interface_status": "blank printed datum Ø12 without horn bolt holes; supplied genuine horn drilling mandatory",
+    "door_drive_interface_status": "Ø12 door disk remains blank; mate custom Ø10 horn flat face after trial fit; central screw first, no glue on shaft",
     "servo_base_mount_count": 4,
     "servo_base_fastener_nominal": "M2x8 countersunk trial screw",
     "servo_base_clearance_hole_mm": 2.3,
@@ -591,8 +591,8 @@
     "mailbox_remaining_wall_backing_mm": 1.35,
     "mailbox_hole_or_letter_slot": "shallow decorative groove on black insert only, not a through-hole",
     "mailbox_reference_confidence": "V15 updated user dimensions: opening right x66.6; black mailbox left x71.6 (+5mm); mailbox width 7; pedestrian door left x83.6 (+5mm from mailbox right); dimensions in finished black faces; decorative not measured on actual building",
-    "cad_printable_part_count": 12,
-    "cad_step_export_count": 15,
+    "cad_printable_part_count": 13,
+    "cad_step_export_count": 16,
     "orange_led_lowered_from_v9_by_mm": 0.5,
     "roof_front_fascia_bac_acier_rib_count": 9,
     "roof_front_fascia_rib_height_projection_mm": 0.85,
@@ -730,7 +730,7 @@
       "double straight arm",
       "single arm"
     ],
-    "servo_preferred_horn_for_door": "round disk, to be measured and matched to Ø12 blank drive before drilling; no horn screw holes generated",
+    "servo_preferred_horn_for_door": "custom round printed prototype; bore Ø4 depth 3; physical fit unverified",
     "servo_actual_horn_hole_pitch_measured_mm": null,
     "servo_actual_horn_center_screw_diameter_measured_mm": null,
     "servo_actual_horn_thickness_measured_mm": null,
@@ -857,7 +857,24 @@
     "pedestrian_black_left_x_mm": 83.6,
     "pedestrian_black_right_x_mm": 100.6,
     "mailbox_black_right_x_mm": 78.6,
-    "intercom_removed": true
+    "intercom_removed": true,
+    "custom_horn_part_name": "15_palonnier_rond_D10_hub_D4_P3",
+    "custom_horn_disc_d_mm": 10,
+    "custom_horn_hub_d_mm": 7,
+    "custom_horn_socket_d_depth_mm": [
+      4,
+      3
+    ],
+    "custom_horn_disc_total_t_mm": [
+      2.2,
+      5.2
+    ],
+    "custom_horn_screw_clearance_head_depth_mm": [
+      2.2,
+      4.5,
+      1
+    ],
+    "custom_horn_source": "User measured socket diameter and engagement depth; other dimensions CAD design, screw provisional, smooth bore without verified splines"
   },
   "system_state": {
     "sensor_count": 1,
