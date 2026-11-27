@@ -256,11 +256,14 @@ static constexpr uint8_t PIN_SERVO = D6;
 static constexpr uint8_t PIN_INTERIOR_LED = D7; // base BC547B via 4.7k ; LED blanche +5V ; active HIGH
 static constexpr uint8_t PIN_AMBER_LED = D0;    // orange facade, active LOW (absorption)
 static constexpr uint32_t LINK_TIMEOUT_MS = 150000;
-static constexpr uint8_t ANGLE_CLOSED = 15; // ajuster selon la mecanique
-static constexpr uint8_t ANGLE_OPEN = 95;
+static constexpr uint8_t ANGLE_CLOSED = 90; // porte verticale (sens inverse)
+static constexpr uint8_t ANGLE_OPEN = 0;    // porte horizontale
 static constexpr uint32_t OPEN_TRAVEL_MS = 5000;
 static constexpr uint32_t CLOSE_TRAVEL_MS = 2000;
-static_assert(ANGLE_OPEN > ANGLE_CLOSED, "Angles attendus croissants");
+static_assert(ANGLE_OPEN != ANGLE_CLOSED && ANGLE_OPEN <= 180 && ANGLE_CLOSED <= 180,
+              "Angles servo distincts entre 0 et 180 degres");
+static constexpr uint8_t FULL_TRAVEL_DEG = ANGLE_OPEN > ANGLE_CLOSED
+    ? ANGLE_OPEN - ANGLE_CLOSED : ANGLE_CLOSED - ANGLE_OPEN;
 
 
 Servo doorServo;
@@ -313,10 +316,10 @@ void setTarget(uint8_t state) {
   motionStartMs = now;
   const uint8_t distance = targetAngle > currentAngle
       ? targetAngle - currentAngle : currentAngle - targetAngle;
-  const uint32_t fullTravelMs = targetAngle > currentAngle
+  const uint32_t fullTravelMs = targetAngle == ANGLE_OPEN
       ? OPEN_TRAVEL_MS : CLOSE_TRAVEL_MS;
   // Duree proportionnelle au trajet restant lors d'une inversion en cours de route.
-  motionDurationMs = (fullTravelMs * distance) / (ANGLE_OPEN - ANGLE_CLOSED);
+  motionDurationMs = (fullTravelMs * distance) / FULL_TRAVEL_DEG;
 }
 
 // Orange en absorption de courant : 3V3 -> 680 ohms -> anode LED -> cathode D0.
