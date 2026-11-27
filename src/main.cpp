@@ -259,7 +259,7 @@ static constexpr uint32_t LINK_TIMEOUT_MS = 150000;
 static constexpr uint8_t ANGLE_CLOSED = 90; // porte verticale (sens inverse)
 static constexpr uint8_t ANGLE_OPEN = 0;    // porte horizontale
 static constexpr uint32_t OPEN_TRAVEL_MS = 5000;
-static constexpr uint32_t CLOSE_TRAVEL_MS = 2000;
+static constexpr uint32_t CLOSE_TRAVEL_MS = 5000;
 static_assert(ANGLE_OPEN != ANGLE_CLOSED && ANGLE_OPEN <= 180 && ANGLE_CLOSED <= 180,
               "Angles servo distincts entre 0 et 180 degres");
 static constexpr uint8_t FULL_TRAVEL_DEG = ANGLE_OPEN > ANGLE_CLOSED

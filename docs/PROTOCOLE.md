@@ -27,7 +27,7 @@ Limites connues : aucun journal persistant, aucun chiffrement, capteurs NO non s
 La **trame reste identique**. L'émetteur est configuré avec **OPEN_SENSOR_PRESENT=0**. SAS308 câblé **D6 → GND**, aimant présent seulement en position FERMÉE ; **D7 libre**.
 
 - Valeur **0 FERMÉ** : fermeture physiquement constatée par le contact aimanté.
-- Valeur **2 INTERMÉDIAIRE** : absence d'aimant, l'ouverture réelle n'est pas encore connue. Le récepteur à capteur unique anime immédiatement l'ouverture complète en 5 s, sans arrêt à mi-course (servo inversé : 90° fermé, 0° ouvert ; course 90°). Le passage à l'état 1 ou les trames répétées ne relancent pas le mouvement. L'éclairage intérieur s'allume en fin de course commandée ; la fermeture reste à 2 s.
+- Valeur **2 INTERMÉDIAIRE** : absence d'aimant, l'ouverture réelle n'est pas encore connue. Le récepteur à capteur unique anime immédiatement l'ouverture complète en 5 s, sans arrêt à mi-course (servo inversé : 90° fermé, 0° ouvert ; course 90°). Le passage à l'état 1 ou les trames répétées ne relancent pas le mouvement. L'éclairage intérieur s'allume en fin de course commandée ; la fermeture dure également 5 s.
 - Valeur **1 OUVERT** : **estimation décorative** émise après **40 s** d'absence continue d'aimant, délai configurable dans la compilation via SINGLE_SENSOR_OPEN_ESTIMATE_MS. **Ce n'est PAS une mesure de fin de course ouverte.**
 - Valeur **3 DÉFAUT CAPTEURS** : non émise par le montage à un seul SAS308 en fonctionnement normal.
 

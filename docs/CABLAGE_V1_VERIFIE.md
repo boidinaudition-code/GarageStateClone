@@ -120,7 +120,7 @@ Porte monobloc noire à rainures horizontales, **bascule vers l'intérieur** aut
 3. Contrôler **C/B/E de Q1**, les résistances (330 / 680 / 4,7 k / 100 k) et **les polarités des 2 LED**.
 4. Contrôler l'orientation du **470 µF** ; mesurer le 5 V du servo puis le 3,3 V du XIAO.
 5. Alimenter le **récepteur avec le servo sans porte**. Tester les trois positions sans blocage ni surchauffe.
-6. Simuler FERMÉ (aimant présent sur D6), puis NON FERMÉ (aimant retiré) ; dès réception LoRa, vérifier l'ouverture continue du servo de 90° à 0° en 5 s (course 90°, sens inversé), sans pause, puis LED blanche allumée et orange fixe. Le retour de l'aimant commande la fermeture en 2 s. La trame OPEN estimée après 40 s ne relance pas le mouvement.
+6. Simuler FERMÉ (aimant présent sur D6), puis NON FERMÉ (aimant retiré) ; dès réception LoRa, vérifier l'ouverture continue du servo de 90° à 0° en 5 s (course 90°, sens inversé), sans pause, puis LED blanche allumée et orange fixe. Le retour de l'aimant commande la fermeture en 5 s. La trame OPEN estimée après 40 s ne relance pas le mouvement.
 7. Appuyer brièvement sur le bouton D0 **uniquement si le câblage est vérifié** : noter que la LED orange peut aussi s'allumer.
 8. Tester la perte radio en arrêtant l'émetteur plus de 150 s. Le défaut « deux fins de course actives » n'est pas testable avec un seul contact.
 
