@@ -573,7 +573,7 @@
     "mailbox_separate_black_part": true,
     "mailbox_print_part": "10_boite_aux_lettres_noire",
     "mailbox_pocket_xz_mm": [
-      76.3,
+      71.3,
       25.5
     ],
     "mailbox_pocket_width_height_depth_mm": [
@@ -590,9 +590,9 @@
     "mailbox_insert_recess_from_front_mm": 0.1,
     "mailbox_remaining_wall_backing_mm": 1.35,
     "mailbox_hole_or_letter_slot": "shallow decorative groove on black insert only, not a through-hole",
-    "mailbox_reference_confidence": "V11 derived position: visible black left x76.6, exactly 10mm to right opening x66.6; 0.3mm recess fitting each side, unmeasured physical building",
-    "cad_printable_part_count": 10,
-    "cad_step_export_count": 13,
+    "mailbox_reference_confidence": "V15 updated user dimensions: opening right x66.6; black mailbox left x71.6 (+5mm); mailbox width 7; pedestrian door left x83.6 (+5mm from mailbox right); dimensions in finished black faces; decorative not measured on actual building",
+    "cad_printable_part_count": 12,
+    "cad_step_export_count": 15,
     "orange_led_lowered_from_v9_by_mm": 0.5,
     "roof_front_fascia_bac_acier_rib_count": 9,
     "roof_front_fascia_rib_height_projection_mm": 0.85,
@@ -653,8 +653,8 @@
     "servo_cable_clip_open_slot_mm": 2.2,
     "servo_cable_clip_y_width_mm": 2.4,
     "servo_cable_clip_location": "inner right wall, rounded C clips oriented Y open toward interior X decreasing; from ceiling front Y55 to servo near Y16, no cable eyes at Z12",
-    "mailbox_visible_black_left_x_mm": 76.6,
-    "mailbox_opening_to_black_left_gap_mm": 10,
+    "mailbox_visible_black_left_x_mm": 71.6,
+    "mailbox_opening_to_black_left_gap_mm": 5,
     "right_pier_retained_for_servo_mm": 39,
     "printed_door_exact_width_mm": 55,
     "printed_door_reduction_from_v10_mm": 44.4,
@@ -815,7 +815,49 @@
     "internal_cable_riser_cover_rail_groove_depth_x_mm": 0.55,
     "internal_cable_riser_cover_fit_each_side_mm": 0.2,
     "internal_cable_riser_cover_clear_channel_depth_after_cover_mm": 2.05,
-    "internal_cable_riser_cover_printing_note": "print upright or flat depending machine; slide after wiring with roof off; stop at Z15; grip at top; try fit before gluing (no glue required)"
+    "internal_cable_riser_cover_printing_note": "print upright or flat depending machine; slide after wiring with roof off; stop at Z15; grip at top; try fit before gluing (no glue required)",
+    "visual_reference_v15": "V15 photo reference updated at user's request: fixed black grooved 17mm pedestrian door with handle, black 7mm mailbox with white rectangular inlay, 5mm visible gap each side, NO intercom, roof standing seams/edges",
+    "pedestrian_door_static_not_operable": true,
+    "pedestrian_door_pocket_origin_xz_mm": [
+      83.3,
+      3.25
+    ],
+    "pedestrian_door_pocket_wh_depth_mm": [
+      17.6,
+      38.4,
+      1
+    ],
+    "pedestrian_door_black_panel_wh_t_mm": [
+      17,
+      37.8,
+      0.76
+    ],
+    "pedestrian_door_groove_count": 5,
+    "pedestrian_door_handle_integral": true,
+    "pedestrian_door_min_white_wall_backing_mm": 1.4,
+    "mailbox_white_inlay_wh_t_mm": [
+      5.1,
+      0.8,
+      0.35
+    ],
+    "mailbox_white_pocket_wh_depth_mm": [
+      5.5,
+      1.2,
+      0.43
+    ],
+    "mailbox_white_inlay_part": "14_insert_blanc_boite_lettres",
+    "roof_side_flashings_count": 2,
+    "roof_side_flashings_rise_mm": 0.55,
+    "roof_front_drip_depth_height_mm": [
+      0.55,
+      0.7
+    ],
+    "cosmetic_details_print_check": "separate three parts printed in black (door), grey (intercom), white (mailbox stripe), shallow adhesive pockets retain original 2.4mm structural wall except local 1mm recess; fine camera/button details are paintable, not live electronics",
+    "pedestrian_mailbox_black_face_gap_mm": 5,
+    "pedestrian_black_left_x_mm": 83.6,
+    "pedestrian_black_right_x_mm": 100.6,
+    "mailbox_black_right_x_mm": 78.6,
+    "intercom_removed": true
   },
   "system_state": {
     "sensor_count": 1,

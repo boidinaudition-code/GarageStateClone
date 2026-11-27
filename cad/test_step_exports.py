@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Régression CAO : BREP source, 13 STEP, 10 STL et assemblage V14.
+"""Régression CAO : BREP source, 15 STEP, 12 STL et assemblage V15 révisée.
 
 Lancer après: python cad/generate_cad.py
 Ne prétend pas remplacer un essai d'impression ou un montage mécanique.
@@ -54,7 +54,7 @@ assert bom["cad"]["orange_led_manufacturer_sized_drawing_used"] is True
 assert manifest["design"]["orange_led_drawing_user_supplied_not_measurement_of_item"] is True
 assert "REF_LED_orange_ENVELOPPE_COTEE_NE_PAS_IMPRIMER" in g.REFERENCES
 assert not any("orange" in k for k in g.PRINTABLE), "orange holder must be integral to shell"
-assert len(g.PRINTABLE) == 10
+assert len(g.PRINTABLE) == 12
 assert "11_couvercle_goulotte_arriere" in g.PRINTABLE
 assert g.cable_riser_cover == g.PRINTABLE["11_couvercle_goulotte_arriere"]
 assert "10_boite_aux_lettres_noire" in g.PRINTABLE
@@ -106,7 +106,7 @@ assert g.ROOF_RIB_Y0 >= -g.ROOF_OVERHANG
 assert g.ROOF_RIB_Y1 <= g.D+g.ROOF_OVERHANG
 assert all(rib.isValid() and len(rib.Solids())==1
            for rib in g.roof_standing_seams)
-assert g.MAILBOX_POCKET_X0 > g.OPEN_X+g.OPEN_W+5
+assert g.MAILBOX_POCKET_X0 >= g.OPEN_X+g.OPEN_W+5-g.FIT-1e-8
 assert g.MAILBOX_POCKET_X0+g.MAILBOX_POCKET_W < g.W-4
 assert g.MAILBOX_POCKET_Z0 >= g.BASE+g.MAILBOX_POCKET_H
 assert g.MAILBOX_POCKET_Z0+g.MAILBOX_POCKET_H < g.OPEN_Z+g.OPEN_H
@@ -115,6 +115,41 @@ assert math.isclose((g.MAILBOX_POCKET_W-g.MAILBOX_INSERT_W)/2,g.FIT,abs_tol=1e-8
 assert math.isclose((g.MAILBOX_POCKET_H-g.MAILBOX_INSERT_H)/2,g.FIT,abs_tol=1e-8)
 assert g.MAILBOX_FACE_RELIEF_Y+g.MAILBOX_INSERT_THICK < g.MAILBOX_POCKET_DEPTH
 assert g.mailbox_insert.isValid() and len(g.mailbox_insert.Solids())==1
+# V15 façade based on supplied photorealistic image, all dimensional details
+# are independent cosmetic prints; no cuts deeper than 1.0mm of the white wall.
+assert g.PEDESTRIAN_POCKET_W == 17.6
+assert g.PEDESTRIAN_POCKET_H == 38.4
+assert g.PEDESTRIAN_POCKET_DEPTH == 1.0
+assert g.PEDESTRIAN_PANEL_W == 17.0
+assert g.PEDESTRIAN_GROOVE_COUNT == len(g.PEDESTRIAN_GROOVE_XS) == 5
+assert g.PEDESTRIAN_PANEL_T == 0.76
+assert g.PEDESTRIAN_PANEL_X0 > g.MAILBOX_INSERT_X0+g.MAILBOX_INSERT_W
+assert g.PEDESTRIAN_POCKET_X0+g.PEDESTRIAN_POCKET_W < g.W
+assert g.WALL-g.PEDESTRIAN_POCKET_DEPTH >= 1.4
+assert g.MAILBOX_WHITE_INLAY_W == 5.1
+assert g.MAILBOX_WHITE_INLAY_H == 0.8
+assert g.MAILBOX_WHITE_INLAY_T == 0.35
+assert g.MAILBOX_WHITE_RECESS_W == 5.5
+assert g.MAILBOX_WHITE_RECESS_H == 1.2
+assert len(g.roof_side_flashings) == 2
+assert g.ROOF_SIDE_FLASHING_RISE == 0.55
+assert g.ROOF_FRONT_DRIP_H == 0.70
+for name in ("12_porte_pietonne_noire","14_insert_blanc_boite_lettres"):
+    assert name in g.PRINTABLE
+assert bom["cad"]["pedestrian_door_groove_count"] == 5
+assert manifest["design"]["pedestrian_door_is_non_operable_decor"] is True
+assert "13_interphone_gris" not in g.PRINTABLE
+assert not any("intercom" in k for k in g.PRINTABLE)
+assert g.PEDESTRIAN_MAILBOX_GAP_MM == 5.0
+assert g.MAILBOX_GAP_OPEN_TO_BLACK == 5.0
+assert math.isclose(g.MAILBOX_INSERT_X0-(g.OPEN_X+g.OPEN_W),5.0,abs_tol=1e-8)
+assert math.isclose(g.PEDESTRIAN_PANEL_X0-(g.MAILBOX_INSERT_X0+g.MAILBOX_INSERT_W),5.0,abs_tol=1e-8)
+assert math.isclose(g.PEDESTRIAN_PANEL_X0,83.6,abs_tol=1e-8)
+assert math.isclose(g.PEDESTRIAN_PANEL_X0+g.PEDESTRIAN_PANEL_W,100.6,abs_tol=1e-8)
+assert g.PEDESTRIAN_POCKET_X0+g.PEDESTRIAN_POCKET_W < g.W-g.WALL
+assert bom["cad"]["intercom_removed"] is True
+assert manifest["design"]["intercom_removed"] is True
+assert manifest["design"]["roof_side_flashing_count"] == 2
 assert bom["cad"]["roof_bac_acier_rib_count"] == manifest["design"]["roof_bac_acier_rib_count"] == 9
 assert bom["cad"]["mailbox_separate_black_part"] is True
 assert bom["cad"]["mailbox_pocket_width_height_depth_mm"] == [7.6,7.6,1.05]
@@ -122,11 +157,11 @@ assert bom["cad"]["mailbox_insert_width_height_thickness_mm"] == [7,7,0.75]
 assert bom["cad"]["mailbox_insert_linear_reduction_from_v9_percent"] == 30
 assert math.isclose(g.MAILBOX_INSERT_W / 10.0, 0.7, abs_tol=1e-8)
 assert math.isclose(g.MAILBOX_INSERT_H / 10.0, 0.7, abs_tol=1e-8)
-assert math.isclose(g.MAILBOX_POCKET_X0+g.MAILBOX_POCKET_W/2,80.1,abs_tol=1e-8)
+assert math.isclose(g.MAILBOX_POCKET_X0+g.MAILBOX_POCKET_W/2,75.1,abs_tol=1e-8)
 assert math.isclose(g.MAILBOX_INSERT_X0 - (g.OPEN_X+g.OPEN_W),
-                    10.0,abs_tol=1e-8)
-assert bom["cad"]["mailbox_opening_to_black_left_gap_mm"] == 10.0
-assert manifest["design"]["mailbox_visible_gap_to_opening_mm"] == 10.0
+                    5.0,abs_tol=1e-8)
+assert bom["cad"]["mailbox_opening_to_black_left_gap_mm"] == 5.0
+assert manifest["design"]["mailbox_visible_gap_to_opening_mm"] == 5.0
 assert math.isclose(g.MAILBOX_POCKET_Z0+g.MAILBOX_POCKET_H/2,29.3,abs_tol=1e-8)
 assert manifest["design"]["mailbox_insert_separate_stl"] is True
 assert g.bearing_width == 4.6
@@ -157,10 +192,10 @@ assert g.CABLE_RISER_GROOVE_DEPTH_X == 0.55
 assert g.CABLE_RISER_COVER_W == 7.9
 assert g.CABLE_RISER_COVER_T == 1.10
 assert math.isclose(g.CABLE_RISER_COVER_H,27.8)
-assert bom["cad"]["cad_printable_part_count"] == 10
-assert bom["cad"]["cad_step_export_count"] == 13
-assert manifest["design"]["cad_printable_count"] == 10
-assert manifest["design"]["cad_step_count"] == 13
+assert bom["cad"]["cad_printable_part_count"] == 12
+assert bom["cad"]["cad_step_export_count"] == 15
+assert manifest["design"]["cad_printable_count"] == 12
+assert manifest["design"]["cad_step_count"] == 15
 assert manifest["design"]["cable_riser_cover_part_name"] == "11_couvercle_goulotte_arriere"
 assert g.cable_riser_cover.intersect(g.shell).Volume()<1e-5, "lid must fit rail rebates"
 assert g.cable_riser_cover.intersect(g.tray).Volume()<1e-5
@@ -236,9 +271,9 @@ for k in ("xmin","xmax","ymin","ymax","zmin","zmax"):
 structure_path = ROOT / "step/GarageStateClone_V2_STRUCTURE_SANS_REFERENCES_ONSHAPE.step"
 assert structure_path.stat().st_size > 1000
 structure = cq.importers.importStep(str(structure_path)).val()
-assert structure.isValid() and len(structure.Solids()) == 10
-assert len(list((ROOT / "step").glob("*.step"))) == 13
-assert len(list((ROOT / "stl").glob("*.stl"))) == 10
+assert structure.isValid() and len(structure.Solids()) == 12
+assert len(list((ROOT / "step").glob("*.step"))) == 15
+assert len(list((ROOT / "stl").glob("*.stl"))) == 12
 
 def overlap(a, b):
     aa, bb = a.BoundingBox(), b.BoundingBox()
@@ -491,6 +526,27 @@ assert g.mailbox_insert.distance(g.shell)<g.FIT+0.03
 assert overlap(g.mailbox_insert, g.door)<1e-5
 assert overlap(g.mailbox_insert, g.cradle)<1e-5
 assert overlap(g.mailbox_insert, g.roof_lid)<1e-5
+assert g.mailbox_white_inlay.isValid() and len(g.mailbox_white_inlay.Solids())==1
+assert g.pedestrian_door.isValid() and len(g.pedestrian_door.Solids())==1
+for label,decor in (("pedestrian",g.pedestrian_door),
+                    ("mailbox white",g.mailbox_white_inlay)):
+    assert overlap(decor,g.shell)<1e-5, (label,"wall collision")
+    assert overlap(decor,g.roof_lid)<1e-5, (label,"roof collision")
+    assert overlap(decor,g.door)<1e-5, (label,"moving garage door collision")
+    assert overlap(decor,g.cradle)<1e-5, (label,"servo cradle collision")
+    assert overlap(decor,g.tray)<1e-5, (label,"attic collision")
+    assert overlap(decor,g.base_plate)<1e-5, (label,"floor collision")
+assert overlap(g.mailbox_white_inlay,g.mailbox_insert)<1e-5
+assert overlap(g.mailbox_insert,g.pedestrian_door)<1e-5
+for rim in g.roof_side_flashings:
+    assert rim.isValid() and len(rim.Solids())==1
+assert g.roof_front_drip.isValid() and len(g.roof_front_drip.Solids())==1
+assert g.roof_lid.isValid() and len(g.roof_lid.Solids())==1
+# Check physical front sheet remains solid behind shallow decorative niches.
+for x,z in ((g.PEDESTRIAN_POCKET_X0+3,25),
+            (g.MAILBOX_POCKET_X0+3.8,29)):
+    assert g.shell.isInside(cq.Vector(x,g.WALL-0.2,z),1e-5), ("front wall cut through",x,z)
+
 for xc in g.ROOF_RIB_XS:
     probe=cq.Vector(xc,45.0,g.H_FRONT+(g.H_BACK-g.H_FRONT)*0.45+0.4)
     assert g.roof_lid.isInside(probe,1e-5), ("raised steel rib missing",xc)
@@ -569,4 +625,4 @@ for angle in range(0, 91, 5):
         "support LED blanche": g.holder,
     }.items():
         assert overlap(door, shape) < 1e-5, ("collision porte", angle, label)
-print("PASS — V14: Wio 2 PETG clips clear XIAO/LoRa, straight closed rear chase with sliding lid, GTG502WWC LED shoulder; 13 STEP/10 STL")
+print("PASS — V15 révision: porte pietonne 17 mm, 5mm / 5mm autour boîte, interphone retiré; 15 STEP / 12 STL")

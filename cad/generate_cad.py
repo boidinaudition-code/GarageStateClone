@@ -60,9 +60,10 @@ RIGHT_PIER_W = W-OPEN_X-OPEN_W  # 39mm motor-side pier maintained
 OPEN_Z = BASE
 if abs(RIGHT_PIER_W-39.0)>1e-8:
     raise ValueError("Servo-side pier must stay 39mm, not scaled with the door")
-# V11: precisely 10mm between opening RIGHT EDGE and visible BLACK
-# mailbox plaque LEFT EDGE, not between opening and the recess edge.
-MAILBOX_GAP_OPEN_TO_BLACK=10.0
+# Current V15: 5.00mm nominal BETWEEN FINISHED BLACK FACES, not
+# between pockets: garage opening right->mailbox left and mailbox right->
+# pedestrian door left. Cosmetic inserts retain FIT=0.30mm each edge.
+MAILBOX_GAP_OPEN_TO_BLACK=5.0
 MAILBOX_POCKET_W=7.6
 MAILBOX_POCKET_H=7.6
 MAILBOX_POCKET_X0=OPEN_X+OPEN_W+MAILBOX_GAP_OPEN_TO_BLACK-FIT
@@ -74,6 +75,50 @@ MAILBOX_INSERT_H=MAILBOX_POCKET_H-2*FIT
 MAILBOX_INSERT_THICK=0.75
 MAILBOX_INSERT_X0=MAILBOX_POCKET_X0+FIT
 MAILBOX_INSERT_Z0=MAILBOX_POCKET_Z0+FIT
+# V15 updated face layout: 5 mm opening | 7 mm black mailbox | 5 mm |
+# 17 mm black pedestrian door. Combined =34mm within 39mm right pier.
+# Keep actual servo enclosure untouched: decorative front pockets only.
+PEDESTRIAN_MAILBOX_GAP_MM=5.0
+PEDESTRIAN_PANEL_TARGET_W=17.0
+PEDESTRIAN_POCKET_W=PEDESTRIAN_PANEL_TARGET_W+2*FIT
+PEDESTRIAN_POCKET_X0=(MAILBOX_INSERT_X0+MAILBOX_INSERT_W+
+                     PEDESTRIAN_MAILBOX_GAP_MM-FIT)
+PEDESTRIAN_POCKET_Z0=3.25
+PEDESTRIAN_POCKET_H=38.4
+PEDESTRIAN_POCKET_DEPTH=1.0
+PEDESTRIAN_PANEL_X0=PEDESTRIAN_POCKET_X0+FIT
+PEDESTRIAN_PANEL_Z0=PEDESTRIAN_POCKET_Z0+FIT
+PEDESTRIAN_PANEL_W=PEDESTRIAN_POCKET_W-2*FIT
+PEDESTRIAN_PANEL_H=PEDESTRIAN_POCKET_H-2*FIT
+PEDESTRIAN_PANEL_Y0=0.12
+PEDESTRIAN_PANEL_T=0.76
+PEDESTRIAN_RECESS_DEPTH=0.24
+PEDESTRIAN_GROOVE_W=0.42
+PEDESTRIAN_GROOVE_COUNT=5
+PEDESTRIAN_HANDLE_BASE_X=PEDESTRIAN_PANEL_X0+1.05
+PEDESTRIAN_HANDLE_Z=23.1
+# Separate white inlay above the black mailbox body, printed flat. A 0.8mm
+# high stripe is much more FDM-feasible than a 0.2mm letter-slot sliver.
+MAILBOX_WHITE_RECESS_W=5.5
+MAILBOX_WHITE_RECESS_H=1.2
+MAILBOX_WHITE_RECESS_Z0=MAILBOX_INSERT_Z0+MAILBOX_INSERT_H-1.85
+MAILBOX_WHITE_RECESS_X0=MAILBOX_INSERT_X0+(MAILBOX_INSERT_W-MAILBOX_WHITE_RECESS_W)/2
+MAILBOX_WHITE_RECESS_DEPTH=0.43
+MAILBOX_WHITE_INLAY_W=5.1
+MAILBOX_WHITE_INLAY_H=0.8
+MAILBOX_WHITE_INLAY_T=0.35
+MAILBOX_WHITE_INLAY_X0=MAILBOX_WHITE_RECESS_X0+0.20
+MAILBOX_WHITE_INLAY_Z0=MAILBOX_WHITE_RECESS_Z0+0.20
+# Decorative folded roof edges: retain existing 9 standing seams on TOP and
+# DOWNWARD FASCIA, with slim raised dark side flashing + a front drip lip.
+ROOF_SIDE_FLASHING_W=1.2
+ROOF_SIDE_FLASHING_RISE=0.55
+ROOF_SIDE_FLASHING_OVERLAP=0.14
+ROOF_SIDE_FLASHING_XS=(-ROOF_OVERHANG+0.2,
+                       W+ROOF_OVERHANG-0.2-ROOF_SIDE_FLASHING_W)
+ROOF_FRONT_DRIP_Y=-ROOF_OVERHANG-0.32
+ROOF_FRONT_DRIP_DEPTH=0.55
+ROOF_FRONT_DRIP_H=0.70
 PIVOT_Y = 9.5            # recess of axis; avoids front wall and servo body collision
 PIVOT_Z = BASE + OPEN_H + 0.4
 DOOR_T = 2.4
@@ -451,12 +496,60 @@ mailbox_insert=box(MAILBOX_INSERT_X0,MAILBOX_FACE_RELIEF_Y,MAILBOX_INSERT_Z0,
                    MAILBOX_INSERT_W,MAILBOX_INSERT_THICK,MAILBOX_INSERT_H)
 # Very shallow letter-slot cosmetic engraving on the black plaque front,
 # not a functional opening; keeps the small adhesive plate one-piece.
-MAILBOX_SLOT_X0=MAILBOX_INSERT_X0+0.85
-MAILBOX_SLOT_Z0=MAILBOX_INSERT_Z0+MAILBOX_INSERT_H-1.7
+# V15: white stripe in a shallow black-body pocket, fitted and glued.
+# The white strip is an actual separately printable STEP/STL part.
 mailbox_insert=mailbox_insert.cut(box(
-    MAILBOX_SLOT_X0,MAILBOX_FACE_RELIEF_Y-0.02,MAILBOX_SLOT_Z0,
-    MAILBOX_INSERT_W-1.7,0.22,0.40)).clean()
-
+    MAILBOX_WHITE_RECESS_X0,MAILBOX_FACE_RELIEF_Y-0.02,
+    MAILBOX_WHITE_RECESS_Z0,MAILBOX_WHITE_RECESS_W,
+    MAILBOX_WHITE_RECESS_DEPTH+0.02,MAILBOX_WHITE_RECESS_H)).clean()
+mailbox_white_inlay=box(MAILBOX_WHITE_INLAY_X0,
+                       MAILBOX_FACE_RELIEF_Y+0.01,
+                       MAILBOX_WHITE_INLAY_Z0,
+                       MAILBOX_WHITE_INLAY_W,MAILBOX_WHITE_INLAY_T,
+                       MAILBOX_WHITE_INLAY_H)
+# V15 static pedestrian door on the RIGHT white pier. Local 1mm pocket
+# does not pierce through the wall, so the motor structure remains intact.
+pedestrian_pocket=box(PEDESTRIAN_POCKET_X0,-0.05,PEDESTRIAN_POCKET_Z0,
+    PEDESTRIAN_POCKET_W,PEDESTRIAN_POCKET_DEPTH+0.05,PEDESTRIAN_POCKET_H)
+shell=shell.cut(pedestrian_pocket).clean()
+pedestrian_door=box(PEDESTRIAN_PANEL_X0,PEDESTRIAN_PANEL_Y0,
+    PEDESTRIAN_PANEL_Z0,PEDESTRIAN_PANEL_W,PEDESTRIAN_PANEL_T,
+    PEDESTRIAN_PANEL_H)
+# Recessed central panel and transverse bottom rail; front face has
+# longitudinal molded grooves like the image, with a crisp black frame.
+pedestrian_panel_inner=box(PEDESTRIAN_PANEL_X0+1.15,
+    PEDESTRIAN_PANEL_Y0-0.02,PEDESTRIAN_PANEL_Z0+1.35,
+    PEDESTRIAN_PANEL_W-2.30,PEDESTRIAN_RECESS_DEPTH+0.02,
+    PEDESTRIAN_PANEL_H-2.7)
+pedestrian_door=pedestrian_door.cut(pedestrian_panel_inner)
+PEDESTRIAN_GROOVE_XS=[]
+for i in range(PEDESTRIAN_GROOVE_COUNT):
+    gx=(PEDESTRIAN_PANEL_X0+2.15+
+        i*(PEDESTRIAN_PANEL_W-4.3)/(PEDESTRIAN_GROOVE_COUNT-1))
+    PEDESTRIAN_GROOVE_XS.append(gx)
+    # Grooves lie within recessed panel; extend into the actual door face.
+    pedestrian_door=pedestrian_door.cut(box(
+        gx-PEDESTRIAN_GROOVE_W/2,
+        PEDESTRIAN_PANEL_Y0+PEDESTRIAN_RECESS_DEPTH-0.02,
+        PEDESTRIAN_PANEL_Z0+2.3,
+        PEDESTRIAN_GROOVE_W,0.20,
+        PEDESTRIAN_PANEL_H-4.6))
+# Raised lower horizontal rail separates upper planked panel and kick panel.
+PEDESTRIAN_LOWER_RAIL_Z=PEDESTRIAN_PANEL_Z0+11.2
+pedestrian_door=pedestrian_door.fuse(box(
+    PEDESTRIAN_PANEL_X0+1.15,PEDESTRIAN_PANEL_Y0+0.03,
+    PEDESTRIAN_LOWER_RAIL_Z,
+    PEDESTRIAN_PANEL_W-2.3,0.33,0.75))
+# Small raised hinge and black lever/escutcheon near left edge. Ensure
+# positive fused volume; no sub-0.3mm loose latch or secondary screw.
+pedestrian_handle_post=box(PEDESTRIAN_HANDLE_BASE_X,
+    PEDESTRIAN_PANEL_Y0-0.45,PEDESTRIAN_HANDLE_Z,
+    0.95,0.70,2.25)
+pedestrian_handle_lever=box(PEDESTRIAN_HANDLE_BASE_X,
+    PEDESTRIAN_PANEL_Y0-0.70,PEDESTRIAN_HANDLE_Z+1.35,
+    2.85,0.65,0.55)
+pedestrian_door=pedestrian_door.fuse(
+    pedestrian_handle_post).fuse(pedestrian_handle_lever).clean()
 # V14 straight chase. Rebates are machined into the INSIDE faces
 # of each rail, leaving >=1.25mm material in the rail. The cover slides
 # from the open TOP, captive in X/Y, with a hard stop at Z15.0.
@@ -546,6 +639,20 @@ roof_standing_seams=[roof_standing_seam(x) for x in ROOF_RIB_XS]
 # Same standing-seam rhythm continues on the DOWNWARD front fascia.
 roof_front_fascia_seams=[front_fascia_standing_seam(x) for x in ROOF_RIB_XS]
 roof_lid=union_all([roof_lid]+roof_standing_seams+roof_front_fascia_seams)
+# Side flashing follows the SAME slope while preserving removable roof fit.
+roof_side_flashings=[]
+for fx in ROOF_SIDE_FLASHING_XS:
+    roof_side_flashings.append(side_wedge(
+        fx,ROOF_SIDE_FLASHING_W,-ROOF_OVERHANG,D+ROOF_OVERHANG,
+        H_FRONT-ROOF_SIDE_FLASHING_OVERLAP,
+        H_BACK-ROOF_SIDE_FLASHING_OVERLAP,
+        H_FRONT+ROOF_SIDE_FLASHING_RISE,
+        H_BACK+ROOF_SIDE_FLASHING_RISE))
+front_eave_z=H_FRONT-(H_BACK-H_FRONT)*ROOF_OVERHANG/D
+roof_front_drip=box(-ROOF_OVERHANG,ROOF_FRONT_DRIP_Y,
+    front_eave_z-0.45,W+2*ROOF_OVERHANG,
+    ROOF_FRONT_DRIP_DEPTH,ROOF_FRONT_DRIP_H)
+roof_lid=union_all([roof_lid]+roof_side_flashings+[roof_front_drip])
 
 # 4. Single rigid door, ornamental grooves, rotating around horizontal X-axis.
 door_x0=OPEN_X+FIT
@@ -806,6 +913,8 @@ PRINTABLE={
   '09_support_led_blanche':holder,
   '10_boite_aux_lettres_noire':mailbox_insert,
   '11_couvercle_goulotte_arriere':cable_riser_cover,
+  '12_porte_pietonne_noire':pedestrian_door,
+  '14_insert_blanc_boite_lettres':mailbox_white_inlay,
 }
 
 # 10. Import des quatre vrais STEP. Pas de substitution silencieuse.
@@ -962,6 +1071,8 @@ if __name__=='__main__':
        '09_support_led_blanche':cq.Color(0.96,0.96,0.95),
        '10_boite_aux_lettres_noire':cq.Color(0.06,0.07,0.08),
        '11_couvercle_goulotte_arriere':cq.Color(0.96,0.96,0.95),
+       '12_porte_pietonne_noire':cq.Color(0.08,0.09,0.10),
+       '14_insert_blanc_boite_lettres':cq.Color(0.98,0.98,0.96),
     }
     for name,s in PRINTABLE.items():
         assy.add(s,name=name,color=colors[name])
@@ -981,6 +1092,18 @@ if __name__=='__main__':
         'width':W,'depth':D,'front_height':H_FRONT,'rear_height':H_BACK,
         'roof_slope_rise':H_BACK-H_FRONT,'wall':WALL,'roof':ROOF,'base':BASE,
         'roof_bac_acier_rib_count':ROOF_RIB_COUNT,
+        'roof_side_flashings_count':len(roof_side_flashings),
+        'roof_side_flashings_rise_mm':ROOF_SIDE_FLASHING_RISE,
+        'roof_front_drip_y_depth_height_mm':[ROOF_FRONT_DRIP_Y,ROOF_FRONT_DRIP_DEPTH,ROOF_FRONT_DRIP_H],
+        'decorative_pedestrian_door_xz_mm':[PEDESTRIAN_POCKET_X0,PEDESTRIAN_POCKET_Z0],
+        'decorative_pedestrian_pocket_wh_depth_mm':[PEDESTRIAN_POCKET_W,PEDESTRIAN_POCKET_H,PEDESTRIAN_POCKET_DEPTH],
+        'decorative_pedestrian_panel_wh_thickness_mm':[PEDESTRIAN_PANEL_W,PEDESTRIAN_PANEL_H,PEDESTRIAN_PANEL_T],
+        'pedestrian_door_groove_count':PEDESTRIAN_GROOVE_COUNT,
+        'pedestrian_door_static_no_hardware':True,
+        'pedestrian_mailbox_finished_face_gap_mm':PEDESTRIAN_MAILBOX_GAP_MM,
+        'pedestrian_black_panel_target_width_mm':PEDESTRIAN_PANEL_TARGET_W,
+        'pedestrian_black_left_x_mm':PEDESTRIAN_PANEL_X0,
+        'mailbox_white_inlay_wh_thickness_mm':[MAILBOX_WHITE_INLAY_W,MAILBOX_WHITE_INLAY_H,MAILBOX_WHITE_INLAY_T],
         'bottom_cable_eyelets_removed':len(wire_eyes)==0,
         'servo_cable_clip_count':len(servo_cable_clips),
         'servo_cable_clip_yz_mm':SERVO_CABLE_CLIP_YZ,

@@ -1,21 +1,33 @@
-# CAO GarageStateClone — V14
+# CAO GarageStateClone — V15, façade décorative fidèle au visuel
 
-**CAO paramétrique courante — 23/11/2026.** Développer via `cad/generate_cad.py`. Une version antérieure du dessin peut exister dans l'historique Git, mais les spécifications ci-dessous décrivent **uniquement V14**.
+**CAO paramétrique courante — 24/11/2026.** Développer via `cad/generate_cad.py`. Une version antérieure du dessin peut exister dans l'historique Git, mais les spécifications ci-dessous décrivent **uniquement V15**.
 
 | Élément | Cote V14 |
 |---|---|
 | Coque | **105,6 × 85 mm**, murs 2,4 mm |
-| Toit | **62 / 78 mm**, 9 nervures en pan et 9 en retombée, 3 mm d'épaisseur |
+| Toit | **62 / 78 mm**, 9 nervures en pan et 9 en retombée, 3 mm d'épaisseur, **2 rives et un larmier frontal** |
 | Porte | 55 × 41,4 × 2,4 mm, ouverture 55,6 × 42 mm, jeu 0,30 mm par côté |
 | Servo DMS-MG90 | Montant droit 39 mm, entraxe d'oreilles 29 mm, 2 pilotes Ø1,7 et 4 pieds indépendants, goussets |
 | Palier | 4,6 × 12 × 12 mm, axe Ø3,2 et alésage Ø3,8 |
-| Boîte aux lettres | 7 × 7 mm noire, **10 mm** du bord de l'ouverture |
+| Boîte aux lettres | 7 × 7 mm noire ; **5 mm** du bord de la porte de garage et **5 mm** de la porte piétonne, rectangle blanc **5,1 × 0,8 × 0,35 mm** |
+| Porte piétonne V15 | **17 × 37,8 mm**, niche **17,6 × 38,4 mm**, 5 rainures, poignée noire, panneau non fonctionnel |
+| Interphone V15 | **Supprimé**, aucun logement ni pièce imprimée |
 | Combles | Faux plafond **100,2 × 25 × 2,4**, origine Y55 / Z46 ; XIAO+Wio dessus |
 | Fixation XIAO+Wio | **2 clips pression latéraux en PETG** autour du Wio ; 4 patins PCB + 2 passages de collier maintenus |
 | Goulotte | U intérieur arrière, canal droit **7,2 mm**, de Z14 à Z43, **couvercle coulissant amovible** indépendant |
 | LED blanche | GTG502WWC sur plan fourni : corps Ø5/ collerette Ø5,9/ hauteur 8,6 ; support n°09 à butée et passage fils |
 | LED orange | Ø5 avec collerette Ø5,9, sous palier gauche, trou façade Ø2 |
 | USB-C arrière | Platine Gotronic 49067, trou **10 × 4,2 mm provisoire** |
+
+## Façade V15 révisée : 2 espaces de 5 mm et porte de 17 mm
+
+Les seules pièces décoratives indépendantes supplémentaires sont **`12_porte_pietonne_noire`** (panneau noir **17 × 37,8 × 0,76 mm**, cinq rainures verticales, traverse basse et poignée fusionnée) et **`14_insert_blanc_boite_lettres`** (trait blanc **5,1 × 0,8 mm**). **Interphone supprimé : aucune empreinte, aucun perçage et aucun STL d'interphone.**
+
+Depuis le bord de l'ouverture de garage X66,6, la boîte noire visible va de **X71,6 à X78,6** (7 mm), puis la porte piétonne visible va de **X83,6 à X100,6** (**17 mm**). Les deux distances demandées sont donc **exactement 5 mm entre les surfaces visibles**, avant et après la boîte. La niche de porte blanche est **17,6 × 38,4 × 1,0 mm**, à **X83,3/Z3,25**, avec **0,30 mm de jeu par bord**. Le mur blanc reste épais d'au moins **1,4 mm** derrière les niches.
+
+Le toit noir amovible conserve **9 nervures trapézoïdales** et leurs retours verticaux. Deux rives **+0,55 mm** et un larmier frontal de **0,70 mm** restent fusionnés au toit, sans modifier l'emboîtement intérieur ni la pente **62 / 78 mm**.
+
+**Exports : 12 STL et 15 STEP**, plus **4 coupons** ; conserver l'ensemble des composants internes de V14, la porte de garage mobile et le firmware. L'insert blanc de 0,8 mm reste délicat à manipuler en FDM. Voir [plan de façade V15](../docs/FACADE_REFERENCE_PORTE_INTERPHONE_V15.md).
 
 ## Clips souples de radio
 
@@ -35,7 +47,7 @@ Le schéma **Bornier SC02/2.54** donne le pas2,54, la profondeur6,5, la hauteur 
 
 ## Exports et contrôles
 
-**10 STL**, **13 STEP** (10 pièces imprimables, 2 assemblages et 1 XIAO simplifié), **4 coupons**. Les anciens noms « V2 » des assemblages STEP sont historiques et leur **contenu est V14**.
+**12 STL**, **15 STEP** (12 pièces imprimables, 2 assemblages et 1 XIAO simplifié), **4 coupons**. Les anciens noms « V2 » des assemblages STEP sont historiques et leur **contenu est V15 révisée**.
 
 ```bash
 python cad/generate_cad.py
