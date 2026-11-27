@@ -173,7 +173,29 @@ assert "Servo.h" in firm and "#include <Servo.h>" in firm
 assert "static constexpr uint8_t PIN_SERVO = D6" in firm
 assert "static constexpr uint8_t PIN_INTERIOR_LED = D7" in firm
 assert "static constexpr uint8_t PIN_AMBER_LED = D0" in firm
-assert "ANGLE_CLOSED = 15" in firm and "ANGLE_OPEN = 95" in firm
+# Receiver calibration: inverted 90-degree stroke, five seconds each way.
+# Match complete constant definitions (not comments or numeric prefixes).
+receiver = firm.split("#else  // ROLE_RECEPTEUR", 1)[1]
+def receiver_constant(name):
+    match = re.search(r"^\s*static constexpr uint(?:8|32)_t\s+" + re.escape(name) +
+                      r"\s*=\s*(\d+)\s*;", receiver, re.MULTILINE)
+    assert match, ("Missing receiver constant", name)
+    return int(match.group(1))
+
+closed = receiver_constant("ANGLE_CLOSED")
+opened = receiver_constant("ANGLE_OPEN")
+open_ms = receiver_constant("OPEN_TRAVEL_MS")
+close_ms = receiver_constant("CLOSE_TRAVEL_MS")
+assert (closed, opened) == (90, 0), ("Servo calibration", closed, opened)
+assert abs(opened - closed) == 90
+assert (open_ms, close_ms) == (5000, 5000), ("Travel duration in ms", open_ms, close_ms)
+assert f"{closed}° fermé et {opened}° ouvert" in read
+assert f"{open_ms // 1000} s de {closed}° à {opened}°" in read
+assert f"La fermeture complète est également commandée en **{close_ms // 1000} s**" in read
+assert "case STATE_MIDDLE: nextTarget = ANGLE_OPEN;" in receiver
+assert "targetAngle == ANGLE_OPEN" in receiver
+assert " / FULL_TRAVEL_DEG;" in receiver
+assert "ANGLE_MIDDLE" not in receiver
 for marker in ("V15", "105,6 × 85", "55 mm", "62 / 78", "2,4", "0,30",
                "PETG", "GTG502WWC", "couvercle", "2 clips", "4 coupons",
                "goussets", "6 mm", "29 mm", "4 coupons",
@@ -192,4 +214,4 @@ assert len(list((root/"cad/refs").glob("*.brep.z.b64"))) == 4
 for token in ("palonnier", "non", "tester"):
     assert token in read.lower()
 assert "boîtier" in read.lower() and "SAS308" in read
-print("PASS cross-check V15 revision: 5mm mailbox gaps and 17mm pedestrian door, intercom absent, 12 STL/15 STEP, firmware preserved")
+print("PASS cross-check V15 revision: 5mm mailbox gaps and 17mm pedestrian door, intercom absent, 12 STL/15 STEP, inverted 90-degree servo stroke, 5s each way")
