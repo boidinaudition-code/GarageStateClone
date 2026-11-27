@@ -201,6 +201,16 @@ assert "case STATE_MIDDLE: nextTarget = ANGLE_OPEN;" in receiver
 assert "targetAngle == ANGLE_OPEN" in receiver
 assert " / FULL_TRAVEL_DEG;" in receiver
 assert "ANGLE_MIDDLE" not in receiver
+assert receiver_constant("WATCHDOG_TIMEOUT_MS") == 8000
+assert receiver_constant("RX_SILENCE_RECOVERY_MS") == 80000
+assert receiver_constant("RX_RECOVERY_INTERVAL_MS") == 30000
+assert receiver_constant("RADIO_ERROR_RETRY_MS") == 5000
+assert receiver_constant("LINK_TIMEOUT_MS") == 150000
+assert "NRF_WDT->TASKS_START = 1;" in receiver
+assert "digitalRead(PIN_LORA_DIO1) == HIGH" in receiver
+assert "Serial.dtr()" in receiver and "Serial.availableForWrite()" in receiver
+assert "fatalRadio(" not in receiver
+assert "feedReceiverWatchdog();" in receiver.split("void loop() {", 1)[1]
 for marker in ("V15", "105,6 × 85", "55 mm", "62 / 78", "2,4", "0,30",
                "PETG", "GTG502WWC", "couvercle", "2 clips", "4 coupons",
                "goussets", "6 mm", "29 mm", "4 coupons",

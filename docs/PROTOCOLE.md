@@ -16,7 +16,8 @@ Radio : 868,125 MHz ; BW125 kHz ; SF8 ; CR 4/5 ; sync privé 0x12 ; préambule 8
 * Emetteur : nouvelle lecture stabilisée après 150 ms, rapport immédiat ; sans changement, rapport toutes les 60 s.
 * Trois essais maximum, chaque essai passe en écoute 600 ms pour l'ACK correspondant au numéro de séquence.
 * Le récepteur accuse réception de chaque trame valide et revient en réception continue.
-* Le récepteur invalide la fraîcheur après 150 secondes sans état valide. La position physique reste où elle était et la LED clignote.
+* Le récepteur invalide la fraîcheur après 150 secondes sans état valide (ou immédiatement si la radio est en erreur). La dernière consigne de porte est conservée ; une animation en cours peut se terminer. La LED orange signale la perte de liaison et la blanche s'éteint.
+* Récepteur : récupération du SX1262 après 80 s de silence, nouvelles tentatives espacées d'au moins 30 s ; après une erreur explicite, nouvel essai à 5 s. Scrutation du niveau DIO1 en complément de l'interruption. Watchdog matériel 8 s nourri uniquement à la fin de la boucle. Aucun changement de trame ni du heartbeat émetteur.
 * Sur une trame « défaut capteurs », ne pas faire bouger le servo.
 * Les trames ne sont PAS authentifiées : usage indicatif, ne pas les utiliser pour sécuriser le bâtiment.
 

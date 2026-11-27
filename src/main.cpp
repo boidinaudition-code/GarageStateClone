@@ -10,6 +10,8 @@
 
 #if defined(ROLE_RECEPTEUR)
   #include <Servo.h>
+  #include <nrf.h>
+  #include <cstdio>
 #endif
 
 #if defined(ROLE_EMETTEUR) == defined(ROLE_RECEPTEUR)
@@ -82,22 +84,30 @@ void fatalRadio(const char* context, int16_t code) {
   while (true) delay(1000);
 }
 
-void initRadio() {
+void initRadioBus() {
   pinMode(PIN_LORA_RFSW, OUTPUT);
   digitalWrite(PIN_LORA_RFSW, HIGH);
   SPI.begin();
+}
 
+// begin() reinitialise aussi le SX1262. Ne pas bloquer definitivement sur erreur.
+int16_t configureRadio() {
   int16_t result = radio.begin(RADIO_MHZ, RADIO_BW_KHZ, RADIO_SF,
                                RADIO_CR, RADIO_SYNC, RADIO_TX_DBM,
                                8, RADIO_TCXO_V, false);
+  if (result != RADIOLIB_ERR_NONE) return result;
+  return radio.setDio2AsRfSwitch(true);
+}
+
+#if defined(ROLE_EMETTEUR)
+void initRadio() {
+  initRadioBus();
+  const int16_t result = configureRadio();
   if (result != RADIOLIB_ERR_NONE) fatalRadio("init", result);
-
-  result = radio.setDio2AsRfSwitch(true);
-  if (result != RADIOLIB_ERR_NONE) fatalRadio("DIO2 RF switch", result);
-
   radio.setDio1Action(onRadioIRQ);
   Serial.println("SX1262 initialisee : 868.125 MHz / SF8 / 125 kHz / 10 dBm");
 }
+#endif
 
 Frame makeFrame(uint8_t kind, uint16_t seq, uint8_t value) {
   Frame f{};
@@ -256,6 +266,11 @@ static constexpr uint8_t PIN_SERVO = D6;
 static constexpr uint8_t PIN_INTERIOR_LED = D7; // base BC547B via 4.7k ; LED blanche +5V ; active HIGH
 static constexpr uint8_t PIN_AMBER_LED = D0;    // orange facade, active LOW (absorption)
 static constexpr uint32_t LINK_TIMEOUT_MS = 150000;
+static constexpr uint32_t RX_SILENCE_RECOVERY_MS = 80000; // heartbeat TX 60 s
+static constexpr uint32_t RX_RECOVERY_INTERVAL_MS = 30000;
+static constexpr uint32_t RADIO_ERROR_RETRY_MS = 5000;
+static constexpr uint32_t WATCHDOG_TIMEOUT_MS = 8000;
+static_assert(RX_SILENCE_RECOVERY_MS < LINK_TIMEOUT_MS, "Recover before link timeout");
 static constexpr uint8_t ANGLE_CLOSED = 90; // porte verticale (sens inverse)
 static constexpr uint8_t ANGLE_OPEN = 0;    // porte horizontale
 static constexpr uint32_t OPEN_TRAVEL_MS = 5000;
@@ -276,6 +291,77 @@ uint32_t lastValidFrameMs = 0;
 uint8_t motionStartAngle = ANGLE_CLOSED;
 uint32_t motionStartMs = 0;
 uint32_t motionDurationMs = 0;
+bool radioReady = false;
+bool radioIrqInstalled = false;
+uint32_t lastRadioAttemptMs = 0;
+
+// WDT nRF52840 independant du CPU et des interruptions. Nourrir uniquement
+// apres un tour complet de loop(), jamais depuis une ISR ou une tache USB.
+void startReceiverWatchdog() {
+  if (!NRF_WDT->RUNSTATUS) {
+    NRF_WDT->CONFIG = 1; // actif pendant le sommeil, pause en debug halt
+    NRF_WDT->CRV = (WATCHDOG_TIMEOUT_MS * 32768UL) / 1000UL;
+    NRF_WDT->RREN = 1; // RR[0]
+    NRF_WDT->TASKS_START = 1;
+  }
+}
+
+void feedReceiverWatchdog() {
+  NRF_WDT->RR[0] = 0x6E524635UL;
+}
+
+// Diagnostic facultatif : aucun print USB non conditionnel dans le recepteur.
+// Une ligne tient dans le tampon CDC ; si pas de place, elle est abandonnee.
+void receiverLog(const char* event, int32_t value) {
+  if (!Serial.dtr()) return;
+  char line[64];
+  const int n = snprintf(line, sizeof(line), "%s: %ld\n", event, (long)value);
+  if (n > 0 && n < (int)sizeof(line) && Serial.availableForWrite() >= n) {
+    Serial.write(reinterpret_cast<const uint8_t*>(line), (size_t)n);
+  }
+}
+
+void recoverRadio() {
+  radioReady = false;
+  lastRadioAttemptMs = millis();
+  if (radioIrqInstalled) {
+    radio.clearDio1Action();
+    radioIrqInstalled = false;
+  }
+  consumeRadioIRQ();
+  int16_t rc = configureRadio();
+  if (rc == RADIOLIB_ERR_NONE) {
+    radio.setDio1Action(onRadioIRQ);
+    radioIrqInstalled = true;
+    // Clear old IRQ before RX, never after: a new packet may already be here.
+    consumeRadioIRQ();
+    rc = radio.startReceive();
+  }
+  radioReady = (rc == RADIOLIB_ERR_NONE);
+  lastRadioAttemptMs = millis();
+  receiverLog(radioReady ? "RX initialise/rearme" : "RX erreur init", rc);
+}
+
+void radioFailed(int16_t rc) {
+  radioReady = false;
+  lastRadioAttemptMs = millis();
+  receiverLog("RX recuperation programmee", rc);
+}
+
+void serviceRadioRecovery(uint32_t now) {
+  const uint32_t sinceAttempt = now - lastRadioAttemptMs;
+  if (!radioReady) {
+    if (sinceAttempt >= RADIO_ERROR_RETRY_MS) recoverRadio();
+    return;
+  }
+  const uint32_t silent = haveStatus ? now - lastValidFrameMs : sinceAttempt;
+  // Une trame valide repousse le controle; les tentatives restent espacees
+  // si l'emetteur est eteint. Ne pas effacer le dernier etat de porte.
+  if (silent >= RX_SILENCE_RECOVERY_MS && sinceAttempt >= RX_RECOVERY_INTERVAL_MS) {
+    receiverLog("RX silence, reinit ms", (int32_t)silent);
+    recoverRadio();
+  }
+}
 
 void animateServo(uint32_t now) {
   if (!servoStarted || currentAngle == targetAngle) return;
@@ -335,7 +421,7 @@ void setAmberLed(bool on) {
 }
 
 void updateLeds(uint32_t now) {
-  const bool stale = !haveStatus || (now - lastValidFrameMs > LINK_TIMEOUT_MS);
+  const bool stale = !radioReady || !haveStatus || (now - lastValidFrameMs >= LINK_TIMEOUT_MS);
   const bool servoMoving = servoStarted && currentAngle != targetAngle;
   const bool openRequested = receivedDoorState == STATE_OPEN || receivedDoorState == STATE_MIDDLE;
   const bool fullyOpen = !stale && openRequested && servoStarted && currentAngle == ANGLE_OPEN && !servoMoving;
@@ -371,42 +457,48 @@ void processRadio() {
     lastValidFrameMs = millis();
     setTarget(frame.value);
 
-    Serial.print("Etat = "); Serial.print(frame.value);
-    Serial.print(" seq = "); Serial.print(frame.sequence);
-    Serial.print(" RSSI = "); Serial.println(radio.getRSSI());
-
     // Laisser le temps a l'emetteur de basculer de TX en RX.
     delay(50);
     Frame ack = makeFrame(KIND_ACK, frame.sequence, frame.value);
-    int16_t tx = radio.transmit(reinterpret_cast<uint8_t*>(&ack), sizeof(ack));
+    const int16_t tx = radio.transmit(reinterpret_cast<uint8_t*>(&ack), sizeof(ack));
     if (tx != RADIOLIB_ERR_NONE) {
-      Serial.print("ACK TX erreur = "); Serial.println(tx);
+      radioFailed(tx);
+      return;
     }
+    receiverLog("Etat LoRa", frame.value);
   }
   // Toujours revenir en ecoute, y compris apres une trame invalide.
   consumeRadioIRQ();
-  int16_t rx = radio.startReceive();
-  if (rx != RADIOLIB_ERR_NONE) Serial.println("Erreur retour RX");
+  const int16_t rx = radio.startReceive();
+  if (rx != RADIOLIB_ERR_NONE) radioFailed(rx);
 }
 
 void setup() {
+  startReceiverWatchdog();
   Serial.begin(115200);
-  delay(350);
-  Serial.println("GARAGE MINIATURE : RECEPTEUR");
   pinMode(PIN_INTERIOR_LED, OUTPUT);
   digitalWrite(PIN_INTERIOR_LED, LOW);
-  pinMode(PIN_AMBER_LED, INPUT); // orange eteinte / haute impedance
-  initRadio();
-  const int16_t rx = radio.startReceive();
-  if (rx != RADIOLIB_ERR_NONE) fatalRadio("startReceive", rx);
+  pinMode(PIN_AMBER_LED, INPUT);
+  initRadioBus();
+  // RESETREAS bit 1 (DOG): indication diagnostique, sans stockage persistant.
+  const uint32_t resetReason = NRF_POWER->RESETREAS;
+  NRF_POWER->RESETREAS = resetReason;
+  receiverLog("GARAGE RECEPTEUR reset", (int32_t)resetReason);
+  recoverRadio();
 }
 
 void loop() {
-  if (consumeRadioIRQ()) processRadio();
+  // L'IRQ est memorisee, mais DIO1 reste haut tant que le SX1262 n'a pas
+  // efface son IRQ: permet de recuperer un front manque.
+  if (radioReady && (consumeRadioIRQ() || digitalRead(PIN_LORA_DIO1) == HIGH)) {
+    processRadio();
+  }
+  serviceRadioRecovery(millis());
   const uint32_t now = millis();
   animateServo(now);
   updateLeds(now);
   delay(2);
+  feedReceiverWatchdog();
 }
 
 #endif
