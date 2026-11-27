@@ -120,7 +120,7 @@ Porte monobloc noire à rainures horizontales, **bascule vers l'intérieur** aut
 3. Contrôler **C/B/E de Q1**, les résistances (330 / 680 / 4,7 k / 100 k) et **les polarités des 2 LED**.
 4. Contrôler l'orientation du **470 µF** ; mesurer le 5 V du servo puis le 3,3 V du XIAO.
 5. Alimenter le **récepteur avec le servo sans porte**. Tester les trois positions sans blocage ni surchauffe.
-6. Simuler FERMÉ (aimant présent sur D6), puis NON FERMÉ (aimant retiré) ; après 40 s sans aimant, vérifier que la miniature passe à « OUVERT estimé », avec LED blanche après mouvement du servo.
+6. Simuler FERMÉ (aimant présent sur D6), puis NON FERMÉ (aimant retiré) ; dès réception LoRa, vérifier l'ouverture continue de 15° à 95° en 5 s, sans pause, puis LED blanche allumée et orange fixe. Le retour de l'aimant commande la fermeture en 2 s. La trame OPEN estimée après 40 s ne relance pas le mouvement.
 7. Appuyer brièvement sur le bouton D0 **uniquement si le câblage est vérifié** : noter que la LED orange peut aussi s'allumer.
 8. Tester la perte radio en arrêtant l'émetteur plus de 150 s. Le défaut « deux fins de course actives » n'est pas testable avec un seul contact.
 
@@ -136,7 +136,7 @@ Porte monobloc noire à rainures horizontales, **bascule vers l'intérieur** aut
 
 **Un seul SAS308 est monté** : D6→contact→GND, aimant en face **si la vraie porte est fermée**. D7 n'est pas raccordé côté émetteur. Le capteur est placé en position fixe hors des éléments mobiles, seul l'aimant suit la porte. [Cotes exactes et inconnues](ENCOMBREMENT_BOM_V1.md).
 
-**Estimation décorative d'ouverture :** après 40 s sans aimant (configurable), le firmware annonce l'état OPEN *estimé* afin d'animer la porte et éclairer la miniature. C'est inexact si la vraie porte reste arrêtée entre les fins de course. **Ce montage n'est pas une sécurité de fermeture.**
+**Estimation décorative d'ouverture :** après 40 s sans aimant (configurable), l'émetteur annonce l'état OPEN *estimé* ; le récepteur anime désormais l'ouverture dès le premier état NON FERMÉ et allume la LED blanche en fin de mouvement. C'est inexact si la vraie porte reste arrêtée entre les fins de course. **Ce montage n'est pas une sécurité de fermeture.**
 
 ## Implantation V5 : alimentation et cartes dans les combles
 

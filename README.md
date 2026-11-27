@@ -62,7 +62,7 @@ L'entraxe des deux encoches d'oreilles du DMS-MG90 est **29 mm**, avec des pilot
 
 ## Électricité et fonctionnement
 
-Un seul capteur magnétique **SAS308** indique la fermeture complète du garage réel. Contact ouvert : la position intermédiaire puis ouverte est **estimée**, et non mesurée. Sans nouvelles trames pendant 150 s, la liaison est considérée périmée.
+Un seul capteur magnétique **SAS308** indique la fermeture complète du garage réel. Contact ouvert : le récepteur lance immédiatement une ouverture décorative continue de **5 s de 15° à 95°** dès réception de NON FERMÉ (état 2), sans attendre l'état 1 estimé après 40 s. La fermeture complète reste commandée en **2 s**. La LED orange clignote pendant le mouvement et reste fixe à l'ouverture ; la blanche s'allume à la fin de l'ouverture. L'ouverture réelle n'est pas mesurée. Seul le récepteur doit être reflashé pour cette évolution. Sans nouvelles trames pendant 150 s, la liaison est considérée périmée.
 
 Alimentation : **USB-C 5 V / 2 A minimum** vers un **bus 5 V et GND commun en parallèle**, XIAO et servo ; condensateur **470 µF / 16 V** près du servo. Ne jamais alimenter le servo par la broche **3V3 du XIAO**. Firmware : **D6 servo, D7 LED blanche, D0 LED orange** ; angles configurés 15° fermé et 95° ouvert. Vérifier les résistances **5,1 kΩ CC1/GND et CC2/GND** de la platine USB-C avant assemblage.
 

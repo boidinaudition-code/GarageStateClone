@@ -256,10 +256,12 @@ static constexpr uint8_t PIN_SERVO = D6;
 static constexpr uint8_t PIN_INTERIOR_LED = D7; // base BC547B via 4.7k ; LED blanche +5V ; active HIGH
 static constexpr uint8_t PIN_AMBER_LED = D0;    // orange facade, active LOW (absorption)
 static constexpr uint32_t LINK_TIMEOUT_MS = 150000;
-static constexpr uint32_t MIDDLE_MOTION_HINT_MS = 40000; // pas de capteur de mouvement
 static constexpr uint8_t ANGLE_CLOSED = 15; // ajuster selon la mecanique
-static constexpr uint8_t ANGLE_MIDDLE = 55;
 static constexpr uint8_t ANGLE_OPEN = 95;
+static constexpr uint32_t OPEN_TRAVEL_MS = 5000;
+static constexpr uint32_t CLOSE_TRAVEL_MS = 2000;
+static_assert(ANGLE_OPEN > ANGLE_CLOSED, "Angles attendus croissants");
+
 
 Servo doorServo;
 uint8_t currentAngle = ANGLE_CLOSED;
@@ -268,33 +270,53 @@ bool servoStarted = false;
 bool haveStatus = false;
 uint8_t receivedDoorState = STATE_MIDDLE;
 uint32_t lastValidFrameMs = 0;
-uint32_t lastServoStepMs = 0;
-uint32_t stateSinceMs = 0;
+uint8_t motionStartAngle = ANGLE_CLOSED;
+uint32_t motionStartMs = 0;
+uint32_t motionDurationMs = 0;
+
+void animateServo(uint32_t now) {
+  if (!servoStarted || currentAngle == targetAngle) return;
+  const uint32_t elapsed = now - motionStartMs;
+  const uint8_t distance = targetAngle > motionStartAngle
+      ? targetAngle - motionStartAngle : motionStartAngle - targetAngle;
+  const uint8_t steps = elapsed >= motionDurationMs
+      ? distance : (elapsed * distance) / motionDurationMs;
+  const uint8_t nextAngle = targetAngle > motionStartAngle
+      ? motionStartAngle + steps : motionStartAngle - steps;
+  if (nextAngle != currentAngle) {
+    currentAngle = nextAngle;
+    doorServo.write(currentAngle);
+  }
+}
 
 void setTarget(uint8_t state) {
-  // Le heartbeat LoRa ne reinitialise pas la duree de l'etat intermediaire.
-  if (!haveStatus || state != receivedDoorState) stateSinceMs = millis();
   receivedDoorState = state;
+  uint8_t nextTarget;
   switch (state) {
-    case STATE_CLOSED: targetAngle = ANGLE_CLOSED; break;
-    case STATE_OPEN: targetAngle = ANGLE_OPEN; break;
-    case STATE_MIDDLE: targetAngle = ANGLE_MIDDLE; break;
-    default: // Erreur capteurs : ne pas bouger sur une mesure incoherente.
-      return;
+    case STATE_CLOSED: nextTarget = ANGLE_CLOSED; break;
+    // Capteur unique : NON FERME declenche directement l'ouverture decorative.
+    // Le passage ulterieur MIDDLE -> OPEN ne doit pas relancer le mouvement.
+    case STATE_OPEN:
+    case STATE_MIDDLE: nextTarget = ANGLE_OPEN; break;
+    default: return;
   }
+  const uint32_t now = millis();
   if (!servoStarted) {
     doorServo.attach(PIN_SERVO);
     doorServo.write(currentAngle);
     servoStarted = true;
   }
-}
-
-void animateServo(uint32_t now) {
-  if (!servoStarted || now - lastServoStepMs < 25) return;
-  lastServoStepMs = now;
-  if (currentAngle < targetAngle) ++currentAngle;
-  if (currentAngle > targetAngle) --currentAngle;
-  doorServo.write(currentAngle);
+  if (nextTarget == targetAngle) return;
+  animateServo(now);
+  motionStartAngle = currentAngle;
+  targetAngle = nextTarget;
+  motionStartMs = now;
+  const uint8_t distance = targetAngle > currentAngle
+      ? targetAngle - currentAngle : currentAngle - targetAngle;
+  const uint32_t fullTravelMs = targetAngle > currentAngle
+      ? OPEN_TRAVEL_MS : CLOSE_TRAVEL_MS;
+  // Duree proportionnelle au trajet restant lors d'une inversion en cours de route.
+  motionDurationMs = (fullTravelMs * distance) / (ANGLE_OPEN - ANGLE_CLOSED);
 }
 
 // Orange en absorption de courant : 3V3 -> 680 ohms -> anode LED -> cathode D0.
@@ -312,7 +334,8 @@ void setAmberLed(bool on) {
 void updateLeds(uint32_t now) {
   const bool stale = !haveStatus || (now - lastValidFrameMs > LINK_TIMEOUT_MS);
   const bool servoMoving = servoStarted && currentAngle != targetAngle;
-  const bool fullyOpen = !stale && receivedDoorState == STATE_OPEN && !servoMoving;
+  const bool openRequested = receivedDoorState == STATE_OPEN || receivedDoorState == STATE_MIDDLE;
+  const bool fullyOpen = !stale && openRequested && servoStarted && currentAngle == ANGLE_OPEN && !servoMoving;
 
   // D7 pilote la base du BC547B via 4.7k ; LED blanche sur +5V avec 330 ohms.
   digitalWrite(PIN_INTERIOR_LED, fullyOpen ? HIGH : LOW);
@@ -326,13 +349,8 @@ void updateLeds(uint32_t now) {
     amberOn = (now % 200) < 100; // capteurs incoherents : 5 Hz
   } else if (servoMoving) {
     amberOn = (now % 500) < 250; // servo miniature en mouvement : 2 Hz
-  } else if (receivedDoorState == STATE_MIDDLE) {
-    // L'absence des 2 fins de course n'indique PAS avec certitude un mouvement.
-    // Au-dela du delai, une position intermediaire prolongee reste orange fixe.
-    amberOn = (now - stateSinceMs < MIDDLE_MOTION_HINT_MS)
-       ? ((now % 1000) < 500) : true;
   } else {
-    amberOn = receivedDoorState == STATE_OPEN; // ouverte fixe, fermee eteinte
+    amberOn = openRequested; // ouverte estimee fixe, fermee eteinte
   }
   setAmberLed(amberOn);
 }
@@ -346,10 +364,8 @@ void processRadio() {
 
   if (rc == RADIOLIB_ERR_NONE && validFrame(frame, KIND_STATUS) &&
       frame.value <= STATE_SENSOR_FAULT) {
-    const bool firstStatus = !haveStatus;
     haveStatus = true;
     lastValidFrameMs = millis();
-    if (firstStatus) stateSinceMs = lastValidFrameMs;
     setTarget(frame.value);
 
     Serial.print("Etat = "); Serial.print(frame.value);
